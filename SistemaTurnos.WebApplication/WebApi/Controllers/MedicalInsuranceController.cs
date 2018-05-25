@@ -75,25 +75,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
-        [HttpGet]
-        public List<SelectOptionDto> GetAllMedicalPlansForSelect()
-        {
-            using (var dbContext = new ApplicationDbContext())
-            {
-                var userId = GetUserId();
-
-                return dbContext.MedicalPlans
-                    .Where(mp => mp.UserId == userId)
-                    .ToList()
-                    .Select(s => new SelectOptionDto
-                    {
-                        Id = s.Id.ToString(),
-                        Text = s.Description,
-                    })
-                    .ToList();
-            }
-        }
-
         [HttpPost]
         public List<MedicalInsuranceDto> GetByLetter([FromBody] GetMedicalInsuranceByLetterDto filter)
         {
@@ -108,6 +89,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     .Include(s => s.MedicalPlans)
                     .Where(s => s.UserId == userId)
                     .Where(ssp => filter.Letter == '*' || ssp.Description.FirstOrDefault() == firstLetterMinus || ssp.Description.FirstOrDefault() == firstLetterMayus)
+                    .OrderBy(s => s.Description)
                     .ToList()
                     .Select(s => new MedicalInsuranceDto
                     {

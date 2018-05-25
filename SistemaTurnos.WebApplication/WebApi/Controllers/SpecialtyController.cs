@@ -100,6 +100,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     .Include(s => s.Subspecialties)
                     .Where(s => s.UserId == userId)
                     .Where(ssp => filter.Letter == '*' || ssp.Description.FirstOrDefault() == firstLetterMinus || ssp.Description.FirstOrDefault() == firstLetterMayus)
+                    .OrderBy(s => s.Description)
                     .ToList()
                     .Select(s => new SpecialtyDto
                     {

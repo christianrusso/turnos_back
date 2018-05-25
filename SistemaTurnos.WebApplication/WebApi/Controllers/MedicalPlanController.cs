@@ -9,6 +9,7 @@ using SistemaTurnos.WebApplication.WebApi.Dto;
 using SistemaTurnos.WebApplication.WebApi.Dto.MedicalPlan;
 using SistemaTurnos.WebApplication.WebApi.Exceptions;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
@@ -105,6 +106,25 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 medicalPlan.Description = editMedicalPlanDto.Description;
 
                 dbContext.SaveChanges();
+            }
+        }
+
+        [HttpPost]
+        public List<SelectOptionDto> GetAllOfInsuranceForSelect([FromBody] IdDto idDto)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = GetUserId();
+
+                return dbContext.MedicalPlans
+                    .Where(mp => mp.UserId == userId)
+                    .Where(mp => mp.MedicalInsuranceId == idDto.Id)
+                    .Select(s => new SelectOptionDto
+                    {
+                        Id = s.Id.ToString(),
+                        Text = s.Description,
+                    })
+                    .ToList();
             }
         }
 
