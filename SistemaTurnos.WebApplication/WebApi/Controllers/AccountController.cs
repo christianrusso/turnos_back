@@ -49,7 +49,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
-        public object Login([FromBody] LoginAccountDto model)
+        public LogOnDto Login([FromBody] LoginAccountDto model)
         {
             var result = _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false).Result;
 
@@ -61,19 +61,27 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             var appUser = _userManager.Users.SingleOrDefault(user => user.Email == model.Email);
             string token = GenerateJwtToken(model.Email, appUser);
             int userId = appUser.Id;
+            string logo = string.Empty;
 
-            if (_userManager.IsInRoleAsync(appUser, Roles.Employee).Result)
+            using (var dbContext = new ApplicationDbContext())
             {
-                using (var dbContext = new ApplicationDbContext())
+                if (_userManager.IsInRoleAsync(appUser, Roles.Employee).Result)
                 {
                     var employee = dbContext.Employees.FirstOrDefault(e => e.UserId == appUser.Id);
                     userId = employee.OwnerUserId;
                 }
-            }
 
+                var clinic = dbContext.Clinics.FirstOrDefault(c => c.UserId == userId);
+                logo = clinic.Logo;
+            }
+                
             ValidTokens.Add($"{JwtBearerDefaults.AuthenticationScheme} {token}", userId);
 
-            return Ok(new { token });
+            return new LogOnDto
+            {
+                Token = token,
+                Logo = logo
+            };
         }
 
         [HttpPost]
@@ -108,12 +116,18 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new ApplicationException(ExceptionMessages.InternalServerError);
                 }
 
+                if (string.IsNullOrWhiteSpace(model.Logo))
+                {
+                    model.Logo = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAAAoBAMAAACMbPD7AAAAG1BMVEXMzMyWlpbFxcWjo6OqqqqxsbGcnJy+vr63t7eN+fR5AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAApElEQVQ4je2QsQrCQBBEJ5fLpt2AHxCJWCc2WkZFsTwx9kcQ0ypK6lR+t3eInWw6q3vVLrwdlgECgcAvVFXqy3dm7GvR1ubczMxnjjnZ7ESbclqmJZK6B54c3x6iHYGsslBdByyYMBft2BwZDLxcvuHIXUuoatu6bEwHFGDK5ewUhf8bJ4t7lhUjf9Nw8J2oduWW0U7Sq9ETX2Tvbaxr0Q4E/s8bo1sUV4qjWrAAAAAASUVORK5CYII=";
+                }
+
                 var clinic = new Clinic
                 {
                     Address = model.Address,
                     Latitude = model.Latitude,
                     Longitude = model.Longitude,
-                    UserId = appUser.Id
+                    UserId = appUser.Id,
+                    Logo = model.Logo
                 };
 
                 dbContext.Clinics.Add(clinic);

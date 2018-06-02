@@ -17,5 +17,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Account
         public double Latitude { get; set; }
 
         public double Longitude { get; set; }
+
+        public string Logo { get; set; }
     }
 }

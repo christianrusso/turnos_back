@@ -16,6 +16,8 @@ namespace SistemaTurnos.WebApplication.Database.Model
 
         public double Longitude { get; set; }
 
+        public string Logo { get; set; }
+
         [Required]
         public int UserId { get; set; }
 
