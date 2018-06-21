@@ -32,11 +32,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             CreateRoles();
 
             // Creo clinicas
-            var clinic1 = CreateClinicUser("clinica1@asd.com", "clinica1@asd.com", "algun lugar 1", -12, 20);
-            var clinic2 = CreateClinicUser("clinica2@asd.com", "clinica2@asd.com", "algun lugar 2", 22, 55);
-            var clinic3 = CreateClinicUser("clinica3@asd.com", "clinica3@asd.com", "algun lugar 3", 22, 55);
-            var clinic4 = CreateClinicUser("clinica4@asd.com", "clinica4@asd.com", "algun lugar 4", 22, 55);
-
+            var clinic1 = CreateClinicUser("clinica1@asd.com", "clinica1@asd.com", "Clinica 1", "asd1", "Buenos Aires", "algun lugar 1", -12, 20);
+            var clinic2 = CreateClinicUser("clinica2@asd.com", "clinica2@asd.com", "Clinica 2", "asd2", "Capital Federal", "algun lugar 2", 22, 55);
+            var clinic3 = CreateClinicUser("clinica3@asd.com", "clinica3@asd.com", "Clinica 3", "asd3", "Buenos Aires", "algun lugar 3", 22, 55);
+            var clinic4 = CreateClinicUser("clinica4@asd.com", "clinica4@asd.com", "Clinica 4", "asd4", "Capital Federal", "algun lugar 4", 22, 55);
 
             // Clinica 1
             // Creo empleados
@@ -136,7 +135,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             var appointment14 = CreateAppointment(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day+1, 9, 20, 0), doctor2, patient1, AppointmentStateEnum.Reserved, null, clinic1);
             var appointment15 = CreateAppointment(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day+7, 9, 20, 0), doctor2, patient2, AppointmentStateEnum.Reserved, null, clinic1);
             var appointment16 = CreateAppointment(new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day+7, 9, 20, 0), doctor2, patient1, AppointmentStateEnum.Reserved, null, clinic1);
-            
         }
 
         public void CreateRoles()
@@ -166,7 +164,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
-        private Clinic CreateClinicUser(string email, string password, string address, double latitude, double longitude)
+        private Clinic CreateClinicUser(string email, string password, string name, string description, string city, string address, double latitude, double longitude)
         {
             Clinic clinic;
 
@@ -196,6 +194,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 clinic = new Clinic
                 {
+                    Name = name,
+                    Description = description,
+                    City = city,
                     Address = address,
                     Latitude = latitude,
                     Longitude = longitude,

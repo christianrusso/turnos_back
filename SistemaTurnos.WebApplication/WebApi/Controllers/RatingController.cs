@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SistemaTurnos.WebApplication.Database;
 using SistemaTurnos.WebApplication.WebApi.Dto;
-using SistemaTurnos.WebApplication.WebApi.Exceptions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
