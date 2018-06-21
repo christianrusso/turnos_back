@@ -11,6 +11,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Clinic
         
         public string Description { get; set; }
 
+        public string City { get; set; }
+
         public string Address { get; set; }
 
         public double Latitude { get; set; }

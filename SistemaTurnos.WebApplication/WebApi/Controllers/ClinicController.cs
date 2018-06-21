@@ -57,7 +57,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 // Filtro por ciudad
                 var clinics = dbContext.Clinics
-                    .Where(c => filterDto.Cities.Any(city => c.City == city))
+                    .Where(c => !filterDto.Cities.Any() || filterDto.Cities.Any(city => c.City == city))
                     .ToList();
                     
                 var filteredClinics = new List<Clinic>();
@@ -140,6 +140,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         ClinicId = clinic.Id,
                         Name = clinic.Name,
                         Description = clinic.Description,
+                        City = clinic.City,
                         Address = clinic.Address,
                         Latitude = clinic.Latitude,
                         Longitude = clinic.Longitude,
