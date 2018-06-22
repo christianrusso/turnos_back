@@ -123,6 +123,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 var clinic = new Clinic
                 {
+                    Name = model.Name,
+                    Description = model.Description,
+                    City = model.City,
                     Address = model.Address,
                     Latitude = model.Latitude,
                     Longitude = model.Longitude,

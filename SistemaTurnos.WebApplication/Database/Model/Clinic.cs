@@ -28,8 +28,6 @@ namespace SistemaTurnos.WebApplication.Database.Model
 
         public string Logo { get; set; }
 
-        public List<Subspecialty> Subspecialties { get; set; }
-
         [Required]
         public int UserId { get; set; }
 

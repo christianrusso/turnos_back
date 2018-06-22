@@ -101,6 +101,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         continue;
                     }
 
+                    var removeSpecialty = false;
+
                     // Filtro por especialidades
                     var specialties = dbContext.Specialties.Where(s => s.UserId == userId).ToList();
 
@@ -108,9 +110,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     {
                         if (!specialties.Any(s => s.Description == specialty))
                         {
-                            continue;
+                            removeSpecialty = true;
+                            break;
                         }
                     }
+
+                    if (removeSpecialty) continue;
 
                     // Filtro por subespecialidades
                     var subspecialties = dbContext.Subspecialties.Where(sp => sp.UserId == userId).ToList();
@@ -119,9 +124,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     {
                         if (!subspecialties.Any(sp => sp.Description == subspecialty))
                         {
-                            continue;
+                            removeSpecialty = true;
+                            break;
                         }
                     }
+
+                    if (removeSpecialty) continue;
 
                     // Filtro por obras sociales
                     var medicalInsurances = dbContext.MedicalInsurances.Where(mi => mi.UserId == userId).ToList();
@@ -130,9 +138,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     {
                         if (!medicalInsurances.Any(mi => mi.Description == medicalInsurance))
                         {
-                            continue;
+                            removeSpecialty = true;
+                            break;
                         }
                     }
+
+                    if (removeSpecialty) continue;
 
                     // La clinica paso todos los filtros y la agrego al resultado
                     res.Add(new FullClinicDto
