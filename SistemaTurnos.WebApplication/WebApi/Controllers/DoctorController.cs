@@ -98,9 +98,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 doctorToUpdate.SpecialtyId = doctorDto.SpecialtyId;
                 doctorToUpdate.SubspecialtyId = doctorDto.SubspecialtyId;
                 doctorToUpdate.ConsultationLength = doctorDto.ConsultationLength;
-
-                var newWorkingHours = doctorDto.WorkingHours.Select(wh => new WorkingHours { DayNumber = wh.DayNumber, Start = wh.Start, End = wh.End }).ToList();
                 doctorToUpdate.WorkingHours.ForEach(wh => dbContext.Entry(wh).State = EntityState.Deleted);
+
+                var newWorkingHours = doctorDto.WorkingHours.Select(wh => new WorkingHours
+                {
+                    DayNumber = wh.DayNumber,
+                    Start = wh.Start,
+                    End = wh.End
+                }).ToList();
+
                 doctorToUpdate.WorkingHours = newWorkingHours;
 
                 dbContext.SaveChanges();
