@@ -32,10 +32,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             CreateRoles();
 
             // Creo clinicas
-            var clinic1 = CreateClinicUser("clinica1@asd.com", "clinica1@asd.com", "Clinica 1", "asd1", "Buenos Aires", "algun lugar 1", -12, 20);
-            var clinic2 = CreateClinicUser("clinica2@asd.com", "clinica2@asd.com", "Clinica 2", "asd2", "Capital Federal", "algun lugar 2", 22, 55);
-            var clinic3 = CreateClinicUser("clinica3@asd.com", "clinica3@asd.com", "Clinica 3", "asd3", "Buenos Aires", "algun lugar 3", 22, 55);
-            var clinic4 = CreateClinicUser("clinica4@asd.com", "clinica4@asd.com", "Clinica 4", "asd4", "Capital Federal", "algun lugar 4", 22, 55);
+            // email,  password,  name,  description,  city,  address,  latitude,  longitude
+            var clinic1 = CreateClinicUser("clinica1@asd.com", "clinica1@asd.com", "Clinica 1", "Clinica de Villa Bosch 1","Villa Bosch", "Jose Maria Bosch 951",-34.5883457, -58.5732785);
+            var clinic2 = CreateClinicUser("clinica2@asd.com", "clinica2@asd.com", "Clinica 2", "Clinica de Moron 1", "Moron", "Yatay 600", -34.6548052, -58.6173822);
+            var clinic3 = CreateClinicUser("clinica3@asd.com", "clinica3@asd.com", "Clinica 3", "Clinica de Villa Bosch 2", "Villa Bosch", "Julio Besada 6300", -34.5873598, -58.5852697);
+            var clinic4 = CreateClinicUser("clinica4@asd.com", "clinica4@asd.com", "Clinica 4", "Clinica de Coronado 1", "Martin Coronado", "Azopardo 7672", -34.5855405, -58.6017834);
 
             // Clinica 1
             // Creo empleados
