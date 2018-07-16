@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using SistemaTurnos.WebApplication.Database.Model;
 
-namespace SistemaTurnos.WebApplication.Database.Model
+namespace SistemaTurnos.WebApplication.Database.ClinicModel
 {
-    public class Client
+    public class Clinic_Client
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -15,6 +16,6 @@ namespace SistemaTurnos.WebApplication.Database.Model
 
         public ApplicationUser User { get; set; }
 
-        public List<Patient> Patients { get; set; }
+        public List<Clinic_Patient> Patients { get; set; }
     }
 }

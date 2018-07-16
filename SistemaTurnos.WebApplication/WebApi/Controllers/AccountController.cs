@@ -19,6 +19,7 @@ using SistemaTurnos.WebApplication.WebApi.Dto.Account;
 using SistemaTurnos.WebApplication.WebApi.Exceptions;
 using SistemaTurnos.WebApplication.Database.Model;
 using SistemaTurnos.WebApplication.Database;
+using SistemaTurnos.WebApplication.Database.ClinicModel;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
 {
@@ -67,7 +68,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 if (_userManager.IsInRoleAsync(appUser, Roles.Employee).Result)
                 {
-                    var employee = dbContext.Employees.FirstOrDefault(e => e.UserId == appUser.Id);
+                    var employee = dbContext.Clinic_Employees.FirstOrDefault(e => e.UserId == appUser.Id);
                     userId = employee.OwnerUserId;
                 }
 

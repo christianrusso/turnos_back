@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SistemaTurnos.WebApplication.Database;
-using SistemaTurnos.WebApplication.Database.Model;
+using SistemaTurnos.WebApplication.Database.ClinicModel;
 using SistemaTurnos.WebApplication.WebApi.Authorization;
 using SistemaTurnos.WebApplication.WebApi.Dto;
 using SistemaTurnos.WebApplication.WebApi.Dto.MedicalPlan;
@@ -27,7 +27,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                var medicalInsurance = dbContext.MedicalInsurances.Include(mi => mi.MedicalPlans).FirstOrDefault(mi => mi.Id == addMedicalPlansDto.MedicalInsuranceId && mi.UserId == userId);
+                var medicalInsurance = dbContext.Clinic_MedicalInsurances.Include(mi => mi.MedicalPlans).FirstOrDefault(mi => mi.Id == addMedicalPlansDto.MedicalInsuranceId && mi.UserId == userId);
 
                 if (medicalInsurance == null)
                 {
@@ -35,7 +35,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 }
 
                 medicalInsurance.MedicalPlans.ForEach(mp => dbContext.Entry(mp).State = EntityState.Deleted);
-                addMedicalPlansDto.MedicalPlans.ForEach(mpDto => dbContext.MedicalPlans.Add(new MedicalPlan {
+                addMedicalPlansDto.MedicalPlans.ForEach(mpDto => dbContext.Clinic_MedicalPlans.Add(new Clinic_MedicalPlan {
                     Description = mpDto.Description,
                     MedicalInsuranceId = medicalInsurance.Id,
                     UserId = userId
@@ -52,14 +52,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                var medicalInsurance = dbContext.MedicalInsurances.Include(mi => mi.MedicalPlans).FirstOrDefault(mi => mi.Id == addMedicalPlanDto.MedicalInsuranceId && mi.UserId == userId);
+                var medicalInsurance = dbContext.Clinic_MedicalInsurances.Include(mi => mi.MedicalPlans).FirstOrDefault(mi => mi.Id == addMedicalPlanDto.MedicalInsuranceId && mi.UserId == userId);
 
                 if (medicalInsurance == null)
                 {
                     throw new ApplicationException(ExceptionMessages.BadRequest);
                 }
 
-                dbContext.MedicalPlans.Add(new MedicalPlan {
+                dbContext.Clinic_MedicalPlans.Add(new Clinic_MedicalPlan {
                     Description = addMedicalPlanDto.Description,
                     MedicalInsuranceId = addMedicalPlanDto.MedicalInsuranceId,
                     UserId = userId
@@ -76,7 +76,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                var medicalPlan = dbContext.MedicalPlans.FirstOrDefault(mp => mp.Id == idDto.Id && mp.UserId == userId);
+                var medicalPlan = dbContext.Clinic_MedicalPlans.FirstOrDefault(mp => mp.Id == idDto.Id && mp.UserId == userId);
 
                 if (medicalPlan == null)
                 {
@@ -96,7 +96,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                var medicalPlan = dbContext.MedicalPlans.FirstOrDefault(mp => mp.Id == editMedicalPlanDto.Id && mp.UserId == userId);
+                var medicalPlan = dbContext.Clinic_MedicalPlans.FirstOrDefault(mp => mp.Id == editMedicalPlanDto.Id && mp.UserId == userId);
 
                 if (medicalPlan == null)
                 {
@@ -116,7 +116,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                return dbContext.MedicalPlans
+                return dbContext.Clinic_MedicalPlans
                     .Where(mp => mp.UserId == userId)
                     .Where(mp => mp.MedicalInsuranceId == idDto.Id)
                     .Select(s => new SelectOptionDto

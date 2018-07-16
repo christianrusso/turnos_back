@@ -2,9 +2,9 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SistemaTurnos.WebApplication.Database.Model
+namespace SistemaTurnos.WebApplication.Database.ClinicModel
 {
-    public class WorkingHours
+    public class Clinic_WorkingHours
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -23,6 +23,6 @@ namespace SistemaTurnos.WebApplication.Database.Model
         [Required]
         public int DoctorId { get; set; }
         
-        public Doctor Doctor { get; set; }
+        public Clinic_Doctor Doctor { get; set; }
     }
 }

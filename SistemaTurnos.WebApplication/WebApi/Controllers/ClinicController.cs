@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SistemaTurnos.WebApplication.Database;
-using SistemaTurnos.WebApplication.Database.Model;
+using SistemaTurnos.WebApplication.Database.ClinicModel;
 using SistemaTurnos.WebApplication.WebApi.Dto.Clinic;
 using SistemaTurnos.WebApplication.WebApi.Dto.Rating;
 using System.Collections.Generic;
@@ -86,7 +86,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     var userId = clinic.UserId;
 
                     // Filtro por cantidad de puntuaciones
-                    var ratings = dbContext.Ratings.Where(r => r.UserId == userId).ToList();
+                    var ratings = dbContext.Clinic_Ratings.Where(r => r.UserId == userId).ToList();
 
                     if (filterDto.ScoreQuantity.HasValue && ratings.Count < filterDto.ScoreQuantity)
                     {
@@ -104,7 +104,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     var removeSpecialty = false;
 
                     // Filtro por especialidades
-                    var specialties = dbContext.Specialties.Where(s => s.UserId == userId).ToList();
+                    var specialties = dbContext.Clinic_Specialties.Where(s => s.UserId == userId).ToList();
 
                     foreach (var specialty in filterDto.Specialties)
                     {
@@ -118,7 +118,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     if (removeSpecialty) continue;
 
                     // Filtro por subespecialidades
-                    var subspecialties = dbContext.Subspecialties.Where(sp => sp.UserId == userId).ToList();
+                    var subspecialties = dbContext.Clinic_Subspecialties.Where(sp => sp.UserId == userId).ToList();
 
                     foreach (var subspecialty in filterDto.Subspecialties)
                     {
@@ -132,7 +132,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     if (removeSpecialty) continue;
 
                     // Filtro por obras sociales
-                    var medicalInsurances = dbContext.MedicalInsurances.Where(mi => mi.UserId == userId).ToList();
+                    var medicalInsurances = dbContext.Clinic_MedicalInsurances.Where(mi => mi.UserId == userId).ToList();
 
                     foreach (var medicalInsurance in filterDto.MedicalInsurances)
                     {

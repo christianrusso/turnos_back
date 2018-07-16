@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SistemaTurnos.WebApplication.Database;
-using SistemaTurnos.WebApplication.Database.Model;
+using SistemaTurnos.WebApplication.Database.ClinicModel;
 using SistemaTurnos.WebApplication.WebApi.Authorization;
 using SistemaTurnos.WebApplication.WebApi.Dto;
 using SistemaTurnos.WebApplication.WebApi.Dto.Specialty;
@@ -29,10 +29,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                dbContext.Specialties.Add(new Specialty
+                dbContext.Clinic_Specialties.Add(new Clinic_Specialty
                 {
                     Description = specialtyDto.Description,
-                    Subspecialties = new List<Subspecialty>(),
+                    Subspecialties = new List<Clinic_Subspecialty>(),
                     UserId = userId
                 });
 
@@ -47,7 +47,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                return dbContext.Specialties
+                return dbContext.Clinic_Specialties
                     .Where(s => s.UserId == userId)
                     .Include(s => s.Doctors).Include(s => s.Subspecialties)
                     .ToList()
@@ -72,7 +72,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                return dbContext.Specialties
+                return dbContext.Clinic_Specialties
                     .Where(s => s.UserId == userId)
                     .ToList()
                     .Select(s => new SelectOptionDto
@@ -95,7 +95,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                return dbContext.Specialties
+                return dbContext.Clinic_Specialties
                     .Include(s => s.Doctors)
                     .Include(s => s.Subspecialties)
                     .Where(s => s.UserId == userId)
@@ -124,7 +124,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                return dbContext.Specialties
+                return dbContext.Clinic_Specialties
                     .Include(s => s.Doctors)
                     .Include(s => s.Subspecialties)
                     .Where(s => s.UserId == userId)
@@ -151,7 +151,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = GetUserId();
-                var specialtyToDelete = dbContext.Specialties.Include(s => s.Subspecialties).FirstOrDefaultAsync(s => s.Id == specialtyDto.Id && s.UserId == userId).Result;
+                var specialtyToDelete = dbContext.Clinic_Specialties.Include(s => s.Subspecialties).FirstOrDefaultAsync(s => s.Id == specialtyDto.Id && s.UserId == userId).Result;
 
                 if (specialtyToDelete == null)
                 {
@@ -171,7 +171,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                var specialtyToUpdate = dbContext.Specialties.SingleOrDefaultAsync(s => s.Id == specialtyDto.Id && s.UserId == userId).Result;
+                var specialtyToUpdate = dbContext.Clinic_Specialties.SingleOrDefaultAsync(s => s.Id == specialtyDto.Id && s.UserId == userId).Result;
 
                 if (specialtyToUpdate == null)
                 {

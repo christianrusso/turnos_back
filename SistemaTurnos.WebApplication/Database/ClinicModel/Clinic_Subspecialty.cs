@@ -1,10 +1,10 @@
-using System.Collections.Generic;
+﻿using SistemaTurnos.WebApplication.Database.Model;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SistemaTurnos.WebApplication.Database.Model
+namespace SistemaTurnos.WebApplication.Database.ClinicModel
 {
-    public class MedicalInsurance
+    public class Clinic_Subspecialty
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -14,7 +14,14 @@ namespace SistemaTurnos.WebApplication.Database.Model
         [MaxLength(50)]
         public string Description { get; set; }
 
-        public List<MedicalPlan> MedicalPlans { get; set; }
+        [Required]
+        public uint ConsultationLength { get; set; }
+
+        [Required]
+        public int SpecialtyId { get; set; }
+
+        [Required]
+        public Clinic_Specialty Specialty { get; set; }
 
         [Required]
         public int UserId { get; set; }

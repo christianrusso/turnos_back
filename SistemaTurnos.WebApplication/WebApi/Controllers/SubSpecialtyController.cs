@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SistemaTurnos.WebApplication.Database;
-using SistemaTurnos.WebApplication.Database.Model;
+using SistemaTurnos.WebApplication.Database.ClinicModel;
 using SistemaTurnos.WebApplication.WebApi.Authorization;
 using SistemaTurnos.WebApplication.WebApi.Dto;
 using SistemaTurnos.WebApplication.WebApi.Dto.Subspecialty;
@@ -27,14 +27,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                var specialty = dbContext.Specialties.SingleOrDefaultAsync(s => s.Id == subSpecialtyDto.SpecialtyId).Result;
+                var specialty = dbContext.Clinic_Specialties.SingleOrDefaultAsync(s => s.Id == subSpecialtyDto.SpecialtyId).Result;
 
                 if (specialty == null)
                 {
                     throw new BadRequestException(ExceptionMessages.BadRequest);
                 }
 
-                dbContext.Subspecialties.Add(new Subspecialty
+                dbContext.Clinic_Subspecialties.Add(new Clinic_Subspecialty
                 {
                     Description = subSpecialtyDto.Description,
                     SpecialtyId = subSpecialtyDto.SpecialtyId,
@@ -53,7 +53,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                return dbContext.Subspecialties.Include(ssp => ssp.Specialty)
+                return dbContext.Clinic_Subspecialties.Include(ssp => ssp.Specialty)
                     .Where(ssp => ssp.UserId == userId)
                     .ToListAsync()
                     .Result
@@ -74,7 +74,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                return dbContext.Subspecialties.Include(ssp => ssp.Specialty)
+                return dbContext.Clinic_Subspecialties.Include(ssp => ssp.Specialty)
                     .Where(ssp => ssp.SpecialtyId == specialtyIdDto.Id && ssp.UserId == userId)
                     .ToList()
                     .Select(ssp => new SubspecialtyDto
@@ -95,7 +95,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                return dbContext.Subspecialties.Include(ssp => ssp.Specialty)
+                return dbContext.Clinic_Subspecialties.Include(ssp => ssp.Specialty)
                     .Where(ssp => (specialtyIdDto.Id == -1 || ssp.SpecialtyId == specialtyIdDto.Id) && ssp.UserId == userId)
                     .ToList()
                     .Select(ssp => new SelectOptionDto
@@ -115,7 +115,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                var subSpecialtyToDelete = dbContext.Subspecialties.FirstOrDefaultAsync(ssp => ssp.Id == subSpecialtyDto.Id && ssp.UserId == userId).Result;
+                var subSpecialtyToDelete = dbContext.Clinic_Subspecialties.FirstOrDefaultAsync(ssp => ssp.Id == subSpecialtyDto.Id && ssp.UserId == userId).Result;
 
                 if (subSpecialtyToDelete == null)
                 {
@@ -134,14 +134,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                var subSpecialtyToUpdate = dbContext.Subspecialties.SingleOrDefaultAsync(s => s.Id == subSpecialtyDto.Id && s.UserId == userId).Result;
+                var subSpecialtyToUpdate = dbContext.Clinic_Subspecialties.SingleOrDefaultAsync(s => s.Id == subSpecialtyDto.Id && s.UserId == userId).Result;
 
                 if (subSpecialtyToUpdate == null)
                 {
                     throw new BadRequestException(ExceptionMessages.BadRequest);
                 }
 
-                var specialty = dbContext.Specialties.SingleOrDefaultAsync(s => s.Id == subSpecialtyDto.SpecialtyId && s.UserId == userId).Result;
+                var specialty = dbContext.Clinic_Specialties.SingleOrDefaultAsync(s => s.Id == subSpecialtyDto.SpecialtyId && s.UserId == userId).Result;
 
                 if (specialty == null)
                 {

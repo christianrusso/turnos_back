@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SistemaTurnos.WebApplication.Database;
+using SistemaTurnos.WebApplication.Database.ClinicModel;
 using SistemaTurnos.WebApplication.Database.Enums;
 using SistemaTurnos.WebApplication.Database.Model;
 using SistemaTurnos.WebApplication.WebApi.Authorization;
@@ -37,7 +38,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                var client = dbContext.Clients.Include(c => c.User).FirstOrDefault(c => c.Id == patientDto.ClientId);
+                var client = dbContext.Clinic_Clients.Include(c => c.User).FirstOrDefault(c => c.Id == patientDto.ClientId);
                 
                 if (client == null)
                 {
@@ -49,9 +50,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     client = CreateClient(patientDto.Email, patientDto.Dni);
                 }
 
-                var medicalPlan = dbContext.MedicalPlans.FirstOrDefault(mp => mp.Id == patientDto.MedicalPlanId);
+                var medicalPlan = dbContext.Clinic_MedicalPlans.FirstOrDefault(mp => mp.Id == patientDto.MedicalPlanId);
 
-                dbContext.Patients.Add(new Patient
+                dbContext.Clinic_Patients.Add(new Clinic_Patient
                 {
                     FirstName = patientDto.FirstName,
                     LastName = patientDto.LastName,
@@ -74,7 +75,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                var medicalPlan = dbContext.MedicalPlans.FirstOrDefault(mp => mp.Id == patientDto.MedicalPlanId);
+                var medicalPlan = dbContext.Clinic_MedicalPlans.FirstOrDefault(mp => mp.Id == patientDto.MedicalPlanId);
 
                 if (medicalPlan == null)
                 {
@@ -108,15 +109,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new ApplicationException(ExceptionMessages.InternalServerError);
                 }
 
-                var client = new Client
+                var client = new Clinic_Client
                 {
                     UserId = appUser.Id
                 };
 
-                dbContext.Clients.Add(client);
+                dbContext.Clinic_Clients.Add(client);
                 dbContext.SaveChanges();
 
-                var patient = new Patient
+                var patient = new Clinic_Patient
                 {
                     FirstName = patientDto.FirstName,
                     LastName = patientDto.LastName,
@@ -128,7 +129,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     MedicalPlanId = patientDto.MedicalPlanId
                 };
 
-                dbContext.Patients.Add(patient);
+                dbContext.Clinic_Patients.Add(patient);
                 dbContext.SaveChanges();
             }
         }
@@ -140,7 +141,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                return dbContext.Patients
+                return dbContext.Clinic_Patients
                     .Include(p => p.Appointments)
                     .Include(p => p.MedicalPlan)
                     .Include(p => p.MedicalPlan.MedicalInsurance)
@@ -176,7 +177,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                var patientToDelete = dbContext.Patients.FirstOrDefaultAsync(p => p.Id == patientDto.Id && p.UserId == userId).Result;
+                var patientToDelete = dbContext.Clinic_Patients.FirstOrDefaultAsync(p => p.Id == patientDto.Id && p.UserId == userId).Result;
 
                 if (patientToDelete == null)
                 {
@@ -195,14 +196,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                var patientToUpdate = dbContext.Patients.SingleOrDefaultAsync(p => p.Id == patientDto.Id && p.UserId == userId).Result;
+                var patientToUpdate = dbContext.Clinic_Patients.SingleOrDefaultAsync(p => p.Id == patientDto.Id && p.UserId == userId).Result;
 
                 if (patientToUpdate == null)
                 {
                     throw new BadRequestException(ExceptionMessages.BadRequest);
                 }
 
-                var medicalPlan = dbContext.MedicalPlans.FirstOrDefault(mp => mp.Id == patientDto.MedicalPlanId);
+                var medicalPlan = dbContext.Clinic_MedicalPlans.FirstOrDefault(mp => mp.Id == patientDto.MedicalPlanId);
 
                 if (medicalPlan == null)
                 {
@@ -226,7 +227,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                return dbContext.Patients
+                return dbContext.Clinic_Patients
                     .Include(p => p.Appointments)
                     .Include(p => p.MedicalPlan)
                     .Include(p => p.MedicalPlan.MedicalInsurance)
@@ -257,7 +258,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
-        private Client CreateClient(string email, string password)
+        private Clinic_Client CreateClient(string email, string password)
         {
             if (!_roleManager.RoleExistsAsync(Roles.Client).Result)
             {
@@ -288,15 +289,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new ApplicationException(ExceptionMessages.InternalServerError);
                 }
 
-                var client = new Client
+                var client = new Clinic_Client
                 {
                     UserId = appUser.Id
                 };
 
-                dbContext.Clients.Add(client);
+                dbContext.Clinic_Clients.Add(client);
                 dbContext.SaveChanges();
 
-                return dbContext.Clients.Include(c => c.User).FirstOrDefault(c => c.UserId == appUser.Id);
+                return dbContext.Clinic_Clients.Include(c => c.User).FirstOrDefault(c => c.UserId == appUser.Id);
             }
         }
 

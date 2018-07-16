@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using SistemaTurnos.WebApplication.Database.Model;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SistemaTurnos.WebApplication.Database.Model
+namespace SistemaTurnos.WebApplication.Database.ClinicModel
 {
-    public class Patient
+    public class Clinic_Patient
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -32,9 +33,9 @@ namespace SistemaTurnos.WebApplication.Database.Model
 
         public int MedicalPlanId { get; set; }
 
-        public MedicalPlan MedicalPlan { get; set; }
+        public Clinic_MedicalPlan MedicalPlan { get; set; }
 
-        public List<Appointment> Appointments { get; set; }
+        public List<Clinic_Appointment> Appointments { get; set; }
 
         [Required]
         public int UserId { get; set; }
@@ -44,7 +45,7 @@ namespace SistemaTurnos.WebApplication.Database.Model
         [Required]
         public int ClientId { get; set; }
 
-        public Client Client { get; set; }
+        public Clinic_Client Client { get; set; }
 
         public string FullName => $"{LastName} {FirstName}";
     }

@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SistemaTurnos.WebApplication.Database.Model;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SistemaTurnos.WebApplication.Database.Model
+namespace SistemaTurnos.WebApplication.Database.ClinicModel
 {
-    public class Employee
+    public class Clinic_Employee
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

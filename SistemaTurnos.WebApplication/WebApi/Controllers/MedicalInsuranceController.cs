@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SistemaTurnos.WebApplication.Database;
-using SistemaTurnos.WebApplication.Database.Model;
+using SistemaTurnos.WebApplication.Database.ClinicModel;
 using SistemaTurnos.WebApplication.WebApi.Authorization;
 using SistemaTurnos.WebApplication.WebApi.Dto;
 using SistemaTurnos.WebApplication.WebApi.Dto.MedicalInsurance;
@@ -28,7 +28,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                dbContext.MedicalInsurances.Add(new MedicalInsurance
+                dbContext.Clinic_MedicalInsurances.Add(new Clinic_MedicalInsurance
                 {
                     Description = medicalInsuranceDto.Description,
                     UserId = userId
@@ -45,7 +45,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                return dbContext.MedicalInsurances
+                return dbContext.Clinic_MedicalInsurances
                     .Where(s => s.UserId == userId)
                     .ToList()
                     .Select(s => new MedicalInsuranceDto {
@@ -62,7 +62,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                return dbContext.MedicalInsurances
+                return dbContext.Clinic_MedicalInsurances
                     .Where(s => s.UserId == userId)
                     .ToList()
                     .Select(s => new SelectOptionDto
@@ -85,7 +85,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                return dbContext.MedicalInsurances
+                return dbContext.Clinic_MedicalInsurances
                     .Include(s => s.MedicalPlans)
                     .Where(s => s.UserId == userId)
                     .Where(ssp => filter.Letter == '*' || ssp.Description.FirstOrDefault() == firstLetterMinus || ssp.Description.FirstOrDefault() == firstLetterMayus)
@@ -107,7 +107,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                return dbContext.MedicalInsurances
+                return dbContext.Clinic_MedicalInsurances
                     .Include(s => s.MedicalPlans)
                     .Where(s => s.UserId == userId)
                     .Where(ssp => ssp.Description.Contains(filter.Description))
@@ -128,7 +128,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                var medicalInsuranceToDelete = dbContext.MedicalInsurances
+                var medicalInsuranceToDelete = dbContext.Clinic_MedicalInsurances
                     .FirstOrDefaultAsync(m => m.Id == medicalInsuranceDto.Id && m.UserId == userId).Result;
                 
 
@@ -149,7 +149,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                var medicalInsuranceToUpdate = dbContext.MedicalInsurances.SingleOrDefaultAsync(m => m.Id == medicalInsuranceDto.Id && m.UserId == userId).Result;
+                var medicalInsuranceToUpdate = dbContext.Clinic_MedicalInsurances.SingleOrDefaultAsync(m => m.Id == medicalInsuranceDto.Id && m.UserId == userId).Result;
 
                 if (medicalInsuranceDto == null)
                 {

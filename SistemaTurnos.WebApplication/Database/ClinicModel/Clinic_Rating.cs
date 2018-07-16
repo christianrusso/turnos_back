@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SistemaTurnos.WebApplication.Database.Model;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SistemaTurnos.WebApplication.Database.Model
+namespace SistemaTurnos.WebApplication.Database.ClinicModel
 {
-    public class Rating
+    public class Clinic_Rating
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -19,7 +20,7 @@ namespace SistemaTurnos.WebApplication.Database.Model
         [Required]
         public int AppointmentId { get; set; }
 
-        public Appointment Appointment { get; set; }
+        public Clinic_Appointment Appointment { get; set; }
 
         [Required]
         public int UserId { get; set; }

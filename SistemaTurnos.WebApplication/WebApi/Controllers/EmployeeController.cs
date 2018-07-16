@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using SistemaTurnos.WebApplication.Database;
+using SistemaTurnos.WebApplication.Database.ClinicModel;
 using SistemaTurnos.WebApplication.Database.Model;
 using SistemaTurnos.WebApplication.WebApi.Authorization;
 using SistemaTurnos.WebApplication.WebApi.Dto.Employee;
@@ -66,13 +67,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new ApplicationException(ExceptionMessages.InternalServerError);
                 }
 
-                var employee = new Employee
+                var employee = new Clinic_Employee
                 {
                     UserId = appUser.Id,
                     OwnerUserId = userId
                 };
 
-                dbContext.Employees.Add(employee);
+                dbContext.Clinic_Employees.Add(employee);
                 dbContext.SaveChanges();
             }
         }

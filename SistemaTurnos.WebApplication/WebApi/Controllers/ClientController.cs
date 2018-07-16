@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SistemaTurnos.WebApplication.Database;
+using SistemaTurnos.WebApplication.Database.ClinicModel;
 using SistemaTurnos.WebApplication.Database.Model;
 using SistemaTurnos.WebApplication.WebApi.Authorization;
 using SistemaTurnos.WebApplication.WebApi.Dto.Client;
@@ -65,12 +66,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new ApplicationException(ExceptionMessages.InternalServerError);
                 }
 
-                var client = new Client
+                var client = new Clinic_Client
                 {
                     UserId = appUser.Id
                 };
 
-                dbContext.Clients.Add(client);
+                dbContext.Clinic_Clients.Add(client);
                 dbContext.SaveChanges();
             }
         }
@@ -102,7 +103,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                return dbContext.Clients
+                return dbContext.Clinic_Clients
                     .Include(c => c.Patients)
                     .Include(c => c.User)
                     .Where(c => !c.Patients.Any(p => p.UserId == userId))

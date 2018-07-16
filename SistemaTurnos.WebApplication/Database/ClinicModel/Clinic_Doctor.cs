@@ -1,13 +1,14 @@
 ﻿using SistemaTurnos.WebApplication.Database.Enums;
+using SistemaTurnos.WebApplication.Database.Model;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 
-namespace SistemaTurnos.WebApplication.Database.Model
+namespace SistemaTurnos.WebApplication.Database.ClinicModel
 {
-    public class Doctor
+    public class Clinic_Doctor
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -34,18 +35,18 @@ namespace SistemaTurnos.WebApplication.Database.Model
         public int SpecialtyId { get; set; }
 
         [Required]
-        public Specialty Specialty { get; set; }
+        public Clinic_Specialty Specialty { get; set; }
 
         [Required]
         public DoctorStateEnum State { get; set; }
 
         public int? SubspecialtyId { get; set; }
 
-        public Subspecialty Subspecialty { get; set; }
+        public Clinic_Subspecialty Subspecialty { get; set; }
 
-        public List<WorkingHours> WorkingHours { get; set; }
+        public List<Clinic_WorkingHours> WorkingHours { get; set; }
 
-        public List<Appointment> Appointments { get; set; }
+        public List<Clinic_Appointment> Appointments { get; set; }
 
         [Required]
         public int UserId { get; set; }

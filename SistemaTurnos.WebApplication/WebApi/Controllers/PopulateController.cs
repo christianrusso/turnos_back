@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SistemaTurnos.WebApplication.Database;
+using SistemaTurnos.WebApplication.Database.ClinicModel;
 using SistemaTurnos.WebApplication.Database.Enums;
 using SistemaTurnos.WebApplication.Database.Model;
 using SistemaTurnos.WebApplication.WebApi.Authorization;
@@ -58,37 +59,37 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             // Creo doctores 
             var doctor1 = CreateDoctor("Fernando", "Gomez", 30, specialty2, null, DoctorStateEnum.Active,
-                new List<WorkingHours> {
-                    new WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new WorkingHours { DayNumber = DayOfWeek.Wednesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new WorkingHours { DayNumber = DayOfWeek.Thursday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new WorkingHours { DayNumber = DayOfWeek.Friday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new WorkingHours { DayNumber = DayOfWeek.Saturday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                new List<Clinic_WorkingHours> {
+                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Wednesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Thursday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Friday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Saturday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
                 }, clinic1);
 
             var doctor2 = CreateDoctor("Christian", "Russo", 10, specialty1, subspecialty1, DoctorStateEnum.Active,
-                new List<WorkingHours> {
-                    new WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(7, 0, 0), End = new TimeSpan(21, 0, 0) },
-                    new WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new WorkingHours { DayNumber = DayOfWeek.Wednesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new WorkingHours { DayNumber = DayOfWeek.Thursday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new WorkingHours { DayNumber = DayOfWeek.Friday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new WorkingHours { DayNumber = DayOfWeek.Saturday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                new List<Clinic_WorkingHours> {
+                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(7, 0, 0), End = new TimeSpan(21, 0, 0) },
+                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Wednesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Thursday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Friday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Saturday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
                 }, clinic1);
 
 
             var doctor3 = CreateDoctor("Sabrina", "Fillol", 10, specialty1, subspecialty1, DoctorStateEnum.Active,
-                new List<WorkingHours> {
-                    new WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(7, 0, 0), End = new TimeSpan(21, 0, 0) },
-                    new WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new WorkingHours { DayNumber = DayOfWeek.Wednesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new WorkingHours { DayNumber = DayOfWeek.Thursday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new WorkingHours { DayNumber = DayOfWeek.Friday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new WorkingHours { DayNumber = DayOfWeek.Saturday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                new List<Clinic_WorkingHours> {
+                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(7, 0, 0), End = new TimeSpan(21, 0, 0) },
+                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Wednesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Thursday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Friday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Saturday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
                 }, clinic1);
 
             // Creo obras sociales
@@ -211,32 +212,32 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             return clinic;
         }
 
-        private Specialty CreateSpecialty(string description, Clinic clinic)
+        private Clinic_Specialty CreateSpecialty(string description, Clinic clinic)
         {
-            Specialty specialty;
+            Clinic_Specialty specialty;
 
             using (var dbContext = new ApplicationDbContext())
             {
-                specialty = new Specialty
+                specialty = new Clinic_Specialty
                 {
                     Description = description,
                     UserId = clinic.UserId
                 };
 
-                dbContext.Specialties.Add(specialty);
+                dbContext.Clinic_Specialties.Add(specialty);
                 dbContext.SaveChanges();
             }
 
             return specialty;
         }
 
-        private Subspecialty CreateSubspecialty(string description, Specialty specialty, uint consultationLength, Clinic clinic)
+        private Clinic_Subspecialty CreateSubspecialty(string description, Clinic_Specialty specialty, uint consultationLength, Clinic clinic)
         {
-            Subspecialty subspecialty;
+            Clinic_Subspecialty subspecialty;
 
             using (var dbContext = new ApplicationDbContext())
             {
-                subspecialty = new Subspecialty
+                subspecialty = new Clinic_Subspecialty
                 {
                     Description = description,
                     SpecialtyId = specialty.Id,
@@ -244,20 +245,20 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     UserId = clinic.UserId
                 };
 
-                dbContext.Subspecialties.Add(subspecialty);
+                dbContext.Clinic_Subspecialties.Add(subspecialty);
                 dbContext.SaveChanges();
             }
 
             return subspecialty;
         }
 
-        private Doctor CreateDoctor(string firstName, string lastName, uint consultationLength, Specialty specialty, Subspecialty subspecialty, DoctorStateEnum state, List<WorkingHours> workingHours, Clinic clinic)
+        private Clinic_Doctor CreateDoctor(string firstName, string lastName, uint consultationLength, Clinic_Specialty specialty, Clinic_Subspecialty subspecialty, DoctorStateEnum state, List<Clinic_WorkingHours> workingHours, Clinic clinic)
         {
-            Doctor doctor;
+            Clinic_Doctor doctor;
 
             using (var dbContext = new ApplicationDbContext())
             {
-                doctor = new Doctor
+                doctor = new Clinic_Doctor
                 {
                     FirstName = firstName,
                     LastName = lastName,
@@ -271,55 +272,55 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     UserId = clinic.UserId
                 };
 
-                dbContext.Doctors.Add(doctor);
+                dbContext.Clinic_Doctors.Add(doctor);
                 dbContext.SaveChanges();
             }
 
             return doctor;
         }
 
-        private MedicalInsurance CreateMedicalInsurance(string description, Clinic clinic)
+        private Clinic_MedicalInsurance CreateMedicalInsurance(string description, Clinic clinic)
         {
-            MedicalInsurance medicalInsurance;
+            Clinic_MedicalInsurance medicalInsurance;
 
             using (var dbContext = new ApplicationDbContext())
             {
-                medicalInsurance = new MedicalInsurance
+                medicalInsurance = new Clinic_MedicalInsurance
                 {
                     Description = description,
                     UserId = clinic.UserId
                 };
 
-                dbContext.MedicalInsurances.Add(medicalInsurance);
+                dbContext.Clinic_MedicalInsurances.Add(medicalInsurance);
                 dbContext.SaveChanges();
             }
 
             return medicalInsurance;
         }
 
-        private MedicalPlan CreateMedicalPlan(string description, MedicalInsurance medicalInsurance, Clinic clinic)
+        private Clinic_MedicalPlan CreateMedicalPlan(string description, Clinic_MedicalInsurance medicalInsurance, Clinic clinic)
         {
-            MedicalPlan medicalPlan;
+            Clinic_MedicalPlan medicalPlan;
 
             using (var dbContext = new ApplicationDbContext())
             {
-                medicalPlan = new MedicalPlan
+                medicalPlan = new Clinic_MedicalPlan
                 {
                     Description = description,
                     MedicalInsuranceId = medicalInsurance.Id,
                     UserId = clinic.UserId
                 };
 
-                dbContext.MedicalPlans.Add(medicalPlan);
+                dbContext.Clinic_MedicalPlans.Add(medicalPlan);
                 dbContext.SaveChanges();
             }
 
             return medicalPlan;
         }
 
-        private Client CreateClientUser(string email, string password)
+        private Clinic_Client CreateClientUser(string email, string password)
         {
-            Client client;
+            Clinic_Client client;
 
             if (!_roleManager.RoleExistsAsync(Roles.Client).Result)
             {
@@ -350,25 +351,25 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new ApplicationException(ExceptionMessages.InternalServerError);
                 }
 
-                client = new Client
+                client = new Clinic_Client
                 {
                     UserId = appUser.Id
                 };
 
-                dbContext.Clients.Add(client);
+                dbContext.Clinic_Clients.Add(client);
                 dbContext.SaveChanges();
             }
 
             return client;
         }
 
-        private Patient CreatePatient(string firstName, string lastName, string address, string dni, MedicalPlan medicalPlan, Client client, Clinic clinic)
+        private Clinic_Patient CreatePatient(string firstName, string lastName, string address, string dni, Clinic_MedicalPlan medicalPlan, Clinic_Client client, Clinic clinic)
         {
-            Patient patient;
+            Clinic_Patient patient;
 
             using (var dbContext = new ApplicationDbContext())
             {
-                patient = new Patient
+                patient = new Clinic_Patient
                 {
                     FirstName = firstName,
                     LastName = lastName,
@@ -380,20 +381,20 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     UserId = clinic.Id
                 };
 
-                dbContext.Patients.Add(patient);
+                dbContext.Clinic_Patients.Add(patient);
                 dbContext.SaveChanges();
             }
 
             return patient;
         }
 
-        private Appointment CreateAppointment(DateTime dateTime, Doctor doctor, Patient patient, AppointmentStateEnum state, Rating rating, Clinic clinic)
+        private Clinic_Appointment CreateAppointment(DateTime dateTime, Clinic_Doctor doctor, Clinic_Patient patient, AppointmentStateEnum state, Clinic_Rating rating, Clinic clinic)
         {
-            Appointment appointment;
+            Clinic_Appointment appointment;
 
             using (var dbContext = new ApplicationDbContext())
             {
-                appointment = new Appointment
+                appointment = new Clinic_Appointment
                 {
                     DateTime = dateTime,
                     DoctorId = doctor.Id,
@@ -403,16 +404,16 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     UserId = clinic.UserId
                 };
 
-                dbContext.Appointments.Add(appointment);
+                dbContext.Clinic_Appointments.Add(appointment);
                 dbContext.SaveChanges();
             }
 
             return appointment;
         }
 
-        private Employee CreateEmployee(string email, string password, Clinic clinic)
+        private Clinic_Employee CreateEmployee(string email, string password, Clinic clinic)
         {
-            Employee employee;
+            Clinic_Employee employee;
 
             var user = new ApplicationUser
             {
@@ -438,13 +439,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new ApplicationException(ExceptionMessages.InternalServerError);
                 }
 
-                employee = new Employee
+                employee = new Clinic_Employee
                 {
                     UserId = appUser.Id,
                     OwnerUserId = clinic.UserId
                 };
 
-                dbContext.Employees.Add(employee);
+                dbContext.Clinic_Employees.Add(employee);
                 dbContext.SaveChanges();
             }
 
