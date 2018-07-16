@@ -31,6 +31,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Clinic
 
         public int ScoreQuantity { get; set; }
 
+        public string Logo {get; set;}
+
         public List<RatingDto> Ratings { get; set; }
     }
 }

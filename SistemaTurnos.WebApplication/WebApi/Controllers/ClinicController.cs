@@ -161,7 +161,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         Ratings = ratings.Select(r => new RatingDto { Score = r.Score, Comment = r.Comment }).ToList(),
                         Specialties = specialties.Select(s => s.Description).ToList(),
                         Subspecialties = subspecialties.Select(sp => sp.Description).ToList(),
-                        MedicalInsurances = medicalInsurances.Select(mi => mi.Description).ToList()
+                        MedicalInsurances = medicalInsurances.Select(mi => mi.Description).ToList(),
+                        Logo = clinic.Logo
                     });
                 }
             }
