@@ -9,6 +9,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.MedicalPlan
         public int MedicalInsuranceId { get; set; }
 
         [Required]
-        public List<MedicalPlanDto> MedicalPlans { get; set; }
+        public List<IdDto> MedicalPlans { get; set; }
     }
 }

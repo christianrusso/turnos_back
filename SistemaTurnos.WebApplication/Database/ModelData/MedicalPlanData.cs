@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SistemaTurnos.WebApplication.Database.ModelData
 {
-    public class Specialty
+    public class MedicalPlanData
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -12,5 +12,10 @@ namespace SistemaTurnos.WebApplication.Database.ModelData
         [Required]
         [MaxLength(50)]
         public string Description { get; set; }
+
+        [Required]
+        public int MedicalInsuranceDataId { get; set; }
+
+        public virtual MedicalInsuranceData MedicalInsuranceData { get; set; }
     }
 }

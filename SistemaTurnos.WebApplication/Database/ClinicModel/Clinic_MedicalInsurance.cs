@@ -1,4 +1,5 @@
 using SistemaTurnos.WebApplication.Database.Model;
+using SistemaTurnos.WebApplication.Database.ModelData;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -12,14 +13,15 @@ namespace SistemaTurnos.WebApplication.Database.ClinicModel
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(50)]
-        public string Description { get; set; }
+        public int DataId { get; set; }
 
-        public List<Clinic_MedicalPlan> MedicalPlans { get; set; }
+        public virtual MedicalInsuranceData Data { get; set; }
+
+        public virtual List<Clinic_MedicalPlan> MedicalPlans { get; set; }
 
         [Required]
         public int UserId { get; set; }
 
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
     }
 }

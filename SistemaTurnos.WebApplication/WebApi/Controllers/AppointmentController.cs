@@ -39,10 +39,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 var userId = GetUserId();
 
-                Clinic_Doctor doctor = dbContext.Clinic_Doctors
-                    .Include(d => d.WorkingHours)
-                    .Include(d => d.Appointments)
-                    .SingleOrDefaultAsync(d => d.Id == getAppointmentDto.DoctorId && d.UserId == userId).Result;
+                Clinic_Doctor doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == getAppointmentDto.DoctorId && d.UserId == userId);
 
                 if (doctor == null)
                 {
@@ -70,10 +67,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 var userId = GetUserId();
 
-                var doctor = dbContext.Clinic_Doctors
-                    .Include(d => d.WorkingHours)
-                    .Include(d => d.Appointments)
-                    .SingleOrDefaultAsync(d => d.Id == getAppointmentDto.DoctorId && d.UserId == userId).Result;
+                var doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == getAppointmentDto.DoctorId && d.UserId == userId);
 
                 if (doctor == null)
                 {
@@ -96,10 +90,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException(ExceptionMessages.AppointmentCantBeRequested);
                 }
 
-                var doctor = dbContext.Clinic_Doctors
-                    .Include(d => d.WorkingHours)
-                    .Include(d => d.Appointments)
-                    .FirstOrDefault(d => d.Id == requestAppointmentDto.DoctorId && d.UserId == userId);
+                var doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == requestAppointmentDto.DoctorId && d.UserId == userId);
 
                 if (doctor == null)
                 {
@@ -206,17 +197,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException(ExceptionMessages.AppointmentCantBeRequested);
                 }
 
-                var doctor = dbContext.Clinic_Doctors
-                    .Include(d => d.WorkingHours)
-                    .Include(d => d.Appointments)
-                    .FirstOrDefault(d => d.Id == requestAppointmentDto.DoctorId && d.UserId == userId);
+                var doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == requestAppointmentDto.DoctorId && d.UserId == userId);
 
                 if (doctor == null)
                 {
                     throw new BadRequestException(ExceptionMessages.BadRequest);
                 }
 
-                var client = dbContext.Clinic_Clients.Include(c => c.User).FirstOrDefault(c => c.Id == requestAppointmentDto.ClientId);
+                var client = dbContext.Clinic_Clients.FirstOrDefault(c => c.Id == requestAppointmentDto.ClientId);
 
                 if (client == null)
                 {
@@ -292,10 +280,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException(ExceptionMessages.AppointmentCantBeRequested);
                 }
 
-                var doctor = dbContext.Clinic_Doctors
-                    .Include(d => d.WorkingHours)
-                    .Include(d => d.Appointments)
-                    .FirstOrDefault(d => d.Id == requestAppointmentDto.DoctorId && d.UserId == userId);
+                var doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == requestAppointmentDto.DoctorId && d.UserId == userId);
 
                 if (doctor == null)
                 {
@@ -346,7 +331,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                var appointment = dbContext.Clinic_Appointments.FirstOrDefaultAsync(a => a.Id == cancelAppointmentDto.Id && a.UserId == userId).Result;
+                var appointment = dbContext.Clinic_Appointments.FirstOrDefault(a => a.Id == cancelAppointmentDto.Id && a.UserId == userId);
 
                 if (appointment == null)
                 {
@@ -372,7 +357,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                var appointment = dbContext.Clinic_Appointments.FirstOrDefaultAsync(a => a.Id == completeAppointmentDto.Id && a.UserId == userId).Result;
+                var appointment = dbContext.Clinic_Appointments.FirstOrDefault(a => a.Id == completeAppointmentDto.Id && a.UserId == userId);
 
                 if (appointment == null)
                 {
@@ -408,9 +393,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var patients = dbContext.Clinic_Patients.Where(p => p.UserId == userId).ToList();
 
                 var doctors = dbContext.Clinic_Doctors
-                    .Include(d => d.Specialty)
-                    .Include(d => d.Subspecialty)
-                    .Include(d => d.Appointments)
                     .Where(d => d.UserId == userId)
                     .Where(d => !filter.SpecialtyId.HasValue || d.SpecialtyId == filter.SpecialtyId)
                     .Where(d => !filter.SubspecialtyId.HasValue || d.SubspecialtyId == filter.SubspecialtyId)
@@ -457,8 +439,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var userId = GetUserId();
 
                 var specialties = dbContext.Clinic_Specialties.Where(s => s.UserId == userId).ToList();
+
                 var appointments = dbContext.Clinic_Appointments
-                    .Include(a => a.Doctor)
                     .Where(a => a.Doctor.UserId == userId)
                     .Where(a => !filter.DoctorId.HasValue || a.DoctorId == filter.DoctorId)
                     .Where(a => !filter.SubSpecialtyId.HasValue || a.Doctor.SubspecialtyId == filter.SubSpecialtyId)
@@ -485,7 +467,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                                 hour.AppointmentsPerSpecialty.Add(new AppointmentsPerSpecialtyDto
                                 {
                                     SpecialtyId = specialty.Id,
-                                    SpecialtyDescription = specialty.Description,
+                                    SpecialtyDescription = specialty.Data.Description,
                                     Appointments = count
                                 });
 

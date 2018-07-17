@@ -23,6 +23,6 @@ namespace SistemaTurnos.WebApplication.Database.ClinicModel
         [Required]
         public int DoctorId { get; set; }
         
-        public Clinic_Doctor Doctor { get; set; }
+        public virtual Clinic_Doctor Doctor { get; set; }
     }
 }

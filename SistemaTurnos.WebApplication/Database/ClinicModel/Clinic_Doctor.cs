@@ -35,23 +35,23 @@ namespace SistemaTurnos.WebApplication.Database.ClinicModel
         public int SpecialtyId { get; set; }
 
         [Required]
-        public Clinic_Specialty Specialty { get; set; }
+        public virtual Clinic_Specialty Specialty { get; set; }
 
         [Required]
         public DoctorStateEnum State { get; set; }
 
         public int? SubspecialtyId { get; set; }
 
-        public Clinic_Subspecialty Subspecialty { get; set; }
+        public virtual Clinic_Subspecialty Subspecialty { get; set; }
 
-        public List<Clinic_WorkingHours> WorkingHours { get; set; }
+        public virtual List<Clinic_WorkingHours> WorkingHours { get; set; }
 
-        public List<Clinic_Appointment> Appointments { get; set; }
+        public virtual List<Clinic_Appointment> Appointments { get; set; }
 
         [Required]
         public int UserId { get; set; }
 
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
 
         public List<DateTime> GetAvailableAppointmentsForDay(DateTime day)
         {

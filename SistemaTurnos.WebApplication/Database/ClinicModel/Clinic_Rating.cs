@@ -20,11 +20,11 @@ namespace SistemaTurnos.WebApplication.Database.ClinicModel
         [Required]
         public int AppointmentId { get; set; }
 
-        public Clinic_Appointment Appointment { get; set; }
+        public virtual Clinic_Appointment Appointment { get; set; }
 
         [Required]
         public int UserId { get; set; }
 
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
     }
 }

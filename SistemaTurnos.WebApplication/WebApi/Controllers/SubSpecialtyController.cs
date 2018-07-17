@@ -27,7 +27,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                var specialty = dbContext.Clinic_Specialties.SingleOrDefaultAsync(s => s.Id == subSpecialtyDto.SpecialtyId).Result;
+                var specialty = dbContext.Clinic_Specialties.FirstOrDefault(s => s.Id == subSpecialtyDto.SpecialtyId);
 
                 if (specialty == null)
                 {
@@ -36,7 +36,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.Clinic_Subspecialties.Add(new Clinic_Subspecialty
                 {
-                    Description = subSpecialtyDto.Description,
+                    DataId = subSpecialtyDto.Id,
                     SpecialtyId = subSpecialtyDto.SpecialtyId,
                     ConsultationLength = subSpecialtyDto.ConsultationLength,
                     UserId = userId
@@ -53,16 +53,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                return dbContext.Clinic_Subspecialties.Include(ssp => ssp.Specialty)
+                return dbContext.Clinic_Subspecialties
                     .Where(ssp => ssp.UserId == userId)
-                    .ToListAsync()
-                    .Result
                     .Select(ssp => new SubspecialtyDto {
                         Id = ssp.Id,
-                        Description = ssp.Description,
+                        Description = ssp.Data.Description,
                         ConsultationLength = ssp.ConsultationLength,
                         SpecialtyId = ssp.SpecialtyId,
-                        SpecialtyDescription = ssp.Specialty.Description
+                        SpecialtyDescription = ssp.Specialty.Data.Description
                 }).ToList();
             }
         }
@@ -74,16 +72,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                return dbContext.Clinic_Subspecialties.Include(ssp => ssp.Specialty)
+                return dbContext.Clinic_Subspecialties
                     .Where(ssp => ssp.SpecialtyId == specialtyIdDto.Id && ssp.UserId == userId)
-                    .ToList()
                     .Select(ssp => new SubspecialtyDto
                     {
                         Id = ssp.Id,
-                        Description = ssp.Description,
+                        Description = ssp.Data.Description,
                         ConsultationLength = ssp.ConsultationLength,
                         SpecialtyId = ssp.SpecialtyId,
-                        SpecialtyDescription = ssp.Specialty.Description
+                        SpecialtyDescription = ssp.Specialty.Data.Description
                     }).ToList();
             }
         }
@@ -95,13 +92,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                return dbContext.Clinic_Subspecialties.Include(ssp => ssp.Specialty)
+                return dbContext.Clinic_Subspecialties
                     .Where(ssp => (specialtyIdDto.Id == -1 || ssp.SpecialtyId == specialtyIdDto.Id) && ssp.UserId == userId)
-                    .ToList()
                     .Select(ssp => new SelectOptionDto
                     {
                         Id = ssp.Id.ToString(),
-                        Text = ssp.Description,
+                        Text = ssp.Data.Description,
                     })
                     .Prepend(new SelectOptionDto { Id = "-1", Text = "Todas" })
                     .ToList();
@@ -115,7 +111,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                var subSpecialtyToDelete = dbContext.Clinic_Subspecialties.FirstOrDefaultAsync(ssp => ssp.Id == subSpecialtyDto.Id && ssp.UserId == userId).Result;
+                var subSpecialtyToDelete = dbContext.Clinic_Subspecialties.FirstOrDefault(ssp => ssp.Id == subSpecialtyDto.Id && ssp.UserId == userId);
 
                 if (subSpecialtyToDelete == null)
                 {
@@ -134,22 +130,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                var subSpecialtyToUpdate = dbContext.Clinic_Subspecialties.SingleOrDefaultAsync(s => s.Id == subSpecialtyDto.Id && s.UserId == userId).Result;
+                var subSpecialtyToUpdate = dbContext.Clinic_Subspecialties.FirstOrDefault(s => s.Id == subSpecialtyDto.Id && s.UserId == userId);
 
                 if (subSpecialtyToUpdate == null)
                 {
                     throw new BadRequestException(ExceptionMessages.BadRequest);
                 }
 
-                var specialty = dbContext.Clinic_Specialties.SingleOrDefaultAsync(s => s.Id == subSpecialtyDto.SpecialtyId && s.UserId == userId).Result;
-
-                if (specialty == null)
-                {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
-                }
-
-                subSpecialtyToUpdate.Description = subSpecialtyDto.Description;
-                subSpecialtyToUpdate.SpecialtyId = subSpecialtyDto.SpecialtyId;
                 subSpecialtyToUpdate.ConsultationLength = subSpecialtyDto.ConsultationLength;
                 dbContext.SaveChanges();
             }

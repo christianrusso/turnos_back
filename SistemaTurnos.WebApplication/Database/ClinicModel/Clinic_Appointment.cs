@@ -15,7 +15,7 @@ namespace SistemaTurnos.WebApplication.Database.ClinicModel
         [Required]
         public int DoctorId { get; set; }
 
-        public Clinic_Doctor Doctor { get; set; }
+        public virtual Clinic_Doctor Doctor { get; set; }
 
         [Required]
         public DateTime DateTime { get; set; }
@@ -25,15 +25,15 @@ namespace SistemaTurnos.WebApplication.Database.ClinicModel
 
         public int RatingId { get; set; }
 
-        public Clinic_Rating Rating { get; set; }
+        public virtual Clinic_Rating Rating { get; set; }
 
         public int PatientId { get; set; }
 
-        public Clinic_Patient Patient { get; set; }
+        public virtual Clinic_Patient Patient { get; set; }
 
         [Required]
         public int UserId { get; set; }
 
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
     }
 }

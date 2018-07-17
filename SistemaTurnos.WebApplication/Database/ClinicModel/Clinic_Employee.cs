@@ -13,11 +13,11 @@ namespace SistemaTurnos.WebApplication.Database.ClinicModel
         [Required]
         public int UserId { get; set; }
 
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
 
         [Required]
         public int OwnerUserId { get; set; }
 
-        public ApplicationUser OwnerUser { get; set; }
+        public virtual ApplicationUser OwnerUser { get; set; }
     }
 }

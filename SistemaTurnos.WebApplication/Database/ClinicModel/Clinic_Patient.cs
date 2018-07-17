@@ -33,19 +33,19 @@ namespace SistemaTurnos.WebApplication.Database.ClinicModel
 
         public int MedicalPlanId { get; set; }
 
-        public Clinic_MedicalPlan MedicalPlan { get; set; }
+        public virtual Clinic_MedicalPlan MedicalPlan { get; set; }
 
-        public List<Clinic_Appointment> Appointments { get; set; }
+        public virtual List<Clinic_Appointment> Appointments { get; set; }
 
         [Required]
         public int UserId { get; set; }
 
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
 
         [Required]
         public int ClientId { get; set; }
 
-        public Clinic_Client Client { get; set; }
+        public virtual Clinic_Client Client { get; set; }
 
         public string FullName => $"{LastName} {FirstName}";
     }

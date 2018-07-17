@@ -15,8 +15,7 @@ namespace SistemaTurnos.WebApplication.Database
         private const string databaseUser = "root";
         private const string databasePass = "fernando";
 
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseMySql(GetConnectionString());
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseLazyLoadingProxies().UseMySql(GetConnectionString());
 
         private static string GetConnectionString() => $"Server={databaseServer};database={databaseName};uid={databaseUser};pwd={databasePass};pooling=true;";
 
@@ -69,13 +68,13 @@ namespace SistemaTurnos.WebApplication.Database
         public DbSet<Clinic_MedicalPlan> Clinic_MedicalPlans { get; set; }
 
         // Model Data
-        public DbSet<Specialty> Specialties { get; set; }
+        public DbSet<SpecialtyData> Specialties { get; set; }
 
-        public DbSet<Subspecialty> Subspecialties { get; set; }
+        public DbSet<SubspecialtyData> Subspecialties { get; set; }
 
-        public DbSet<MedicalInsurance> MedicalInsurances { get; set; }
+        public DbSet<MedicalInsuranceData> MedicalInsurances { get; set; }
 
-        public DbSet<MedicalPlan> MedicalPlans { get; set; }
+        public DbSet<MedicalPlanData> MedicalPlans { get; set; }
 
         public DbSet<City> Cities { get; set; }
     }

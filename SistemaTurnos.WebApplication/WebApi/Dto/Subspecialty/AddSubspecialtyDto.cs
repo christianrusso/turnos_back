@@ -5,8 +5,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Subspecialty
     public class AddSubspecialtyDto : BaseDto
     {
         [Required]
-        [StringLength(50, MinimumLength = 4)]
-        public string Description { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public uint ConsultationLength { get; set; }

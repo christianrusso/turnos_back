@@ -8,12 +8,19 @@ namespace SistemaTurnos.WebApplication.Database.TypeConfigurations.Clinic
     {
         public void Configure(EntityTypeBuilder<Clinic_MedicalPlan> builder)
         {
-            // Medical Insurance
+            // Medical Plan Data
             builder
-                .HasOne(mp => mp.MedicalInsurance)
-                .WithMany(mi => mi.MedicalPlans)
-                .HasForeignKey(mp => mp.MedicalInsuranceId)
-                .HasConstraintName("FK_MedicalPlan_MedicalInsurance");
+                .HasOne(mp => mp.Data)
+                .WithMany()
+                .HasForeignKey(mp => mp.DataId)
+                .HasConstraintName("FK_MedicalPlan_Data");
+
+            // User
+            builder
+                .HasOne(mp => mp.User)
+                .WithMany()
+                .HasForeignKey(mi => mi.UserId)
+                .HasConstraintName("FK_MedicalPlan_User");
         }
     }
 }

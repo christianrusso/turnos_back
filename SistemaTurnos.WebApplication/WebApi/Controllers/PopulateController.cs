@@ -5,6 +5,7 @@ using SistemaTurnos.WebApplication.Database;
 using SistemaTurnos.WebApplication.Database.ClinicModel;
 using SistemaTurnos.WebApplication.Database.Enums;
 using SistemaTurnos.WebApplication.Database.Model;
+using SistemaTurnos.WebApplication.Database.ModelData;
 using SistemaTurnos.WebApplication.WebApi.Authorization;
 using SistemaTurnos.WebApplication.WebApi.Exceptions;
 using System;
@@ -219,12 +220,18 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
+                var specialtyData = new SpecialtyData
+                {
+                    Description = description
+                };
+
                 specialty = new Clinic_Specialty
                 {
-                    Description = description,
+                    Data = specialtyData,
                     UserId = clinic.UserId
                 };
 
+                dbContext.Specialties.Add(specialtyData);
                 dbContext.Clinic_Specialties.Add(specialty);
                 dbContext.SaveChanges();
             }
@@ -238,14 +245,21 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                subspecialty = new Clinic_Subspecialty
+                var subspecialtyData = new SubspecialtyData
                 {
                     Description = description,
+                    SpecialtyDataId = specialty.DataId
+                };
+
+                subspecialty = new Clinic_Subspecialty
+                {
+                    Data = subspecialtyData,
                     SpecialtyId = specialty.Id,
                     ConsultationLength = consultationLength,
                     UserId = clinic.UserId
                 };
 
+                dbContext.Subspecialties.Add(subspecialtyData);
                 dbContext.Clinic_Subspecialties.Add(subspecialty);
                 dbContext.SaveChanges();
             }
@@ -286,12 +300,18 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
+                var medicalInsuranceData = new MedicalInsuranceData
+                {
+                    Description = description
+                };
+
                 medicalInsurance = new Clinic_MedicalInsurance
                 {
-                    Description = description,
+                    Data = medicalInsuranceData,
                     UserId = clinic.UserId
                 };
 
+                dbContext.MedicalInsurances.Add(medicalInsuranceData);
                 dbContext.Clinic_MedicalInsurances.Add(medicalInsurance);
                 dbContext.SaveChanges();
             }
@@ -305,13 +325,20 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                medicalPlan = new Clinic_MedicalPlan
+                var medicalPlanData = new MedicalPlanData
                 {
                     Description = description,
+                    MedicalInsuranceDataId = medicalInsurance.DataId
+                };
+
+                medicalPlan = new Clinic_MedicalPlan
+                {
+                    Data = medicalPlanData,
                     MedicalInsuranceId = medicalInsurance.Id,
                     UserId = clinic.UserId
                 };
 
+                dbContext.MedicalPlans.Add(medicalPlanData);
                 dbContext.Clinic_MedicalPlans.Add(medicalPlan);
                 dbContext.SaveChanges();
             }

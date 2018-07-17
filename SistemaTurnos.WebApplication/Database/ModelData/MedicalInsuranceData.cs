@@ -1,9 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SistemaTurnos.WebApplication.Database.ModelData
 {
-    public class MedicalPlan
+    public class MedicalInsuranceData
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -12,5 +13,7 @@ namespace SistemaTurnos.WebApplication.Database.ModelData
         [Required]
         [MaxLength(50)]
         public string Description { get; set; }
+
+        public virtual List<MedicalPlanData> MedicalPlans { get; set; }
     }
 }

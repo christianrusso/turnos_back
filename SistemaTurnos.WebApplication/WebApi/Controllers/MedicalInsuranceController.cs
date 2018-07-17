@@ -22,7 +22,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
     public class MedicalInsuranceController : Controller
     {
         [HttpPost]
-        public void Add([FromBody] AddMedicalInsuranceDto medicalInsuranceDto)
+        public void Add([FromBody] IdDto medicalInsuranceDto)
         {
             using (var dbContext = new ApplicationDbContext())
             {
@@ -30,7 +30,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.Clinic_MedicalInsurances.Add(new Clinic_MedicalInsurance
                 {
-                    Description = medicalInsuranceDto.Description,
+                    DataId = medicalInsuranceDto.Id,
                     UserId = userId
                 });
 
@@ -50,7 +50,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     .ToList()
                     .Select(s => new MedicalInsuranceDto {
                         Id = s.Id,
-                        Description = s.Description
+                        Description = s.Data.Description
                     }).ToList();
             }
         }
@@ -68,7 +68,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     .Select(s => new SelectOptionDto
                     {
                         Id = s.Id.ToString(),
-                        Text = s.Description,
+                        Text = s.Data.Description,
                     })
                     .Prepend(new SelectOptionDto { Id = "-1", Text = "Todas" })
                     .ToList();
@@ -85,18 +85,28 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                return dbContext.Clinic_MedicalInsurances
-                    .Include(s => s.MedicalPlans)
+                var medicalInsurances = dbContext.Clinic_MedicalInsurances
                     .Where(s => s.UserId == userId)
-                    .Where(ssp => filter.Letter == '*' || ssp.Description.FirstOrDefault() == firstLetterMinus || ssp.Description.FirstOrDefault() == firstLetterMayus)
-                    .OrderBy(s => s.Description)
-                    .ToList()
-                    .Select(s => new MedicalInsuranceDto
+                    .Where(ssp => filter.Letter == '*' || ssp.Data.Description.FirstOrDefault() == firstLetterMinus || ssp.Data.Description.FirstOrDefault() == firstLetterMayus)
+                    .OrderBy(s => s.Data.Description)
+                    .ToList();
+
+                var res = new List<MedicalInsuranceDto>();
+
+                foreach (var mi in medicalInsurances)
+                {
+                    res.Add(new MedicalInsuranceDto
                     {
-                        Id = s.Id,
-                        Description = s.Description,
-                        MedicalPlans = s.MedicalPlans.Select(mp => new MedicalPlanDto { Id = mp.Id, Description = mp.Description }).ToList()
-                    }).ToList();
+                        Id = mi.Id,
+                        Description = mi.Data.Description,
+                        MedicalPlans = dbContext.Clinic_MedicalPlans
+                            .Where(mp => mp.MedicalInsuranceId == mi.Id)
+                            .Select(mp => new MedicalPlanDto { Id = mp.Id, Description = mp.Data.Description })
+                            .ToList()
+                    });
+                }
+
+                return res;
             }
         }
 
@@ -107,29 +117,38 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                return dbContext.Clinic_MedicalInsurances
-                    .Include(s => s.MedicalPlans)
+                var medicalInsurances = dbContext.Clinic_MedicalInsurances
                     .Where(s => s.UserId == userId)
-                    .Where(ssp => ssp.Description.Contains(filter.Description))
-                    .ToList()
-                    .Select(s => new MedicalInsuranceDto
+                    .Where(ssp => ssp.Data.Description.Contains(filter.Description))
+                    .ToList();
+
+                var res = new List<MedicalInsuranceDto>();
+
+                foreach (var mi in medicalInsurances)
+                {
+                    res.Add(new MedicalInsuranceDto
                     {
-                        Id = s.Id,
-                        Description = s.Description,
-                        MedicalPlans = s.MedicalPlans.Select(mp => new MedicalPlanDto { Id = mp.Id, Description = mp.Description }).ToList()
-                    }).ToList();
+                        Id = mi.Id,
+                        Description = mi.Data.Description,
+                        MedicalPlans = dbContext.Clinic_MedicalPlans
+                            .Where(mp => mp.MedicalInsuranceId == mi.Id)
+                            .Select(mp => new MedicalPlanDto { Id = mp.Id, Description = mp.Data.Description })
+                            .ToList()
+                    });
+                }
+
+                return res;
             }
         }
 
         [HttpPost]
-        public void Remove([FromBody] RemoveMedicalInsuranceDto medicalInsuranceDto)
+        public void Remove([FromBody] IdDto medicalInsuranceDto)
         {
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = GetUserId();
 
-                var medicalInsuranceToDelete = dbContext.Clinic_MedicalInsurances
-                    .FirstOrDefaultAsync(m => m.Id == medicalInsuranceDto.Id && m.UserId == userId).Result;
+                var medicalInsuranceToDelete = dbContext.Clinic_MedicalInsurances.FirstOrDefault(m => m.Id == medicalInsuranceDto.Id && m.UserId == userId);
                 
 
                 if (medicalInsuranceToDelete == null)
@@ -138,25 +157,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 }
 
                 dbContext.Entry(medicalInsuranceToDelete).State = EntityState.Deleted;
-                dbContext.SaveChanges();
-            }
-        }
-
-        [HttpPost]
-        public void Edit([FromBody] EditMedicalInsuranceDto medicalInsuranceDto)
-        {
-            using (var dbContext = new ApplicationDbContext())
-            {
-                var userId = GetUserId();
-
-                var medicalInsuranceToUpdate = dbContext.Clinic_MedicalInsurances.SingleOrDefaultAsync(m => m.Id == medicalInsuranceDto.Id && m.UserId == userId).Result;
-
-                if (medicalInsuranceDto == null)
-                {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
-                }
-
-                medicalInsuranceToUpdate.Description = medicalInsuranceDto.Description;
                 dbContext.SaveChanges();
             }
         }

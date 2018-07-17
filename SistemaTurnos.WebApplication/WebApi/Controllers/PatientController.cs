@@ -38,7 +38,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                var client = dbContext.Clinic_Clients.Include(c => c.User).FirstOrDefault(c => c.Id == patientDto.ClientId);
+                var client = dbContext.Clinic_Clients.FirstOrDefault(c => c.Id == patientDto.ClientId);
                 
                 if (client == null)
                 {
@@ -142,21 +142,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var userId = GetUserId();
 
                 return dbContext.Clinic_Patients
-                    .Include(p => p.Appointments)
-                    .Include(p => p.MedicalPlan)
-                    .Include(p => p.MedicalPlan.MedicalInsurance)
-                    .Include(p => p.User)
-                    .Include(p => p.Client)
-                    .Include(p => p.Client.User)
                     .Where(p => p.UserId == userId)
                     .ToList()
                     .Select(s => new PatientDto {
                         Id = s.Id,
                         FirstName = s.FirstName,
                         LastName = s.LastName,
-                        MedicalPlan = s.MedicalPlan.Description,
+                        MedicalPlan = s.MedicalPlan.Data.Description,
                         MedicalPlanId = s.MedicalPlan.Id,
-                        MedicalInsurance = s.MedicalPlan.MedicalInsurance.Description,
+                        MedicalInsurance = s.MedicalPlan.MedicalInsurance.Data.Description,
                         MedicalInsuranceId = s.MedicalPlan.MedicalInsurance.Id,
                         Address = s.Address,
                         PhoneNumber = s.PhoneNumber,
@@ -177,7 +171,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                var patientToDelete = dbContext.Clinic_Patients.FirstOrDefaultAsync(p => p.Id == patientDto.Id && p.UserId == userId).Result;
+                var patientToDelete = dbContext.Clinic_Patients.FirstOrDefault(p => p.Id == patientDto.Id && p.UserId == userId);
 
                 if (patientToDelete == null)
                 {
@@ -196,7 +190,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                var patientToUpdate = dbContext.Clinic_Patients.SingleOrDefaultAsync(p => p.Id == patientDto.Id && p.UserId == userId).Result;
+                var patientToUpdate = dbContext.Clinic_Patients.FirstOrDefault(p => p.Id == patientDto.Id && p.UserId == userId);
 
                 if (patientToUpdate == null)
                 {
@@ -228,12 +222,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var userId = GetUserId();
 
                 return dbContext.Clinic_Patients
-                    .Include(p => p.Appointments)
-                    .Include(p => p.MedicalPlan)
-                    .Include(p => p.MedicalPlan.MedicalInsurance)
-                    .Include(p => p.User)
-                    .Include(p => p.Client)
-                    .Include(p => p.Client.User)
                     .Where(p => p.UserId == userId)
                     .Where(p => filter.MedicalInsuranceId == null | p.MedicalPlan.MedicalInsuranceId == filter.MedicalInsuranceId)
                     .ToList()
@@ -242,9 +230,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         Id = s.Id,
                         FirstName = s.FirstName,
                         LastName = s.LastName,
-                        MedicalPlan = s.MedicalPlan.Description,
+                        MedicalPlan = s.MedicalPlan.Data.Description,
                         MedicalPlanId = s.MedicalPlanId,
-                        MedicalInsurance = s.MedicalPlan.MedicalInsurance.Description,
+                        MedicalInsurance = s.MedicalPlan.MedicalInsurance.Data.Description,
                         MedicalInsuranceId = s.MedicalPlan.MedicalInsurance.Id,
                         Address = s.Address,
                         PhoneNumber = s.PhoneNumber,
@@ -297,7 +285,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.Clinic_Clients.Add(client);
                 dbContext.SaveChanges();
 
-                return dbContext.Clinic_Clients.Include(c => c.User).FirstOrDefault(c => c.UserId == appUser.Id);
+                return dbContext.Clinic_Clients.FirstOrDefault(c => c.UserId == appUser.Id);
             }
         }
 

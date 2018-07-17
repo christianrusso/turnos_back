@@ -8,6 +8,13 @@ namespace SistemaTurnos.WebApplication.Database.TypeConfigurations.Clinic
     {
         public void Configure(EntityTypeBuilder<Clinic_Subspecialty> builder)
         {
+            // Subspecialty Data
+            builder
+                .HasOne(ssp => ssp.Data)
+                .WithMany()
+                .HasForeignKey(ssp => ssp.DataId)
+                .HasConstraintName("FK_SubSpecialty_Data");
+
             // Specialty
             builder
                 .HasOne(ssp => ssp.Specialty)
@@ -18,9 +25,9 @@ namespace SistemaTurnos.WebApplication.Database.TypeConfigurations.Clinic
 
             // User
             builder
-                .HasOne(ss => ss.User)
+                .HasOne(ssp => ssp.User)
                 .WithMany()
-                .HasForeignKey(ss => ss.UserId)
+                .HasForeignKey(ssp => ssp.UserId)
                 .HasConstraintName("FK_Subspecialty_User");
         }
     }

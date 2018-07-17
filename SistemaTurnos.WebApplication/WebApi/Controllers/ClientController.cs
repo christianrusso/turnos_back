@@ -104,8 +104,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var userId = GetUserId();
 
                 return dbContext.Clinic_Clients
-                    .Include(c => c.Patients)
-                    .Include(c => c.User)
                     .Where(c => !c.Patients.Any(p => p.UserId == userId))
                     .ToList()
                     .Select(c => new ClientDto

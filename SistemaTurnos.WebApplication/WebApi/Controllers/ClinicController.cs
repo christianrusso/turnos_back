@@ -1,6 +1,7 @@
 ﻿using GeoCoordinatePortable;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SistemaTurnos.WebApplication.Database;
 using SistemaTurnos.WebApplication.Database.ClinicModel;
 using SistemaTurnos.WebApplication.WebApi.Dto.Clinic;
@@ -105,10 +106,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                     // Filtro por especialidades
                     var specialties = dbContext.Clinic_Specialties.Where(s => s.UserId == userId).ToList();
-
+                    
                     foreach (var specialty in filterDto.Specialties)
                     {
-                        if (!specialties.Any(s => s.Description == specialty))
+                        if (!specialties.Any(s => s.Data.Description == specialty))
                         {
                             removeSpecialty = true;
                             break;
@@ -122,7 +123,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                     foreach (var subspecialty in filterDto.Subspecialties)
                     {
-                        if (!subspecialties.Any(sp => sp.Description == subspecialty))
+                        if (!subspecialties.Any(sp => sp.Data.Description == subspecialty))
                         {
                             removeSpecialty = true;
                             break;
@@ -136,7 +137,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                     foreach (var medicalInsurance in filterDto.MedicalInsurances)
                     {
-                        if (!medicalInsurances.Any(mi => mi.Description == medicalInsurance))
+                        if (!medicalInsurances.Any(mi => mi.Data.Description == medicalInsurance))
                         {
                             removeSpecialty = true;
                             break;
@@ -159,9 +160,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         Score = score,
                         ScoreQuantity = ratings.Count,
                         Ratings = ratings.Select(r => new RatingDto { Score = r.Score, Comment = r.Comment }).ToList(),
-                        Specialties = specialties.Select(s => s.Description).ToList(),
-                        Subspecialties = subspecialties.Select(sp => sp.Description).ToList(),
-                        MedicalInsurances = medicalInsurances.Select(mi => mi.Description).ToList(),
+                        Specialties = specialties.Select(s => s.Data.Description).ToList(),
+                        Subspecialties = subspecialties.Select(sp => sp.Data.Description).ToList(),
+                        MedicalInsurances = medicalInsurances.Select(mi => mi.Data.Description).ToList(),
                         Logo = clinic.Logo
                     });
                 }
