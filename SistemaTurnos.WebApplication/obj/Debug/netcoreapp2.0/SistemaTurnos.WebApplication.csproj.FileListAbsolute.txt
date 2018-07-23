@@ -33,3 +33,4 @@ C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.WebApplicati
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.WebApplication\obj\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.dll
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.WebApplication\obj\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.pdb
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.WebApplication\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.WebApplication\obj\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.csprojAssemblyReference.cache

@@ -102,49 +102,63 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         continue;
                     }
 
-                    var removeSpecialty = false;
+                    var filtered = false;
 
                     // Filtro por especialidades
                     var specialties = dbContext.Clinic_Specialties.Where(s => s.UserId == userId).ToList();
                     
-                    foreach (var specialty in filterDto.Specialties)
+                    foreach (var specialtyId in filterDto.Specialties)
                     {
-                        if (!specialties.Any(s => s.Data.Description == specialty))
+                        if (!specialties.Any(s => s.DataId == specialtyId))
                         {
-                            removeSpecialty = true;
+                            filtered = true;
                             break;
                         }
                     }
 
-                    if (removeSpecialty) continue;
+                    if (filtered) continue;
 
                     // Filtro por subespecialidades
                     var subspecialties = dbContext.Clinic_Subspecialties.Where(sp => sp.UserId == userId).ToList();
 
-                    foreach (var subspecialty in filterDto.Subspecialties)
+                    foreach (var subspecialtyId in filterDto.Subspecialties)
                     {
-                        if (!subspecialties.Any(sp => sp.Data.Description == subspecialty))
+                        if (!subspecialties.Any(sp => sp.DataId == subspecialtyId))
                         {
-                            removeSpecialty = true;
+                            filtered = true;
                             break;
                         }
                     }
 
-                    if (removeSpecialty) continue;
+                    if (filtered) continue;
 
                     // Filtro por obras sociales
                     var medicalInsurances = dbContext.Clinic_MedicalInsurances.Where(mi => mi.UserId == userId).ToList();
 
-                    foreach (var medicalInsurance in filterDto.MedicalInsurances)
+                    foreach (var medicalInsuranceId in filterDto.MedicalInsurances)
                     {
-                        if (!medicalInsurances.Any(mi => mi.Data.Description == medicalInsurance))
+                        if (!medicalInsurances.Any(mi => mi.DataId == medicalInsuranceId))
                         {
-                            removeSpecialty = true;
+                            filtered = true;
                             break;
                         }
                     }
 
-                    if (removeSpecialty) continue;
+                    if (filtered) continue;
+
+                    // Filtro por planes de obras sociales
+                    var medicalPlans = dbContext.Clinic_MedicalPlans.Where(mp => mp.UserId == userId).ToList();
+
+                    foreach (var medicalPlanId in filterDto.MedicalPlans)
+                    {
+                        if (!medicalPlans.Any(mp => mp.DataId == medicalPlanId))
+                        {
+                            filtered = true;
+                            break;
+                        }
+                    }
+
+                    if (filtered) continue;
 
                     // La clinica paso todos los filtros y la agrego al resultado
                     res.Add(new FullClinicDto
@@ -159,16 +173,17 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         DistanceToUser = userLocation != null ? new GeoCoordinate(clinic.Latitude, clinic.Longitude).GetDistanceTo(userLocation) : 0,
                         Score = score,
                         ScoreQuantity = ratings.Count,
-                        Ratings = ratings.Select(r => new RatingDto { Score = r.Score, Comment = r.Comment }).ToList(),
+                        Ratings = ratings.Select(r => new RatingDto { User = r.User.Email, Score = r.Score, Comment = r.Comment, DateTime = r.DateTime }).ToList(),
                         Specialties = specialties.Select(s => s.Data.Description).ToList(),
                         Subspecialties = subspecialties.Select(sp => sp.Data.Description).ToList(),
                         MedicalInsurances = medicalInsurances.Select(mi => mi.Data.Description).ToList(),
+                        MedicalPlans = medicalPlans.Select(mp => mp.Data.Description).ToList(),
                         Logo = clinic.Logo
                     });
                 }
             }
 
-            return res;
+            return res.OrderByDescending(c => c.Score).ToList();
         }
     }
 }

@@ -99,6 +99,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         Id = ssp.Id.ToString(),
                         Text = ssp.Data.Description,
                     })
+                    .ToList()
                     .Prepend(new SelectOptionDto { Id = "-1", Text = "Todas" })
                     .ToList();
             }

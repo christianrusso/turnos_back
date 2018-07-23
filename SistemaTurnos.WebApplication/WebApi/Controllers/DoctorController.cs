@@ -120,7 +120,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 return dbContext.Clinic_Doctors
                     .Where(d => d.UserId == userId)
-                    .ToList()
                     .Select(d => new DoctorDto {
                         Id = d.Id,
                         FirstName = d.FirstName,
@@ -148,7 +147,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 return dbContext.Clinic_Doctors
                     .Where(d => d.UserId == userId)
-                    .ToList()
                     .Select(d => new SelectOptionDto
                     {
                         Id = d.Id.ToString(),
@@ -171,7 +169,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     .Where(d => filter.FullName == null || $"{d.FirstName} {d.LastName}".Contains(filter.FullName) || $"{d.LastName} {d.FirstName}".Contains(filter.FullName))
                     .Where(d => filter.SpecialtyId == null || d.SpecialtyId == filter.SpecialtyId)
                     .Where(d => filter.SubspecialtyId == null || d.SubspecialtyId == filter.SubspecialtyId)
-                    .ToList()
                     .Select(d => new DoctorDto
                     {
                         Id = d.Id,

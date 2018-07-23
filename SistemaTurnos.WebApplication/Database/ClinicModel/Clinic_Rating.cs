@@ -1,4 +1,5 @@
 ﻿using SistemaTurnos.WebApplication.Database.Model;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -16,6 +17,9 @@ namespace SistemaTurnos.WebApplication.Database.ClinicModel
 
         [Required]
         public string Comment { get; set; }
+
+        [Required]
+        public DateTime DateTime { get; set; }
 
         [Required]
         public int AppointmentId { get; set; }

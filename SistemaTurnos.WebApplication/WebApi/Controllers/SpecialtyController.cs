@@ -78,12 +78,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 return dbContext.Clinic_Specialties
                     .Where(s => s.UserId == userId)
-                    .ToList()
                     .Select(s => new SelectOptionDto
                     {
                         Id = s.Id.ToString(),
                         Text = s.Data.Description,
                     })
+                    .ToList()
                     .Prepend(new SelectOptionDto { Id = "-1", Text = "Todas" })
                     .ToList();
             }
@@ -132,7 +132,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 return dbContext.Clinic_Specialties
                     .Where(s => s.UserId == userId)
                     .Where(ssp => ssp.Data.Description.Contains(filter.Description))
-                    .ToList()
                     .Select(s => new SpecialtyDto
                     {
                         Id = s.Id,

@@ -143,7 +143,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 return dbContext.Clinic_Patients
                     .Where(p => p.UserId == userId)
-                    .ToList()
                     .Select(s => new PatientDto {
                         Id = s.Id,
                         FirstName = s.FirstName,
@@ -224,7 +223,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 return dbContext.Clinic_Patients
                     .Where(p => p.UserId == userId)
                     .Where(p => filter.MedicalInsuranceId == null | p.MedicalPlan.MedicalInsuranceId == filter.MedicalInsuranceId)
-                    .ToList()
                     .Select(s => new PatientDto
                     {
                         Id = s.Id,

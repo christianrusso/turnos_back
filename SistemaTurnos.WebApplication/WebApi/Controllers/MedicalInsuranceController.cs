@@ -47,7 +47,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 return dbContext.Clinic_MedicalInsurances
                     .Where(s => s.UserId == userId)
-                    .ToList()
                     .Select(s => new MedicalInsuranceDto {
                         Id = s.Id,
                         Description = s.Data.Description
@@ -64,12 +63,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 return dbContext.Clinic_MedicalInsurances
                     .Where(s => s.UserId == userId)
-                    .ToList()
                     .Select(s => new SelectOptionDto
                     {
                         Id = s.Id.ToString(),
                         Text = s.Data.Description,
                     })
+                    .ToList()
                     .Prepend(new SelectOptionDto { Id = "-1", Text = "Todas" })
                     .ToList();
             }

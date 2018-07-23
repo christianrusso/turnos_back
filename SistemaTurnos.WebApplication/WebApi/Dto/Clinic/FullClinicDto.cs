@@ -27,6 +27,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Clinic
 
         public List<string> MedicalInsurances { get; set; }
 
+        public List<string> MedicalPlans { get; set; }
+
         public double Score { get; set; }
 
         public int ScoreQuantity { get; set; }
