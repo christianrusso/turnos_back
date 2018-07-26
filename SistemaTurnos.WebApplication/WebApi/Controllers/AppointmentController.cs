@@ -7,7 +7,9 @@ using SistemaTurnos.WebApplication.Database;
 using SistemaTurnos.WebApplication.Database.ClinicModel;
 using SistemaTurnos.WebApplication.Database.Enums;
 using SistemaTurnos.WebApplication.Database.Model;
+using SistemaTurnos.WebApplication.Email;
 using SistemaTurnos.WebApplication.WebApi.Authorization;
+using SistemaTurnos.WebApplication.WebApi.Dto;
 using SistemaTurnos.WebApplication.WebApi.Dto.Appointment;
 using SistemaTurnos.WebApplication.WebApi.Exceptions;
 using System;
@@ -325,6 +327,93 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = Roles.AdministratorAndEmployee)]
+        public void CancelAppointmentByClinic([FromBody] CancelAppointmentDto cancelAppointmentDto)
+        {
+            var emailMessage = new EmailMessage();
+
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = GetUserId();
+
+                var appointment = dbContext.Clinic_Appointments.FirstOrDefault(a => a.Id == cancelAppointmentDto.Id && a.UserId == userId);
+
+                if (appointment == null)
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                var clinic = dbContext.Clinics.FirstOrDefault(c => c.UserId == userId);
+
+                if (clinic == null)
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+                
+                var maxCancelDateTime = appointment.DateTime.AddHours(-24);
+
+                if (DateTime.Now >= maxCancelDateTime)
+                {
+                    throw new BadRequestException(ExceptionMessages.AppointmentCantBeCanceled);
+                }
+
+                emailMessage = new EmailMessage
+                {
+                    Subject = $"{clinic.Name} - Cancelacion de turno",
+                    To = new List<string> { appointment.Patient.Client.User.Email },
+                    Message = cancelAppointmentDto.Comment
+                };
+
+                appointment.State = AppointmentStateEnum.Cancelled;
+                dbContext.SaveChanges();
+            }
+
+            EmailSender.Send(emailMessage);
+        }
+
+        [HttpPost]
+        public void CompleteAppointmentByClinic([FromBody] IdDto completeAppointmentDto)
+        {
+            var emailMessage = new EmailMessage();
+
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = GetUserId();
+
+                var appointment = dbContext.Clinic_Appointments.FirstOrDefault(a => a.Id == completeAppointmentDto.Id && a.UserId == userId);
+                var clinic = dbContext.Clinics.FirstOrDefault(c => c.UserId == appointment.UserId);
+
+                if (appointment == null)
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                if (appointment.DateTime > DateTime.Now)
+                {
+                    throw new BadRequestException(ExceptionMessages.AppointmentCantBeCompleted);
+                }
+
+                if (clinic == null)
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                appointment.State = AppointmentStateEnum.Completed;
+
+                emailMessage = new EmailMessage
+                {
+                    Subject = "Turno completado",
+                    To = new List<string> { appointment.Patient.Client.User.Email, clinic.User.Email },
+                    Message = $"Se ha completado el turno numero {appointment.Id}."
+                };
+
+                dbContext.SaveChanges();
+            }
+
+            EmailSender.Send(emailMessage);
+        }
+
+        [HttpPost]
         public void CancelAppointment([FromBody] CancelAppointmentDto cancelAppointmentDto)
         {
             using (var dbContext = new ApplicationDbContext())
@@ -346,6 +435,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 }
 
                 appointment.State = AppointmentStateEnum.Cancelled;
+
                 dbContext.SaveChanges();
             }
         }
@@ -353,11 +443,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public void CompleteAppointment([FromBody] CompleteAppointmentDto completeAppointmentDto)
         {
+            var emailMessage = new EmailMessage();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = GetUserId();
 
                 var appointment = dbContext.Clinic_Appointments.FirstOrDefault(a => a.Id == completeAppointmentDto.Id && a.UserId == userId);
+                var clinic = dbContext.Clinics.FirstOrDefault(c => c.UserId == appointment.UserId);
 
                 if (appointment == null)
                 {
@@ -369,18 +462,32 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException(ExceptionMessages.AppointmentCantBeCompleted);
                 }
 
+                if (clinic == null)
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
                 appointment.State = AppointmentStateEnum.Completed;
+
+                emailMessage = new EmailMessage
+                {
+                    Subject = "Turno completado",
+                    To = new List<string> { appointment.Patient.Client.User.Email, clinic.User.Email },
+                    Message = $"Se ha completado el turno numero {appointment.Id}."
+                };
 
                 appointment.Rating = new Clinic_Rating
                 {
                     AppointmentId = appointment.Id,
                     Score = completeAppointmentDto.Score,
                     Comment = completeAppointmentDto.Comment,
-                    UserId = GetUserId()
+                    UserId = userId
                 };
 
                 dbContext.SaveChanges();
             }
+
+            EmailSender.Send(emailMessage);
         }
 
         [HttpPost]
@@ -410,6 +517,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                             .Where(a => a.DateTime.Date == filter.Day.Date)
                             .Where(a => a.DateTime.Hour == hour)
                             .Select(a => new AppointmentDto {
+                                Id = a.Id,
                                 Hour = a.DateTime,
                                 Patient = patients.FirstOrDefault(p => p.Id == a.PatientId)?.FullName ?? string.Empty
                             })

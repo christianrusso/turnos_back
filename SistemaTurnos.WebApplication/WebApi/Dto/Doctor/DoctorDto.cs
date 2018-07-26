@@ -25,7 +25,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Doctor
 
         public uint ConsultationLength { get; set; }
 
-        public string State { get; set; }
+        public bool State { get; set; }
 
         public List<WorkingHoursDto> WorkingHours { get; set; }
 

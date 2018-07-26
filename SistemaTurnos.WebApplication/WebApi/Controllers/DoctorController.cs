@@ -114,6 +114,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpGet]
         public List<DoctorDto> GetAll()
         {
+            var now = DateTime.Now;
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = GetUserId();
@@ -131,8 +133,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         SubspecialtyId = d.SubspecialtyId,
                         SubspecialtyDescription = d.Subspecialty != null ? d.Subspecialty.Data.Description : "Ninguna",
                         ConsultationLength = d.ConsultationLength,
-                        State = d.State.GetEnumDescription(),
-                        WorkingHours = d.WorkingHours.Select(wh => new WorkingHoursDto { DayNumber = wh.DayNumber, Start = wh.Start, End = wh.End }).ToList(),
+                        State = d.WorkingHours.Any(wh => wh.DayNumber == now.DayOfWeek && wh.Start >= now.TimeOfDay && now.TimeOfDay <= wh.End),
+                        WorkingHours = d.WorkingHours.Select(wh => new WorkingHoursDto { DayNumber = wh.DayNumber, Start = wh.Start, End = wh.End }).OrderBy(wh => wh.DayNumber).ToList(),
                         Appointments = d.Appointments.OrderBy(a => a.DateTime).Take(10).Select(a => a.DateTime).ToList()
                     }).ToList();
             }
@@ -159,6 +161,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public List<DoctorDto> GetByFilter([FromBody] FilterDoctorDto filter)
         {
+            var now = DateTime.Now;
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = GetUserId();
@@ -181,8 +185,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         SubspecialtyId = d.SubspecialtyId,
                         SubspecialtyDescription = d.Subspecialty != null ? d.Subspecialty.Data.Description : "Ninguna",
                         ConsultationLength = d.ConsultationLength,
-                        State = d.State.GetEnumDescription(),
-                        WorkingHours = d.WorkingHours.Select(wh => new WorkingHoursDto { DayNumber = wh.DayNumber, Start = wh.Start, End = wh.End }).ToList(),
+                        State = d.WorkingHours.Any(wh => wh.DayNumber == now.DayOfWeek && wh.Start <= now.TimeOfDay && now.TimeOfDay <= wh.End),
+                        WorkingHours = d.WorkingHours.Select(wh => new WorkingHoursDto { DayNumber = wh.DayNumber, Start = wh.Start, End = wh.End }).OrderBy(wh => wh.DayNumber).ToList(),
                         Appointments = d.Appointments.OrderBy(a => a.DateTime).Take(10).Select(a => a.DateTime).ToList()
                     }).ToList();
             }
