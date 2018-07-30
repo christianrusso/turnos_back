@@ -519,7 +519,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                             .Select(a => new AppointmentDto {
                                 Id = a.Id,
                                 Hour = a.DateTime,
-                                Patient = patients.FirstOrDefault(p => p.Id == a.PatientId)?.FullName ?? string.Empty
+                                Patient = patients.FirstOrDefault(p => p.Id == a.PatientId)?.FullName ?? string.Empty,
+                                State = (int) a.State
                             })
                             .OrderBy(a => a.Hour.Minute)
                             .ToList()

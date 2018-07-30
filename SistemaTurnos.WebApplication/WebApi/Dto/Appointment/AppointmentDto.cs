@@ -9,5 +9,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Appointment
         public DateTime Hour { get; set; }
 
         public string Patient { get; set; }
+
+        public int State { get; set; }
     }
 }
