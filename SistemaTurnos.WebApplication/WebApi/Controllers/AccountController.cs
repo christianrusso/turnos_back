@@ -66,14 +66,19 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                if (_userManager.IsInRoleAsync(appUser, Roles.Employee).Result)
+                if (!_userManager.IsInRoleAsync(appUser, Roles.Client).Result)
                 {
-                    var employee = dbContext.Clinic_Employees.FirstOrDefault(e => e.UserId == appUser.Id);
-                    userId = employee.OwnerUserId;
-                }
+                    // Es una clinica o un empleado de la clinica
+                    if (_userManager.IsInRoleAsync(appUser, Roles.Employee).Result)
+                    {
+                        var employee = dbContext.Clinic_Employees.FirstOrDefault(e => e.UserId == appUser.Id);
+                        userId = employee.OwnerUserId;
+                    }
 
-                var clinic = dbContext.Clinics.FirstOrDefault(c => c.UserId == userId);
-                logo = clinic.Logo;
+                    var clinic = dbContext.Clinics.FirstOrDefault(c => c.UserId == userId);
+                    logo = clinic.Logo;
+                }
+                
             }
                 
             ValidTokens.Add($"{JwtBearerDefaults.AuthenticationScheme} {token}", userId);
