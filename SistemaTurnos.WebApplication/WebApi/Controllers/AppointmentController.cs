@@ -594,6 +594,39 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             return res;
         }
 
+        [HttpPost]
+        public List<AppointmentsPerDayDto> GetAvailableAppointmentsPerDay([FromBody] FilterWeekAppointmentDto filter)
+        {
+            var res = new List<AppointmentsPerDayDto>();
+
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = GetUserId();
+
+                var doctors = dbContext.Clinic_Doctors
+                    .Where(d => d.UserId == userId)
+                    .Where(d => !filter.DoctorId.HasValue || d.Id == filter.DoctorId)
+                    .Where(d => !filter.SubSpecialtyId.HasValue || d.SubspecialtyId == filter.SubSpecialtyId)
+                    .Where(d => !filter.SpecialtyId.HasValue || d.SpecialtyId == filter.SpecialtyId)
+                    .ToList();
+
+                for (var date = filter.StartDate.Date; date <= filter.EndDate.Date; date = date.AddDays(1))
+                {
+                    var day = new AppointmentsPerDayDto { Day = date, AvailableAppointments = 0 };
+
+                    foreach (var doctor in doctors)
+                    {
+                        var availableAppointments = GetAllAvailablesForDay(dbContext, date, doctor);
+                        day.AvailableAppointments += availableAppointments.Count;
+                    }
+
+                    res.Add(day);
+                }
+            }
+
+            return res;
+        }
+
         private List<DateTime> GetAllAvailablesForDay(ApplicationDbContext dbContext, DateTime day, Clinic_Doctor doctor)
         {
             var availableAppointments = doctor.GetAvailableAppointmentsForDay(day);
