@@ -77,5 +77,18 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     .ToList();
             }
         }
+
+        [HttpPost]
+        public List<SelectOptionDto> GetCitiesForSelect()
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                return dbContext.Cities.Select(c => new SelectOptionDto
+                {
+                    Id = c.Id.ToString(),
+                    Text = c.Name
+                }).ToList();
+            }
+        }
     }
 }
