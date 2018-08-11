@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SistemaTurnos.WebApplication.Database.Model;
+using SistemaTurnos.WebApplication.Database.ModelData;
 
 namespace SistemaTurnos.WebApplication.Database.ClinicModel
 {
@@ -17,9 +18,6 @@ namespace SistemaTurnos.WebApplication.Database.ClinicModel
         public string Description { get; set; }
 
         [Required]
-        public string City { get; set; }
-
-        [Required]
         public string Address { get; set; }
 
         public double Latitude { get; set; }
@@ -27,6 +25,11 @@ namespace SistemaTurnos.WebApplication.Database.ClinicModel
         public double Longitude { get; set; }
 
         public string Logo { get; set; }
+
+        [Required]
+        public int CityId { get; set; }
+
+        public virtual City City { get; set; }
 
         [Required]
         public int UserId { get; set; }

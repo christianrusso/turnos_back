@@ -195,11 +195,18 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new ApplicationException(ExceptionMessages.InternalServerError);
                 }
 
+                var cityData = dbContext.Cities.FirstOrDefault(c => c.Name == city);
+
+                if (cityData == null)
+                {
+                    cityData = CreateCity(city);
+                }
+
                 clinic = new Clinic
                 {
                     Name = name,
                     Description = description,
-                    City = city,
+                    City = cityData,
                     Address = address,
                     Latitude = latitude,
                     Longitude = longitude,
@@ -212,6 +219,24 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
 
             return clinic;
+        }
+
+        private City CreateCity(string cityName)
+        {
+            City city;
+
+            using (var dbContext = new ApplicationDbContext())
+            {
+                city = new City
+                {
+                    Name = cityName
+                };
+
+                dbContext.Cities.Add(city);
+                dbContext.SaveChanges();
+            }
+
+            return city;
         }
 
         private Clinic_Specialty CreateSpecialty(string description, Clinic clinic)

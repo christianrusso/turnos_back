@@ -74,5 +74,17 @@ namespace SistemaTurnos.WebApplication.Database.ClinicModel
 
             return allAppointments;
         }
+
+        public List<DateTime> GetAllAvailablesForDay(DateTime day)
+        {
+            var availableAppointments = GetAvailableAppointmentsForDay(day);
+
+            foreach (var appointment in Appointments)
+            {
+                availableAppointments.Remove(appointment.DateTime);
+            }
+
+            return availableAppointments;
+        }
     }
 }

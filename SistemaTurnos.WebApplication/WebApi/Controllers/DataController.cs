@@ -28,14 +28,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
-        public List<SelectOptionDto> GetSubspecialtiesForSelect([FromBody] IdDto specialtyFilter)
+        public List<SelectOptionDto> GetSubspecialtiesForSelect([FromBody] OptionalIdDto specialtyFilter)
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var specialty = dbContext.Clinic_Specialties.FirstOrDefault(s => s.Id == specialtyFilter.Id);
-
                 return dbContext.Subspecialties
-                    .Where(ssp => ssp.SpecialtyDataId == specialty.Data.Id)
+                    .Where(ssp => !specialtyFilter.Id.HasValue || ssp.SpecialtyDataId == specialtyFilter.Id)
                     .Select(s => new SelectOptionDto
                     {
                         Id = s.Id.ToString(),
@@ -61,14 +59,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
-        public List<SelectOptionDto> GetMedicalPlansForSelect([FromBody] IdDto medicalInsuranceFilter)
+        public List<SelectOptionDto> GetMedicalPlansForSelect([FromBody] OptionalIdDto medicalInsuranceFilter)
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var medicalInsurance = dbContext.Clinic_MedicalInsurances.FirstOrDefault(mi => mi.Id == medicalInsuranceFilter.Id);
-
                 return dbContext.MedicalPlans
-                    .Where(mp => mp.MedicalInsuranceDataId == medicalInsurance.Data.Id)
+                    .Where(mp => medicalInsuranceFilter.Id.HasValue || mp.MedicalInsuranceDataId == medicalInsuranceFilter.Id)
                     .Select(mp => new SelectOptionDto
                     {
                         Id = mp.Id.ToString(),

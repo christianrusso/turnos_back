@@ -51,7 +51,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var res = new List<DateTime>();
                 for (int i = 0; i < 15; i++)
                 {
-                    foreach (var datetime in GetAllAvailablesForDay(dbContext, getAppointmentDto.Day.AddDays(i), doctor))
+                    foreach (var datetime in doctor.GetAllAvailablesForDay(getAppointmentDto.Day.AddDays(i)))
                     {
                         res.Add(datetime);
                     }
@@ -76,7 +76,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException(ExceptionMessages.BadRequest);
                 }
 
-                return GetAllAvailablesForDay(dbContext, getAppointmentDto.Day, doctor);
+                return doctor.GetAllAvailablesForDay(getAppointmentDto.Day);
             }
         }
 
@@ -156,7 +156,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.Clinic_Patients.Add(patient);
                 dbContext.SaveChanges();
 
-                var availableAppointments = GetAllAvailablesForDay(dbContext, requestAppointmentDto.Day.Date, doctor);
+                var availableAppointments = doctor.GetAllAvailablesForDay(requestAppointmentDto.Day.Date);
 
                 var appointment = new DateTime(
                         requestAppointmentDto.Day.Year,
@@ -239,7 +239,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     dbContext.Clinic_Patients.Add(patient);
                 }
 
-                var availableAppointments = GetAllAvailablesForDay(dbContext, requestAppointmentDto.Day.Date, doctor);
+                var availableAppointments = doctor.GetAllAvailablesForDay(requestAppointmentDto.Day.Date);
 
                 var appointment = new DateTime(
                         requestAppointmentDto.Day.Year,
@@ -296,7 +296,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException(ExceptionMessages.BadRequest);
                 }
 
-                var availableAppointments = GetAllAvailablesForDay(dbContext, requestAppointmentDto.Day.Date, doctor);
+                var availableAppointments = doctor.GetAllAvailablesForDay(requestAppointmentDto.Day.Date);
 
                 var appointment = new DateTime(
                         requestAppointmentDto.Day.Year,
@@ -616,7 +616,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                     foreach (var doctor in doctors)
                     {
-                        var availableAppointments = GetAllAvailablesForDay(dbContext, date, doctor);
+                        var availableAppointments = doctor.GetAllAvailablesForDay(date);
                         day.AvailableAppointments += availableAppointments.Count;
                     }
 
@@ -625,18 +625,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
 
             return res;
-        }
-
-        private List<DateTime> GetAllAvailablesForDay(ApplicationDbContext dbContext, DateTime day, Clinic_Doctor doctor)
-        {
-            var availableAppointments = doctor.GetAvailableAppointmentsForDay(day);
-
-            foreach (var appointment in doctor.Appointments)
-            {
-                availableAppointments.Remove(appointment.DateTime);
-            }
-
-            return availableAppointments;
         }
 
         private int GetUserId()

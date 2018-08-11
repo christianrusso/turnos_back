@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SistemaTurnos.WebApplication.WebApi.Dto.Clinic
 {
@@ -12,12 +13,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Clinic
 
         public List<int> MedicalPlans { get; set; }
 
-        public List<string> Cities { get; set; }
+        public List<int> Cities { get; set; }
 
         public GeoLocationDto Location { get; set; }
 
         public double? Score { get; set; }
 
         public int? ScoreQuantity { get; set; }
+
+        public DateTime? AvailableAppointmentDate { get; set; }
     }
 }

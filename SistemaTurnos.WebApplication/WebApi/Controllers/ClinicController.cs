@@ -58,7 +58,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 // Filtro por ciudad
                 var clinics = dbContext.Clinics
-                    .Where(c => !filterDto.Cities.Any() || filterDto.Cities.Any(city => c.City == city))
+                    .Where(c => !filterDto.Cities.Any() || filterDto.Cities.Any(city => c.CityId == city))
                     .ToList();
                     
                 var filteredClinics = new List<Clinic>();
@@ -160,13 +160,42 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                     if (filtered) continue;
 
+                    // Filtro por las que tienen algun turno disponible en el dia especificado
+                    if (filterDto.AvailableAppointmentDate.HasValue)
+                    {
+                        var doctors = dbContext.Clinic_Doctors
+                            .Where(d => d.UserId == userId)
+                            .Where(d => !filterDto.Specialties.Any() || filterDto.Specialties.Any(s => s == d.Specialty.DataId))
+                            .Where(d => !filterDto.Subspecialties.Any() || filterDto.Subspecialties.Any(ss => ss == d.Subspecialty.DataId))
+                            .ToList();
+
+                        var hasAppointmentAvailable = false;
+
+                        foreach (var doctor in doctors)
+                        {
+                            if (doctor.GetAllAvailablesForDay(filterDto.AvailableAppointmentDate.Value).Any())
+                            {
+                                hasAppointmentAvailable = true;
+                                break;
+                            }
+                        }
+
+                        if (!hasAppointmentAvailable)
+                        {
+                            filtered = true;
+                        }
+
+                        if (filtered) continue;
+                    }
+
+
                     // La clinica paso todos los filtros y la agrego al resultado
                     res.Add(new FullClinicDto
                     {
                         ClinicId = clinic.Id,
                         Name = clinic.Name,
                         Description = clinic.Description,
-                        City = clinic.City,
+                        City = clinic.City.Name,
                         Address = clinic.Address,
                         Latitude = clinic.Latitude,
                         Longitude = clinic.Longitude,

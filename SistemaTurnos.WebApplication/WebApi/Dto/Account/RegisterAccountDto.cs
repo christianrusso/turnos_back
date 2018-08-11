@@ -18,7 +18,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Account
         public string Description { get; set; }
         
         [Required]
-        public string City { get; set; }
+        public int City { get; set; }
         
         [Required]
         public string Address { get; set; }
