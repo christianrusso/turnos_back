@@ -206,7 +206,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 {
                     Name = name,
                     Description = description,
-                    City = cityData,
+                    CityId = cityData.Id,
                     Address = address,
                     Latitude = latitude,
                     Longitude = longitude,
