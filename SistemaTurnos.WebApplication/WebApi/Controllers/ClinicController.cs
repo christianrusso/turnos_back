@@ -1,11 +1,15 @@
 ﻿using GeoCoordinatePortable;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SistemaTurnos.WebApplication.Database;
 using SistemaTurnos.WebApplication.Database.ClinicModel;
+using SistemaTurnos.WebApplication.WebApi.Authorization;
 using SistemaTurnos.WebApplication.WebApi.Dto.Clinic;
 using SistemaTurnos.WebApplication.WebApi.Dto.Rating;
+using SistemaTurnos.WebApplication.WebApi.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,6 +20,52 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
     [EnableCors("AnyOrigin")]
     public class ClinicController : Controller
     {
+        [HttpPost]
+        [Authorize(Roles = Roles.AdministratorAndEmployee)]
+        public void UpdateOpenCloseHours([FromBody] ClinicOpenCloseHoursDto hoursDto)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = GetUserId();
+
+                Clinic clinicToUpdate = dbContext.Clinics.FirstOrDefault(c => c.Id == hoursDto.ClinicId && c.UserId == userId);
+
+                if (clinicToUpdate == null)
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                // Valido los datos de los horarios
+                var openCloseHours = hoursDto.OpenCloseHours.OrderBy(wh => wh.DayNumber).ThenBy(wh => wh.Start).ToList();
+
+                int previousDayNumber = -1;
+
+                foreach (var och in openCloseHours)
+                {
+                    if (((int) och.DayNumber) <= previousDayNumber || och.Start > och.End)
+                    {
+                        throw new BadRequestException(ExceptionMessages.BadRequest);
+                    }
+
+                    previousDayNumber = (int)och.DayNumber;
+                }
+
+                clinicToUpdate.OpenCloseHours.ForEach(och => dbContext.Entry(och).State = EntityState.Deleted);
+
+                var newOpenCloseHours = hoursDto.OpenCloseHours.Select(wh => new Clinic_OpenCloseHours
+                {
+                    DayNumber = wh.DayNumber,
+                    Start = wh.Start,
+                    End = wh.End
+                }).ToList();
+
+                clinicToUpdate.OpenCloseHours = newOpenCloseHours;
+
+                dbContext.SaveChanges();
+            }
+        }
+
+
         [HttpPost]
         public List<ClinicDto> GetAllInRadius([FromBody] GeoLocationDto geoLocation)
         {
@@ -207,12 +257,25 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         Subspecialties = subspecialties.Select(sp => sp.Data.Description).ToList(),
                         MedicalInsurances = medicalInsurances.Select(mi => mi.Data.Description).ToList(),
                         MedicalPlans = medicalPlans.Select(mp => mp.Data.Description).ToList(),
-                        Logo = clinic.Logo
+                        Logo = clinic.Logo,
+                        OpenCloseHours = clinic.OpenCloseHours.Select(och => new OpenCloseHoursDto { DayNumber = och.DayNumber, Start = och.Start, End = och.End }).ToList()
                     });
                 }
             }
 
             return res.OrderByDescending(c => c.Score).ToList();
+        }
+
+        private int GetUserId()
+        {
+            int? userId = (int?)HttpContext.Items["userId"];
+
+            if (!userId.HasValue)
+            {
+                throw new ApplicationException(ExceptionMessages.InternalServerError);
+            }
+
+            return userId.Value;
         }
     }
 }

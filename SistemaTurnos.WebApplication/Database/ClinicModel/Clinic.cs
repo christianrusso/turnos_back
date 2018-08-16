@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SistemaTurnos.WebApplication.Database.Model;
 using SistemaTurnos.WebApplication.Database.ModelData;
@@ -30,6 +31,8 @@ namespace SistemaTurnos.WebApplication.Database.ClinicModel
         public int CityId { get; set; }
 
         public virtual City City { get; set; }
+
+        public virtual List<Clinic_OpenCloseHours> OpenCloseHours { get; set; }
 
         [Required]
         public int UserId { get; set; }
