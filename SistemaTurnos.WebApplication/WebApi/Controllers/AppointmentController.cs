@@ -21,7 +21,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
     [Route("Api/[controller]/[action]")]
     [Produces("application/json")]
     [EnableCors("AnyOrigin")]
-    [Authorize]
     public class AppointmentController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -34,6 +33,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public List<DateTime> GetAllAvailablesFromDay([FromBody] GetAppointmentDto getAppointmentDto)
         {
             using (var dbContext = new ApplicationDbContext())
@@ -62,6 +62,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public List<DateTime> GetAllAvailablesForDay([FromBody] GetAppointmentDto getAppointmentDto)
         {
             using (var dbContext = new ApplicationDbContext())
@@ -81,6 +82,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public void RequestAppointmentForNonClient([FromBody] RequestAppointmentForNonClientDto requestAppointmentDto)
         {
             using (var dbContext = new ApplicationDbContext())
@@ -372,6 +374,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public void CompleteAppointmentByClinic([FromBody] IdDto completeAppointmentDto)
         {
             var emailMessage = new EmailMessage();
@@ -414,6 +417,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public void CancelAppointment([FromBody] CancelAppointmentDto cancelAppointmentDto)
         {
             using (var dbContext = new ApplicationDbContext())
@@ -441,6 +445,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public void CompleteAppointment([FromBody] CompleteAppointmentDto completeAppointmentDto)
         {
             var emailMessage = new EmailMessage();
@@ -491,6 +496,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public List<RequestedAppointmentsByDoctorDto> GetRequestedAppointmentsByFilter([FromBody] FilterRequestedAppointmentDto filter)
         {
             using (var dbContext = new ApplicationDbContext())
@@ -535,6 +541,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public List<DayDto> GetWeek([FromBody] FilterWeekAppointmentDto filter)
         {
             // Tengo que devolver una lista con todos los dias entre la fecha desde y la fecha hasta
@@ -595,16 +602,16 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
-        public List<AppointmentsPerDayDto> GetAvailableAppointmentsPerDay([FromBody] FilterWeekAppointmentDto filter)
+        public List<AppointmentsPerDayDto> GetAvailableAppointmentsPerDay([FromBody] FilterAvailableAppointmentDto filter)
         {
             var res = new List<AppointmentsPerDayDto>();
 
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = filter.ClinicId.HasValue ? dbContext.Clinics.Where(c => c.Id == filter.ClinicId).Select(c => c.UserId).First() : -1;
 
                 var doctors = dbContext.Clinic_Doctors
-                    .Where(d => d.UserId == userId)
+                    .Where(d => !filter.ClinicId.HasValue || d.UserId == userId)
                     .Where(d => !filter.DoctorId.HasValue || d.Id == filter.DoctorId)
                     .Where(d => !filter.SubSpecialtyId.HasValue || d.SubspecialtyId == filter.SubSpecialtyId)
                     .Where(d => !filter.SpecialtyId.HasValue || d.SpecialtyId == filter.SpecialtyId)
