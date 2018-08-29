@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using SistemaTurnos.WebApplication.Database;
 using SistemaTurnos.WebApplication.Database.ClinicModel;
 using SistemaTurnos.WebApplication.WebApi.Authorization;
+using SistemaTurnos.WebApplication.WebApi.Dto;
 using SistemaTurnos.WebApplication.WebApi.Dto.Clinic;
 using SistemaTurnos.WebApplication.WebApi.Dto.Rating;
 using SistemaTurnos.WebApplication.WebApi.Exceptions;
@@ -64,7 +65,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.SaveChanges();
             }
         }
-
 
         [HttpPost]
         public List<ClinicDto> GetAllInRadius([FromBody] GeoLocationDto geoLocation)
@@ -264,6 +264,28 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
 
             return res.OrderByDescending(c => c.Score).ToList();
+        }
+
+        [HttpPost]
+        public bool IsPatientOfClinic([FromBody] IdDto idDto)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = GetUserId();
+
+                var clinic = dbContext.Clinics.FirstOrDefault(c => c.Id == idDto.Id);
+
+                if (clinic == null)
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                var client = dbContext.Clinic_Clients.FirstOrDefault(c => c.UserId == userId);
+
+                var patient = client.Patients.FirstOrDefault(p => p.UserId == clinic.UserId);
+
+                return patient != null;
+            }
         }
 
         private int GetUserId()
