@@ -267,6 +267,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = Roles.Client)]
         public bool IsPatientOfClinic([FromBody] IdDto idDto)
         {
             using (var dbContext = new ApplicationDbContext())
