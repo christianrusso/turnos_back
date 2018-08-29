@@ -224,22 +224,24 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 var patient = dbContext.Clinic_Patients.FirstOrDefault(p => p.ClientId == client.Id && p.UserId == userId);
 
-                if (patient == null)
+                if (patient != null)
                 {
-                    patient = new Clinic_Patient
-                    {
-                        FirstName = requestAppointmentDto.FirstName,
-                        LastName = requestAppointmentDto.LastName,
-                        Address = requestAppointmentDto.Address,
-                        PhoneNumber = requestAppointmentDto.PhoneNumber,
-                        Dni = requestAppointmentDto.Dni,
-                        UserId = userId,
-                        ClientId = requestAppointmentDto.ClientId,
-                        MedicalPlanId = requestAppointmentDto.MedicalPlanId
-                    };
-
-                    dbContext.Clinic_Patients.Add(patient);
+                    throw new ApplicationException(ExceptionMessages.BadRequest);
                 }
+
+                patient = new Clinic_Patient
+                {
+                    FirstName = requestAppointmentDto.FirstName,
+                    LastName = requestAppointmentDto.LastName,
+                    Address = requestAppointmentDto.Address,
+                    PhoneNumber = requestAppointmentDto.PhoneNumber,
+                    Dni = requestAppointmentDto.Dni,
+                    UserId = userId,
+                    ClientId = requestAppointmentDto.ClientId,
+                    MedicalPlanId = requestAppointmentDto.MedicalPlanId
+                };
+
+                dbContext.Clinic_Patients.Add(patient);
 
                 var availableAppointments = doctor.GetAllAvailablesForDay(requestAppointmentDto.Day.Date);
 
@@ -322,6 +324,163 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     State = AppointmentStateEnum.Reserved,
                     PatientId = patient.Id,
                     UserId = userId
+                });
+
+                dbContext.SaveChanges();
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = Roles.Client)]
+        public void RequestAppointmentByClient([FromBody] RequestAppointmentByClientDto requestAppointmentDto)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = GetUserId();
+
+                if (requestAppointmentDto.Day.Date < DateTime.Today.Date)
+                {
+                    throw new BadRequestException(ExceptionMessages.AppointmentCantBeRequested);
+                }
+
+                var clinic = dbContext.Clinics.FirstOrDefault(c => c.Id == requestAppointmentDto.ClinicId);
+
+                if (clinic == null)
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                var doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == requestAppointmentDto.DoctorId && d.UserId == clinic.UserId);
+
+                if (doctor == null)
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                var client = dbContext.Clinic_Clients.FirstOrDefault(c => c.UserId == userId);
+
+                if (client == null)
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                var medicalPlan = dbContext.Clinic_MedicalPlans.FirstOrDefault(mp => mp.Id == requestAppointmentDto.MedicalPlanId && mp.UserId == clinic.UserId);
+
+                if (medicalPlan == null)
+                {
+                    throw new ApplicationException(ExceptionMessages.BadRequest);
+                }
+
+                var patient = dbContext.Clinic_Patients.FirstOrDefault(p => p.ClientId == client.Id && p.UserId == clinic.UserId);
+
+                if (patient != null)
+                {
+                    throw new ApplicationException(ExceptionMessages.BadRequest);
+                }
+
+                patient = new Clinic_Patient
+                {
+                    FirstName = requestAppointmentDto.FirstName,
+                    LastName = requestAppointmentDto.LastName,
+                    Address = requestAppointmentDto.Address,
+                    PhoneNumber = requestAppointmentDto.PhoneNumber,
+                    Dni = requestAppointmentDto.Dni,
+                    UserId = clinic.UserId,
+                    ClientId = client.Id,
+                    MedicalPlanId = requestAppointmentDto.MedicalPlanId
+                };
+
+                dbContext.Clinic_Patients.Add(patient);
+
+                var availableAppointments = doctor.GetAllAvailablesForDay(requestAppointmentDto.Day.Date);
+
+                var appointment = new DateTime(
+                        requestAppointmentDto.Day.Year,
+                        requestAppointmentDto.Day.Month,
+                        requestAppointmentDto.Day.Day,
+                        requestAppointmentDto.Time.Hour,
+                        requestAppointmentDto.Time.Minute,
+                        requestAppointmentDto.Time.Second
+                    );
+
+                if (!availableAppointments.Contains(appointment))
+                {
+                    throw new BadRequestException(ExceptionMessages.AppointmentAlreadyTaken);
+                }
+
+                dbContext.Clinic_Appointments.Add(new Clinic_Appointment
+                {
+                    DoctorId = requestAppointmentDto.DoctorId,
+                    Doctor = doctor,
+                    DateTime = appointment,
+                    State = AppointmentStateEnum.Reserved,
+                    PatientId = patient.Id,
+                    UserId = clinic.UserId
+                });
+
+                dbContext.SaveChanges();
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = Roles.Client)]
+        public void RequestAppointmentByPatient([FromBody] RequestAppointmentByPatientDto requestAppointmentDto)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = GetUserId();
+
+                if (requestAppointmentDto.Day.Date < DateTime.Today.Date)
+                {
+                    throw new BadRequestException(ExceptionMessages.AppointmentCantBeRequested);
+                }
+
+                var clinic = dbContext.Clinics.FirstOrDefault(c => c.Id == requestAppointmentDto.ClinicId);
+
+                if (clinic == null)
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                var doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == requestAppointmentDto.DoctorId && d.UserId == clinic.UserId);
+
+                if (doctor == null)
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                var client = dbContext.Clinic_Clients.FirstOrDefault(c => c.UserId == userId);
+                var patient = dbContext.Clinic_Patients.FirstOrDefault(p => p.ClientId == client.Id && p.UserId == clinic.UserId);
+
+                if (patient == null)
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                var availableAppointments = doctor.GetAllAvailablesForDay(requestAppointmentDto.Day.Date);
+
+                var appointment = new DateTime(
+                        requestAppointmentDto.Day.Year,
+                        requestAppointmentDto.Day.Month,
+                        requestAppointmentDto.Day.Day,
+                        requestAppointmentDto.Time.Hour,
+                        requestAppointmentDto.Time.Minute,
+                        requestAppointmentDto.Time.Second
+                    );
+
+                if (!availableAppointments.Contains(appointment))
+                {
+                    throw new BadRequestException(ExceptionMessages.AppointmentAlreadyTaken);
+                }
+
+                dbContext.Clinic_Appointments.Add(new Clinic_Appointment
+                {
+                    DoctorId = requestAppointmentDto.DoctorId,
+                    Doctor = doctor,
+                    DateTime = appointment,
+                    State = AppointmentStateEnum.Reserved,
+                    PatientId = patient.Id,
+                    UserId = clinic.UserId
                 });
 
                 dbContext.SaveChanges();
