@@ -62,7 +62,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = Roles.AdministratorAndEmployeeAndClient)]
         public List<DateTime> GetAllAvailablesForDay([FromBody] GetAppointmentDto getAppointmentDto)
         {
             using (var dbContext = new ApplicationDbContext())

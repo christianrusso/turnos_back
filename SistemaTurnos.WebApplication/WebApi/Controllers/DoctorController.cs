@@ -165,9 +165,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                int? userId = GetUserId();
+
+                if(filter.ClinicId != null)
+                    userId = filter.ClinicId;
+                
 
                 return dbContext.Clinic_Doctors
+                    .Where(d => d.UserId == userId)
                     .Where(d => filter.Id == null || d.Id == filter.Id)
                     .Where(d => filter.FullName == null || $"{d.FirstName} {d.LastName}".Contains(filter.FullName) || $"{d.LastName} {d.FirstName}".Contains(filter.FullName))
                     .Where(d => filter.SpecialtyId == null || d.SpecialtyId == filter.SpecialtyId)
