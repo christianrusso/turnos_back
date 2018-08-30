@@ -19,7 +19,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
     [Route("Api/[controller]/[action]")]
     [Produces("application/json")]
     [EnableCors("AnyOrigin")]
-    [Authorize(Roles = Roles.AdministratorAndEmployee)]
+    [Authorize(Roles = Roles.AdministratorAndEmployeeAndClient)]
     public class DoctorController : Controller
     {
         [HttpPost]
@@ -168,7 +168,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var userId = GetUserId();
 
                 return dbContext.Clinic_Doctors
-                    .Where(d => d.UserId == userId)
                     .Where(d => filter.Id == null || d.Id == filter.Id)
                     .Where(d => filter.FullName == null || $"{d.FirstName} {d.LastName}".Contains(filter.FullName) || $"{d.LastName} {d.FirstName}".Contains(filter.FullName))
                     .Where(d => filter.SpecialtyId == null || d.SpecialtyId == filter.SpecialtyId)
