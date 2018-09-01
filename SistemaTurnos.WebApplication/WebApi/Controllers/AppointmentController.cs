@@ -62,13 +62,16 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = Roles.AdministratorAndEmployeeAndClient)]
         public List<DateTime> GetAllAvailablesForDay([FromBody] GetAppointmentDto getAppointmentDto)
         {
             using (var dbContext = new ApplicationDbContext())
             {
+                
+                int? userId = GetUserId();
 
-                var userId = GetUserId();
+                if(getAppointmentDto.ClinicId != null)
+                    userId = getAppointmentDto.ClinicId;
 
                 var doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == getAppointmentDto.DoctorId && d.UserId == userId);
 
