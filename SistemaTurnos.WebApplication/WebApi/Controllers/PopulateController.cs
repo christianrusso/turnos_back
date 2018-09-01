@@ -39,7 +39,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             var clinic2 = CreateClinicUser("clinica2@asd.com", "clinica2@asd.com", "Clinica 2", "Clinica de Moron 1", "Moron", "Yatay 600", -34.6548052, -58.6173822);
             var clinic3 = CreateClinicUser("clinica3@asd.com", "clinica3@asd.com", "Clinica 3", "Clinica de Villa Bosch 2", "Villa Bosch", "Julio Besada 6300", -34.5873598, -58.5852697);
 
-            // Clinica 1
             // Creo empleados
             var employee1 = CreateEmployee("empleado1@asd.com", "empleado1@asd.com", clinic1);
             var employee2 = CreateEmployee("empleado2@asd.com", "empleado2@asd.com", clinic1);
@@ -234,8 +233,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             var patient15 = CreatePatient("Manuela", "Gomez", "qwerty 15", "1000015", medicalPlan18, client15, clinic3);
 
             // Creo turnos
-            DateTime.Today.AddDays(-5).AddHours(8).AddMinutes(30);
-
             var appointment1 = CreateAppointment(DateTime.Today.AddDays(-5).AddHours(8).AddMinutes(30), doctor1, patient1, AppointmentStateEnum.Reserved, null, clinic1);
             var appointment2 = CreateAppointment(DateTime.Today.AddDays(-3).AddHours(10).AddMinutes(30), doctor1, patient2, AppointmentStateEnum.Reserved, null, clinic1);
             var appointment3 = CreateAppointment(DateTime.Today.AddDays(-3).AddHours(12).AddMinutes(0), doctor1, patient3, AppointmentStateEnum.Reserved, null, clinic1);
