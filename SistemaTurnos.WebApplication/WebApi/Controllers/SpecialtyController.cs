@@ -47,8 +47,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                var subspecialties = dbContext.Clinic_Subspecialties.Where(ssp => ssp.UserId == userId).ToList();
-
                 return dbContext.Clinic_Specialties
                     .Where(s => s.UserId == userId)
                     .Select(s => new SpecialtyDto
@@ -56,7 +54,39 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         Id = s.Id,
                         Description = s.Data.Description,
                         Doctors = s.Doctors.Count,
-                        Subspecialties = subspecialties.Where(ssp => ssp.SpecialtyId == s.Id)
+                        Subspecialties = s.Subspecialties
+                            .Select(ssp => new SubspecialtyDto
+                            {
+                                Id = ssp.Id,
+                                Description = ssp.Data.Description,
+                                ConsultationLength = ssp.ConsultationLength
+                            })
+                            .ToList()
+                    })
+                    .ToList();
+            }
+        }
+
+        [HttpPost]
+        public List<SpecialtyDto> GetAllByClinic(IdDto idDto)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var clinic = dbContext.Clinics.FirstOrDefault(c => c.Id == idDto.Id);
+
+                if (clinic == null)
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                return dbContext.Clinic_Specialties
+                    .Where(s => s.UserId == clinic.UserId)
+                    .Select(s => new SpecialtyDto
+                    {
+                        Id = s.Id,
+                        Description = s.Data.Description,
+                        Doctors = s.Doctors.Count,
+                        Subspecialties = s.Subspecialties
                             .Select(ssp => new SubspecialtyDto
                             {
                                 Id = ssp.Id,

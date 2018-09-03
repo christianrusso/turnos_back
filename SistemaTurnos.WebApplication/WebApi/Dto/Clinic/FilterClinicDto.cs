@@ -5,6 +5,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Clinic
 {
     public class FilterClinicDto : BaseDto
     {
+        public int? ClinicId { get; set; }
+
         public List<int> Specialties { get; set; }
     
         public List<int> Subspecialties { get; set; }

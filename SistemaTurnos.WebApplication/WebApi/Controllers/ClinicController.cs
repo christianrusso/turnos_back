@@ -106,8 +106,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                // Filtro por ciudad
+                // Filtro por ciudad y por id
                 var clinics = dbContext.Clinics
+                    .Where(c => !filterDto.ClinicId.HasValue || c.Id == filterDto.ClinicId)
                     .Where(c => !filterDto.Cities.Any() || filterDto.Cities.Any(city => c.CityId == city))
                     .ToList();
                     

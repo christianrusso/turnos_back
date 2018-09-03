@@ -38,6 +38,27 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        [HttpPost]
+        public List<MedicalInsuranceDto> GetAllByClinic(IdDto idDto)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var clinic = dbContext.Clinics.FirstOrDefault(c => c.Id == idDto.Id);
+
+                if (clinic == null)
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                return dbContext.Clinic_MedicalInsurances
+                    .Where(s => s.UserId == clinic.UserId)
+                    .Select(s => new MedicalInsuranceDto {
+                        Id = s.Id,
+                        Description = s.Data.Description
+                    }).ToList();
+            }
+        }
+
         [HttpGet]
         public List<MedicalInsuranceDto> GetAll()
         {
@@ -47,7 +68,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 return dbContext.Clinic_MedicalInsurances
                     .Where(s => s.UserId == userId)
-                    .Select(s => new MedicalInsuranceDto {
+                    .Select(s => new MedicalInsuranceDto
+                    {
                         Id = s.Id,
                         Description = s.Data.Description
                     }).ToList();
