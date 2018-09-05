@@ -19,7 +19,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
     [Route("Api/[controller]/[action]")]
     [Produces("application/json")]
     [EnableCors("AnyOrigin")]
-    [Authorize(Roles = Roles.AdministratorAndEmployee)]
     public class SpecialtyController : Controller
     {
         [HttpPost]
@@ -68,7 +67,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
-        public List<SpecialtyDto> GetAllByClinic(IdDto idDto)
+        public List<SpecialtyDto> GetAllByClinic([FromBody] IdDto idDto)
         {
             using (var dbContext = new ApplicationDbContext())
             {
