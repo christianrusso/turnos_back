@@ -68,7 +68,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
-        public List<SpecialtyDto> GetAllByClinic(IdDto idDto)
+        public List<SpecialtyDto> GetAllByClinic([FromBody] IdDto idDto)
         {
             using (var dbContext = new ApplicationDbContext())
             {

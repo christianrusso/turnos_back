@@ -39,7 +39,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
-        public List<MedicalInsuranceDto> GetAllByClinic(IdDto idDto)
+        public List<MedicalInsuranceDto> GetAllByClinic([FromBody] IdDto idDto)
         {
             using (var dbContext = new ApplicationDbContext())
             {
