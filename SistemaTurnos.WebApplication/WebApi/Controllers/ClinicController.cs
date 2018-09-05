@@ -108,6 +108,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 // Filtro por ciudad y por id
                 var clinics = dbContext.Clinics
+                    .Where(c => !filterDto.ClinicId.HasValue || c.Id == filterDto.ClinicId)
                     .Where(c => !filterDto.Cities.Any() || filterDto.Cities.Any(city => c.CityId == city))
                     .ToList();
                     
@@ -135,12 +136,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 foreach (var clinic in filteredClinics)
                 {
                     var userId = clinic.UserId;
-
-                    // Filtro por id de clinica
-                    if (filterDto.ClinicId.HasValue && clinic.Id != filterDto.ClinicId)
-                    {
-                        continue;
-                    }
 
                     // Filtro por cantidad de puntuaciones
                     var ratings = dbContext.Clinic_Ratings.Where(r => r.UserId == userId).ToList();
