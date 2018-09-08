@@ -802,6 +802,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                         day.Appointments.Add(appointmentInformation);
                     }
+                    res.Add(day);
                 }
             }
 
