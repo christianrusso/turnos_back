@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using SistemaTurnos.WebApplication.WebApi.Dto.Common;
 
 namespace SistemaTurnos.WebApplication.WebApi.Dto.Clinic
 {

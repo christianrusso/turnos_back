@@ -1,5 +1,6 @@
 ﻿using SistemaTurnos.WebApplication.WebApi.Dto.Rating;
 using System.Collections.Generic;
+using SistemaTurnos.WebApplication.WebApi.Dto.Common;
 
 namespace SistemaTurnos.WebApplication.WebApi.Dto.Clinic
 {

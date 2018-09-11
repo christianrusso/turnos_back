@@ -7,12 +7,14 @@ using SistemaTurnos.WebApplication.Database;
 using SistemaTurnos.WebApplication.Database.ClinicModel;
 using SistemaTurnos.WebApplication.WebApi.Authorization;
 using SistemaTurnos.WebApplication.WebApi.Dto;
+using SistemaTurnos.WebApplication.WebApi.Dto.Common;
 using SistemaTurnos.WebApplication.WebApi.Dto.Clinic;
 using SistemaTurnos.WebApplication.WebApi.Dto.Rating;
 using SistemaTurnos.WebApplication.WebApi.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SistemaTurnos.WebApplication.WebApi.Services;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
 {
@@ -21,13 +23,20 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
     [EnableCors("AnyOrigin")]
     public class ClinicController : Controller
     {
+        private BusinessPlaceService _service;
+
+        public ClinicController()
+        {
+            _service = new BusinessPlaceService(this.HttpContext);
+        }
+
         [HttpPost]
         [Authorize(Roles = Roles.AdministratorAndEmployee)]
         public void UpdateOpenCloseHours([FromBody] ClinicOpenCloseHoursDto hoursDto)
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _service.GetUserId();
 
                 Clinic clinicToUpdate = dbContext.Clinics.FirstOrDefault(c => c.Id == hoursDto.ClinicId && c.UserId == userId);
 
@@ -273,7 +282,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _service.GetUserId();
 
                 var clinic = dbContext.Clinics.FirstOrDefault(c => c.Id == idDto.Id);
 
@@ -288,18 +297,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 return patient != null;
             }
-        }
-
-        private int GetUserId()
-        {
-            int? userId = (int?)HttpContext.Items["userId"];
-
-            if (!userId.HasValue)
-            {
-                throw new ApplicationException(ExceptionMessages.InternalServerError);
-            }
-
-            return userId.Value;
         }
     }
 }

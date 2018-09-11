@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace SistemaTurnos.WebApplication.WebApi.Dto.Clinic
+namespace SistemaTurnos.WebApplication.WebApi.Dto.Common
 {
-    public class OpenCloseHoursDto
+    public class WorkingHoursDto
     {
         [Required]
         [Range(0, 6)]

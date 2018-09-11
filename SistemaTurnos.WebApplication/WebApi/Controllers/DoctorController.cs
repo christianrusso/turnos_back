@@ -7,9 +7,11 @@ using SistemaTurnos.WebApplication.Database.ClinicModel;
 using SistemaTurnos.WebApplication.Database.Enums;
 using SistemaTurnos.WebApplication.WebApi.Authorization;
 using SistemaTurnos.WebApplication.WebApi.Dto;
+using SistemaTurnos.WebApplication.WebApi.Dto.Common;
 using SistemaTurnos.WebApplication.WebApi.Dto.Doctor;
 using SistemaTurnos.WebApplication.WebApi.Exceptions;
 using SistemaTurnos.WebApplication.WebApi.Extension;
+using SistemaTurnos.WebApplication.WebApi.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,12 +24,19 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
     [Authorize(Roles = Roles.AdministratorAndEmployeeAndClient)]
     public class DoctorController : Controller
     {
+        private BusinessPlaceService _service;
+
+        public DoctorController()
+        {
+            _service = new BusinessPlaceService(this.HttpContext);
+        }
+
         [HttpPost]
         public void Add([FromBody] AddDoctorDto doctorDto)
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _service.GetUserId();
 
                 ValidateDoctorData(dbContext, userId, doctorDto.SpecialtyId, doctorDto.SubspecialtyId, doctorDto.WorkingHours);
 
@@ -58,7 +67,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _service.GetUserId();
                 var doctorToDelete = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == doctorDto.Id && d.UserId == userId);
 
                 if (doctorToDelete == null)
@@ -78,7 +87,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _service.GetUserId();
 
                 Clinic_Doctor doctorToUpdate = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == doctorDto.Id && d.UserId == userId);
 
@@ -118,7 +127,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _service.GetUserId();
 
                 return dbContext.Clinic_Doctors
                     .Where(d => d.UserId == userId)
@@ -145,7 +154,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _service.GetUserId();
 
                 return dbContext.Clinic_Doctors
                     .Where(d => d.UserId == userId)
@@ -165,7 +174,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                int? userId = GetUserId();
+                int? userId = _service.GetUserId();
 
                 if(filter.ClinicId != null)
                     userId = filter.ClinicId;
@@ -201,7 +210,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _service.GetUserId();
 
                 Clinic_Doctor doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == doctorDto.Id && d.UserId == userId);
 
@@ -220,7 +229,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _service.GetUserId();
 
                 Clinic_Doctor doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == doctorDto.Id && d.UserId == userId);
 
@@ -239,7 +248,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _service.GetUserId();
 
                 Clinic_Doctor doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == doctorDto.Id && d.UserId == userId);
 
@@ -251,18 +260,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 doctor.State = DoctorStateEnum.Vacation;
                 dbContext.SaveChanges();
             }
-        }
-
-        private int GetUserId()
-        {
-            int? userId = (int?)HttpContext.Items["userId"];
-
-            if (!userId.HasValue)
-            {
-                throw new ApplicationException(ExceptionMessages.InternalServerError);
-            }
-
-            return userId.Value;
         }
 
         private void ValidateDoctorData(ApplicationDbContext dbContext, int userId, int specialtyId, int? subSpecialtyId, List<WorkingHoursDto> workingHoursDtos)

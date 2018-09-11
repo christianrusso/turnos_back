@@ -13,6 +13,7 @@ using SistemaTurnos.WebApplication.Database.Model;
 using SistemaTurnos.WebApplication.WebApi.Authorization;
 using SistemaTurnos.WebApplication.WebApi.Dto.Patient;
 using SistemaTurnos.WebApplication.WebApi.Exceptions;
+using SistemaTurnos.WebApplication.WebApi.Services;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
 {
@@ -22,6 +23,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
     [Authorize(Roles = Roles.AdministratorAndEmployee)]
     public class PatientController : Controller
     {
+        private BusinessPlaceService _service;
+
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
 
@@ -29,6 +32,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _service = new BusinessPlaceService(this.HttpContext);
         }
 
         [HttpPost]
@@ -36,7 +40,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _service.GetUserId();
 
                 var client = dbContext.Clinic_Clients.FirstOrDefault(c => c.Id == patientDto.ClientId);
                 
@@ -73,7 +77,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _service.GetUserId();
 
                 var medicalPlan = dbContext.Clinic_MedicalPlans.FirstOrDefault(mp => mp.Id == patientDto.MedicalPlanId);
 
@@ -139,7 +143,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _service.GetUserId();
 
                 return dbContext.Clinic_Patients
                     .Where(p => p.UserId == userId)
@@ -168,7 +172,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _service.GetUserId();
 
                 var patientToDelete = dbContext.Clinic_Patients.FirstOrDefault(p => p.Id == patientDto.Id && p.UserId == userId);
 
@@ -187,7 +191,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _service.GetUserId();
 
                 var patientToUpdate = dbContext.Clinic_Patients.FirstOrDefault(p => p.Id == patientDto.Id && p.UserId == userId);
 
@@ -218,7 +222,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _service.GetUserId();
 
                 return dbContext.Clinic_Patients
                     .Where(p => p.UserId == userId)
@@ -285,18 +289,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 return dbContext.Clinic_Clients.FirstOrDefault(c => c.UserId == appUser.Id);
             }
-        }
-
-        private int GetUserId()
-        {
-            int? userId = (int?)HttpContext.Items["userId"];
-
-            if (!userId.HasValue)
-            {
-                throw new ApplicationException(ExceptionMessages.InternalServerError);
-            }
-
-            return userId.Value;
         }
     }
 }

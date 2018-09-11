@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SistemaTurnos.WebApplication.WebApi.Dto.Common;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace SistemaTurnos.WebApplication.WebApi.Dto.Doctor

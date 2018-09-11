@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SistemaTurnos.WebApplication.Database.ClinicModel;
+using SistemaTurnos.WebApplication.Database.HairdressingModel;
 using SistemaTurnos.WebApplication.Database.Model;
 using SistemaTurnos.WebApplication.Database.ModelData;
 using SistemaTurnos.WebApplication.Database.TypeConfigurations;
 using SistemaTurnos.WebApplication.Database.TypeConfigurations.Clinic;
+using SistemaTurnos.WebApplication.Database.TypeConfigurations.Hairdressing;
 
 namespace SistemaTurnos.WebApplication.Database
 {
@@ -13,7 +15,7 @@ namespace SistemaTurnos.WebApplication.Database
         private const string databaseServer = "localhost";
         private const string databaseName = "sistematurnos";
         private const string databaseUser = "root";
-        private const string databasePass = "1682951";
+        private const string databasePass = "tito1234H6*";
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseLazyLoadingProxies().UseMySql(GetConnectionString());
 
@@ -41,6 +43,19 @@ namespace SistemaTurnos.WebApplication.Database
             modelBuilder.ApplyConfiguration(new Clinic_WorkingHoursTypeConfiguration());
             modelBuilder.ApplyConfiguration(new Clinic_OpenCloseHoursTypeConfiguration());
             modelBuilder.ApplyConfiguration(new ClinicTypeConfiguration());
+
+            // Hairdressing
+            modelBuilder.ApplyConfiguration(new Hairdressing_AppointmentTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new Hairdressing_ClientTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new Hairdressing_ProfessionalTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new Hairdressing_EmployeeTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new Hairdressing_PatientTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new Hairdressing_RatingTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new Hairdressing_SpecialtyTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new Hairdressing_SubspecialtyTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new Hairdressing_WorkingHoursTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new Hairdressing_OpenCloseHoursTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new HairdressingTypeConfiguration());
         }
         
         // Clinic Model
@@ -80,5 +95,28 @@ namespace SistemaTurnos.WebApplication.Database
         public DbSet<MedicalPlanData> MedicalPlans { get; set; }
 
         public DbSet<City> Cities { get; set; }
+
+        // Hairdressing Model
+        public DbSet<Hairdressing_Specialty> Hairdressing_Specialties { get; set; }
+
+        public DbSet<Hairdressing_Patient> Hairdressing_Patients { get; set; }
+
+        public DbSet<Hairdressing_Professional> Hairdressing_Professionals { get; set; }
+
+        public DbSet<Hairdressing_WorkingHours> Hairdressing_WorkingHours { get; set; }
+
+        public DbSet<Hairdressing_Appointment> Hairdressing_Appointments { get; set; }
+
+        public DbSet<Hairdressing_Subspecialty> Hairdressing_Subspecialties { get; set; }
+
+        public DbSet<Hairdressing_Rating> Hairdressing_Ratings { get; set; }
+
+        public DbSet<Hairdressing> Hairdressings { get; set; }
+
+        public DbSet<Hairdressing_Employee> Hairdressing_Employees { get; set; }
+
+        public DbSet<Hairdressing_Client> Hairdressing_Clients { get; set; }
+
+        public DbSet<Hairdressing_OpenCloseHours> Hairdressing_OpenCloseHours { get; set; }
     }
 }
