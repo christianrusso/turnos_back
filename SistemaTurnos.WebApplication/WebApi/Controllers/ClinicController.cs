@@ -153,63 +153,37 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         continue;
                     }
 
-                    var filtered = false;
-
                     // Filtro por especialidades
                     var specialties = dbContext.Clinic_Specialties.Where(s => s.UserId == userId).ToList();
-                    
-                    foreach (var specialtyId in filterDto.Specialties)
-                    {
-                        if (!specialties.Any(s => s.DataId == specialtyId))
-                        {
-                            filtered = true;
-                            break;
-                        }
-                    }
 
-                    if (filtered) continue;
+                    if (filterDto.Specialties.Any() && filterDto.Specialties.TrueForAll(sId => !specialties.Any(s => s.DataId == sId)))
+                    {
+                        continue;
+                    }
 
                     // Filtro por subespecialidades
                     var subspecialties = dbContext.Clinic_Subspecialties.Where(sp => sp.UserId == userId).ToList();
 
-                    foreach (var subspecialtyId in filterDto.Subspecialties)
+                    if (filterDto.Subspecialties.Any() && filterDto.Subspecialties.TrueForAll(ssId => !subspecialties.Any(ss => ss.DataId == ssId)))
                     {
-                        if (!subspecialties.Any(sp => sp.DataId == subspecialtyId))
-                        {
-                            filtered = true;
-                            break;
-                        }
+                        continue;
                     }
-
-                    if (filtered) continue;
 
                     // Filtro por obras sociales
                     var medicalInsurances = dbContext.Clinic_MedicalInsurances.Where(mi => mi.UserId == userId).ToList();
 
-                    foreach (var medicalInsuranceId in filterDto.MedicalInsurances)
+                    if (filterDto.MedicalInsurances.Any() && (filterDto.MedicalInsurances.TrueForAll(miId => !medicalInsurances.Any(mi => mi.DataId == miId))))
                     {
-                        if (!medicalInsurances.Any(mi => mi.DataId == medicalInsuranceId))
-                        {
-                            filtered = true;
-                            break;
-                        }
+                        continue;
                     }
-
-                    if (filtered) continue;
 
                     // Filtro por planes de obras sociales
                     var medicalPlans = dbContext.Clinic_MedicalPlans.Where(mp => mp.UserId == userId).ToList();
 
-                    foreach (var medicalPlanId in filterDto.MedicalPlans)
+                    if (filterDto.MedicalPlans.Any() && filterDto.MedicalPlans.TrueForAll(mpId => !medicalPlans.Any(mp => mp.DataId == mpId)))
                     {
-                        if (!medicalPlans.Any(mp => mp.DataId == medicalPlanId))
-                        {
-                            filtered = true;
-                            break;
-                        }
+                        continue;
                     }
-
-                    if (filtered) continue;
 
                     // Filtro por las que tienen algun turno disponible en el dia especificado
                     if (filterDto.AvailableAppointmentDate.HasValue)
@@ -233,10 +207,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                         if (!hasAppointmentAvailable)
                         {
-                            filtered = true;
+                            continue;
                         }
-
-                        if (filtered) continue;
                     }
 
 
