@@ -35,9 +35,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             // Creo clinicas
             // email,  password,  name,  description,  city,  address,  latitude,  longitude
-            var clinic1 = CreateClinicUser("clinica1@asd.com", "clinica1@asd.com", "Clinica 1", "Clinica de Villa Bosch 1","Villa Bosch", "Jose Maria Bosch 951",-34.5883457, -58.5732785);
+            var clinic1 = CreateClinicUser("clinica1@asd.com", "clinica1@asd.com", "Clinica 1", "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.","Villa Bosch", "Jose Maria Bosch 951",-34.5883457, -58.5732785);
             var clinic2 = CreateClinicUser("clinica2@asd.com", "clinica2@asd.com", "Clinica 2", "Clinica de Moron 1", "Moron", "Yatay 600", -34.6548052, -58.6173822);
             var clinic3 = CreateClinicUser("clinica3@asd.com", "clinica3@asd.com", "Clinica 3", "Clinica de Villa Bosch 2", "Villa Bosch", "Julio Besada 6300", -34.5873598, -58.5852697);
+            
 
             // Creo empleados
             var employee1 = CreateEmployee("empleado1@asd.com", "empleado1@asd.com", clinic1);

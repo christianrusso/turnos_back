@@ -6,6 +6,7 @@ using SistemaTurnos.WebApplication.Database;
 using SistemaTurnos.WebApplication.Database.ClinicModel;
 using SistemaTurnos.WebApplication.WebApi.Authorization;
 using SistemaTurnos.WebApplication.WebApi.Dto;
+using SistemaTurnos.WebApplication.WebApi.Dto.MedicalInsurance;
 using SistemaTurnos.WebApplication.WebApi.Dto.MedicalPlan;
 using SistemaTurnos.WebApplication.WebApi.Exceptions;
 using System;
@@ -17,7 +18,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
     [Route("Api/[controller]/[action]")]
     [Produces("application/json")]
     [EnableCors("AnyOrigin")]
-    [Authorize(Roles = Roles.AdministratorAndEmployee)]
+    [Authorize(Roles = Roles.AdministratorAndEmployeeAndClient)]
     public class MedicalPlanController : Controller
     {
         [HttpPost]
@@ -118,6 +119,21 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
 
             return userId.Value;
+        }
+
+        [HttpPost]
+        public List<MedicalPlanDto> GetAll([FromBody] IdDto idDto)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                return dbContext.Clinic_MedicalPlans
+                    .Where(s => s.MedicalInsuranceId == idDto.Id)
+                    .Select(s => new MedicalPlanDto
+                    {
+                        Id = s.Id,
+                        Description = s.Data.Description
+                    }).ToList();
+            }
         }
     }
 }
