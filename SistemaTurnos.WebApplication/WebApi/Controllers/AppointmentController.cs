@@ -535,7 +535,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = Roles.AdministratorAndEmployee)]
         public void CompleteAppointmentByClinic([FromBody] IdDto completeAppointmentDto)
         {
             var emailMessage = new EmailMessage();
@@ -578,16 +578,23 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = Roles.Client)]
         public void CancelAppointment([FromBody] CancelAppointmentDto cancelAppointmentDto)
         {
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = GetUserId();
 
-                var appointment = dbContext.Clinic_Appointments.FirstOrDefault(a => a.Id == cancelAppointmentDto.Id && a.UserId == userId);
+                var appointment = dbContext.Clinic_Appointments.FirstOrDefault(a => a.Id == cancelAppointmentDto.Id);
 
                 if (appointment == null)
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                var patient = dbContext.Clinic_Patients.FirstOrDefault(p => p.Id == appointment.PatientId);
+                
+                if (patient == null || patient.Client.UserId != userId)
                 {
                     throw new BadRequestException(ExceptionMessages.BadRequest);
                 }
@@ -606,7 +613,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = Roles.Client)]
         public void CompleteAppointment([FromBody] CompleteAppointmentDto completeAppointmentDto)
         {
             var emailMessage = new EmailMessage();
@@ -615,7 +622,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                var appointment = dbContext.Clinic_Appointments.FirstOrDefault(a => a.Id == completeAppointmentDto.Id && a.UserId == userId);
+                var appointment = dbContext.Clinic_Appointments.FirstOrDefault(a => a.Id == completeAppointmentDto.Id);
                 var clinic = dbContext.Clinics.FirstOrDefault(c => c.UserId == appointment.UserId);
 
                 if (appointment == null)
@@ -623,14 +630,21 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException(ExceptionMessages.BadRequest);
                 }
 
-                if (appointment.DateTime > DateTime.Now)
-                {
-                    throw new BadRequestException(ExceptionMessages.AppointmentCantBeCompleted);
-                }
-
                 if (clinic == null)
                 {
                     throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                var patient = dbContext.Clinic_Patients.FirstOrDefault(p => p.Id == appointment.PatientId);
+
+                if (patient == null || patient.Client.UserId != userId)
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                if (appointment.DateTime > DateTime.Now)
+                {
+                    throw new BadRequestException(ExceptionMessages.AppointmentCantBeCompleted);
                 }
 
                 appointment.State = AppointmentStateEnum.Completed;
