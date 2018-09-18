@@ -15,5 +15,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Appointment
         public string Subspecialty { get; set; }
 
         public DateTime DateTime { get; set; }
+
+        public int Id { get; set; }
     }
 }

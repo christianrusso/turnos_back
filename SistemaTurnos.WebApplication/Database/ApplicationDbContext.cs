@@ -13,7 +13,7 @@ namespace SistemaTurnos.WebApplication.Database
         private const string databaseServer = "localhost";
         private const string databaseName = "sistematurnos";
         private const string databaseUser = "root";
-        private const string databasePass = "fernando";
+        private const string databasePass = "1682951";
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseLazyLoadingProxies().UseMySql(GetConnectionString());
 
