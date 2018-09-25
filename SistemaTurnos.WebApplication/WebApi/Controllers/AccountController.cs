@@ -78,10 +78,18 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     var clinic = dbContext.Clinics.FirstOrDefault(c => c.UserId == userId);
                     logo = clinic.Logo;
                 }
-                
+                if (_userManager.IsInRoleAsync(appUser, Roles.Client).Result)
+                {
+                        var client = dbContext.Clinic_Clients.FirstOrDefault(c => c.UserId == userId);
+                        logo = client.Logo;
+                }
+                    
             }
+
+            
                 
             ValidTokens.Add($"{JwtBearerDefaults.AuthenticationScheme} {token}", userId);
+
 
             return new LogOnDto
             {
