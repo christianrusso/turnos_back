@@ -18,7 +18,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             using (var dbContext = new ApplicationDbContext())
             {
                 return dbContext.Clinic_Ratings
-                    .Where(r => r.UserId == idDto.Id)
+                    .Where(r => r.Appointment.Patient.Client.UserId == idDto.Id)
                     .Select(r => r.Comment)
                     .ToList();
             }
@@ -30,7 +30,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             using (var dbContext = new ApplicationDbContext())
             {
                 return dbContext.Clinic_Ratings
-                    .Where(r => r.UserId == idDto.Id)
+                    .Where(r => r.Appointment.Patient.Client.UserId == idDto.Id)
                     .Select(r => r.Score)
                     .ToList();
             }
@@ -41,7 +41,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var ratings = dbContext.Clinic_Ratings.Where(r => r.UserId == idDto.Id).ToList();
+                var ratings = dbContext.Clinic_Ratings.Where(r => r.Appointment.Patient.Client.UserId == idDto.Id).ToList();
                 return ratings.Any() ? ratings.Average(r => r.Score) : 0;
             }
         }

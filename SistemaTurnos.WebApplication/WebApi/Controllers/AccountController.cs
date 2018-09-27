@@ -100,8 +100,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                             var hairdressing = dbContext.Hairdressings.FirstOrDefault(c => c.UserId == userId);
                             logo = hairdressing.Logo;
                         }
+
+                        
                     }
                 }
+                else if (_userManager.IsInRoleAsync(appUser, Roles.Client).Result)
+                    {
+                            var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
+                            logo = client.Logo;
+                    }
                 
             }
                 

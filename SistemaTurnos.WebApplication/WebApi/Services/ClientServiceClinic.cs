@@ -39,7 +39,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
 
                 var client = new SystemClient
                 {
-                    UserId = appUser.Id
+                    UserId = appUser.Id,
+                    Logo = "" 
                 };
 
                 dbContext.Clients.Add(client);
