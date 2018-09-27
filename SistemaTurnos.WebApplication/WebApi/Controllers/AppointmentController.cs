@@ -138,12 +138,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new ApplicationException(ExceptionMessages.InternalServerError);
                 }
 
-                var client = new Clinic_Client
+                var client = new SystemClient
                 {
                     UserId = appUser.Id
                 };
 
-                dbContext.Clinic_Clients.Add(client);
+                dbContext.Clients.Add(client);
                 dbContext.SaveChanges();
 
                 var patient = new Clinic_Patient
@@ -211,7 +211,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException(ExceptionMessages.BadRequest);
                 }
 
-                var client = dbContext.Clinic_Clients.FirstOrDefault(c => c.Id == requestAppointmentDto.ClientId);
+                var client = dbContext.Clients.FirstOrDefault(c => c.Id == requestAppointmentDto.ClientId);
 
                 if (client == null)
                 {
@@ -360,7 +360,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException(ExceptionMessages.BadRequest);
                 }
 
-                var client = dbContext.Clinic_Clients.FirstOrDefault(c => c.UserId == userId);
+                var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
 
                 if (client == null)
                 {
@@ -452,7 +452,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException(ExceptionMessages.BadRequest);
                 }
 
-                var client = dbContext.Clinic_Clients.FirstOrDefault(c => c.UserId == userId);
+                var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
                 var patient = dbContext.Clinic_Patients.FirstOrDefault(p => p.ClientId == client.Id && p.UserId == clinic.UserId);
 
                 if (patient == null)

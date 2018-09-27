@@ -42,7 +42,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = _service.GetUserId();
 
-                var client = dbContext.Clinic_Clients.FirstOrDefault(c => c.Id == patientDto.ClientId);
+                var client = dbContext.Clients.FirstOrDefault(c => c.Id == patientDto.ClientId);
                 
                 if (client == null)
                 {
@@ -113,12 +113,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new ApplicationException(ExceptionMessages.InternalServerError);
                 }
 
-                var client = new Clinic_Client
+                var client = new SystemClient
                 {
                     UserId = appUser.Id
                 };
 
-                dbContext.Clinic_Clients.Add(client);
+                dbContext.Clients.Add(client);
                 dbContext.SaveChanges();
 
                 var patient = new Clinic_Patient
@@ -248,7 +248,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
-        private Clinic_Client CreateClient(string email, string password)
+        private SystemClient CreateClient(string email, string password)
         {
             if (!_roleManager.RoleExistsAsync(Roles.Client).Result)
             {
@@ -279,15 +279,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new ApplicationException(ExceptionMessages.InternalServerError);
                 }
 
-                var client = new Clinic_Client
+                var client = new SystemClient
                 {
                     UserId = appUser.Id
                 };
 
-                dbContext.Clinic_Clients.Add(client);
+                dbContext.Clients.Add(client);
                 dbContext.SaveChanges();
 
-                return dbContext.Clinic_Clients.FirstOrDefault(c => c.UserId == appUser.Id);
+                return dbContext.Clients.FirstOrDefault(c => c.UserId == appUser.Id);
             }
         }
     }

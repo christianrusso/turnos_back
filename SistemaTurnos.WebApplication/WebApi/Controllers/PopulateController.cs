@@ -557,9 +557,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             return medicalPlan;
         }
 
-        private Clinic_Client CreateClientUser(string email, string password)
+        private SystemClient CreateClientUser(string email, string password)
         {
-            Clinic_Client client;
+            SystemClient client;
 
             if (!_roleManager.RoleExistsAsync(Roles.Client).Result)
             {
@@ -590,19 +590,19 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new ApplicationException(ExceptionMessages.InternalServerError);
                 }
 
-                client = new Clinic_Client
+                client = new SystemClient
                 {
                     UserId = appUser.Id
                 };
 
-                dbContext.Clinic_Clients.Add(client);
+                dbContext.Clients.Add(client);
                 dbContext.SaveChanges();
             }
 
             return client;
         }
 
-        private Clinic_Patient CreatePatient(string firstName, string lastName, string address, string dni, Clinic_MedicalPlan medicalPlan, Clinic_Client client, Clinic clinic)
+        private Clinic_Patient CreatePatient(string firstName, string lastName, string address, string dni, Clinic_MedicalPlan medicalPlan, SystemClient client, Clinic clinic)
         {
             Clinic_Patient patient;
 

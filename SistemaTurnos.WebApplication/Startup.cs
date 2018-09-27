@@ -28,7 +28,7 @@ namespace SistemaTurnos.WebApplication
         public void ConfigureServices(IServiceCollection services)
         {
             // Add our DbContext
-            services.AddDbContext<ApplicationDbContext>();
+            services.AddDbContext<ApplicationDbContext>(ServiceLifetime.Transient);
 
             // Add Identity
             services.AddIdentity<ApplicationUser, ApplicationRole>()

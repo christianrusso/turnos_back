@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SistemaTurnos.WebApplication.Database.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace SistemaTurnos.WebApplication.WebApi.Dto.Account
 {
@@ -9,5 +10,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Account
 
         [Required]
         public string Password { get; set; }
+
+        [Required]
+        public BusinessType BusinessType { get; set; }
     }
 }

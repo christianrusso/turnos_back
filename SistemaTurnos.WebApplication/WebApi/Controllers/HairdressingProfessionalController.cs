@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SistemaTurnos.WebApplication.Database;
-using SistemaTurnos.WebApplication.Database.ClinicModel;
 using SistemaTurnos.WebApplication.Database.Enums;
 using SistemaTurnos.WebApplication.Database.HairdressingModel;
 using SistemaTurnos.WebApplication.WebApi.Authorization;
@@ -177,8 +176,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 int? userId = _service.GetUserId();
 
-                if(filter.ClinicId != null)
-                    userId = filter.ClinicId;
+                if(filter.HairdressingId != null)
+                    userId = filter.HairdressingId;
                 
 
                 return dbContext.Hairdressing_Professionals
@@ -265,7 +264,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
         private void ValidateHairdressingProfessionalData(ApplicationDbContext dbContext, int userId, int specialtyId, int? subSpecialtyId, List<WorkingHoursDto> workingHoursDtos)
         {
-            var specialty = dbContext.Clinic_Specialties.FirstOrDefault(s => s.Id == specialtyId && s.UserId == userId);
+            var specialty = dbContext.Hairdressing_Specialties.FirstOrDefault(s => s.Id == specialtyId && s.UserId == userId);
 
             if (specialty == null)
             {
@@ -274,7 +273,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             if (subSpecialtyId.HasValue)
             {
-                var subspecialty = dbContext.Clinic_Subspecialties.FirstOrDefault(s => s.Id == subSpecialtyId.Value && s.UserId == userId);
+                var subspecialty = dbContext.Hairdressing_Subspecialties.FirstOrDefault(s => s.Id == subSpecialtyId.Value && s.UserId == userId);
 
                 if (subspecialty == null)
                 {

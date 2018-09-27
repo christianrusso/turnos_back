@@ -21,10 +21,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
     [Authorize(Roles = Roles.AdministratorAndEmployee)]
     public class HairdressingSubSpecialtyController : Controller
     {
-        private BusinessPlaceService _service;
-        public HairdressingSubSpecialtyController()
+        public BusinessPlaceService _service;
+        private ApplicationDbContext _dbContext;
+        public HairdressingSubSpecialtyController(ApplicationDbContext dbContext)
         {
             _service = new BusinessPlaceService(this.HttpContext);
+            _dbContext = dbContext;
         }
 
         [HttpPost]
@@ -56,11 +58,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpGet]
         public List<SubspecialtyDto> GetAll()
         {
-            using (var dbContext = new ApplicationDbContext())
+            using (var dbContext = _dbContext)
             {
                 var userId = _service.GetUserId();
 
-                return dbContext.Hairdressing_Subspecialties
+                var res = dbContext.Hairdressing_Subspecialties
                     .Where(ssp => ssp.UserId == userId)
                     .Select(ssp => new SubspecialtyDto {
                         Id = ssp.Id,
@@ -69,6 +71,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         SpecialtyId = ssp.SpecialtyId,
                         SpecialtyDescription = ssp.Specialty.Data.Description
                 }).ToList();
+
+                return res;
             }
         }
 

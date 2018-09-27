@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SistemaTurnos.WebApplication.Database;
+using SistemaTurnos.WebApplication.Database.ClinicModel;
 using SistemaTurnos.WebApplication.Database.Enums;
 using SistemaTurnos.WebApplication.Database.HairdressingModel;
 using SistemaTurnos.WebApplication.Database.Model;
@@ -23,26 +24,28 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
     [Authorize(Roles = Roles.AdministratorAndEmployee)]
     public class HairdressingPatientController : Controller
     {
-        private BusinessPlaceService _service;
+        public BusinessPlaceService _service;
 
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly ApplicationDbContext _dbContext;
 
-        public HairdressingPatientController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
+        public HairdressingPatientController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, ApplicationDbContext dbcontext)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _dbContext = dbcontext;
             _service = new BusinessPlaceService(this.HttpContext);
         }
 
         [HttpPost]
-        public void Add([FromBody] AddHairdressingPatientDto patientDto)
+        public ActionResult Add([FromBody] AddHairdressingPatientDto patientDto)
         {
-            using (var dbContext = new ApplicationDbContext())
+            using (var dbContext = _dbContext)
             {
                 var userId = _service.GetUserId();
 
-                var client = dbContext.Hairdressing_Clients.FirstOrDefault(c => c.Id == patientDto.ClientId);
+                var client = dbContext.Clients.FirstOrDefault(c => c.Id == patientDto.ClientId);
                 
                 if (client == null)
                 {
@@ -65,7 +68,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     ClientId = patientDto.ClientId
                 });
 
-                dbContext.SaveChanges();
+                var id = dbContext.SaveChanges();
+
+                return Ok(id);
             }
         }
 
@@ -103,12 +108,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new ApplicationException(ExceptionMessages.InternalServerError);
                 }
 
-                var client = new Hairdressing_Client
+                var client = new SystemClient
                 {
                     UserId = appUser.Id
                 };
 
-                dbContext.Hairdressing_Clients.Add(client);
+                dbContext.Clients.Add(client);
                 dbContext.SaveChanges();
 
                 var patient = new Hairdressing_Patient
@@ -179,7 +184,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = _service.GetUserId();
 
-                var patientToUpdate = dbContext.Clinic_Patients.FirstOrDefault(p => p.Id == patientDto.Id && p.UserId == userId);
+                var patientToUpdate = dbContext.Hairdressing_Patients.FirstOrDefault(p => p.Id == patientDto.Id && p.UserId == userId);
 
                 if (patientToUpdate == null)
                 {
@@ -221,7 +226,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
-        private Hairdressing_Client CreateClient(string email, string password)
+        private SystemClient CreateClient(string email, string password)
         {
             if (!_roleManager.RoleExistsAsync(Roles.Client).Result)
             {
@@ -241,8 +246,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
             }
 
-            using (var dbContext = new ApplicationDbContext())
+            //using (var dbContext = _dbContext)
             {
+                var dbContext = _dbContext;
                 var appUser = _userManager.Users.SingleOrDefault(au => au.Email == email);
 
                 result = _userManager.AddToRoleAsync(appUser, Roles.Client).Result;
@@ -252,15 +258,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new ApplicationException(ExceptionMessages.InternalServerError);
                 }
 
-                var client = new Hairdressing_Client
+                var client = new SystemClient
                 {
                     UserId = appUser.Id
                 };
 
-                dbContext.Hairdressing_Clients.Add(client);
+                dbContext.Clients.Add(client);
                 dbContext.SaveChanges();
 
-                return dbContext.Hairdressing_Clients.FirstOrDefault(c => c.UserId == appUser.Id);
+                return dbContext.Clients.FirstOrDefault(c => c.UserId == appUser.Id);
             }
         }
     }

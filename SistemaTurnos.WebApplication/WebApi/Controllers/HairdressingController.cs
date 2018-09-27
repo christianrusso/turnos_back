@@ -261,9 +261,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException(ExceptionMessages.BadRequest);
                 }
 
-                var client = dbContext.Hairdressing_Clients.FirstOrDefault(c => c.UserId == userId);
+                var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
 
-                var patient = client.Patients.FirstOrDefault(p => p.UserId == hairdressing.UserId);
+                var patient = client.HairdressingPatients.FirstOrDefault(p => p.UserId == hairdressing.UserId);
 
                 return patient != null;
             }

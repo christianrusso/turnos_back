@@ -17,7 +17,15 @@ namespace SistemaTurnos.WebApplication.Database
         private const string databaseUser = "root";
         private const string databasePass = "tito1234H6*";
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseLazyLoadingProxies().UseMySql(GetConnectionString());
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
+        }
+
+        public ApplicationDbContext() : base(new DbContextOptionsBuilder<ApplicationDbContext>().UseLazyLoadingProxies().UseMySql(GetConnectionString()).Options)
+        {
+        }
+
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseLazyLoadingProxies().UseMySql(GetConnectionString());
 
         private static string GetConnectionString() => $"Server={databaseServer};database={databaseName};uid={databaseUser};pwd={databasePass};pooling=true;";
 
@@ -46,7 +54,6 @@ namespace SistemaTurnos.WebApplication.Database
 
             // Hairdressing
             modelBuilder.ApplyConfiguration(new Hairdressing_AppointmentTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new Hairdressing_ClientTypeConfiguration());
             modelBuilder.ApplyConfiguration(new Hairdressing_ProfessionalTypeConfiguration());
             modelBuilder.ApplyConfiguration(new Hairdressing_EmployeeTypeConfiguration());
             modelBuilder.ApplyConfiguration(new Hairdressing_PatientTypeConfiguration());
@@ -77,7 +84,7 @@ namespace SistemaTurnos.WebApplication.Database
 
         public DbSet<Clinic_Employee> Clinic_Employees { get; set; }
 
-        public DbSet<Clinic_Client> Clinic_Clients { get; set; }
+        public DbSet<SystemClient> Clients { get; set; }
 
         public DbSet<Clinic_MedicalInsurance> Clinic_MedicalInsurances { get; set; }
 
@@ -114,8 +121,6 @@ namespace SistemaTurnos.WebApplication.Database
         public DbSet<Hairdressing> Hairdressings { get; set; }
 
         public DbSet<Hairdressing_Employee> Hairdressing_Employees { get; set; }
-
-        public DbSet<Hairdressing_Client> Hairdressing_Clients { get; set; }
 
         public DbSet<Hairdressing_OpenCloseHours> Hairdressing_OpenCloseHours { get; set; }
     }

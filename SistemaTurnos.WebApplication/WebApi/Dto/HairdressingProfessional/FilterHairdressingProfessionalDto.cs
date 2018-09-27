@@ -4,7 +4,7 @@
     {
         public int? Id { get; set; }
 
-        public int? ClinicId { get; set; }
+        public int? HairdressingId { get; set; }
 
         public string FullName { get; set; }
 

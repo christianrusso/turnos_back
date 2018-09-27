@@ -37,12 +37,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
                     throw new ApplicationException(ExceptionMessages.InternalServerError);
                 }
 
-                var client = new Clinic_Client
+                var client = new SystemClient
                 {
                     UserId = appUser.Id
                 };
 
-                dbContext.Clinic_Clients.Add(client);
+                dbContext.Clients.Add(client);
                 dbContext.SaveChanges();
             }
         }
@@ -53,8 +53,25 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
             {
                 var userId = GetUserId();
 
-                return dbContext.Clinic_Clients
+                return dbContext.Clients
                     .Where(c => !c.Patients.Any(p => p.UserId == userId))
+                    .ToList()
+                    .Select(c => new ClientDto
+                    {
+                        Id = c.Id,
+                        Email = c.User.Email
+                    }).ToList();
+            }
+        }
+
+        public List<ClientDto> GetAllNonHairdressingPatients()
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = GetUserId();
+
+                return dbContext.Clients
+                    .Where(c => !c.HairdressingPatients.Any(p => p.UserId == userId))
                     .ToList()
                     .Select(c => new ClientDto
                     {

@@ -20,6 +20,7 @@ using SistemaTurnos.WebApplication.WebApi.Exceptions;
 using SistemaTurnos.WebApplication.Database.Model;
 using SistemaTurnos.WebApplication.Database;
 using SistemaTurnos.WebApplication.Database.ClinicModel;
+using SistemaTurnos.WebApplication.Database.HairdressingModel;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
 {
@@ -32,13 +33,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly IConfiguration _configuration;
+        private readonly ApplicationDbContext _dbContext;
 
-        public AccountController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration)
+        public AccountController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration, ApplicationDbContext dbContext)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
             _configuration = configuration;
+            _dbContext = dbContext;
         }
 
         [HttpPost]
@@ -64,19 +67,40 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             int userId = appUser.Id;
             string logo = string.Empty;
 
-            using (var dbContext = new ApplicationDbContext())
+            using (var dbContext = _dbContext)
             {
                 if (!_userManager.IsInRoleAsync(appUser, Roles.Client).Result)
                 {
                     // Es una clinica o un empleado de la clinica
                     if (_userManager.IsInRoleAsync(appUser, Roles.Employee).Result)
                     {
-                        var employee = dbContext.Clinic_Employees.FirstOrDefault(e => e.UserId == appUser.Id);
-                        userId = employee.OwnerUserId;
-                    }
+                        if(model.BusinessType == 0)
+                        {
+                            throw new ApplicationException(ExceptionMessages.BadRequest);
+                        }
 
-                    var clinic = dbContext.Clinics.FirstOrDefault(c => c.UserId == userId);
-                    logo = clinic.Logo;
+                        if(model.BusinessType == Database.Enums.BusinessType.Clinic)
+                        {
+                            var employee = dbContext.Clinic_Employees.FirstOrDefault(e => e.UserId == appUser.Id);
+                            if (employee != null)
+                            {
+                                userId = employee.OwnerUserId;
+                            }
+                            var clinic = dbContext.Clinics.FirstOrDefault(c => c.UserId == userId);
+                            logo = clinic.Logo;
+                        }
+                        
+                        else if(model.BusinessType == Database.Enums.BusinessType.Hairdressing)
+                        {
+                            var Hemployee = dbContext.Hairdressing_Employees.FirstOrDefault(e => e.UserId == appUser.Id);
+                            if (Hemployee != null)
+                            {
+                                userId = Hemployee.OwnerUserId;
+                            }
+                            var hairdressing = dbContext.Hairdressings.FirstOrDefault(c => c.UserId == userId);
+                            logo = hairdressing.Logo;
+                        }
+                    }
                 }
                 
             }
@@ -91,7 +115,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
-        public void Register([FromBody] RegisterAccountDto model)
+        public ActionResult Register([FromBody] RegisterAccountDto model)
         {
             if (!_roleManager.RoleExistsAsync(Roles.Administrator).Result)
             {
@@ -111,7 +135,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
             }
 
-            using (var dbContext = new ApplicationDbContext())
+            using (var dbContext = _dbContext)
             {
                 var appUser = _userManager.Users.SingleOrDefault(au => au.Email == model.Email);
 
@@ -132,21 +156,48 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new ApplicationException(ExceptionMessages.BadRequest);
                 }
 
-                var clinic = new Clinic
+                if(model.BusinessType == 0)
                 {
-                    Name = model.Name,
-                    Description = model.Description,
-                    CityId = model.City,
-                    Address = model.Address,
-                    Latitude = model.Latitude,
-                    Longitude = model.Longitude,
-                    UserId = appUser.Id,
-                    Logo = model.Logo
-                };
+                    throw new ApplicationException(ExceptionMessages.BadRequest);
+                }
 
-                dbContext.Clinics.Add(clinic);
+                if(model.BusinessType == Database.Enums.BusinessType.Clinic)
+                {
+                    var clinic = new Clinic
+                    {
+                        Name = model.Name,
+                        Description = model.Description,
+                        CityId = model.City,
+                        Address = model.Address,
+                        Latitude = model.Latitude,
+                        Longitude = model.Longitude,
+                        UserId = appUser.Id,
+                        Logo = model.Logo
+                    };
+
+                    dbContext.Clinics.Add(clinic);
+                }
+                if(model.BusinessType == Database.Enums.BusinessType.Hairdressing)
+                {
+                    var hairdressing = new Hairdressing
+                    {
+                        Name = model.Name,
+                        Description = model.Description,
+                        CityId = model.City,
+                        Address = model.Address,
+                        Latitude = model.Latitude,
+                        Longitude = model.Longitude,
+                        UserId = appUser.Id,
+                        Logo = model.Logo
+                    };
+
+                    dbContext.Hairdressings.Add(hairdressing);
+                }
+                
                 dbContext.SaveChanges();
             }
+
+            return Ok(model.BusinessType);
         }
 
         [HttpPost]

@@ -45,7 +45,7 @@ namespace SistemaTurnos.WebApplication.Database.ClinicModel
         [Required]
         public int ClientId { get; set; }
 
-        public virtual Clinic_Client Client { get; set; }
+        public virtual SystemClient Client { get; set; }
 
         public string FullName => $"{LastName} {FirstName}";
     }

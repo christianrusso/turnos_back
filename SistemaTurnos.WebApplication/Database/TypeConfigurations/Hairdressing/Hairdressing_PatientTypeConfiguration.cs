@@ -18,7 +18,7 @@ namespace SistemaTurnos.WebApplication.Database.TypeConfigurations.Hairdressing
             // Client
             builder
                 .HasOne(p => p.Client)
-                .WithMany(c => c.Patients)
+                .WithMany(c => c.HairdressingPatients)
                 .HasForeignKey(p => p.ClientId)
                 .HasConstraintName("FK_Hairdressing_Patient_Client");
         }

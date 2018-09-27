@@ -4,9 +4,9 @@ using SistemaTurnos.WebApplication.Database.ClinicModel;
 
 namespace SistemaTurnos.WebApplication.Database.TypeConfigurations.Clinic
 {
-    public class Clinic_ClientTypeConfiguration : IEntityTypeConfiguration<Clinic_Client>
+    public class Clinic_ClientTypeConfiguration : IEntityTypeConfiguration<SystemClient>
     {
-        public void Configure(EntityTypeBuilder<Clinic_Client> builder)
+        public void Configure(EntityTypeBuilder<SystemClient> builder)
         {
             // User
             builder

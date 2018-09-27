@@ -61,6 +61,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             return clients;
         }
 
-        
+        [HttpPost]
+        [Authorize(Roles = Roles.AdministratorAndEmployee)]
+        public List<ClientDto> GetAllNonHairdressingPatients()
+        {
+            var clients = _ClientService.GetAllNonHairdressingPatients();
+
+            return clients;
+        }
     }
 }

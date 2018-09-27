@@ -1,4 +1,5 @@
-﻿using SistemaTurnos.WebApplication.Database.Model;
+﻿using SistemaTurnos.WebApplication.Database.ClinicModel;
+using SistemaTurnos.WebApplication.Database.Model;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -41,7 +42,7 @@ namespace SistemaTurnos.WebApplication.Database.HairdressingModel
         [Required]
         public int ClientId { get; set; }
 
-        public virtual Hairdressing_Client Client { get; set; }
+        public virtual SystemClient Client { get; set; }
 
         public string FullName => $"{LastName} {FirstName}";
     }
