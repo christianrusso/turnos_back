@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Net.Mail;
+﻿using System.Net.Mail;
 
 namespace SistemaTurnos.WebApplication.Email
 {
@@ -7,8 +6,8 @@ namespace SistemaTurnos.WebApplication.Email
     {
         private static readonly string host = "localhost";
         private static readonly int port = 25;
-        private static readonly string username = "fernando";
-        private static readonly string password = "fernando";
+        //private static readonly string username = "fernando";
+        //private static readonly string password = "fernando";
         private static readonly MailAddress mailAddress = new MailAddress("no-reply@turnos.com.ar");
 
         public static void Send(EmailMessage email)

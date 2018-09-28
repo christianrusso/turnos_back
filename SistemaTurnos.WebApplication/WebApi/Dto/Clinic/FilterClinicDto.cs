@@ -23,6 +23,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Clinic
 
         public int? ScoreQuantity { get; set; }
 
-        public DateTime? AvailableAppointmentDate { get; set; }
+        public DateTime? AvailableAppointmentStartDate { get; set; }
+
+        public DateTime? AvailableAppointmentEndDate { get; set; }
     }
 }

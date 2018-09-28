@@ -14,11 +14,9 @@ namespace SistemaTurnos.WebApplication.Database.ClinicModel
         [Required]
         public int UserId { get; set; }
 
-<<<<<<< HEAD
         public virtual List<Clinic_ClientFavoriteClinics> FavoriteClinics { get; set; }
-=======
+
         public string Logo { get; set; }
->>>>>>> 2e87e6aaf77b43c5fd7d2108813798947faea634
 
         public virtual ApplicationUser User { get; set; }
 

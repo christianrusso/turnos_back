@@ -189,8 +189,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         continue;
                     }
 
-                    // Filtro por las que tienen algun turno disponible en el dia especificado
-                    if (filterDto.AvailableAppointmentDate.HasValue)
+                    // Filtro por las que tienen algun turno disponible en el rango de dias especificado
+                    if (filterDto.AvailableAppointmentStartDate.HasValue && filterDto.AvailableAppointmentEndDate.HasValue)
                     {
                         var doctors = dbContext.Clinic_Doctors
                             .Where(d => d.UserId == userId)
@@ -202,16 +202,19 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                         foreach (var doctor in doctors)
                         {
-                            if (doctor.GetAllAvailablesForDay(filterDto.AvailableAppointmentDate.Value).Any())
+                            for (var day = filterDto.AvailableAppointmentStartDate.Value.Date; day <= filterDto.AvailableAppointmentEndDate.Value.Date; day = day.AddDays(1))
                             {
-                                hasAppointmentAvailable = true;
+                                if (doctor.GetAllAvailablesForDay(day).Any())
+                                {
+                                    hasAppointmentAvailable = true;
+                                    break;
+                                }
+                            }
+
+                            if (hasAppointmentAvailable)
+                            {
                                 break;
                             }
-                        }
-
-                        if (!hasAppointmentAvailable)
-                        {
-                            continue;
                         }
                     }
 
