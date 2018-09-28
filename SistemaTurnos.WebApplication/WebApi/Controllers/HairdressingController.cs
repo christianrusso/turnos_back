@@ -36,7 +36,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId();
+                var userId = _service.GetUserId(this.HttpContext);
 
                 var HairdressingsToUpdate = dbContext.Hairdressings.FirstOrDefault(c => c.Id == hoursDto.HairdressingId && c.UserId == userId);
 
@@ -252,7 +252,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId();
+                var userId = _service.GetUserId(this.HttpContext);
 
                 var hairdressing = dbContext.Hairdressings.FirstOrDefault(c => c.Id == idDto.Id);
 

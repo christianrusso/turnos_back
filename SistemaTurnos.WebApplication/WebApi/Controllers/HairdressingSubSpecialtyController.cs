@@ -34,7 +34,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId();
+                var userId = _service.GetUserId(this.HttpContext);
 
                 var specialty = dbContext.Hairdressing_Specialties.FirstOrDefault(s => s.Id == subSpecialtyDto.SpecialtyId);
 
@@ -60,7 +60,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = _dbContext)
             {
-                var userId = _service.GetUserId();
+                var userId = _service.GetUserId(this.HttpContext);
 
                 var res = dbContext.Hairdressing_Subspecialties
                     .Where(ssp => ssp.UserId == userId)
@@ -81,7 +81,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId();
+                var userId = _service.GetUserId(this.HttpContext);
 
                 return dbContext.Hairdressing_Subspecialties
                     .Where(ssp => ssp.SpecialtyId == specialtyIdDto.Id && ssp.UserId == userId)
@@ -101,7 +101,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId();
+                var userId = _service.GetUserId(this.HttpContext);
 
                 return dbContext.Hairdressing_Subspecialties
                     .Where(ssp => (specialtyIdDto.Id == -1 || ssp.SpecialtyId == specialtyIdDto.Id) && ssp.UserId == userId)
@@ -121,7 +121,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId();
+                var userId = _service.GetUserId(this.HttpContext);
 
                 var subSpecialtyToDelete = dbContext.Hairdressing_Subspecialties.FirstOrDefault(ssp => ssp.Id == subSpecialtyDto.Id && ssp.UserId == userId);
 
@@ -140,7 +140,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId();
+                var userId = _service.GetUserId(this.HttpContext);
 
                 var subSpecialtyToUpdate = dbContext.Hairdressing_Subspecialties.FirstOrDefault(s => s.Id == subSpecialtyDto.Id && s.UserId == userId);
 

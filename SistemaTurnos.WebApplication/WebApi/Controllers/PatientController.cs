@@ -40,7 +40,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId();
+                var userId = _service.GetUserId(this.HttpContext);
 
                 var client = dbContext.Clients.FirstOrDefault(c => c.Id == patientDto.ClientId);
                 
@@ -77,7 +77,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId();
+                var userId = _service.GetUserId(this.HttpContext);
 
                 var medicalPlan = dbContext.Clinic_MedicalPlans.FirstOrDefault(mp => mp.Id == patientDto.MedicalPlanId);
 
@@ -143,7 +143,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId();
+                var userId = _service.GetUserId(this.HttpContext);
 
                 return dbContext.Clinic_Patients
                     .Where(p => p.UserId == userId)
@@ -172,7 +172,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId();
+                var userId = _service.GetUserId(this.HttpContext);
 
                 var patientToDelete = dbContext.Clinic_Patients.FirstOrDefault(p => p.Id == patientDto.Id && p.UserId == userId);
 
@@ -191,7 +191,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId();
+                var userId = _service.GetUserId(this.HttpContext);
 
                 var patientToUpdate = dbContext.Clinic_Patients.FirstOrDefault(p => p.Id == patientDto.Id && p.UserId == userId);
 
@@ -222,7 +222,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId();
+                var userId = _service.GetUserId(this.HttpContext);
 
                 return dbContext.Clinic_Patients
                     .Where(p => p.UserId == userId)

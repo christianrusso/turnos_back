@@ -33,7 +33,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId();
+                var userId = _service.GetUserId(this.HttpContext);
 
                 dbContext.Hairdressing_Specialties.Add(new Hairdressing_Specialty
                 {
@@ -51,7 +51,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId();
+                var userId = _service.GetUserId(this.HttpContext);
 
                 return dbContext.Hairdressing_Specialties
                     .Where(s => s.UserId == userId)
@@ -110,7 +110,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId();
+                var userId = _service.GetUserId(this.HttpContext);
 
                 return dbContext.Hairdressing_Specialties
                     .Where(s => s.UserId == userId)
@@ -133,7 +133,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId();
+                var userId = _service.GetUserId(this.HttpContext);
 
                 var subspecialties = dbContext.Hairdressing_Subspecialties.Where(ssp => ssp.UserId == userId);
 
@@ -161,7 +161,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId();
+                var userId = _service.GetUserId(this.HttpContext);
 
                 var subspecialties = dbContext.Hairdressing_Subspecialties.Where(ssp => ssp.UserId == userId);
 
@@ -188,7 +188,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId();
+                var userId = _service.GetUserId(this.HttpContext);
                 var specialtyToDelete = dbContext.Hairdressing_Specialties.FirstOrDefault(s => s.Id == specialtyDto.Id && s.UserId == userId);
 
                 if (specialtyToDelete == null)

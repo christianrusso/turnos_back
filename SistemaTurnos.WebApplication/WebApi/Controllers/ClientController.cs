@@ -56,7 +56,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.AdministratorAndEmployee)]
         public List<ClientDto> GetAllNonPatients()
         {
-            var clients = _ClientService.GetAllNonPatients();
+            var clients = _ClientService.GetAllNonPatients(this.HttpContext);
 
             return clients;
         }
@@ -65,7 +65,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.AdministratorAndEmployee)]
         public List<ClientDto> GetAllNonHairdressingPatients()
         {
-            var clients = _ClientService.GetAllNonHairdressingPatients();
+            var clients = _ClientService.GetAllNonHairdressingPatients(this.HttpContext);
 
             return clients;
         }
