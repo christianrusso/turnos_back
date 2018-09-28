@@ -70,7 +70,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 var client = new Clinic_Client
                 {
-                    UserId = appUser.Id
+                    UserId = appUser.Id,
+                    Logo = ""                    
                 };
 
                 dbContext.Clinic_Clients.Add(client);
