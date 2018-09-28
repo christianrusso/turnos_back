@@ -8,7 +8,9 @@ using SistemaTurnos.WebApplication.Database;
 using SistemaTurnos.WebApplication.Database.ClinicModel;
 using SistemaTurnos.WebApplication.Database.Model;
 using SistemaTurnos.WebApplication.WebApi.Authorization;
+using SistemaTurnos.WebApplication.WebApi.Dto;
 using SistemaTurnos.WebApplication.WebApi.Dto.Client;
+using SistemaTurnos.WebApplication.WebApi.Dto.Clinic;
 using SistemaTurnos.WebApplication.WebApi.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -111,6 +113,89 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         Id = c.Id,
                         Email = c.User.Email
                     }).ToList();
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = Roles.Client)]
+        public void AddFavoriteClinic([FromBody] IdDto clinic)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = GetUserId();
+
+                if (!dbContext.Clinics.Any(c => c.Id == clinic.Id))
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                var client = dbContext.Clinic_Clients.FirstOrDefault(c => c.UserId == userId);
+
+                if (client.FavoriteClinics.Any(fc => fc.ClinicId == clinic.Id))
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                client.FavoriteClinics.Add(new Clinic_ClientFavoriteClinics
+                {
+                    ClientId = client.Id,
+                    ClinicId = clinic.Id
+                });
+
+                dbContext.SaveChanges();
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = Roles.Client)]
+        public void RemoveFavoriteClinic([FromBody] IdDto clinic)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = GetUserId();
+
+                if (!dbContext.Clinics.Any(c => c.Id == clinic.Id))
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                var client = dbContext.Clinic_Clients.FirstOrDefault(c => c.UserId == userId);
+
+                var favoriteClinic = client.FavoriteClinics.Where(fc => fc.ClinicId == clinic.Id);
+
+                if (favoriteClinic == null)
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                dbContext.Entry(favoriteClinic).State = EntityState.Deleted;
+                dbContext.SaveChanges();
+            }
+        }
+
+        [HttpGet]
+        [Authorize(Roles = Roles.Client)]
+        public List<ClinicDto> GetFavoriteClinics()
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = GetUserId();
+
+                var client = dbContext.Clinic_Clients.FirstOrDefault(c => c.UserId == userId);
+
+                return client.FavoriteClinics.Select(fv => new ClinicDto
+                {
+                    ClinicId = fv.ClinicId,
+                    Name = fv.Clinic.Name,
+                    Description = fv.Clinic.Description,
+                    Address = fv.Clinic.Address,
+                    City = fv.Clinic.City.Name,
+                    Latitude = fv.Clinic.Latitude,
+                    Longitude = fv.Clinic.Longitude,
+                    Logo = fv.Clinic.Logo,
+                    DistanceToUser = -1
+                })
+                .ToList();
             }
         }
 

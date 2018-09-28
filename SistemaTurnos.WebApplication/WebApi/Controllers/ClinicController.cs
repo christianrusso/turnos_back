@@ -89,7 +89,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                             Address = clinic.Address,
                             Latitude = clinic.Latitude,
                             Longitude = clinic.Longitude,
-                            DistanceToUser = distanceToUser
+                            DistanceToUser = distanceToUser,
+                            City = clinic.City.Name,
+                            Name = clinic.Name,
+                            Description = clinic.Description,
+                            Logo = clinic.Logo
                         });
                     }
                 }

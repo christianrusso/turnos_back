@@ -13,7 +13,7 @@ namespace SistemaTurnos.WebApplication.Database
         private const string databaseServer = "localhost";
         private const string databaseName = "sistematurnos";
         private const string databaseUser = "root";
-        private const string databasePass = "1682951";
+        private const string databasePass = "fernando";
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseLazyLoadingProxies().UseMySql(GetConnectionString());
 
@@ -41,6 +41,7 @@ namespace SistemaTurnos.WebApplication.Database
             modelBuilder.ApplyConfiguration(new Clinic_WorkingHoursTypeConfiguration());
             modelBuilder.ApplyConfiguration(new Clinic_OpenCloseHoursTypeConfiguration());
             modelBuilder.ApplyConfiguration(new ClinicTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new Clinic_ClientFavoriteClinicsTypeConfiguration());
         }
         
         // Clinic Model
