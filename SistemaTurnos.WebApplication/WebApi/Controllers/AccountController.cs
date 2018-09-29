@@ -85,17 +85,89 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 }
                     
             }
-
-            
                 
             ValidTokens.Add($"{JwtBearerDefaults.AuthenticationScheme} {token}", userId);
-
 
             return new LogOnDto
             {
                 Token = token,
                 Logo = logo
             };
+        }
+
+        [HttpPost]
+        public LogOnDto LoginFacebook([FromBody] LoginFacebookDto model)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var client = dbContext.Clinic_Clients.FirstOrDefault(c => c.User.Email == model.Email);
+
+                // Si client es null, el usuario no esta registrado. Si es distinto de null, ya esta registrado.
+                if (client == null)
+                {
+                    // Registrar cliente
+                    if (!_roleManager.RoleExistsAsync(Roles.Client).Result)
+                    {
+                        throw new ApplicationException(ExceptionMessages.RolesHaveNotBeenCreated);
+                    }
+
+                    var user = new ApplicationUser
+                    {
+                        UserName = model.Email,
+                        Email = model.Email
+                    };
+
+                    var result = _userManager.CreateAsync(user, Guid.NewGuid().ToString()).Result;
+
+                    if (!result.Succeeded)
+                    {
+                        throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
+                    }
+
+                    var applicationUser = _userManager.Users.SingleOrDefault(au => au.Email == model.Email);
+
+                    result = _userManager.AddToRoleAsync(applicationUser, Roles.Client).Result;
+
+                    if (!result.Succeeded)
+                    {
+                        throw new ApplicationException(ExceptionMessages.InternalServerError);
+                    }
+
+                    client = new Clinic_Client
+                    {
+                        UserId = applicationUser.Id,
+                        Logo = "",
+                        FacebookUserId = model.UserId
+                    };
+
+                    dbContext.Clinic_Clients.Add(client);
+                    dbContext.SaveChanges();
+                }
+
+                // Chequeo que el FacebookUserId sea correcto
+                if (client.FacebookUserId != model.UserId)
+                {
+                    throw new ApplicationException(ExceptionMessages.BadRequest);
+                }
+
+                // Logueo al usuario
+                var appUser = _userManager.Users.SingleOrDefault(user => user.Email == model.Email);
+                string token = GenerateJwtToken(model.Email, appUser);
+                int userId = appUser.Id;
+
+                if (!_userManager.IsInRoleAsync(appUser, Roles.Client).Result)
+                {
+                    throw new ApplicationException(ExceptionMessages.BadRequest);
+                }
+
+                ValidTokens.Add($"{JwtBearerDefaults.AuthenticationScheme} {token}", userId);
+
+                return new LogOnDto
+                {
+                    Token = token,
+                    Logo = client.Logo
+                };
+            }
         }
 
         [HttpPost]

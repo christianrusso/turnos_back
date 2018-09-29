@@ -67,6 +67,55 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = Roles.Administrator)]
+        public void UpdateInformation([FromBody] UpdateClinicDto clinicDto)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = GetUserId();
+
+                var clinicToUpdate = dbContext.Clinics.FirstOrDefault(c => c.UserId == userId);
+
+                if (clinicToUpdate == null)
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                if (!string.IsNullOrWhiteSpace(clinicDto.Address))
+                {
+                    clinicToUpdate.Address = clinicDto.Address;
+                }
+
+                if (!string.IsNullOrWhiteSpace(clinicDto.Description))
+                {
+                    clinicToUpdate.Description = clinicDto.Description;
+                }
+
+                if (clinicDto.CityId.HasValue)
+                {
+                    clinicToUpdate.CityId = clinicDto.CityId.Value;
+                }
+
+                if (clinicDto.Latitude.HasValue)
+                {
+                    clinicToUpdate.Latitude = clinicDto.Latitude.Value;
+                }
+
+                if (clinicDto.Longitude.HasValue)
+                {
+                    clinicToUpdate.Longitude = clinicDto.Longitude.Value;
+                }
+
+                if (!string.IsNullOrWhiteSpace(clinicDto.Logo))
+                {
+                    clinicToUpdate.Logo = clinicDto.Logo;
+                }
+
+                dbContext.SaveChanges();
+            }
+        }
+
+        [HttpPost]
         public List<ClinicDto> GetAllInRadius([FromBody] GeoLocationDto geoLocation)
         {
             var res = new List<ClinicDto>();

@@ -14,6 +14,8 @@ namespace SistemaTurnos.WebApplication.Database.ClinicModel
         [Required]
         public int UserId { get; set; }
 
+        public string FacebookUserId { get; set; }
+
         public virtual List<Clinic_ClientFavoriteClinics> FavoriteClinics { get; set; }
 
         public string Logo { get; set; }
