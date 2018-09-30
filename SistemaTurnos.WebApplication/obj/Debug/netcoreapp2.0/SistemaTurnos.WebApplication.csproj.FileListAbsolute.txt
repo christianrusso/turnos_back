@@ -50,7 +50,6 @@ C:/Desarrollo .net/orbit/turnosBack/turnos_back/SistemaTurnos.WebApplication/obj
 /Users/usuario/Desktop/miguel/turnos_back/SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/SistemaTurnos.WebApplication.runtimeconfig.dev.json
 /Users/usuario/Desktop/miguel/turnos_back/SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/SistemaTurnos.WebApplication.dll
 /Users/usuario/Desktop/miguel/turnos_back/SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/SistemaTurnos.WebApplication.pdb
-/Users/usuario/Desktop/miguel/turnos_back/SistemaTurnos.WebApplication/obj/Debug/netcoreapp2.0/SistemaTurnos.WebApplication.csprojResolveAssemblyReference.cache
 /Users/usuario/Desktop/miguel/turnos_back/SistemaTurnos.WebApplication/obj/Debug/netcoreapp2.0/SistemaTurnos.WebApplication.csproj.CoreCompileInputs.cache
 /Users/usuario/Desktop/miguel/turnos_back/SistemaTurnos.WebApplication/obj/Debug/netcoreapp2.0/UserSecretsAssemblyInfo.cs
 /Users/usuario/Desktop/miguel/turnos_back/SistemaTurnos.WebApplication/obj/Debug/netcoreapp2.0/SistemaTurnos.WebApplication.AssemblyInfoInputs.cache
