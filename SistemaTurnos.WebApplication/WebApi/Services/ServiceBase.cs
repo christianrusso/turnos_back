@@ -15,17 +15,17 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
             _httpContext = httpContext;
         }
 
-        public int GetUserId()
+        public int GetUserId(HttpContext httpContext)
         {
-            /*int? userId = (int?)_httpContext.Items["userId"];
+            int? userId = (int?)httpContext.Items["userId"];
 
             if (!userId.HasValue)
             {
                 throw new ApplicationException(ExceptionMessages.InternalServerError);
             }
 
-            return userId.Value;*/
-            return 26;
+            return userId.Value;
+            //return 26;
         }
     }
 }

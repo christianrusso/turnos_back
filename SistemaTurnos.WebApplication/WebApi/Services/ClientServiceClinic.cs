@@ -48,11 +48,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
             }
         }
 
-        public List<ClientDto> GetAllNonPatients()
+        public List<ClientDto> GetAllNonPatients(HttpContext httpContex)
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = GetUserId(httpContex);
 
                 return dbContext.Clients
                     .Where(c => !c.Patients.Any(p => p.UserId == userId))
@@ -65,11 +65,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
             }
         }
 
-        public List<ClientDto> GetAllNonHairdressingPatients()
+        public List<ClientDto> GetAllNonHairdressingPatients(HttpContext httpContex)
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = GetUserId(httpContex);
 
                 return dbContext.Clients
                     .Where(c => !c.HairdressingPatients.Any(p => p.UserId == userId))

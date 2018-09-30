@@ -36,7 +36,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId();
+                var userId = _service.GetUserId(this.HttpContext);
 
                 ValidateDoctorData(dbContext, userId, doctorDto.SpecialtyId, doctorDto.SubspecialtyId, doctorDto.WorkingHours);
 
@@ -67,7 +67,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId();
+                var userId = _service.GetUserId(this.HttpContext);
                 var doctorToDelete = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == doctorDto.Id && d.UserId == userId);
 
                 if (doctorToDelete == null)
@@ -87,7 +87,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId();
+                var userId = _service.GetUserId(this.HttpContext);
 
                 Clinic_Doctor doctorToUpdate = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == doctorDto.Id && d.UserId == userId);
 
@@ -127,7 +127,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId();
+                var userId = _service.GetUserId(this.HttpContext);
 
                 return dbContext.Clinic_Doctors
                     .Where(d => d.UserId == userId)
@@ -154,7 +154,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId();
+                var userId = _service.GetUserId(this.HttpContext);
 
                 return dbContext.Clinic_Doctors
                     .Where(d => d.UserId == userId)
@@ -174,7 +174,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                int? userId = _service.GetUserId();
+                int? userId = _service.GetUserId(this.HttpContext);
 
                 if(filter.ClinicId != null)
                     userId = filter.ClinicId;
@@ -210,7 +210,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId();
+                var userId = _service.GetUserId(this.HttpContext);
 
                 Clinic_Doctor doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == doctorDto.Id && d.UserId == userId);
 
@@ -229,7 +229,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId();
+                var userId = _service.GetUserId(this.HttpContext);
 
                 Clinic_Doctor doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == doctorDto.Id && d.UserId == userId);
 
@@ -248,7 +248,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId();
+                var userId = _service.GetUserId(this.HttpContext);
 
                 Clinic_Doctor doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == doctorDto.Id && d.UserId == userId);
 

@@ -13428,28 +13428,30 @@
     ]
   },
   "packageFolders": {
-    "/Users/usuario/.nuget/packages/": {},
-    "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
+    "C:\\Users\\migue\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/usuario/Desktop/miguel/turnos_back/SistemaTurnos.WebApplication/SistemaTurnos.WebApplication.csproj",
+      "projectUniqueName": "C:\\Desarrollo .net\\orbit\\turnosBack\\turnos_back\\SistemaTurnos.WebApplication\\SistemaTurnos.WebApplication.csproj",
       "projectName": "SistemaTurnos.WebApplication",
-      "projectPath": "/Users/usuario/Desktop/miguel/turnos_back/SistemaTurnos.WebApplication/SistemaTurnos.WebApplication.csproj",
-      "packagesPath": "/Users/usuario/.nuget/packages/",
-      "outputPath": "/Users/usuario/Desktop/miguel/turnos_back/SistemaTurnos.WebApplication/obj/",
+      "projectPath": "C:\\Desarrollo .net\\orbit\\turnosBack\\turnos_back\\SistemaTurnos.WebApplication\\SistemaTurnos.WebApplication.csproj",
+      "packagesPath": "C:\\Users\\migue\\.nuget\\packages\\",
+      "outputPath": "C:\\Desarrollo .net\\orbit\\turnosBack\\turnos_back\\SistemaTurnos.WebApplication\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/Users/usuario/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\migue\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
