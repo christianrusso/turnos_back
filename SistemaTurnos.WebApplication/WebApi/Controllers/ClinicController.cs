@@ -76,6 +76,55 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = Roles.Administrator)]
+        public void UpdateInformation([FromBody] UpdateClinicDto clinicDto)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = _service.GetUserId(this.HttpContext);
+
+                var clinicToUpdate = dbContext.Clinics.FirstOrDefault(c => c.UserId == userId);
+
+                if (clinicToUpdate == null)
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                if (!string.IsNullOrWhiteSpace(clinicDto.Address))
+                {
+                    clinicToUpdate.Address = clinicDto.Address;
+                }
+
+                if (!string.IsNullOrWhiteSpace(clinicDto.Description))
+                {
+                    clinicToUpdate.Description = clinicDto.Description;
+                }
+
+                if (clinicDto.CityId.HasValue)
+                {
+                    clinicToUpdate.CityId = clinicDto.CityId.Value;
+                }
+
+                if (clinicDto.Latitude.HasValue)
+                {
+                    clinicToUpdate.Latitude = clinicDto.Latitude.Value;
+                }
+
+                if (clinicDto.Longitude.HasValue)
+                {
+                    clinicToUpdate.Longitude = clinicDto.Longitude.Value;
+                }
+
+                if (!string.IsNullOrWhiteSpace(clinicDto.Logo))
+                {
+                    clinicToUpdate.Logo = clinicDto.Logo;
+                }
+
+                dbContext.SaveChanges();
+            }
+        }
+
+        [HttpPost]
         public List<ClinicDto> GetAllInRadius([FromBody] GeoLocationDto geoLocation)
         {
             var res = new List<ClinicDto>();
@@ -98,7 +147,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                             Address = clinic.Address,
                             Latitude = clinic.Latitude,
                             Longitude = clinic.Longitude,
-                            DistanceToUser = distanceToUser
+                            DistanceToUser = distanceToUser,
+                            City = clinic.City.Name,
+                            Name = clinic.Name,
+                            Description = clinic.Description,
+                            Logo = clinic.Logo
                         });
                     }
                 }
@@ -162,66 +215,40 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         continue;
                     }
 
-                    var filtered = false;
-
                     // Filtro por especialidades
                     var specialties = dbContext.Clinic_Specialties.Where(s => s.UserId == userId).ToList();
-                    
-                    foreach (var specialtyId in filterDto.Specialties)
-                    {
-                        if (!specialties.Any(s => s.DataId == specialtyId))
-                        {
-                            filtered = true;
-                            break;
-                        }
-                    }
 
-                    if (filtered) continue;
+                    if (filterDto.Specialties.Any() && filterDto.Specialties.TrueForAll(sId => !specialties.Any(s => s.DataId == sId)))
+                    {
+                        continue;
+                    }
 
                     // Filtro por subespecialidades
                     var subspecialties = dbContext.Clinic_Subspecialties.Where(sp => sp.UserId == userId).ToList();
 
-                    foreach (var subspecialtyId in filterDto.Subspecialties)
+                    if (filterDto.Subspecialties.Any() && filterDto.Subspecialties.TrueForAll(ssId => !subspecialties.Any(ss => ss.DataId == ssId)))
                     {
-                        if (!subspecialties.Any(sp => sp.DataId == subspecialtyId))
-                        {
-                            filtered = true;
-                            break;
-                        }
+                        continue;
                     }
-
-                    if (filtered) continue;
 
                     // Filtro por obras sociales
                     var medicalInsurances = dbContext.Clinic_MedicalInsurances.Where(mi => mi.UserId == userId).ToList();
 
-                    foreach (var medicalInsuranceId in filterDto.MedicalInsurances)
+                    if (filterDto.MedicalInsurances.Any() && (filterDto.MedicalInsurances.TrueForAll(miId => !medicalInsurances.Any(mi => mi.DataId == miId))))
                     {
-                        if (!medicalInsurances.Any(mi => mi.DataId == medicalInsuranceId))
-                        {
-                            filtered = true;
-                            break;
-                        }
+                        continue;
                     }
-
-                    if (filtered) continue;
 
                     // Filtro por planes de obras sociales
                     var medicalPlans = dbContext.Clinic_MedicalPlans.Where(mp => mp.UserId == userId).ToList();
 
-                    foreach (var medicalPlanId in filterDto.MedicalPlans)
+                    if (filterDto.MedicalPlans.Any() && filterDto.MedicalPlans.TrueForAll(mpId => !medicalPlans.Any(mp => mp.DataId == mpId)))
                     {
-                        if (!medicalPlans.Any(mp => mp.DataId == medicalPlanId))
-                        {
-                            filtered = true;
-                            break;
-                        }
+                        continue;
                     }
 
-                    if (filtered) continue;
-
-                    // Filtro por las que tienen algun turno disponible en el dia especificado
-                    if (filterDto.AvailableAppointmentDate.HasValue)
+                    // Filtro por las que tienen algun turno disponible en el rango de dias especificado
+                    if (filterDto.AvailableAppointmentStartDate.HasValue && filterDto.AvailableAppointmentEndDate.HasValue)
                     {
                         var doctors = dbContext.Clinic_Doctors
                             .Where(d => d.UserId == userId)
@@ -233,19 +260,20 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                         foreach (var doctor in doctors)
                         {
-                            if (doctor.GetAllAvailablesForDay(filterDto.AvailableAppointmentDate.Value).Any())
+                            for (var day = filterDto.AvailableAppointmentStartDate.Value.Date; day <= filterDto.AvailableAppointmentEndDate.Value.Date; day = day.AddDays(1))
                             {
-                                hasAppointmentAvailable = true;
+                                if (doctor.GetAllAvailablesForDay(day).Any())
+                                {
+                                    hasAppointmentAvailable = true;
+                                    break;
+                                }
+                            }
+
+                            if (hasAppointmentAvailable)
+                            {
                                 break;
                             }
                         }
-
-                        if (!hasAppointmentAvailable)
-                        {
-                            filtered = true;
-                        }
-
-                        if (filtered) continue;
                     }
 
 
