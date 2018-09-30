@@ -73,7 +73,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 if(getAppointmentDto.ClinicId != null)
                     userId = getAppointmentDto.ClinicId;
 
-                var doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == getAppointmentDto.DoctorId && d.UserId == userId);
+                var doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == getAppointmentDto.DoctorId);
 
                 if (doctor == null)
                 {

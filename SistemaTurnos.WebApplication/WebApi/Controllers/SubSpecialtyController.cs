@@ -17,7 +17,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
     [Route("Api/[controller]/[action]")]
     [Produces("application/json")]
     [EnableCors("AnyOrigin")]
-    [Authorize(Roles = Roles.AdministratorAndEmployee)]
     public class SubspecialtyController : Controller
     {
         [HttpPost]
@@ -74,6 +73,25 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 return dbContext.Clinic_Subspecialties
                     .Where(ssp => ssp.SpecialtyId == specialtyIdDto.Id && ssp.UserId == userId)
+                    .Select(ssp => new SubspecialtyDto
+                    {
+                        Id = ssp.Id,
+                        Description = ssp.Data.Description,
+                        ConsultationLength = ssp.ConsultationLength,
+                        SpecialtyId = ssp.SpecialtyId,
+                        SpecialtyDescription = ssp.Specialty.Data.Description
+                    }).ToList();
+            }
+        }
+
+
+        [HttpPost]
+        public List<SubspecialtyDto> GetAllOfSpecialtyNoUserID([FromBody] IdDto specialtyIdDto)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                return dbContext.Clinic_Subspecialties
+                    .Where(ssp => ssp.SpecialtyId == specialtyIdDto.Id)
                     .Select(ssp => new SubspecialtyDto
                     {
                         Id = ssp.Id,

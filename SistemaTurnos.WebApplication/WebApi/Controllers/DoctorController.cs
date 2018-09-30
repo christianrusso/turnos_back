@@ -178,7 +178,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if(filter.ClinicId != null)
                     userId = filter.ClinicId;
-                
+
+                var clinic = dbContext.Clinics.FirstOrDefault(c => c.Id == filter.ClinicId);
+
+                if (clinic != null)
+                {
+                    userId = clinic.UserId;
+                }
 
                 return dbContext.Clinic_Doctors
                     .Where(d => d.UserId == userId)
