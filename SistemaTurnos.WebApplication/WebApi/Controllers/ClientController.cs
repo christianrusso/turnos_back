@@ -28,6 +28,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly IConfiguration _configuration;
+        private BusinessPlaceService _service;
 
         private readonly ClientServiceClinic _ClientService;
 
@@ -37,7 +38,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             _roleManager = roleManager;
             _signInManager = signInManager;
             _configuration = configuration;
-
+            _service = new BusinessPlaceService(this.HttpContext);
+            
             _ClientService = new ClientServiceClinic(_userManager, _roleManager, _signInManager, _configuration, HttpContext);
         }
 
@@ -64,12 +66,86 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = Roles.AdministratorAndEmployee)]
-        public List<ClientDto> GetAllNonHairdressingPatients()
+        [Authorize(Roles = Roles.Client)]
+        public void AddFavoriteClinic([FromBody] IdDto clinic)
         {
-            var clients = _ClientService.GetAllNonHairdressingPatients(this.HttpContext);
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = _service.GetUserId(this.HttpContext);
 
-            return clients;
+                if (!dbContext.Clinics.Any(c => c.Id == clinic.Id))
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
+
+                if (client.FavoriteClinics.Any(fc => fc.ClinicId == clinic.Id))
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                client.FavoriteClinics.Add(new Clinic_ClientFavorite
+                {
+                    ClientId = client.Id,
+                    ClinicId = clinic.Id
+                });
+
+                dbContext.SaveChanges();
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = Roles.Client)]
+        public void RemoveFavoriteClinic([FromBody] IdDto clinic)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = _service.GetUserId(this.HttpContext);
+
+                if (!dbContext.Clinics.Any(c => c.Id == clinic.Id))
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
+
+                var favoriteClinic = client.FavoriteClinics.Where(fc => fc.ClinicId == clinic.Id);
+
+                if (favoriteClinic == null)
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                dbContext.Entry(favoriteClinic).State = EntityState.Deleted;
+                dbContext.SaveChanges();
+            }
+        }
+
+        [HttpGet]
+        [Authorize(Roles = Roles.Client)]
+        public List<ClinicDto> GetFavoriteClinics()
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = _service.GetUserId(this.HttpContext);
+
+                var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
+
+                return client.FavoriteClinics.Select(fv => new ClinicDto
+                {
+                    ClinicId = fv.ClinicId,
+                    Name = fv.Clinic.Name,
+                    Description = fv.Clinic.Description,
+                    Address = fv.Clinic.Address,
+                    City = fv.Clinic.City.Name,
+                    Latitude = fv.Clinic.Latitude,
+                    Longitude = fv.Clinic.Longitude,
+                    Logo = fv.Clinic.Logo,
+                    DistanceToUser = -1
+                })
+                .ToList();
+            }
         }
     }
 }

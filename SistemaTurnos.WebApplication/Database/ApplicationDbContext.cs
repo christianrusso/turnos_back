@@ -52,6 +52,7 @@ namespace SistemaTurnos.WebApplication.Database
             modelBuilder.ApplyConfiguration(new Clinic_WorkingHoursTypeConfiguration());
             modelBuilder.ApplyConfiguration(new Clinic_OpenCloseHoursTypeConfiguration());
             modelBuilder.ApplyConfiguration(new ClinicTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new Clinic_ClientFavoriteTypeConfiguration());
 
             // Hairdressing
             modelBuilder.ApplyConfiguration(new Hairdressing_AppointmentTypeConfiguration());

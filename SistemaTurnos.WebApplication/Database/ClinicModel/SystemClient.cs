@@ -22,5 +22,10 @@ namespace SistemaTurnos.WebApplication.Database.ClinicModel
         public virtual List<Clinic_Patient> Patients { get; set; }
 
         public virtual List<Hairdressing_Patient> HairdressingPatients { get; set; }
+
+        public string FacebookUserId { get; set; }
+
+        public virtual List<Clinic_ClientFavorite> FavoriteClinics { get; set; }
+
     }
 }
