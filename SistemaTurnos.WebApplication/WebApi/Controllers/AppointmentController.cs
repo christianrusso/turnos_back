@@ -648,7 +648,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     AppointmentId = appointment.Id,
                     Score = completeAppointmentDto.Score,
                     Comment = completeAppointmentDto.Comment,
-                    UserId = userId
+                    UserId = clinic.UserId
                 };
 
                 dbContext.SaveChanges();
