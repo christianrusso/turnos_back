@@ -12,6 +12,7 @@ using SistemaTurnos.WebApplication.WebApi.Authorization;
 using SistemaTurnos.WebApplication.WebApi.Dto;
 using SistemaTurnos.WebApplication.WebApi.Dto.Appointment;
 using SistemaTurnos.WebApplication.WebApi.Exceptions;
+using SistemaTurnos.WebApplication.WebApi.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -767,48 +768,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.Client)]
         public List<ClientDayDto> GetWeekForClient([FromBody] FilterClientWeekAppointmentDto filter)
         {
-            var res = new List<ClientDayDto>();
+            var service = new AppointmentService(this.HttpContext);
+            var week = service.Clinic_GetWeekForClient(filter, this.HttpContext);
 
-            using (var dbContext = new ApplicationDbContext())
-            {
-                var userId = GetUserId();
-
-                var clinics = dbContext.Clinics.ToList();
-
-                var appointments = dbContext.Clinic_Appointments
-                    .Where(a => a.Patient.Client.UserId == userId)
-                    .ToList();
-
-                for (var date = filter.StartDate.Date; date <= filter.EndDate.Date; date = date.AddDays(1))
-                {
-                    var day = new ClientDayDto { Day = date, Appointments = new List<PatientAppointmentInformationDto>() };
-                    var nextDate = date.AddDays(1);
-
-                    var dayAppointments = appointments.Where(a => day.Day <= a.DateTime && a.DateTime < nextDate).OrderBy(a => a.DateTime).ToList();
-
-                    foreach (var dayAppointment in dayAppointments)
-                    {
-                        var clinic = clinics.First(c => c.UserId == dayAppointment.UserId);
-
-                        var appointmentInformation = new PatientAppointmentInformationDto
-                        {
-                            ClinicId = clinic.Id,
-                            Clinic = clinic.Name,
-                            Doctor = $"{dayAppointment.Doctor.FirstName} {dayAppointment.Doctor.LastName}",
-                            Specialty = dayAppointment.Doctor.Specialty.Data.Description,
-                            Subspecialty = dayAppointment.Doctor.Subspecialty?.Data.Description ?? string.Empty,
-                            DateTime = dayAppointment.DateTime,
-                            Id = dayAppointment.Id,
-                            State = dayAppointment.State,
-                        };
-
-                        day.Appointments.Add(appointmentInformation);
-                    }
-                    res.Add(day);
-                }
-            }
-
-            return res;
+            return week;
         }
 
         [HttpPost]

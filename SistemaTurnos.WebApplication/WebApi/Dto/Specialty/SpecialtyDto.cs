@@ -11,6 +11,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Specialty
 
         public int Doctors { get; set; }
 
+        public int Professionales { get; set; }
+
         public List<SubspecialtyDto> Subspecialties { get; set; }
     }
 }

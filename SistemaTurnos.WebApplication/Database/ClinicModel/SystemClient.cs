@@ -27,5 +27,7 @@ namespace SistemaTurnos.WebApplication.Database.ClinicModel
 
         public virtual List<Clinic_ClientFavorite> FavoriteClinics { get; set; }
 
+        public virtual List<Hairdressing_ClientFavorite> FavoriteHairdressing { get; set; }
+
     }
 }

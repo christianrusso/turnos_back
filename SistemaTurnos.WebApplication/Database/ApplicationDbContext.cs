@@ -65,6 +65,7 @@ namespace SistemaTurnos.WebApplication.Database
             modelBuilder.ApplyConfiguration(new Hairdressing_WorkingHoursTypeConfiguration());
             modelBuilder.ApplyConfiguration(new Hairdressing_OpenCloseHoursTypeConfiguration());
             modelBuilder.ApplyConfiguration(new HairdressingTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new Hairdressing_ClientFavoriteTypeConfiguration());
         }
         
         // Clinic Model
@@ -93,6 +94,8 @@ namespace SistemaTurnos.WebApplication.Database
         public DbSet<Clinic_MedicalPlan> Clinic_MedicalPlans { get; set; }
 
         public DbSet<Clinic_OpenCloseHours> Clinic_OpenCloseHours { get; set; }
+
+        public DbSet<Clinic_ClientFavorite> Clinic_ClientFavorites { get; set; }
 
         // Model Data
         public DbSet<SpecialtyData> Specialties { get; set; }
@@ -125,5 +128,7 @@ namespace SistemaTurnos.WebApplication.Database
         public DbSet<Hairdressing_Employee> Hairdressing_Employees { get; set; }
 
         public DbSet<Hairdressing_OpenCloseHours> Hairdressing_OpenCloseHours { get; set; }
+
+        public DbSet<Hairdressing_ClientFavorite> Hairdressing_ClientFavorites { get; set; }
     }
 }

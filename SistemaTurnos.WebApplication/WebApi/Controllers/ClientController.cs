@@ -6,11 +6,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SistemaTurnos.WebApplication.Database;
 using SistemaTurnos.WebApplication.Database.ClinicModel;
+using SistemaTurnos.WebApplication.Database.HairdressingModel;
 using SistemaTurnos.WebApplication.Database.Model;
 using SistemaTurnos.WebApplication.WebApi.Authorization;
 using SistemaTurnos.WebApplication.WebApi.Dto;
 using SistemaTurnos.WebApplication.WebApi.Dto.Client;
 using SistemaTurnos.WebApplication.WebApi.Dto.Clinic;
+using SistemaTurnos.WebApplication.WebApi.Dto.Common;
+using SistemaTurnos.WebApplication.WebApi.Dto.Hairdressing;
 using SistemaTurnos.WebApplication.WebApi.Exceptions;
 using SistemaTurnos.WebApplication.WebApi.Services;
 using System;
@@ -117,7 +120,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException(ExceptionMessages.BadRequest);
                 }
 
-                dbContext.Entry(favoriteClinic).State = EntityState.Deleted;
+                foreach (var f in favoriteClinic)
+                {
+                    dbContext.Clinic_ClientFavorites.Remove(f);
+                }
+
+                //dbContext.Entry(favoriteClinic).State = EntityState.Deleted;
                 dbContext.SaveChanges();
             }
         }
@@ -146,6 +154,149 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 })
                 .ToList();
             }
+        }
+
+        //Hairdressing Favorites
+        [HttpPost]
+        [Authorize(Roles = Roles.Client)]
+        public void AddFavoriteHairdressing([FromBody] IdDto hairdressing)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = _service.GetUserId(this.HttpContext);
+
+                if (!dbContext.Hairdressings.Any(c => c.Id == hairdressing.Id))
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
+
+                if (client.FavoriteClinics.Any(fc => fc.ClinicId == hairdressing.Id))
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                client.FavoriteHairdressing.Add(new Hairdressing_ClientFavorite
+                {
+                    ClientId = client.Id,
+                    HairdressingId = hairdressing.Id
+                });
+
+                dbContext.SaveChanges();
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = Roles.Client)]
+        public void RemoveFavoriteHairdressing([FromBody] IdDto hairdressing)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = _service.GetUserId(this.HttpContext);
+
+                if (!dbContext.Clinics.Any(c => c.Id == hairdressing.Id))
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
+
+                var favoriteHairdressing = client.FavoriteHairdressing.Where(fc => fc.HairdressingId == hairdressing.Id);
+
+                if (favoriteHairdressing == null)
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                foreach (var f in favoriteHairdressing)
+                {
+                    dbContext.Hairdressing_ClientFavorites.Remove(f);
+                }
+                
+                //dbContext.Entry(favoriteHairdressing).State = EntityState.Deleted;
+                dbContext.SaveChanges();
+            }
+        }
+
+        [HttpGet]
+        [Authorize(Roles = Roles.Client)]
+        public List<HairdressingDto> GetFavoriteHairdressing()
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = _service.GetUserId(this.HttpContext);
+
+                var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
+
+                return client.FavoriteHairdressing.Select(fv => new HairdressingDto
+                {
+                    HairdressingId = fv.HairdressingId,
+                    Name = fv.Hairdressing.Name,
+                    Description = fv.Hairdressing.Description,
+                    Address = fv.Hairdressing.Address,
+                    City = fv.Hairdressing.City.Name,
+                    Latitude = fv.Hairdressing.Latitude,
+                    Longitude = fv.Hairdressing.Longitude,
+                    Logo = fv.Hairdressing.Logo,
+                    DistanceToUser = -1
+                })
+                .ToList();
+            }
+        }
+
+        //All favorites
+
+        [HttpGet]
+        [Authorize(Roles = Roles.Client)]
+        public FavoritesDto GetFavorites()
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = _service.GetUserId(this.HttpContext);
+
+                var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
+
+                var hairdressingFavorites = client.FavoriteHairdressing.Select(fv => new HairdressingDto
+                {
+                    HairdressingId = fv.HairdressingId,
+                    Name = fv.Hairdressing.Name,
+                    Description = fv.Hairdressing.Description,
+                    Address = fv.Hairdressing.Address,
+                    City = fv.Hairdressing.City.Name,
+                    Latitude = fv.Hairdressing.Latitude,
+                    Longitude = fv.Hairdressing.Longitude,
+                    Logo = fv.Hairdressing.Logo,
+                    DistanceToUser = -1
+                });
+
+                var clinicFavorites = client.FavoriteClinics.Select(fv => new ClinicDto
+                {
+                    ClinicId = fv.ClinicId,
+                    Name = fv.Clinic.Name,
+                    Description = fv.Clinic.Description,
+                    Address = fv.Clinic.Address,
+                    City = fv.Clinic.City.Name,
+                    Latitude = fv.Clinic.Latitude,
+                    Longitude = fv.Clinic.Longitude,
+                    Logo = fv.Clinic.Logo,
+                    DistanceToUser = -1
+                });
+
+                var favoriteDto = new FavoritesDto();
+                favoriteDto.HairdressingFavorites = hairdressingFavorites.ToList();
+                favoriteDto.ClinicFavorites = clinicFavorites.ToList();
+
+                return favoriteDto;
+            }
+        }
+
+        [HttpPost]
+        [Authorize(Roles = Roles.Client)]
+        public WeekForClientDto GetWeekForClient([FromBody] FilterClientWeekDto filter)
+        {
+            var service = new AppointmentService(this.HttpContext);
+            return service.GetWeekForClient(filter, this.HttpContext);
         }
     }
 }

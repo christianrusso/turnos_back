@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SistemaTurnos.WebApplication.Database.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SistemaTurnos.WebApplication.Database.ModelData
@@ -18,5 +19,8 @@ namespace SistemaTurnos.WebApplication.Database.ModelData
 
         [Required]
         public virtual SpecialtyData SpecialtyData { get; set; }
+
+        [Required]
+        public RubroEnum Rubro { get; set; }
     }
 }

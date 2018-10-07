@@ -15,6 +15,7 @@ using SistemaTurnos.WebApplication.WebApi.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SistemaTurnos.WebApplication.WebApi.Services;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
 {
@@ -751,46 +752,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.Client)]
         public List<HairdressingClientDayDto> GetWeekForClient([FromBody] FilterClientWeekHairdressingAppointmentDto filter)
         {
-            var res = new List<HairdressingClientDayDto>();
+            var service = new AppointmentService(this.HttpContext);
+            var week = service.Hairdressing_GetWeekForClient(filter, this.HttpContext);
 
-            using (var dbContext = new ApplicationDbContext())
-            {
-                var userId = GetUserId();
-
-                var hairdressings = dbContext.Hairdressings.ToList();
-
-                var appointments = dbContext.Hairdressing_Appointments
-                    .Where(a => a.Patient.Client.UserId == userId)
-                    .ToList();
-
-                for (var date = filter.StartDate.Date; date <= filter.EndDate.Date; date = date.AddDays(1))
-                {
-                    var day = new HairdressingClientDayDto { Day = date, Appointments = new List<PatientHairdressingAppointmentInformationDto>() };
-                    var nextDate = date.AddDays(1);
-
-                    var dayAppointments = appointments.Where(a => day.Day <= a.DateTime && a.DateTime < nextDate).OrderBy(a => a.DateTime).ToList();
-
-                    foreach (var dayAppointment in dayAppointments)
-                    {
-                        var hairdressing = hairdressings.First(c => c.UserId == dayAppointment.UserId);
-
-                        var appointmentInformation = new PatientHairdressingAppointmentInformationDto
-                        {
-                            HairdressingId = hairdressing.Id,
-                            Hairdressing = hairdressing.Name,
-                            Professional = $"{dayAppointment.Professional.FirstName} {dayAppointment.Professional.LastName}",
-                            Specialty = dayAppointment.Professional.Specialty.Data.Description,
-                            Subspecialty = dayAppointment.Professional.Subspecialty?.Data.Description ?? string.Empty,
-                            DateTime = dayAppointment.DateTime,
-                        };
-
-                        day.Appointments.Add(appointmentInformation);
-                    }
-                    res.Add(day);
-                }
-            }
-
-            return res;
+            return week;
         }
 
         [HttpPost]
