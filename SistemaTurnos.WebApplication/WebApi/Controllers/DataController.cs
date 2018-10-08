@@ -29,11 +29,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
         
         [HttpPost]
-        public List<SelectOptionDto> GetSpecialtiesForSelect()
+        public List<SelectOptionDto> GetSpecialtiesForSelect([FromBody] IdDto rubro)
         {
             using (var dbContext = new ApplicationDbContext())
             {
                 return dbContext.Specialties
+                    .Where(x => x.Rubro == rubro.Id)
                     .Select(s => new SelectOptionDto
                     {
                         Id = s.Id.ToString(),
