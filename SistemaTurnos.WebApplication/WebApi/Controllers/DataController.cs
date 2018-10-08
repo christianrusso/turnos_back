@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SistemaTurnos.WebApplication.WebApi.Services;
+using SistemaTurnos.WebApplication.Database.Enums;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
 {
