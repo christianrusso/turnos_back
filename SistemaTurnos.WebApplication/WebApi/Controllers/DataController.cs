@@ -34,8 +34,16 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
+            
+                RubroEnum rubroEnum = RubroEnum.Clinic;
+                
+                if(rubro.Id == 2)
+                {
+                    rubroEnum =  RubroEnum.Hairdressing;
+                }
+                
                 return dbContext.Specialties
-                    .Where(x => x.Rubro == (RubroEnum)rubro.Id)
+                    .Where(x => x.Rubro == rubroEnum)
                     .Select(s => new SelectOptionDto
                     {
                         Id = s.Id.ToString(),
