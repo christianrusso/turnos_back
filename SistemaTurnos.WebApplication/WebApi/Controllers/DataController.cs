@@ -34,7 +34,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             using (var dbContext = new ApplicationDbContext())
             {
                 return dbContext.Specialties
-                    .Where(x => (int)x.Rubro == rubro.Id)
+                    .Where(x => x.Rubro == (RubroEnum)rubro.Id)
                     .Select(s => new SelectOptionDto
                     {
                         Id = s.Id.ToString(),
