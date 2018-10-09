@@ -265,6 +265,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                                 break;
                             }
                         }
+
+                        if (!hasAppointmentAvailable)
+                        {
+                            continue;
+                        }
                     }
 
 
