@@ -54,12 +54,20 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
-        public List<SelectOptionDto> GetSubspecialtiesForSelect([FromBody] OptionalIdDto specialtyFilter)
+        public List<SelectOptionDto> GetSubspecialtiesForSelect([FromBody] OptionalIdDtoAndRubro specialtyFilter)
         {
             using (var dbContext = new ApplicationDbContext())
             {
+                RubroEnum rubroEnum = RubroEnum.Clinic;
+                
+                if(specialtyFilter.Rubro == 2)
+                {
+                    rubroEnum =  RubroEnum.Hairdressing;
+                }
+
                 return dbContext.Subspecialties
                     .Where(ssp => !specialtyFilter.Id.HasValue || ssp.SpecialtyDataId == specialtyFilter.Id)
+                    .Where(x => x.Rubro == rubroEnum)
                     .Select(s => new SelectOptionDto
                     {
                         Id = s.Id.ToString(),
