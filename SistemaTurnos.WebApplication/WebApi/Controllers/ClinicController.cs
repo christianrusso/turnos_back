@@ -81,7 +81,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 var clinicToUpdate = dbContext.Clinics.FirstOrDefault(c => c.UserId == userId);
 
@@ -168,6 +168,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
+                var loggerUserId = _service.GetUserIdOrDefault(HttpContext);
+                var favoriteClinics = loggerUserId.HasValue ? dbContext.Clients.First(c => c.UserId == loggerUserId).FavoriteClinics : new List<Clinic_ClientFavorite>();
+                
                 // Filtro por ciudad y por id
                 var clinics = dbContext.Clinics
                     .Where(c => !filterDto.ClinicId.HasValue || c.Id == filterDto.ClinicId)
@@ -276,7 +279,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         }
                     }
 
-
                     // La clinica paso todos los filtros y la agrego al resultado
                     res.Add(new FullClinicDto
                     {
@@ -296,7 +298,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         MedicalInsurances = medicalInsurances.Select(mi => mi.Data.Description).ToList(),
                         MedicalPlans = medicalPlans.Select(mp => mp.Data.Description).ToList(),
                         Logo = clinic.Logo,
-                        OpenCloseHours = clinic.OpenCloseHours.Select(och => new OpenCloseHoursDto { DayNumber = och.DayNumber, Start = och.Start, End = och.End }).ToList()
+                        OpenCloseHours = clinic.OpenCloseHours.Select(och => new OpenCloseHoursDto { DayNumber = och.DayNumber, Start = och.Start, End = och.End }).ToList(),
+                        IsFavorite = favoriteClinics.Any(f => f.ClinicId == clinic.Id)
                     });
                 }
             }

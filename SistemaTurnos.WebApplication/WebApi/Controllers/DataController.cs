@@ -25,25 +25,18 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
         public DataController()
         {
-            _service = new BusinessPlaceService(this.HttpContext);
+            _service = new BusinessPlaceService(HttpContext);
         }
-
         
         [HttpPost]
-        public List<SelectOptionDto> GetSpecialtiesForSelect([FromBody] IdDto rubro)
+        public List<SelectOptionDto> GetSpecialtiesForSelect([FromBody] IdDto idDto)
         {
             using (var dbContext = new ApplicationDbContext())
             {
-            
-                RubroEnum rubroEnum = RubroEnum.Clinic;
-                
-                if(rubro.Id == 2)
-                {
-                    rubroEnum =  RubroEnum.Hairdressing;
-                }
+                RubroEnum rubro = RubroEnumHelper.GetRubro(idDto.Id);
                 
                 return dbContext.Specialties
-                    .Where(x => x.Rubro == rubroEnum)
+                    .Where(s => s.Rubro == rubro)
                     .Select(s => new SelectOptionDto
                     {
                         Id = s.Id.ToString(),
@@ -54,20 +47,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
-        public List<SelectOptionDto> GetSubspecialtiesForSelect([FromBody] OptionalIdDtoAndRubro specialtyFilter)
+        public List<SelectOptionDto> GetSubspecialtiesForSelect([FromBody] OptionalIdDtoAndRubro filter)
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                RubroEnum rubroEnum = RubroEnum.Clinic;
-                
-                if(specialtyFilter.Rubro == 2)
-                {
-                    rubroEnum =  RubroEnum.Hairdressing;
-                }
+                RubroEnum rubro = RubroEnumHelper.GetRubro(filter.Rubro);
 
                 return dbContext.Subspecialties
-                    .Where(ssp => !specialtyFilter.Id.HasValue || ssp.SpecialtyDataId == specialtyFilter.Id)
-                    .Where(x => x.Rubro == rubroEnum)
+                    .Where(ssp => !filter.Id.HasValue || ssp.SpecialtyDataId == filter.Id)
+                    .Where(x => x.Rubro == rubro)
                     .Select(s => new SelectOptionDto
                     {
                         Id = s.Id.ToString(),
@@ -83,7 +71,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 var specialty = dbContext.Clinic_Specialties.FirstOrDefault(s => s.Id == specialtyFilter.Id && s.UserId == userId);
 
@@ -140,7 +128,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 var medicalInsurance = dbContext.Clinic_MedicalInsurances.FirstOrDefault(mi => mi.Id == medicalInsuranceFilter.Id && mi.UserId == userId);
 

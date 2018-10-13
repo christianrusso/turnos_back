@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using SistemaTurnos.WebApplication.WebApi.Exceptions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace SistemaTurnos.WebApplication.WebApi.Services
 {
@@ -25,7 +22,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
             }
 
             return userId.Value;
-            //return 26;
+        }
+
+        public int? GetUserIdOrDefault(HttpContext httpContext)
+        {
+            return (int?)httpContext.Items["userId"];
         }
     }
 }

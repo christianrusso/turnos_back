@@ -14373,35 +14373,37 @@
     ]
   },
   "packageFolders": {
-    "/Users/usuario/.nuget/packages/": {},
-    "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
+    "C:\\Users\\ferna\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/usuario/Desktop/miguel/turnos_back/ApiTests/ApiTests.csproj",
+      "projectUniqueName": "C:\\Users\\ferna\\Documents\\GitHub\\Proyectos\\turnos_back\\ApiTests\\ApiTests.csproj",
       "projectName": "ApiTests",
-      "projectPath": "/Users/usuario/Desktop/miguel/turnos_back/ApiTests/ApiTests.csproj",
-      "packagesPath": "/Users/usuario/.nuget/packages/",
-      "outputPath": "/Users/usuario/Desktop/miguel/turnos_back/ApiTests/obj/",
+      "projectPath": "C:\\Users\\ferna\\Documents\\GitHub\\Proyectos\\turnos_back\\ApiTests\\ApiTests.csproj",
+      "packagesPath": "C:\\Users\\ferna\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ferna\\Documents\\GitHub\\Proyectos\\turnos_back\\ApiTests\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/Users/usuario/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\ferna\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "/Users/usuario/Desktop/miguel/turnos_back/SistemaTurnos.WebApplication/SistemaTurnos.WebApplication.csproj": {
-              "projectPath": "/Users/usuario/Desktop/miguel/turnos_back/SistemaTurnos.WebApplication/SistemaTurnos.WebApplication.csproj"
+            "C:\\Users\\ferna\\Documents\\GitHub\\Proyectos\\turnos_back\\SistemaTurnos.WebApplication\\SistemaTurnos.WebApplication.csproj": {
+              "projectPath": "C:\\Users\\ferna\\Documents\\GitHub\\Proyectos\\turnos_back\\SistemaTurnos.WebApplication\\SistemaTurnos.WebApplication.csproj"
             }
           }
         }
@@ -14424,7 +14426,6 @@
             "version": "[15.7.0, )"
           },
           "Microsoft.NETCore.App": {
-            "suppressParent": "All",
             "target": "Package",
             "version": "[2.0.0, )",
             "autoReferenced": true
