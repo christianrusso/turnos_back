@@ -150,7 +150,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     Latitude = fv.Clinic.Latitude,
                     Longitude = fv.Clinic.Longitude,
                     Logo = fv.Clinic.Logo,
-                    DistanceToUser = -1
+                    DistanceToUser = -1,
                 })
                 .ToList();
             }
