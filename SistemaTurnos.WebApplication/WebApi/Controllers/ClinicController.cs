@@ -138,6 +138,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 {
                     var location = new GeoCoordinate(clinic.Latitude, clinic.Longitude);
                     var distanceToUser = location.GetDistanceTo(userLocation);
+                    var clinicUserId = clinic.UserId;
+                    var ratings = dbContext.Clinic_Ratings.Where(r => r.UserId == clinicUserId).ToList();
+                    var score = ratings.Any() ? ratings.Average(r => r.Score) : 0;
 
                     if (distanceToUser <= geoLocation.RadiusInMeters)
                     {
@@ -151,7 +154,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                             City = clinic.City.Name,
                             Name = clinic.Name,
                             Description = clinic.Description,
-                            Logo = clinic.Logo
+                            Logo = clinic.Logo,
+                            Score = score
                         });
                     }
                 }
@@ -301,6 +305,29 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         OpenCloseHours = clinic.OpenCloseHours.Select(och => new OpenCloseHoursDto { DayNumber = och.DayNumber, Start = och.Start, End = och.End }).ToList(),
                         IsFavorite = favoriteClinics.Any(f => f.ClinicId == clinic.Id)
                     });
+                }
+            }
+
+            if (filterDto.SortField == "score")
+            {
+                if (filterDto.AscendingOrder.HasValue && filterDto.AscendingOrder.Value)
+                {
+                    return res.OrderBy(c => c.Score).ToList();
+                } else
+                {
+                    return res.OrderByDescending(c => c.Score).ToList();
+                }
+            }
+
+            if (filterDto.SortField == "comments")
+            {
+                if (filterDto.AscendingOrder.HasValue && filterDto.AscendingOrder.Value)
+                {
+                    return res.OrderBy(c => c.Ratings.Count).ToList();
+                }
+                else
+                {
+                    return res.OrderByDescending(c => c.Ratings.Count).ToList();
                 }
             }
 

@@ -140,19 +140,30 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
 
-                return client.FavoriteClinics.Select(fv => new ClinicDto
+                var res = new List<ClinicDto>();
+
+                foreach (var fv in client.FavoriteClinics)
                 {
-                    ClinicId = fv.ClinicId,
-                    Name = fv.Clinic.Name,
-                    Description = fv.Clinic.Description,
-                    Address = fv.Clinic.Address,
-                    City = fv.Clinic.City.Name,
-                    Latitude = fv.Clinic.Latitude,
-                    Longitude = fv.Clinic.Longitude,
-                    Logo = fv.Clinic.Logo,
-                    DistanceToUser = -1
-                })
-                .ToList();
+                    var clinicUserId = fv.Clinic.UserId;
+                    var ratings = dbContext.Clinic_Ratings.Where(r => r.UserId == clinicUserId).ToList();
+                    var score = ratings.Any() ? ratings.Average(r => r.Score) : 0;
+
+                    res.Add(new ClinicDto
+                    {
+                        ClinicId = fv.ClinicId,
+                        Name = fv.Clinic.Name,
+                        Description = fv.Clinic.Description,
+                        Address = fv.Clinic.Address,
+                        City = fv.Clinic.City.Name,
+                        Latitude = fv.Clinic.Latitude,
+                        Longitude = fv.Clinic.Longitude,
+                        Logo = fv.Clinic.Logo,
+                        DistanceToUser = -1,
+                        Score = score
+                    });
+                }
+
+                return res;
             }
         }
 

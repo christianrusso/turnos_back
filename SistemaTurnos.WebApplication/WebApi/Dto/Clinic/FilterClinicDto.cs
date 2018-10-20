@@ -27,5 +27,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Clinic
         public DateTime? AvailableAppointmentStartDate { get; set; }
 
         public DateTime? AvailableAppointmentEndDate { get; set; }
+
+        public string SortField { get; set; }
+
+        public bool? AscendingOrder { get; set; }
     }
 }
