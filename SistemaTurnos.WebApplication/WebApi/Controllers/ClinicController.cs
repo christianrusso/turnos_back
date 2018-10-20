@@ -172,7 +172,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                var loggerUserId = _service.GetUserIdOrDefault(HttpContext);
+                var loggerUserId = _service.GetUserIdOrDefault(this.HttpContext);
                 var favoriteClinics = loggerUserId.HasValue ? dbContext.Clients.First(c => c.UserId == loggerUserId).FavoriteClinics : new List<Clinic_ClientFavorite>();
                 
                 // Filtro por ciudad y por id
@@ -280,6 +280,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                             {
                                 break;
                             }
+                        }
+                        if (!hasAppointmentAvailable)
+                        {
+                            continue;
                         }
                     }
 
