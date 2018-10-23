@@ -312,6 +312,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 }
             }
 
+            // Paginacion
+            int from = filterDto.From ?? 0;
+            int to = filterDto.To - from ?? res.Count;
+            res = res.Skip(from).Take(to).ToList();
+
             if (filterDto.SortField == "score")
             {
                 if (filterDto.AscendingOrder.HasValue && filterDto.AscendingOrder.Value)
