@@ -313,9 +313,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
 
             // Paginacion
+            int resultSize = res.Count;
             int from = filterDto.From ?? 0;
             int to = filterDto.To - from ?? res.Count;
             res = res.Skip(from).Take(to).ToList();
+
+            foreach (var clinic in res)
+            {
+                clinic.ResultSize = resultSize;
+            }
 
             if (filterDto.SortField == "score")
             {
