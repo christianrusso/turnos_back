@@ -32,18 +32,6 @@
 /Users/usuario/Desktop/miguel/turnos_back/SistemaTurnos.WebApplication/obj/Debug/netcoreapp2.0/SistemaTurnos.WebApplication.AssemblyInfo.cs
 /Users/usuario/Desktop/miguel/turnos_back/SistemaTurnos.WebApplication/obj/Debug/netcoreapp2.0/SistemaTurnos.WebApplication.dll
 /Users/usuario/Desktop/miguel/turnos_back/SistemaTurnos.WebApplication/obj/Debug/netcoreapp2.0/SistemaTurnos.WebApplication.pdb
-C:/Desarrollo .net/orbit/turnosBack/turnos_back/SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/SistemaTurnos.WebApplication.deps.json
-C:/Desarrollo .net/orbit/turnosBack/turnos_back/SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/SistemaTurnos.WebApplication.runtimeconfig.json
-C:/Desarrollo .net/orbit/turnosBack/turnos_back/SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/SistemaTurnos.WebApplication.runtimeconfig.dev.json
-C:/Desarrollo .net/orbit/turnosBack/turnos_back/SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/SistemaTurnos.WebApplication.dll
-C:/Desarrollo .net/orbit/turnosBack/turnos_back/SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/SistemaTurnos.WebApplication.pdb
-C:/Desarrollo .net/orbit/turnosBack/turnos_back/SistemaTurnos.WebApplication/obj/Debug/netcoreapp2.0/SistemaTurnos.WebApplication.csproj.CoreCompileInputs.cache
-C:/Desarrollo .net/orbit/turnosBack/turnos_back/SistemaTurnos.WebApplication/obj/Debug/netcoreapp2.0/UserSecretsAssemblyInfo.cs
-C:/Desarrollo .net/orbit/turnosBack/turnos_back/SistemaTurnos.WebApplication/obj/Debug/netcoreapp2.0/SistemaTurnos.WebApplication.AssemblyInfoInputs.cache
-C:/Desarrollo .net/orbit/turnosBack/turnos_back/SistemaTurnos.WebApplication/obj/Debug/netcoreapp2.0/SistemaTurnos.WebApplication.AssemblyInfo.cs
-C:/Desarrollo .net/orbit/turnosBack/turnos_back/SistemaTurnos.WebApplication/obj/Debug/netcoreapp2.0/SistemaTurnos.WebApplication.dll
-C:/Desarrollo .net/orbit/turnosBack/turnos_back/SistemaTurnos.WebApplication/obj/Debug/netcoreapp2.0/SistemaTurnos.WebApplication.pdb
-C:/Desarrollo .net/orbit/turnosBack/turnos_back/SistemaTurnos.WebApplication/obj/Debug/netcoreapp2.0/SistemaTurnos.WebApplication.csprojAssemblyReference.cache
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.WebApplication\bin\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.deps.json
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.WebApplication\bin\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.runtimeconfig.json
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.WebApplication\bin\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.runtimeconfig.dev.json
@@ -56,3 +44,16 @@ C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.WebApplicati
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.WebApplication\obj\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.AssemblyInfo.cs
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.WebApplication\obj\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.dll
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.WebApplication\obj\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.pdb
+C:\Desarrollo .net\orbit\turnosBack\turnos_back\SistemaTurnos.WebApplication\bin\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.deps.json
+C:\Desarrollo .net\orbit\turnosBack\turnos_back\SistemaTurnos.WebApplication\bin\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.runtimeconfig.json
+C:\Desarrollo .net\orbit\turnosBack\turnos_back\SistemaTurnos.WebApplication\bin\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.runtimeconfig.dev.json
+C:\Desarrollo .net\orbit\turnosBack\turnos_back\SistemaTurnos.WebApplication\bin\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.dll
+C:\Desarrollo .net\orbit\turnosBack\turnos_back\SistemaTurnos.WebApplication\bin\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.pdb
+C:\Desarrollo .net\orbit\turnosBack\turnos_back\SistemaTurnos.WebApplication\obj\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.csproj.CoreCompileInputs.cache
+C:\Desarrollo .net\orbit\turnosBack\turnos_back\SistemaTurnos.WebApplication\obj\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.AssemblyInfoInputs.cache
+C:\Desarrollo .net\orbit\turnosBack\turnos_back\SistemaTurnos.WebApplication\obj\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.AssemblyInfo.cs
+C:\Desarrollo .net\orbit\turnosBack\turnos_back\SistemaTurnos.WebApplication\obj\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.dll
+C:\Desarrollo .net\orbit\turnosBack\turnos_back\SistemaTurnos.WebApplication\obj\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.pdb
+C:\Desarrollo .net\orbit\turnosBack\turnos_back\SistemaTurnos.WebApplication\obj\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.csprojAssemblyReference.cache
+C:\Desarrollo .net\orbit\turnosBack\turnos_back\SistemaTurnos.WebApplication\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
+C:\Desarrollo .net\orbit\turnosBack\turnos_back\SistemaTurnos.WebApplication\bin\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.xml

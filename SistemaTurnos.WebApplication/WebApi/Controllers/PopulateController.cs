@@ -297,7 +297,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             var appointment60 = CreateAppointment(DateTime.Today.AddDays(2).AddHours(11).AddMinutes(30), doctor7, patient11, AppointmentStateEnum.Reserved, null, clinic3);
         }
 
-        public void CreateRoles()
+        private void CreateRoles()
         {
             CreateRole(Roles.Administrator);
             CreateRole(Roles.Employee);
