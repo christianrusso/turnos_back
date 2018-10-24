@@ -48,3 +48,8 @@ C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\obj\Debug\netcore
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\obj\Debug\netcoreapp2.0\ApiTests.csproj.CopyComplete
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\obj\Debug\netcoreapp2.0\ApiTests.dll
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\obj\Debug\netcoreapp2.0\ApiTests.pdb
+C:\Users\Christian\Desktop\turnos\turnos_back\ApiTests\bin\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.dll
+C:\Users\Christian\Desktop\turnos\turnos_back\ApiTests\obj\Debug\netcoreapp2.0\ApiTests.csprojAssemblyReference.cache
+C:\Users\Christian\Desktop\turnos\turnos_back\ApiTests\obj\Debug\netcoreapp2.0\ApiTests.csproj.CoreCompileInputs.cache
+C:\Users\Christian\Desktop\turnos\turnos_back\ApiTests\obj\Debug\netcoreapp2.0\ApiTests.AssemblyInfoInputs.cache
+C:\Users\Christian\Desktop\turnos\turnos_back\ApiTests\obj\Debug\netcoreapp2.0\ApiTests.AssemblyInfo.cs

@@ -24,6 +24,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// dasdasdasdasdsa
+        /// </summary>
+        /// <param name="idDto"></param>
+        /// <returns>OK</returns>
         [HttpPost]
         public List<uint> GetAllUserScores([FromBody] IdDto idDto)
         {

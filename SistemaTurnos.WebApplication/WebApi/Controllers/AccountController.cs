@@ -52,6 +52,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             CreateRole(Roles.Client);
         }
 
+        /// <summary>
+        /// dasdasdasd
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public LogOnDto Login([FromBody] LoginAccountDto model)
         {
