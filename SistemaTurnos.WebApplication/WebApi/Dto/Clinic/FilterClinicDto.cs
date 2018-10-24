@@ -31,5 +31,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Clinic
         public string SortField { get; set; }
 
         public bool? AscendingOrder { get; set; }
+
+        public int? From { get; set; }
+
+        public int? To { get; set; }
     }
 }
