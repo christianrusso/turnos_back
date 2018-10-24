@@ -64,3 +64,4 @@ C:\Desarrollo .net\orbit\turnosBack\turnos_back\ApiTests\bin\Debug\netcoreapp2.0
 C:\Desarrollo .net\orbit\turnosBack\turnos_back\ApiTests\obj\Debug\netcoreapp2.0\ApiTests.csproj.CopyComplete
 C:\Desarrollo .net\orbit\turnosBack\turnos_back\ApiTests\obj\Debug\netcoreapp2.0\ApiTests.dll
 C:\Desarrollo .net\orbit\turnosBack\turnos_back\ApiTests\obj\Debug\netcoreapp2.0\ApiTests.pdb
+C:\Desarrollo .net\orbit\turnosBack\turnos_back\ApiTests\bin\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.xml

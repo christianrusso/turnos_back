@@ -54,6 +54,5 @@ C:\Desarrollo .net\orbit\turnosBack\turnos_back\SistemaTurnos.WebApplication\obj
 C:\Desarrollo .net\orbit\turnosBack\turnos_back\SistemaTurnos.WebApplication\obj\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.AssemblyInfo.cs
 C:\Desarrollo .net\orbit\turnosBack\turnos_back\SistemaTurnos.WebApplication\obj\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.dll
 C:\Desarrollo .net\orbit\turnosBack\turnos_back\SistemaTurnos.WebApplication\obj\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.pdb
-C:\Desarrollo .net\orbit\turnosBack\turnos_back\SistemaTurnos.WebApplication\obj\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.csprojAssemblyReference.cache
 C:\Desarrollo .net\orbit\turnosBack\turnos_back\SistemaTurnos.WebApplication\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
 C:\Desarrollo .net\orbit\turnosBack\turnos_back\SistemaTurnos.WebApplication\bin\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.xml
