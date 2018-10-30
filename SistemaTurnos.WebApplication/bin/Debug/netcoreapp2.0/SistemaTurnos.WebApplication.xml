@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SistemaTurnos.WebApplication</name>
+    </assembly>
+    <members>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.AccountController.Login(SistemaTurnos.WebApplication.WebApi.Dto.Account.LoginAccountDto)">
+            <summary>
+            dasdasdasd
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.AppointmentController.GetAllAvailablesFromDay(SistemaTurnos.WebApplication.WebApi.Dto.Appointment.GetAppointmentDto)">
+            <summary>
+            Obtiene todos los turnos disponibles por día
+            </summary>
+            <param name="getAppointmentDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.RatingController.GetAllUserScores(SistemaTurnos.WebApplication.WebApi.Dto.IdDto)">
+            <summary>
+            dasdasdasdasdsa
+            </summary>
+            <param name="idDto"></param>
+            <returns>OK</returns>
+        </member>
+    </members>
+</doc>

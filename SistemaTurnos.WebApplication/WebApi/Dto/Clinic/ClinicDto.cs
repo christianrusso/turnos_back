@@ -19,5 +19,7 @@
         public string Logo { get; set; }
 
         public double DistanceToUser { get; set; }
+
+        public double Score { get; set; }
     }
 }

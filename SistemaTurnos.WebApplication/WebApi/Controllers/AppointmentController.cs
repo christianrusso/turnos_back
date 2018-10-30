@@ -33,6 +33,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             _roleManager = roleManager;
         }
 
+        /// <summary>
+        /// Obtiene todos los turnos disponibles por día
+        /// </summary>
+        /// <param name="getAppointmentDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
         public List<DateTime> GetAllAvailablesFromDay([FromBody] GetAppointmentDto getAppointmentDto)

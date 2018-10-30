@@ -41,5 +41,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Clinic
         public List<OpenCloseHoursDto> OpenCloseHours { get; set; }
 
         public bool IsFavorite { get; set; }
+
+        public int ResultSize { get; set; }
     }
 }

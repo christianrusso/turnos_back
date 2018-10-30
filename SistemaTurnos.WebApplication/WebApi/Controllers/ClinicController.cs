@@ -138,6 +138,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 {
                     var location = new GeoCoordinate(clinic.Latitude, clinic.Longitude);
                     var distanceToUser = location.GetDistanceTo(userLocation);
+                    var clinicUserId = clinic.UserId;
+                    var ratings = dbContext.Clinic_Ratings.Where(r => r.UserId == clinicUserId).ToList();
+                    var score = ratings.Any() ? ratings.Average(r => r.Score) : 0;
 
                     if (distanceToUser <= geoLocation.RadiusInMeters)
                     {
@@ -151,7 +154,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                             City = clinic.City.Name,
                             Name = clinic.Name,
                             Description = clinic.Description,
-                            Logo = clinic.Logo
+                            Logo = clinic.Logo,
+                            Score = score
                         });
                     }
                 }
@@ -168,7 +172,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                var loggerUserId = _service.GetUserIdOrDefault(HttpContext);
+                var loggerUserId = _service.GetUserIdOrDefault(this.HttpContext);
                 var favoriteClinics = loggerUserId.HasValue ? dbContext.Clients.First(c => c.UserId == loggerUserId).FavoriteClinics : new List<Clinic_ClientFavorite>();
                 
                 // Filtro por ciudad y por id
@@ -277,6 +281,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                                 break;
                             }
                         }
+                        if (!hasAppointmentAvailable)
+                        {
+                            continue;
+                        }
                     }
 
                     // La clinica paso todos los filtros y la agrego al resultado
@@ -301,6 +309,40 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         OpenCloseHours = clinic.OpenCloseHours.Select(och => new OpenCloseHoursDto { DayNumber = och.DayNumber, Start = och.Start, End = och.End }).ToList(),
                         IsFavorite = favoriteClinics.Any(f => f.ClinicId == clinic.Id)
                     });
+                }
+            }
+
+            // Paginacion
+            int resultSize = res.Count;
+            int from = filterDto.From ?? 0;
+            int to = filterDto.To - from ?? res.Count;
+            res = res.Skip(from).Take(to).ToList();
+
+            foreach (var clinic in res)
+            {
+                clinic.ResultSize = resultSize;
+            }
+
+            if (filterDto.SortField == "score")
+            {
+                if (filterDto.AscendingOrder.HasValue && filterDto.AscendingOrder.Value)
+                {
+                    return res.OrderBy(c => c.Score).ToList();
+                } else
+                {
+                    return res.OrderByDescending(c => c.Score).ToList();
+                }
+            }
+
+            if (filterDto.SortField == "comments")
+            {
+                if (filterDto.AscendingOrder.HasValue && filterDto.AscendingOrder.Value)
+                {
+                    return res.OrderBy(c => c.Ratings.Count).ToList();
+                }
+                else
+                {
+                    return res.OrderByDescending(c => c.Ratings.Count).ToList();
                 }
             }
 
