@@ -33,6 +33,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             _configuration = configuration;
         }
 
+        /// <summary>
+        /// Agrega un empleado
+        /// </summary>
         [HttpPost]
         public void Register([FromBody] RegisterEmployeeDto employeeDto)
         {
@@ -78,6 +81,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Elimina un empleado
+        /// </summary>
         [HttpPost]
         public void Remove([FromBody] RemoveEmployeeDto employeeDto)
         {

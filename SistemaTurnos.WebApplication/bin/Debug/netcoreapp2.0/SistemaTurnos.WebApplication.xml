@@ -4,26 +4,457 @@
         <name>SistemaTurnos.WebApplication</name>
     </assembly>
     <members>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.AccountController.CreateRoles">
+            <summary>
+            Llena la base con los Roles necesarios. Metodo necesario para arrancar con los demas metodos.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
         <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.AccountController.Login(SistemaTurnos.WebApplication.WebApi.Dto.Account.LoginAccountDto)">
             <summary>
-            dasdasdasd
+            Loging de una empresa.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.AccountController.LoginFacebook(SistemaTurnos.WebApplication.WebApi.Dto.Account.LoginFacebookDto)">
+            <summary>
+            Loging de una empresa mediante Facebook, crea el usuario si es la primera vez que entra, sino chequea users ids.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.AccountController.Register(SistemaTurnos.WebApplication.WebApi.Dto.Account.RegisterAccountDto)">
+            <summary>
+            Registro de empresa. Hace falta seleccionar que tipo de rubro tiene.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.AccountController.Remove(SistemaTurnos.WebApplication.WebApi.Dto.Account.RemoveAccountDto)">
+            <summary>
+            Eliminar cuenta
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.AccountController.Edit(SistemaTurnos.WebApplication.WebApi.Dto.Account.EditAccountDto)">
+            <summary>
+            Editar cuenta. Necesita estar logueado.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.AccountController.Logout">
+            <summary>
+            Logout
             </summary>
             <param name="model"></param>
             <returns></returns>
         </member>
         <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.AppointmentController.GetAllAvailablesFromDay(SistemaTurnos.WebApplication.WebApi.Dto.Appointment.GetAppointmentDto)">
             <summary>
-            Obtiene todos los turnos disponibles por día
+            Dada un doctor y una clinica (no obligatorio) obtiene todos los turnos disponibles desde ese dia.
             </summary>
             <param name="getAppointmentDto"></param>
             <returns></returns>
         </member>
-        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.RatingController.GetAllUserScores(SistemaTurnos.WebApplication.WebApi.Dto.IdDto)">
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.AppointmentController.GetAllAvailablesForDay(SistemaTurnos.WebApplication.WebApi.Dto.Appointment.GetAppointmentDto)">
             <summary>
-            dasdasdasdasdsa
+            Dada un doctor y una clinica (no obligatorio) obtiene todos los turnos disponibles de ese dia en particular.
             </summary>
-            <param name="idDto"></param>
-            <returns>OK</returns>
+            <param name="getAppointmentDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.AppointmentController.RequestAppointmentForNonClient(SistemaTurnos.WebApplication.WebApi.Dto.Appointment.RequestAppointmentForNonClientDto)">
+            <summary>
+            Siendo Clinica, Agenda un turno para una persona que no sea cliente. Es necesario pasar todos los datos. Lo convierte en Cliente, tambien en paciente y registra turno.
+            </summary>
+            <param name="getAppointmentDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.AppointmentController.RequestAppointmentForClient(SistemaTurnos.WebApplication.WebApi.Dto.Appointment.RequestAppointmentForClientDto)">
+            <summary>
+            Siendo Clinica, Agenda un turno para una persona que sea Cliente. Registra el paciente y registra el turno.
+            </summary>
+            <param name="getAppointmentDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.AppointmentController.RequestAppointmentForPatient(SistemaTurnos.WebApplication.WebApi.Dto.Appointment.RequestAppointmentForPatientDto)">
+            <summary>
+            Siendo Clinica, Agenda un turno para una persona que sea Paciente. Registra el turno.
+            </summary>
+            <param name="getAppointmentDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.AppointmentController.RequestAppointmentByClient(SistemaTurnos.WebApplication.WebApi.Dto.Appointment.RequestAppointmentByClientDto)">
+            <summary>
+            Siendo Cliente, Agenda un turno, Asocia este cliente con la clinica
+            </summary>
+            <param name="getAppointmentDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.AppointmentController.RequestAppointmentByPatient(SistemaTurnos.WebApplication.WebApi.Dto.Appointment.RequestAppointmentByPatientDto)">
+            <summary>
+            Siendo Paciente, Agenda un turno
+            </summary>
+            <param name="getAppointmentDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.AppointmentController.CancelAppointmentByClinic(SistemaTurnos.WebApplication.WebApi.Dto.Appointment.CancelAppointmentDto)">
+            <summary>
+            Siendo Clinica, Cancela un turno
+            </summary>
+            <param name="getAppointmentDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.AppointmentController.CompleteAppointmentByClinic(SistemaTurnos.WebApplication.WebApi.Dto.IdDto)">
+            <summary>
+            Siendo Clinica, Completa un turno
+            </summary>
+            <param name="getAppointmentDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.AppointmentController.CancelAppointment(SistemaTurnos.WebApplication.WebApi.Dto.Appointment.CancelAppointmentDto)">
+            <summary>
+            Siendo Cliente, Cancela un turno
+            </summary>
+            <param name="getAppointmentDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.AppointmentController.CompleteAppointment(SistemaTurnos.WebApplication.WebApi.Dto.Appointment.CompleteAppointmentDto)">
+            <summary>
+            Siendo Cliente, Completa un turno
+            </summary>
+            <param name="getAppointmentDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.AppointmentController.GetWeek(SistemaTurnos.WebApplication.WebApi.Dto.Appointment.FilterWeekAppointmentDto)">
+            <summary>
+            Devuelve entre un rango de fechas, separado en horas con muchos datos internos para poder completar el calendario de una clinica con los turnos que una clinica tiene.
+            </summary>
+            <param name="getAppointmentDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.AppointmentController.GetWeekForClient(SistemaTurnos.WebApplication.WebApi.Dto.Appointment.FilterClientWeekAppointmentDto)">
+            <summary>
+            Devuelve los turnos de un cliente logueado (solo turnos de clinicas)
+            </summary>
+            <param name="getAppointmentDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.AppointmentController.GetAvailableAppointmentsPerDay(SistemaTurnos.WebApplication.WebApi.Dto.Appointment.FilterAvailableAppointmentDto)">
+            <summary>
+            Devuelve los turnos disponibles por dia.
+            </summary>
+            <param name="getAppointmentDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.ClientController.Register(SistemaTurnos.WebApplication.WebApi.Dto.Client.RegisterClientDto)">
+            <summary>
+            Registra un cliente
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.ClientController.Remove(SistemaTurnos.WebApplication.WebApi.Dto.Client.RemoveClientDto)">
+            <summary>
+            Elimina cliente
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.ClientController.GetAllNonPatients">
+            <summary>
+            Devuelve todos los clientes que no son pacientes
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.ClientController.AddFavoriteClinic(SistemaTurnos.WebApplication.WebApi.Dto.IdDto)">
+            <summary>
+            Agrega una clinica favorita
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.ClientController.RemoveFavoriteClinic(SistemaTurnos.WebApplication.WebApi.Dto.IdDto)">
+            <summary>
+            Elimina una clinica favorita
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.ClientController.GetFavoriteClinics">
+            <summary>
+            Obtiene todas las clinicas favoritas
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.ClientController.AddFavoriteHairdressing(SistemaTurnos.WebApplication.WebApi.Dto.IdDto)">
+            <summary>
+            Agrega una peluqueria favorita
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.ClientController.RemoveFavoriteHairdressing(SistemaTurnos.WebApplication.WebApi.Dto.IdDto)">
+            <summary>
+            Elimina una peluqueria favorita
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.ClientController.GetFavoriteHairdressing">
+            <summary>
+            Obtiene todas las peluquerias favoritas
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.ClientController.GetFavorites">
+            <summary>
+            Obtien todos los favoritos.
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.ClientController.GetWeekForClient(SistemaTurnos.WebApplication.WebApi.Dto.Common.FilterClientWeekDto)">
+            <summary>
+            Obtiene todos los turnos, de todos los rubro sjuntos, de un cliente dado entre un rango de fechas dado.
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.ClinicController.UpdateOpenCloseHours(SistemaTurnos.WebApplication.WebApi.Dto.Clinic.ClinicOpenCloseHoursDto)">
+            <summary>
+            Actualiza los horarios de abrir y cerrar de una clinica.
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.ClinicController.UpdateInformation(SistemaTurnos.WebApplication.WebApi.Dto.Clinic.UpdateClinicDto)">
+            <summary>
+            Actualiza los datos de una clinica dada.
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.ClinicController.GetAllInRadius(SistemaTurnos.WebApplication.WebApi.Dto.Common.GeoLocationDto)">
+            <summary>
+            Devuelve todas las clinicas en un radio dado.
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.ClinicController.GetByFilter(SistemaTurnos.WebApplication.WebApi.Dto.Clinic.FilterClinicDto)">
+            <summary>
+            Devuelve todas las clinicas con filtros dados.
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.ClinicController.IsPatientOfClinic(SistemaTurnos.WebApplication.WebApi.Dto.IdDto)">
+            <summary>
+            Devuelve si un usuario es paciente de una clinica dada.
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.DataController.GetSpecialtiesForSelect(SistemaTurnos.WebApplication.WebApi.Dto.IdDto)">
+            <summary>
+            Devuelve todas las Especialidades de data segun el id de rubro dado.
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.DataController.GetSubspecialtiesForSelect(SistemaTurnos.WebApplication.WebApi.Dto.OptionalIdDtoAndRubro)">
+            <summary>
+            Devuelve todas las subespeciadlaides de data segun Rubro y especialidad dada.
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.DataController.GetSubspecialtiesByClinicForSelect(SistemaTurnos.WebApplication.WebApi.Dto.IdDto)">
+            <summary>
+            Devuelve todas las subespecialdiades asociadas a una clinica y de una especiadliadd dada.
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.DataController.GetMedicalInsurancesForSelect">
+            <summary>
+            Devuelve las obras sociales de data.
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.DataController.GetMedicalPlansForSelect(SistemaTurnos.WebApplication.WebApi.Dto.OptionalIdDto)">
+            <summary>
+            Devuelve los planes de obras sociales segun la obra social dada.
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.DataController.GetMedicalPlansByClinicForSelect(SistemaTurnos.WebApplication.WebApi.Dto.IdDto)">
+            <summary>
+            Deveulve los planes de una clinica dada con una obra social dada.
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.DataController.GetCitiesForSelect">
+            <summary>
+            Devuelve las ciudades de data.
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.DoctorController.Add(SistemaTurnos.WebApplication.WebApi.Dto.Doctor.AddDoctorDto)">
+            <summary>
+            Agrega un medico
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.DoctorController.Remove(SistemaTurnos.WebApplication.WebApi.Dto.Doctor.RemoveDoctorDto)">
+            <summary>
+            Elimina un medico
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.DoctorController.Edit(SistemaTurnos.WebApplication.WebApi.Dto.Doctor.EditDoctorDto)">
+            <summary>
+            Edita un medico
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.DoctorController.GetAll">
+            <summary>
+            Devuevle todos los medicos de una clinica logueada
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.DoctorController.GetAllForSelect">
+            <summary>
+            Devuevle todos los medicos de una clinica logueada para usar en campos SELECT2
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.DoctorController.GetByFilter(SistemaTurnos.WebApplication.WebApi.Dto.Doctor.FilterDoctorDto)">
+            <summary>
+            Devuevle todos los medicos de una clinica logueada filtrando por algunos filtros.
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.DoctorController.Disable(SistemaTurnos.WebApplication.WebApi.Dto.Doctor.EnableDisableDoctorDto)">
+            <summary>
+            Desabilita un medico
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.DoctorController.Enable(SistemaTurnos.WebApplication.WebApi.Dto.Doctor.EnableDisableDoctorDto)">
+            <summary>
+            Habilita un medico
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.DoctorController.Vacation(SistemaTurnos.WebApplication.WebApi.Dto.Doctor.EnableDisableDoctorDto)">
+            <summary>
+            Pone a un medico de vacaciones.
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.EmployeeController.Register(SistemaTurnos.WebApplication.WebApi.Dto.Employee.RegisterEmployeeDto)">
+            <summary>
+            Agrega un empleado
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.EmployeeController.Remove(SistemaTurnos.WebApplication.WebApi.Dto.Employee.RemoveEmployeeDto)">
+            <summary>
+            Elimina un empleado
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.HairdressingRatingController.GetAllUserComments(SistemaTurnos.WebApplication.WebApi.Dto.IdDto)">
+             <summary>
+            Obtiene todos los comentarios de una peluqueira dada
+             </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.HairdressingRatingController.GetAllUserScores(SistemaTurnos.WebApplication.WebApi.Dto.IdDto)">
+             <summary>
+            Obiren todos los puntajes de una peluqueria dada.
+             </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.HairdressingRatingController.GetUserRating(SistemaTurnos.WebApplication.WebApi.Dto.IdDto)">
+             <summary>
+            Obtiene el puntaje promedio de una peluqueira dada.
+             </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.PatientController.Add(SistemaTurnos.WebApplication.WebApi.Dto.Patient.AddPatientDto)">
+            <summary>
+            Agrega un paciente que previamente es cliente.
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.PatientController.AddForNonClient(SistemaTurnos.WebApplication.WebApi.Dto.Patient.AddPatientForNonClientDto)">
+            <summary>
+            Agrega un paciente que no es cliente
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.PatientController.GetAll">
+            <summary>
+            Obtiene todos los pacientes
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.PatientController.Remove(SistemaTurnos.WebApplication.WebApi.Dto.Patient.RemovePatientDto)">
+            <summary>
+            Remueve un paciente
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.PatientController.Edit(SistemaTurnos.WebApplication.WebApi.Dto.Patient.EditPatientDto)">
+            <summary>
+            Edita un paciente
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.PatientController.GetByFilter(SistemaTurnos.WebApplication.WebApi.Dto.Patient.FilterPatientDto)">
+            <summary>
+            OBtiene los pacientes con filtros
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.PopulateController.Populate">
+            <summary>
+            LLena la base con datos de prueba
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.RatingController.GetAllUserComments(SistemaTurnos.WebApplication.WebApi.Dto.IdDto)">
+             <summary>
+            Devuelve todos los comentarios de una clinica dada.
+             </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.RatingController.GetAllUserScores(SistemaTurnos.WebApplication.WebApi.Dto.IdDto)">
+             <summary>
+            Devuelve todos los puntajes de una clinica dada.
+             </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.RatingController.GetUserRating(SistemaTurnos.WebApplication.WebApi.Dto.IdDto)">
+             <summary>
+            Devuelve el promedio del puntaje de una clinica dada.
+             </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.SpecialtyController.Add(SistemaTurnos.WebApplication.WebApi.Dto.IdDto)">
+             <summary>
+            Agrega una especialidad a una clinica logueada (el parametros el id de la especialdiad en data)
+             </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.SpecialtyController.GetAll">
+             <summary>
+            Obtiene todas las especialidaes de una clinica logeuada
+             </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.SpecialtyController.GetAllByClinic(SistemaTurnos.WebApplication.WebApi.Dto.IdDto)">
+             <summary>
+            obtiene todas las especiadliades de uan clinica dada.
+             </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.SpecialtyController.GetAllForSelect">
+            <summary>
+            Obtiene todas las especialidaes de una clinica logeuada para usar en campos SELECT2
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.SpecialtyController.GetByLetter(SistemaTurnos.WebApplication.WebApi.Dto.Specialty.GetSubspecialtyByLetterDto)">
+             <summary>
+            Obtiene todas las especialidaes de una clinica logeuada por la letra inicial
+             </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.SpecialtyController.GetByFilter(SistemaTurnos.WebApplication.WebApi.Dto.Specialty.FilterSpecialtyDto)">
+             <summary>
+            Obtiene todas las especialidaes de una clinica logeuada con filtros
+             </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.SpecialtyController.Remove(SistemaTurnos.WebApplication.WebApi.Dto.IdDto)">
+             <summary>
+            Elimina una especialidad de la clinica logueada
+             </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.SubspecialtyController.Add(SistemaTurnos.WebApplication.WebApi.Dto.Subspecialty.AddSubspecialtyDto)">
+            <summary>
+            Agrega una subespecialidad a una clinica dada.
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.SubspecialtyController.GetAll">
+            <summary>
+            devuelve todas las subespecialidades de un usuario logueado
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.SubspecialtyController.GetAllOfSpecialty(SistemaTurnos.WebApplication.WebApi.Dto.IdDto)">
+            <summary>
+            Devuelve todas las subespecialidades que tiene una especialidad dada.
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.SubspecialtyController.GetAllOfSpecialtyNoUserID(SistemaTurnos.WebApplication.WebApi.Dto.IdDto)">
+            <summary>
+            Devuelve todas las subespecialidades con id de especialidad.
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.SubspecialtyController.GetAllOfSpecialtyForSelect(SistemaTurnos.WebApplication.WebApi.Dto.IdDto)">
+            <summary>
+            Devuelev todas las subespecialidad de una especialidad dada para usar en SELECT2
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.SubspecialtyController.Remove(SistemaTurnos.WebApplication.WebApi.Dto.IdDto)">
+            <summary>
+            Elimna una subespecialidad
+            </summary>
+        </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.SubspecialtyController.Edit(SistemaTurnos.WebApplication.WebApi.Dto.Subspecialty.EditSubspecialtyDto)">
+            <summary>
+            Edita una subespecialidad
+            </summary>
         </member>
     </members>
 </doc>

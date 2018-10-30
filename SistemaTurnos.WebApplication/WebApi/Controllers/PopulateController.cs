@@ -28,6 +28,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             _roleManager = roleManager;
         }
 
+        /// <summary>
+        /// LLena la base con datos de prueba
+        /// </summary>
         [HttpPost]
         public void Populate()
         {

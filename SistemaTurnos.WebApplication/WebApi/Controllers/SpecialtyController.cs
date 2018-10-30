@@ -21,6 +21,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
     [EnableCors("AnyOrigin")]
     public class SpecialtyController : Controller
     {
+        /// <summary>
+        ///Agrega una especialidad a una clinica logueada (el parametros el id de la especialdiad en data)
+        /// </summary>
         [HttpPost]
         public void Add([FromBody] IdDto specialtyDto)
         {
@@ -39,6 +42,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        ///Obtiene todas las especialidaes de una clinica logeuada
+        /// </summary>
         [HttpGet]
         public List<SpecialtyDto> GetAll()
         {
@@ -66,6 +72,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        ///obtiene todas las especiadliades de uan clinica dada.
+        /// </summary>
         [HttpPost]
         public List<SpecialtyDto> GetAllByClinic([FromBody] IdDto idDto)
         {
@@ -98,6 +107,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Obtiene todas las especialidaes de una clinica logeuada para usar en campos SELECT2
+        /// </summary>
         [HttpGet]
         public List<SelectOptionDto> GetAllForSelect()
         {
@@ -118,6 +130,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        ///Obtiene todas las especialidaes de una clinica logeuada por la letra inicial
+        /// </summary>
         [HttpPost]
         public List<SpecialtyDto> GetByLetter([FromBody] GetSubspecialtyByLetterDto filter)
         {
@@ -149,6 +164,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        ///Obtiene todas las especialidaes de una clinica logeuada con filtros
+        /// </summary>
         [HttpPost]
         public List<SpecialtyDto> GetByFilter([FromBody] FilterSpecialtyDto filter)
         {
@@ -176,6 +194,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        ///Elimina una especialidad de la clinica logueada
+        /// </summary>
         [HttpPost]
         public void Remove([FromBody] IdDto specialtyDto)
         {

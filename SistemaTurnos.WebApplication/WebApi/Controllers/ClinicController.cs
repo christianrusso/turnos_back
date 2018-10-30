@@ -30,6 +30,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             _service = new BusinessPlaceService(this.HttpContext);
         }
 
+        /// <summary>
+        /// Actualiza los horarios de abrir y cerrar de una clinica.
+        /// </summary>
         [HttpPost]
         [Authorize(Roles = Roles.AdministratorAndEmployee)]
         public void UpdateOpenCloseHours([FromBody] ClinicOpenCloseHoursDto hoursDto)
@@ -75,6 +78,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Actualiza los datos de una clinica dada.
+        /// </summary>
         [HttpPost]
         [Authorize(Roles = Roles.Administrator)]
         public void UpdateInformation([FromBody] UpdateClinicDto clinicDto)
@@ -124,6 +130,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Devuelve todas las clinicas en un radio dado.
+        /// </summary>
         [HttpPost]
         public List<ClinicDto> GetAllInRadius([FromBody] GeoLocationDto geoLocation)
         {
@@ -164,6 +173,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             return res;
         }
 
+        /// <summary>
+        /// Devuelve todas las clinicas con filtros dados.
+        /// </summary>
         [HttpPost]
         public List<FullClinicDto> GetByFilter([FromBody] FilterClinicDto filterDto)
         {
@@ -349,6 +361,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             return res.OrderByDescending(c => c.Score).ToList();
         }
 
+        /// <summary>
+        /// Devuelve si un usuario es paciente de una clinica dada.
+        /// </summary>
         [HttpPost]
         [Authorize(Roles = Roles.Client)]
         public bool IsPatientOfClinic([FromBody] IdDto idDto)

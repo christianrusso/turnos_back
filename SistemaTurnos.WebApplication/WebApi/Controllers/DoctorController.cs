@@ -31,6 +31,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             _service = new BusinessPlaceService(this.HttpContext);
         }
 
+        /// <summary>
+        /// Agrega un medico
+        /// </summary>
         [HttpPost]
         public void Add([FromBody] AddDoctorDto doctorDto)
         {
@@ -62,6 +65,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Elimina un medico
+        /// </summary>
         [HttpPost]
         public void Remove([FromBody] RemoveDoctorDto doctorDto)
         {
@@ -82,6 +88,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Edita un medico
+        /// </summary>
         [HttpPost]
         public void Edit([FromBody] EditDoctorDto doctorDto)
         {
@@ -120,6 +129,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Devuevle todos los medicos de una clinica logueada
+        /// </summary>
         [HttpGet]
         public List<DoctorDto> GetAll()
         {
@@ -149,6 +161,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Devuevle todos los medicos de una clinica logueada para usar en campos SELECT2
+        /// </summary>
         [HttpGet]
         public List<SelectOptionDto> GetAllForSelect()
         {
@@ -167,6 +182,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Devuevle todos los medicos de una clinica logueada filtrando por algunos filtros.
+        /// </summary>
         [HttpPost]
         public List<DoctorDto> GetByFilter([FromBody] FilterDoctorDto filter)
         {
@@ -211,6 +229,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Desabilita un medico
+        /// </summary>
         [HttpPost]
         public void Disable([FromBody] EnableDisableDoctorDto doctorDto)
         {
@@ -230,6 +251,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Habilita un medico
+        /// </summary>
         [HttpPost]
         public void Enable([FromBody] EnableDisableDoctorDto doctorDto)
         {
@@ -249,6 +273,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Pone a un medico de vacaciones.
+        /// </summary>
         [HttpPost]
         public void Vacation([FromBody] EnableDisableDoctorDto doctorDto)
         {

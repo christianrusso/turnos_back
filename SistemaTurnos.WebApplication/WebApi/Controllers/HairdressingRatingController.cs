@@ -12,6 +12,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
     [EnableCors("AnyOrigin")]
     public class HairdressingRatingController : Controller
     {
+        /// <summary>
+        ///Obtiene todos los comentarios de una peluqueira dada
+        /// </summary>
         [HttpPost]
         public List<string> GetAllUserComments([FromBody] IdDto idDto)
         {
@@ -24,6 +27,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        ///Obiren todos los puntajes de una peluqueria dada.
+        /// </summary>
         [HttpPost]
         public List<uint> GetAllUserScores([FromBody] IdDto idDto)
         {
@@ -36,6 +42,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        ///Obtiene el puntaje promedio de una peluqueira dada.
+        /// </summary>
         [HttpPost]
         public double GetUserRating([FromBody] IdDto idDto)
         {
