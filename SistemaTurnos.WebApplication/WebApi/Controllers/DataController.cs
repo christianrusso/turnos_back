@@ -101,6 +101,35 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         /// <summary>
+        /// Devuelve todas las subespecialdiades asociadas a una peluqueria y de una especiadliadd dada.
+        /// </summary>
+        [HttpPost]
+        [Authorize(Roles = Roles.AdministratorAndEmployee)]
+        public List<SelectOptionDto> GetSubspecialtiesByHairdressingForSelect([FromBody] IdDto specialtyFilter)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = _service.GetUserId(HttpContext);
+
+                var specialty = dbContext.Hairdressing_Specialties.FirstOrDefault(s => s.Id == specialtyFilter.Id && s.UserId == userId);
+
+                if (specialty == null)
+                {
+                    throw new ApplicationException(ExceptionMessages.BadRequest);
+                }
+
+                return dbContext.Subspecialties
+                    .Where(ssp => ssp.SpecialtyDataId == specialty.DataId)
+                    .Select(s => new SelectOptionDto
+                    {
+                        Id = s.Id.ToString(),
+                        Text = s.Description
+                    })
+                    .ToList();
+            }
+        }
+
+        /// <summary>
         /// Devuelve las obras sociales de data.
         /// </summary>
         [HttpPost]

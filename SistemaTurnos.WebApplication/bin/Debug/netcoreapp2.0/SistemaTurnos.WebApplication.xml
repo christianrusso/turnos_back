@@ -246,6 +246,11 @@
             Devuelve todas las subespecialdiades asociadas a una clinica y de una especiadliadd dada.
             </summary>
         </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.DataController.GetSubspecialtiesByHairdressingForSelect(SistemaTurnos.WebApplication.WebApi.Dto.IdDto)">
+            <summary>
+            Devuelve todas las subespecialdiades asociadas a una peluqueria y de una especiadliadd dada.
+            </summary>
+        </member>
         <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.DataController.GetMedicalInsurancesForSelect">
             <summary>
             Devuelve las obras sociales de data.
