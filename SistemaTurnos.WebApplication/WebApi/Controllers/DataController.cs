@@ -27,7 +27,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             _service = new BusinessPlaceService(HttpContext);
         }
-        
+
+        /// <summary>
+        /// Devuelve todas las Especialidades de data segun el id de rubro dado.
+        /// </summary>
         [HttpPost]
         public List<SelectOptionDto> GetSpecialtiesForSelect([FromBody] IdDto idDto)
         {
@@ -46,6 +49,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Devuelve todas las subespeciadlaides de data segun Rubro y especialidad dada.
+        /// </summary>
         [HttpPost]
         public List<SelectOptionDto> GetSubspecialtiesForSelect([FromBody] OptionalIdDtoAndRubro filter)
         {
@@ -65,6 +71,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Devuelve todas las subespecialdiades asociadas a una clinica y de una especiadliadd dada.
+        /// </summary>
         [HttpPost]
         [Authorize(Roles = Roles.AdministratorAndEmployee)]
         public List<SelectOptionDto> GetSubspecialtiesByClinicForSelect([FromBody] IdDto specialtyFilter)
@@ -91,6 +100,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Devuelve las obras sociales de data.
+        /// </summary>
         [HttpPost]
         public List<SelectOptionDto> GetMedicalInsurancesForSelect()
         {
@@ -106,6 +118,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Devuelve los planes de obras sociales segun la obra social dada.
+        /// </summary>
         [HttpPost]
         public List<SelectOptionDto> GetMedicalPlansForSelect([FromBody] OptionalIdDto medicalInsuranceFilter)
         {
@@ -122,6 +137,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Deveulve los planes de una clinica dada con una obra social dada.
+        /// </summary>
         [HttpPost]
         [Authorize(Roles = Roles.AdministratorAndEmployee)]
         public List<SelectOptionDto> GetMedicalPlansByClinicForSelect([FromBody] IdDto medicalInsuranceFilter)
@@ -148,6 +166,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Devuelve las ciudades de data.
+        /// </summary>
         [HttpPost]
         public List<SelectOptionDto> GetCitiesForSelect()
         {

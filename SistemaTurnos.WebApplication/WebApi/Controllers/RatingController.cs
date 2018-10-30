@@ -12,6 +12,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
     [EnableCors("AnyOrigin")]
     public class RatingController : Controller
     {
+
+        /// <summary>
+        ///Devuelve todos los comentarios de una clinica dada.
+        /// </summary>
         [HttpPost]
         public List<string> GetAllUserComments([FromBody] IdDto idDto)
         {
@@ -24,6 +28,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        ///Devuelve todos los puntajes de una clinica dada.
+        /// </summary>
         [HttpPost]
         public List<uint> GetAllUserScores([FromBody] IdDto idDto)
         {
@@ -36,6 +43,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        ///Devuelve el promedio del puntaje de una clinica dada.
+        /// </summary>
         [HttpPost]
         public double GetUserRating([FromBody] IdDto idDto)
         {

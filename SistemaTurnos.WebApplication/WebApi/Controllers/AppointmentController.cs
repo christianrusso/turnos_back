@@ -34,7 +34,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         /// <summary>
-        /// Obtiene todos los turnos disponibles por día
+        /// Dada un doctor y una clinica (no obligatorio) obtiene todos los turnos disponibles desde ese dia.
         /// </summary>
         /// <param name="getAppointmentDto"></param>
         /// <returns></returns>
@@ -67,6 +67,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Dada un doctor y una clinica (no obligatorio) obtiene todos los turnos disponibles de ese dia en particular.
+        /// </summary>
+        /// <param name="getAppointmentDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize(Roles = Roles.AdministratorAndEmployeeAndClient)]
         public List<DateTime> GetAllAvailablesForDay([FromBody] GetAppointmentDto getAppointmentDto)
@@ -90,6 +95,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Siendo Clinica, Agenda un turno para una persona que no sea cliente. Es necesario pasar todos los datos. Lo convierte en Cliente, tambien en paciente y registra turno.
+        /// </summary>
+        /// <param name="getAppointmentDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
         public void RequestAppointmentForNonClient([FromBody] RequestAppointmentForNonClientDto requestAppointmentDto)
@@ -197,6 +208,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Siendo Clinica, Agenda un turno para una persona que sea Cliente. Registra el paciente y registra el turno.
+        /// </summary>
+        /// <param name="getAppointmentDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize(Roles = Roles.AdministratorAndEmployee)]
         public void RequestAppointmentForClient([FromBody] RequestAppointmentForClientDto requestAppointmentDto)
@@ -282,6 +298,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Siendo Clinica, Agenda un turno para una persona que sea Paciente. Registra el turno.
+        /// </summary>
+        /// <param name="getAppointmentDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize(Roles = Roles.AdministratorAndEmployee)]
         public void RequestAppointmentForPatient([FromBody] RequestAppointmentForPatientDto requestAppointmentDto)
@@ -339,6 +360,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Siendo Cliente, Agenda un turno, Asocia este cliente con la clinica
+        /// </summary>
+        /// <param name="getAppointmentDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize(Roles = Roles.Client)]
         public void RequestAppointmentByClient([FromBody] RequestAppointmentByClientDto requestAppointmentDto)
@@ -431,6 +457,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Siendo Paciente, Agenda un turno
+        /// </summary>
+        /// <param name="getAppointmentDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize(Roles = Roles.Client)]
         public void RequestAppointmentByPatient([FromBody] RequestAppointmentByPatientDto requestAppointmentDto)
@@ -496,6 +527,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Siendo Clinica, Cancela un turno
+        /// </summary>
+        /// <param name="getAppointmentDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize(Roles = Roles.AdministratorAndEmployee)]
         public void CancelAppointmentByClinic([FromBody] CancelAppointmentDto cancelAppointmentDto)
@@ -541,6 +577,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             EmailSender.Send(emailMessage);
         }
 
+        /// <summary>
+        /// Siendo Clinica, Completa un turno
+        /// </summary>
+        /// <param name="getAppointmentDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
         public void CompleteAppointmentByClinic([FromBody] IdDto completeAppointmentDto)
@@ -584,6 +625,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             EmailSender.Send(emailMessage);
         }
 
+        /// <summary>
+        /// Siendo Cliente, Cancela un turno
+        /// </summary>
+        /// <param name="getAppointmentDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
         public void CancelAppointment([FromBody] CancelAppointmentDto cancelAppointmentDto)
@@ -612,6 +658,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Siendo Cliente, Completa un turno
+        /// </summary>
+        /// <param name="getAppointmentDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
         public void CompleteAppointment([FromBody] CompleteAppointmentDto completeAppointmentDto)
@@ -663,6 +714,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             EmailSender.Send(emailMessage);
         }
 
+        
         [HttpPost]
         [Authorize]
         public List<RequestedAppointmentsByDoctorDto> GetRequestedAppointmentsByFilter([FromBody] FilterRequestedAppointmentDto filter)
@@ -708,6 +760,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Devuelve entre un rango de fechas, separado en horas con muchos datos internos para poder completar el calendario de una clinica con los turnos que una clinica tiene.
+        /// </summary>
+        /// <param name="getAppointmentDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
         public List<DayDto> GetWeek([FromBody] FilterWeekAppointmentDto filter)
@@ -769,6 +826,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             return res;
         }
 
+        /// <summary>
+        /// Devuelve los turnos de un cliente logueado (solo turnos de clinicas)
+        /// </summary>
+        /// <param name="getAppointmentDto"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize(Roles = Roles.Client)]
         public List<ClientDayDto> GetWeekForClient([FromBody] FilterClientWeekAppointmentDto filter)
@@ -779,6 +841,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             return week;
         }
 
+        /// <summary>
+        /// Devuelve los turnos disponibles por dia.
+        /// </summary>
+        /// <param name="getAppointmentDto"></param>
+        /// <returns></returns>
         [HttpPost]
         public List<AppointmentsPerDayDto> GetAvailableAppointmentsPerDay([FromBody] FilterAvailableAppointmentDto filter)
         {

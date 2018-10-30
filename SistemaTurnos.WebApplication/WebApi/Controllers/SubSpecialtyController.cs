@@ -19,6 +19,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
     [EnableCors("AnyOrigin")]
     public class SubspecialtyController : Controller
     {
+        /// <summary>
+        /// Agrega una subespecialidad a una clinica dada.
+        /// </summary>
         [HttpPost]
         public void Add([FromBody] AddSubspecialtyDto subSpecialtyDto)
         {
@@ -45,6 +48,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// devuelve todas las subespecialidades de un usuario logueado
+        /// </summary>
         [HttpGet]
         public List<SubspecialtyDto> GetAll()
         {
@@ -64,6 +70,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Devuelve todas las subespecialidades que tiene una especialidad dada.
+        /// </summary>
         [HttpPost]
         public List<SubspecialtyDto> GetAllOfSpecialty([FromBody] IdDto specialtyIdDto)
         {
@@ -84,7 +93,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Devuelve todas las subespecialidades con id de especialidad.
+        /// </summary>
         [HttpPost]
         public List<SubspecialtyDto> GetAllOfSpecialtyNoUserID([FromBody] IdDto specialtyIdDto)
         {
@@ -103,6 +114,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Devuelev todas las subespecialidad de una especialidad dada para usar en SELECT2
+        /// </summary>
         [HttpPost]
         public List<SelectOptionDto> GetAllOfSpecialtyForSelect([FromBody] IdDto specialtyIdDto)
         {
@@ -123,6 +137,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Elimna una subespecialidad
+        /// </summary>
         [HttpPost]
         public void Remove([FromBody] IdDto subSpecialtyDto)
         {
@@ -142,6 +159,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Edita una subespecialidad
+        /// </summary>
         [HttpPost]
         public void Edit([FromBody] EditSubspecialtyDto subSpecialtyDto)
         {

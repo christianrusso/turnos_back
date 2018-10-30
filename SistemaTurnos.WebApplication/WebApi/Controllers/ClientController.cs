@@ -46,12 +46,18 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             _ClientService = new ClientServiceClinic(_userManager, _roleManager, _signInManager, _configuration, HttpContext);
         }
 
+        /// <summary>
+        /// Registra un cliente
+        /// </summary>
         [HttpPost]
         public void Register([FromBody] RegisterClientDto clientDto)
         {
             _ClientService.Register(clientDto);
         }
 
+        /// <summary>
+        /// Elimina cliente
+        /// </summary>
         [HttpPost]
         [Authorize(Roles = Roles.Administrator)]
         public void Remove([FromBody] RemoveClientDto clientDto)
@@ -59,6 +65,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             _ClientService.Remove(clientDto);
         }
 
+        /// <summary>
+        /// Devuelve todos los clientes que no son pacientes
+        /// </summary>
         [HttpPost]
         [Authorize(Roles = Roles.AdministratorAndEmployee)]
         public List<ClientDto> GetAllNonPatients()
@@ -67,7 +76,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             return clients;
         }
-
+        
+        /// <summary>
+        /// Agrega una clinica favorita
+        /// </summary>
         [HttpPost]
         [Authorize(Roles = Roles.Client)]
         public void AddFavoriteClinic([FromBody] IdDto clinic)
@@ -98,6 +110,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Elimina una clinica favorita
+        /// </summary>
         [HttpPost]
         [Authorize(Roles = Roles.Client)]
         public void RemoveFavoriteClinic([FromBody] IdDto clinic)
@@ -130,6 +145,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Obtiene todas las clinicas favoritas
+        /// </summary>
         [HttpGet]
         [Authorize(Roles = Roles.Client)]
         public List<ClinicDto> GetFavoriteClinics()
@@ -167,6 +185,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Agrega una peluqueria favorita
+        /// </summary>
         //Hairdressing Favorites
         [HttpPost]
         [Authorize(Roles = Roles.Client)]
@@ -198,6 +219,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Elimina una peluqueria favorita
+        /// </summary>
         [HttpPost]
         [Authorize(Roles = Roles.Client)]
         public void RemoveFavoriteHairdressing([FromBody] IdDto hairdressing)
@@ -230,6 +254,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Obtiene todas las peluquerias favoritas
+        /// </summary>
         [HttpGet]
         [Authorize(Roles = Roles.Client)]
         public List<HairdressingDto> GetFavoriteHairdressing()
@@ -256,8 +283,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Obtien todos los favoritos.
+        /// </summary>
         //All favorites
-
         [HttpGet]
         [Authorize(Roles = Roles.Client)]
         public FavoritesDto GetFavorites()
@@ -302,6 +331,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Obtiene todos los turnos, de todos los rubro sjuntos, de un cliente dado entre un rango de fechas dado.
+        /// </summary>
         [HttpPost]
         [Authorize(Roles = Roles.Client)]
         public WeekForClientDto GetWeekForClient([FromBody] FilterClientWeekDto filter)

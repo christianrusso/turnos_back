@@ -35,6 +35,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             _service = new BusinessPlaceService(this.HttpContext);
         }
 
+        /// <summary>
+        /// Agrega un paciente que previamente es cliente.
+        /// </summary>
         [HttpPost]
         public void Add([FromBody] AddPatientDto patientDto)
         {
@@ -72,6 +75,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Agrega un paciente que no es cliente
+        /// </summary>
         [HttpPost]
         public void AddForNonClient([FromBody] AddPatientForNonClientDto patientDto)
         {
@@ -138,6 +144,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Obtiene todos los pacientes
+        /// </summary>
         [HttpGet]
         public List<PatientDto> GetAll()
         {
@@ -167,6 +176,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Remueve un paciente
+        /// </summary>
         [HttpPost]
         public void Remove([FromBody] RemovePatientDto patientDto)
         {
@@ -186,6 +198,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Edita un paciente
+        /// </summary>
         [HttpPost]
         public void Edit([FromBody] EditPatientDto patientDto)
         {
@@ -217,6 +232,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// OBtiene los pacientes con filtros
+        /// </summary>
         [HttpPost]
         public List<PatientDto> GetByFilter([FromBody] FilterPatientDto filter)
         {

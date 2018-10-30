@@ -44,6 +44,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             _dbContext = dbContext;
         }
 
+        /// <summary>
+        /// Llena la base con los Roles necesarios. Metodo necesario para arrancar con los demas metodos.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public void CreateRoles()
         {
@@ -52,6 +57,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             CreateRole(Roles.Client);
         }
 
+        /// <summary>
+        /// Loging de una empresa.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public LogOnDto Login([FromBody] LoginAccountDto model)
         {
@@ -121,6 +131,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             };
         }
 
+        /// <summary>
+        /// Loging de una empresa mediante Facebook, crea el usuario si es la primera vez que entra, sino chequea users ids.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public LogOnDto LoginFacebook([FromBody] LoginFacebookDto model)
         {
@@ -196,6 +211,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Registro de empresa. Hace falta seleccionar que tipo de rubro tiene.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Register([FromBody] RegisterAccountDto model)
         {
@@ -282,6 +302,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             return Ok(model.BusinessType);
         }
 
+        /// <summary>
+        /// Eliminar cuenta
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
         public void Remove([FromBody] RemoveAccountDto model)
@@ -308,6 +333,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Editar cuenta. Necesita estar logueado.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize]
         public void Edit([FromBody] EditAccountDto model)
@@ -334,6 +364,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
+        /// <summary>
+        /// Logout
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public void Logout()
