@@ -20,4 +20,3 @@ SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/SistemaTurnos.WebApplicatio
 SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/SistemaTurnos.WebApplication.dll
 *.dll
 *.pdb
-*.cache
