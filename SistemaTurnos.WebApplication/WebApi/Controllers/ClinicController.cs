@@ -324,6 +324,33 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 }
             }
 
+            // Ordenamiento
+            if (filterDto.SortField == "score")
+            {
+                if (filterDto.AscendingOrder.HasValue && filterDto.AscendingOrder.Value)
+                {
+                    res = res.OrderBy(c => c.Score).ToList();
+                } else
+                {
+                    res = res.OrderByDescending(c => c.Score).ToList();
+                }
+            }
+            else if (filterDto.SortField == "comments")
+            {
+                if (filterDto.AscendingOrder.HasValue && filterDto.AscendingOrder.Value)
+                {
+                    res = res.OrderBy(c => c.Ratings.Count).ToList();
+                }
+                else
+                {
+                    res = res.OrderByDescending(c => c.Ratings.Count).ToList();
+                }
+            }
+            else
+            {
+                res = res.OrderByDescending(c => c.Score).ToList();
+            }
+            
             // Paginacion
             int resultSize = res.Count;
             int from = filterDto.From ?? 0;
@@ -335,30 +362,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 clinic.ResultSize = resultSize;
             }
 
-            if (filterDto.SortField == "score")
-            {
-                if (filterDto.AscendingOrder.HasValue && filterDto.AscendingOrder.Value)
-                {
-                    return res.OrderBy(c => c.Score).ToList();
-                } else
-                {
-                    return res.OrderByDescending(c => c.Score).ToList();
-                }
-            }
-
-            if (filterDto.SortField == "comments")
-            {
-                if (filterDto.AscendingOrder.HasValue && filterDto.AscendingOrder.Value)
-                {
-                    return res.OrderBy(c => c.Ratings.Count).ToList();
-                }
-                else
-                {
-                    return res.OrderByDescending(c => c.Ratings.Count).ToList();
-                }
-            }
-
-            return res.OrderByDescending(c => c.Score).ToList();
+            return res;
         }
 
         /// <summary>
