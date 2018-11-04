@@ -74,14 +74,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 if(getAppointmentDto.HairdressingId != null)
                     userId = getAppointmentDto.HairdressingId;
 
-                var hairdresing = dbContext.Hairdressings.FirstOrDefault(c => c.Id == getAppointmentDto.HairdressingId);
-
-                if (hairdresing == null)
-                {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
-                }
-
-                var prof = dbContext.Hairdressing_Professionals.FirstOrDefault(d => d.Id == getAppointmentDto.ProfessionalId && d.UserId == hairdresing.UserId);
+                var prof = dbContext.Hairdressing_Professionals.FirstOrDefault(d => d.Id == getAppointmentDto.ProfessionalId);
 
                 if (prof == null)
                 {
