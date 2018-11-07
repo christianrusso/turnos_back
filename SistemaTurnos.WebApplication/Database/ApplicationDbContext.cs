@@ -15,7 +15,7 @@ namespace SistemaTurnos.WebApplication.Database
         private const string databaseServer = "localhost";
         private const string databaseName = "sistematurnos";
         private const string databaseUser = "root";
-        private const string databasePass = "tito1234H6*";
+        private const string databasePass = "1682951!Abmtoba";
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) 
             : base(options.FindExtension<Microsoft.EntityFrameworkCore.Infrastructure.Internal.InMemoryOptionsExtension>() == null ?

@@ -9,6 +9,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.HairdressingAppointment
         public string Hairdressing { get; set; }
 
         public string Professional { get; set; }
+        public string Logo { get; set; }
 
         public string Specialty { get; set; }
 
