@@ -4,7 +4,7 @@
     {
         public const string BadRequest = "Los valores ingresados son incorrectos.";
         public const string UsernameAlreadyExists = "El usuario ingresado ya se encuentra registrado.";
-        public const string LoginFailed = "Nombre de usuario o contraseña invalidos.";
+        public const string LoginFailed = "Nombre de usuario, contraseña o rubro invalidos.";
         public const string InternalServerError = "Ocurrio un error al realizar la operacion, por favor intente mas tarde.";
         public const string UserDoesNotExists = "El usuario no existe.";
         public const string AppointmentAlreadyTaken = "El turno solicitado no esta disponible.";

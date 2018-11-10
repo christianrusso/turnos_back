@@ -76,7 +76,19 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             return clients;
         }
-        
+
+        /// <summary>
+        /// Devuelve todos los clientes que no son pacientes de peluqueria
+        /// </summary>
+        [HttpPost]
+        [Authorize(Roles = Roles.AdministratorAndEmployee)]
+        public List<ClientDto> GetAllNonHairdressingPatients()
+        {
+            var clients = _ClientService.GetAllNonHairdressingPatients(this.HttpContext);
+
+            return clients;
+        }
+
         /// <summary>
         /// Agrega una clinica favorita
         /// </summary>

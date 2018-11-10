@@ -165,11 +165,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 var patient = new Clinic_Patient
                 {
-                    FirstName = requestAppointmentDto.FirstName,
-                    LastName = requestAppointmentDto.LastName,
-                    Address = requestAppointmentDto.Address,
-                    PhoneNumber = requestAppointmentDto.PhoneNumber,
-                    Dni = requestAppointmentDto.Dni,
+                    //FirstName = requestAppointmentDto.FirstName,
+                    //LastName = requestAppointmentDto.LastName,
+                    //Address = requestAppointmentDto.Address,
+                    //PhoneNumber = requestAppointmentDto.PhoneNumber,
+                    //Dni = requestAppointmentDto.Dni,
                     UserId = userId,
                     ClientId = client.Id,
                     MedicalPlanId = requestAppointmentDto.MedicalPlanId
@@ -256,11 +256,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 patient = new Clinic_Patient
                 {
-                    FirstName = requestAppointmentDto.FirstName,
-                    LastName = requestAppointmentDto.LastName,
-                    Address = requestAppointmentDto.Address,
-                    PhoneNumber = requestAppointmentDto.PhoneNumber,
-                    Dni = requestAppointmentDto.Dni,
+                    //FirstName = requestAppointmentDto.FirstName,
+                    //LastName = requestAppointmentDto.LastName,
+                    //Address = requestAppointmentDto.Address,
+                    //PhoneNumber = requestAppointmentDto.PhoneNumber,
+                    //Dni = requestAppointmentDto.Dni,
                     UserId = userId,
                     ClientId = requestAppointmentDto.ClientId,
                     MedicalPlanId = requestAppointmentDto.MedicalPlanId
@@ -415,11 +415,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 patient = new Clinic_Patient
                 {
-                    FirstName = requestAppointmentDto.FirstName,
-                    LastName = requestAppointmentDto.LastName,
-                    Address = requestAppointmentDto.Address,
-                    PhoneNumber = requestAppointmentDto.PhoneNumber,
-                    Dni = requestAppointmentDto.Dni,
+                    //FirstName = requestAppointmentDto.FirstName,
+                    //LastName = requestAppointmentDto.LastName,
+                    //Address = requestAppointmentDto.Address,
+                    //PhoneNumber = requestAppointmentDto.PhoneNumber,
+                    //Dni = requestAppointmentDto.Dni,
                     UserId = clinic.UserId,
                     ClientId = client.Id,
                     MedicalPlanId = requestAppointmentDto.MedicalPlanId

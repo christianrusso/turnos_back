@@ -195,45 +195,45 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             var medicalPlan18 = CreateMedicalPlan("MEDI C", medicalInsurance7, clinic3);
 
             // Creo clientes
-            var client1 = CreateClientUser("cliente1@asd.com", "cliente1@asd.com");
-            var client2 = CreateClientUser("cliente2@asd.com", "cliente2@asd.com");
-            var client3 = CreateClientUser("cliente3@asd.com", "cliente3@asd.com");
-            var client4 = CreateClientUser("cliente4@asd.com", "cliente4@asd.com");
-            var client5 = CreateClientUser("cliente5@asd.com", "cliente5@asd.com");
-            var client6 = CreateClientUser("cliente6@asd.com", "cliente6@asd.com");
-            var client7 = CreateClientUser("cliente7@asd.com", "cliente7@asd.com");
-            var client8 = CreateClientUser("cliente8@asd.com", "cliente8@asd.com");
-            var client9 = CreateClientUser("cliente9@asd.com", "cliente9@asd.com");
-            var client10 = CreateClientUser("cliente10@asd.com", "cliente10@asd.com");
-            var client11 = CreateClientUser("cliente11@asd.com", "cliente11@asd.com");
-            var client12 = CreateClientUser("cliente12@asd.com", "cliente12@asd.com");
-            var client13 = CreateClientUser("cliente13@asd.com", "cliente13@asd.com");
-            var client14 = CreateClientUser("cliente14@asd.com", "cliente14@asd.com");
-            var client15 = CreateClientUser("cliente15@asd.com", "cliente15@asd.com");
-            var client16 = CreateClientUser("cliente16@asd.com", "cliente16@asd.com");
-            var client17 = CreateClientUser("cliente17@asd.com", "cliente17@asd.com");
-            var client18 = CreateClientUser("cliente18@asd.com", "cliente18@asd.com");
-            var client19 = CreateClientUser("cliente19@asd.com", "cliente19@asd.com");
-            var client20 = CreateClientUser("cliente20@asd.com", "cliente20@asd.com");
+            var client1 = CreateClientUser("cliente1@asd.com", "cliente1@asd.com", "Pedro", "Gomez", "qwerty 1", "1000001");
+            var client2 = CreateClientUser("cliente2@asd.com", "cliente2@asd.com", "Juan", "Martinez", "qwerty 2", "1000002");
+            var client3 = CreateClientUser("cliente3@asd.com", "cliente3@asd.com", "Martin", "Violante", "qwerty 3", "1000003");
+            var client4 = CreateClientUser("cliente4@asd.com", "cliente4@asd.com", "Leandro", "Lagos", "qwerty 4", "1000004");
+            var client5 = CreateClientUser("cliente5@asd.com", "cliente5@asd.com", "Sebastian", "Veliz", "qwerty 5", "1000005");
+            var client6 = CreateClientUser("cliente6@asd.com", "cliente6@asd.com", "Maria", "Light", "qwerty 6", "1000006");
+            var client7 = CreateClientUser("cliente7@asd.com", "cliente7@asd.com", "Clara", "Florin", "qwerty 7", "1000007");
+            var client8 = CreateClientUser("cliente8@asd.com", "cliente8@asd.com", "Daniela", "Brign", "qwerty 8", "1000008");
+            var client9 = CreateClientUser("cliente9@asd.com", "cliente9@asd.com", "Sara", "Coronel", "qwerty 9", "1000009");
+            var client10 = CreateClientUser("cliente10@asd.com", "cliente10@asd.com", "Matias", "Marquez", "qwerty 10", "1000010");
+            var client11 = CreateClientUser("cliente11@asd.com", "cliente11@asd.com", "Daniel", "Perez", "qwerty 11", "1000011");
+            var client12 = CreateClientUser("cliente12@asd.com", "cliente12@asd.com", "Javier", "Rito", "qwerty 12", "1000012");
+            var client13 = CreateClientUser("cliente13@asd.com", "cliente13@asd.com", "Luis", "Salas", "qwerty 13", "1000013");
+            var client14 = CreateClientUser("cliente14@asd.com", "cliente14@asd.com", "Ezequiel", "Morzt", "qwerty 14", "1000014");
+            var client15 = CreateClientUser("cliente15@asd.com", "cliente15@asd.com", "Manuela", "Gomez", "qwerty 15", "1000015");
+            //var client16 = CreateClientUser("cliente16@asd.com", "cliente16@asd.com");
+            //var client17 = CreateClientUser("cliente17@asd.com", "cliente17@asd.com");
+            //var client18 = CreateClientUser("cliente18@asd.com", "cliente18@asd.com");
+            //var client19 = CreateClientUser("cliente19@asd.com", "cliente19@asd.com");
+            //var client20 = CreateClientUser("cliente20@asd.com", "cliente20@asd.com");
 
             // Creo pacientes
-            var patient1 = CreatePatient("Pedro", "Gomez", "qwerty 1", "1000001", medicalPlan1, client1, clinic1);
-            var patient2 = CreatePatient("Juan", "Martinez", "qwerty 2", "1000002", medicalPlan3, client2, clinic1);
-            var patient3 = CreatePatient("Martin", "Violante", "qwerty 3", "1000003", medicalPlan6, client3, clinic1);
-            var patient4 = CreatePatient("Leandro", "Lagos", "qwerty 4", "1000004", medicalPlan7, client4, clinic1);
-            var patient5 = CreatePatient("Sebastian", "Veliz", "qwerty 5", "1000005", medicalPlan9, client5, clinic1);
+            var patient1 = CreatePatient(medicalPlan1, client1, clinic1);
+            var patient2 = CreatePatient(medicalPlan3, client2, clinic1);
+            var patient3 = CreatePatient(medicalPlan6, client3, clinic1);
+            var patient4 = CreatePatient(medicalPlan7, client4, clinic1);
+            var patient5 = CreatePatient(medicalPlan9, client5, clinic1);
 
-            var patient6 = CreatePatient("Maria", "Light", "qwerty 6", "1000006", medicalPlan10, client6, clinic2);
-            var patient7 = CreatePatient("Clara", "Florin", "qwerty 7", "1000007", medicalPlan10, client7, clinic2);
-            var patient8 = CreatePatient("Daniela", "Brign", "qwerty 8", "1000008", medicalPlan10, client8, clinic2);
-            var patient9 = CreatePatient("Sara", "Coronel", "qwerty 9", "1000009", medicalPlan11, client9, clinic2);
-            var patient10 = CreatePatient("Matias", "Marquez", "qwerty 10", "1000010", medicalPlan11, client10, clinic2);
+            var patient6 = CreatePatient(medicalPlan10, client6, clinic2);
+            var patient7 = CreatePatient(medicalPlan10, client7, clinic2);
+            var patient8 = CreatePatient(medicalPlan10, client8, clinic2);
+            var patient9 = CreatePatient(medicalPlan11, client9, clinic2);
+            var patient10 = CreatePatient(medicalPlan11, client10, clinic2);
 
-            var patient11 = CreatePatient("Daniel", "Perez", "qwerty 11", "1000011", medicalPlan13, client11, clinic3);
-            var patient12 = CreatePatient("Javier", "Rito", "qwerty 12", "1000012", medicalPlan13, client12,clinic3);
-            var patient13 = CreatePatient("Luis", "Salas", "qwerty 13", "1000013", medicalPlan15, client13, clinic3);
-            var patient14 = CreatePatient("Ezequiel", "Morzt", "qwerty 14", "1000014", medicalPlan16, client14, clinic3);
-            var patient15 = CreatePatient("Manuela", "Gomez", "qwerty 15", "1000015", medicalPlan18, client15, clinic3);
+            var patient11 = CreatePatient(medicalPlan13, client11, clinic3);
+            var patient12 = CreatePatient(medicalPlan13, client12,clinic3);
+            var patient13 = CreatePatient(medicalPlan15, client13, clinic3);
+            var patient14 = CreatePatient(medicalPlan16, client14, clinic3);
+            var patient15 = CreatePatient(medicalPlan18, client15, clinic3);
 
             // Creo turnos
             var appointment1 = CreateAppointment(DateTime.Today.AddDays(-5).AddHours(8).AddMinutes(30), doctor1, patient1, AppointmentStateEnum.Reserved, null, clinic1);
@@ -560,7 +560,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             return medicalPlan;
         }
 
-        private SystemClient CreateClientUser(string email, string password)
+        private SystemClient CreateClientUser(string email, string password, string firstName, string lastName, string address, string dni)
         {
             SystemClient client;
 
@@ -595,6 +595,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 client = new SystemClient
                 {
+                    FirstName = firstName,
+                    LastName = lastName,
+                    Address = address,
+                    Dni = dni,
+                    PhoneNumber = "11-1111-1111",
                     UserId = appUser.Id
                 };
 
@@ -605,7 +610,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             return client;
         }
 
-        private Clinic_Patient CreatePatient(string firstName, string lastName, string address, string dni, Clinic_MedicalPlan medicalPlan, SystemClient client, Clinic clinic)
+        private Clinic_Patient CreatePatient( Clinic_MedicalPlan medicalPlan, SystemClient client, Clinic clinic)
         {
             Clinic_Patient patient;
 
@@ -613,11 +618,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 patient = new Clinic_Patient
                 {
-                    FirstName = firstName,
-                    LastName = lastName,
-                    Address = address,
-                    Dni = dni,
-                    PhoneNumber = string.Empty,
+                    //FirstName = firstName,
+                    //LastName = lastName,
+                    //Address = address,
+                    //Dni = dni,
+                    //PhoneNumber = string.Empty,
                     MedicalPlanId = medicalPlan.Id,
                     ClientId = client.Id,
                     UserId = clinic.Id

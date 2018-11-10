@@ -54,18 +54,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         throw new ApplicationException(ExceptionMessages.BadRequest);
                     }
 
-                    client = CreateClient(patientDto.Email, patientDto.Dni);
+                    client = CreateClient(patientDto.Email, patientDto.Dni, patientDto);
                 }
 
                 var medicalPlan = dbContext.Clinic_MedicalPlans.FirstOrDefault(mp => mp.Id == patientDto.MedicalPlanId);
 
                 dbContext.Clinic_Patients.Add(new Clinic_Patient
                 {
-                    FirstName = patientDto.FirstName,
-                    LastName = patientDto.LastName,
-                    Address = patientDto.Address,
-                    PhoneNumber = patientDto.PhoneNumber,
-                    Dni = patientDto.Dni,
                     UserId = userId,
                     ClientId = patientDto.ClientId,
                     MedicalPlan = medicalPlan
@@ -121,7 +116,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 var client = new SystemClient
                 {
-                    UserId = appUser.Id
+                    UserId = appUser.Id,
+                    FirstName = patientDto.FirstName,
+                    LastName = patientDto.LastName,
+                    Address = patientDto.Address,
+                    PhoneNumber = patientDto.PhoneNumber,
+                    Dni = patientDto.Dni,
                 };
 
                 dbContext.Clients.Add(client);
@@ -129,11 +129,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 var patient = new Clinic_Patient
                 {
-                    FirstName = patientDto.FirstName,
-                    LastName = patientDto.LastName,
-                    Address = patientDto.Address,
-                    PhoneNumber = patientDto.PhoneNumber,
-                    Dni = patientDto.Dni,
+                    
                     UserId = userId,
                     ClientId = client.Id,
                     MedicalPlanId = patientDto.MedicalPlanId
@@ -158,16 +154,16 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     .Where(p => p.UserId == userId)
                     .Select(s => new PatientDto {
                         Id = s.Id,
-                        FirstName = s.FirstName,
-                        LastName = s.LastName,
+                        FirstName = s.Client.FirstName,
+                        LastName = s.Client.LastName,
                         MedicalPlan = s.MedicalPlan.Data.Description,
                         MedicalPlanId = s.MedicalPlan.Id,
                         MedicalInsurance = s.MedicalPlan.MedicalInsurance.Data.Description,
                         MedicalInsuranceId = s.MedicalPlan.MedicalInsurance.Id,
-                        Address = s.Address,
-                        PhoneNumber = s.PhoneNumber,
+                        Address = s.Client.Address,
+                        PhoneNumber = s.Client.PhoneNumber,
                         Email = s.Client.User.Email,
-                        Dni = s.Dni,
+                        Dni = s.Client.Dni,
                         UserId = s.UserId,
                         ClientId = s.ClientId,
                         ReservedAppointments = s.Appointments.Count(),
@@ -208,7 +204,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = _service.GetUserId(this.HttpContext);
 
-                var patientToUpdate = dbContext.Clinic_Patients.FirstOrDefault(p => p.Id == patientDto.Id && p.UserId == userId);
+                var patientToUpdate = dbContext.Clinic_Patients.Include(x=>x.Client).FirstOrDefault(p => p.Id == patientDto.Id && p.UserId == userId);
 
                 if (patientToUpdate == null)
                 {
@@ -222,11 +218,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new ApplicationException(ExceptionMessages.BadRequest);
                 }
 
-                patientToUpdate.FirstName = patientDto.FirstName;
-                patientToUpdate.LastName = patientDto.LastName;
-                patientToUpdate.Address = patientDto.Address;
-                patientToUpdate.PhoneNumber = patientDto.PhoneNumber;
-                patientToUpdate.Dni = patientDto.Dni;
+                patientToUpdate.Client.FirstName = patientDto.FirstName;
+                patientToUpdate.Client.LastName = patientDto.LastName;
+                patientToUpdate.Client.Address = patientDto.Address;
+                patientToUpdate.Client.PhoneNumber = patientDto.PhoneNumber;
+                patientToUpdate.Client.Dni = patientDto.Dni;
                 patientToUpdate.MedicalPlanId = patientDto.MedicalPlanId;
                 dbContext.SaveChanges();
             }
@@ -243,21 +239,22 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var userId = _service.GetUserId(this.HttpContext);
 
                 return dbContext.Clinic_Patients
+                    .Include(x => x.Client)
                     .Where(p => p.UserId == userId)
                     .Where(p => filter.MedicalInsuranceId == null | p.MedicalPlan.MedicalInsuranceId == filter.MedicalInsuranceId)
                     .Select(s => new PatientDto
                     {
                         Id = s.Id,
-                        FirstName = s.FirstName,
-                        LastName = s.LastName,
+                        FirstName = s.Client.FirstName,
+                        LastName = s.Client.LastName,
                         MedicalPlan = s.MedicalPlan.Data.Description,
                         MedicalPlanId = s.MedicalPlanId,
                         MedicalInsurance = s.MedicalPlan.MedicalInsurance.Data.Description,
                         MedicalInsuranceId = s.MedicalPlan.MedicalInsurance.Id,
-                        Address = s.Address,
-                        PhoneNumber = s.PhoneNumber,
+                        Address = s.Client.Address,
+                        PhoneNumber = s.Client.PhoneNumber,
                         Email = s.Client.User.Email,
-                        Dni = s.Dni,
+                        Dni = s.Client.Dni,
                         UserId = s.UserId,
                         ClientId = s.ClientId,
                         ReservedAppointments = s.Appointments.Count(),
@@ -266,7 +263,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
-        private SystemClient CreateClient(string email, string password)
+        private SystemClient CreateClient(string email, string password, AddPatientDto patientDto)
         {
             if (!_roleManager.RoleExistsAsync(Roles.Client).Result)
             {
@@ -299,7 +296,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 var client = new SystemClient
                 {
-                    UserId = appUser.Id
+                    UserId = appUser.Id,
+                    FirstName = patientDto.FirstName,
+                    LastName = patientDto.LastName,
+                    Address = patientDto.Address,
+                    PhoneNumber = patientDto.PhoneNumber,
+                    Dni = patientDto.Dni,
                 };
 
                 dbContext.Clients.Add(client);

@@ -12,26 +12,6 @@ namespace SistemaTurnos.WebApplication.Database.HairdressingModel
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Required]
-        [StringLength(50, MinimumLength = 4)]
-        public string FirstName { get; set; }
-
-        [Required]
-        [StringLength(50, MinimumLength = 4)]
-        public string LastName { get; set; }
-
-        [Required]
-        [StringLength(50, MinimumLength = 4)]
-        public string Address { get; set; }
-
-        [Required]
-        [StringLength(50, MinimumLength = 4)]
-        public string PhoneNumber { get; set; }
-
-        [Required]
-        [StringLength(50, MinimumLength = 4)]
-        public string Dni { get; set; }
-
         public virtual List<Hairdressing_Appointment> Appointments { get; set; }
 
         [Required]
@@ -44,6 +24,6 @@ namespace SistemaTurnos.WebApplication.Database.HairdressingModel
 
         public virtual SystemClient Client { get; set; }
 
-        public string FullName => $"{LastName} {FirstName}";
+        public string FullName => Client.FullName;
     }
 }

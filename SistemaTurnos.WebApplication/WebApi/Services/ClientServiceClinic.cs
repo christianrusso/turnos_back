@@ -60,7 +60,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
                     .Select(c => new ClientDto
                     {
                         Id = c.Id,
-                        Email = c.User.Email
+                        Email = c.User.Email,
+                        FirstName = c.FirstName,
+                        LastName = c.LastName,
+                        Dni = c.Dni,
+                        Address = c.Address,
+                        PhoneNumber = c.PhoneNumber
                     }).ToList();
             }
         }
@@ -77,7 +82,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
                     .Select(c => new ClientDto
                     {
                         Id = c.Id,
-                        Email = c.User.Email
+                        Email = c.User.Email,
+                        FirstName = c.FirstName,
+                        LastName = c.LastName,
+                        Dni = c.Dni,
+                        Address = c.Address,
+                        PhoneNumber = c.PhoneNumber
                     }).ToList();
             }
         }

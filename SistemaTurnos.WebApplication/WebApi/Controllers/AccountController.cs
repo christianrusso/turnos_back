@@ -97,6 +97,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                                 userId = employee.OwnerUserId;
                             }
                             var clinic = dbContext.Clinics.FirstOrDefault(c => c.UserId == userId);
+
+                            if (clinic == null)
+                            {
+                                throw new ApplicationException(ExceptionMessages.LoginFailed);
+                            }
+
                             logo = clinic.Logo;
                         }
                         
@@ -108,6 +114,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                                 userId = Hemployee.OwnerUserId;
                             }
                             var hairdressing = dbContext.Hairdressings.FirstOrDefault(c => c.UserId == userId);
+
+                            if (hairdressing == null)
+                            {
+                                throw new ApplicationException(ExceptionMessages.LoginFailed);
+                            }
+
                             logo = hairdressing.Logo;
                         }
 
@@ -115,11 +127,35 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     }
                 }
                 else if (_userManager.IsInRoleAsync(appUser, Roles.Client).Result)
+                {
+                    var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
+
+                    if (client == null)
                     {
-                            var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
-                            logo = client.Logo;
+                        throw new ApplicationException(ExceptionMessages.LoginFailed);
                     }
-                
+
+                    logo = client.Logo;
+                }
+
+                if (_userManager.IsInRoleAsync(appUser, Roles.Administrator).Result)
+                {
+                    if (model.BusinessType == Database.Enums.BusinessType.Clinic)
+                    {
+                        if (!dbContext.Clinics.Any(c => c.UserId == appUser.Id))
+                        {
+                            throw new ApplicationException(ExceptionMessages.LoginFailed);
+                        }
+                    }
+
+                    if (model.BusinessType == Database.Enums.BusinessType.Hairdressing)
+                    {
+                        if (!dbContext.Hairdressings.Any(c => c.UserId == appUser.Id))
+                        {
+                            throw new ApplicationException(ExceptionMessages.LoginFailed);
+                        }
+                    }
+                }
             }
                 
             ValidTokens.Add($"{JwtBearerDefaults.AuthenticationScheme} {token}", userId);
