@@ -40,7 +40,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
                 var client = new SystemClient
                 {
                     UserId = appUser.Id,
-                    Logo = "" 
+                    Logo = "",
+
+                    FirstName = clientDto.FirstName,
+                    LastName = clientDto.LastName,
+                    Dni = clientDto.Dni,
+                    Address = clientDto.Address,
+                    PhoneNumber = clientDto.PhoneNumber
                 };
 
                 dbContext.Clients.Add(client);

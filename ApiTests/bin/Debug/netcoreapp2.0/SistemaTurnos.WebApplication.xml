@@ -166,6 +166,11 @@
             Devuelve todos los clientes que no son pacientes
             </summary>
         </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.ClientController.GetAllNonHairdressingPatients">
+            <summary>
+            Devuelve todos los clientes que no son pacientes de peluqueria
+            </summary>
+        </member>
         <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.ClientController.AddFavoriteClinic(SistemaTurnos.WebApplication.WebApi.Dto.IdDto)">
             <summary>
             Agrega una clinica favorita
