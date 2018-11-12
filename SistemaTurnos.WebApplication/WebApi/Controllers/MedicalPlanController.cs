@@ -121,12 +121,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
-        public List<MedicalPlanDto> GetAll([FromBody] IdDto idDto)
+        public List<MedicalPlanDto> GetAll([FromBody] IdAndUserDto idDto)
         {
             using (var dbContext = new ApplicationDbContext())
             {
                 return dbContext.Clinic_MedicalPlans
                     .Where(s => s.MedicalInsuranceId == idDto.Id)
+                    .Where(s => s.UserId == idDto.UserId)
                     .Select(s => new MedicalPlanDto
                     {
                         Id = s.Id,
