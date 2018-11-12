@@ -56,6 +56,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         /// <summary>
+        /// Edita un cliente
+        /// </summary>
+        [HttpPost]
+        public void Edit([FromBody] EditClientDto clientDto)
+        {
+            _ClientService.Edit(clientDto, this.HttpContext);
+        }
+
+        /// <summary>
         /// Elimina cliente
         /// </summary>
         [HttpPost]

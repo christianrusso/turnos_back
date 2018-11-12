@@ -76,6 +76,29 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
             }
         }
 
+        internal void Edit(EditClientDto clientDto, HttpContext httpContext)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = GetUserId(httpContext);
+
+                var clientToUpdate = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
+
+                if (clientToUpdate == null)
+                {
+                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                }
+
+                clientToUpdate.FirstName = clientDto.FirstName;
+                clientToUpdate.LastName = clientDto.LastName;
+                clientToUpdate.Address = clientDto.Address;
+                clientToUpdate.PhoneNumber = clientDto.PhoneNumber;
+                clientToUpdate.Dni = clientDto.Dni;
+
+                dbContext.SaveChanges();
+            }
+        }
+
         public List<ClientDto> GetAllNonHairdressingPatients(HttpContext httpContex)
         {
             using (var dbContext = new ApplicationDbContext())
