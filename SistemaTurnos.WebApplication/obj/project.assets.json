@@ -5238,10 +5238,11 @@
       ]
     },
     "Google.Protobuf/3.0.0-beta4": {
-      "sha512": "uBij/IkxC5L5Rla0xoRQTk+kPb4SkgOkbelsJcBMl6p0GsJ75h6S9zf6LsoOfh4bWRPlrK7eUHKpAKul0P6omQ==",
+      "sha512": "nUG9Z/e7OL4yp7gzBR9AE/xmaZCnp4NFkfL6FgAw8Vpe2I3FB+pO4zohGwJkR5juFobH5mjOmzR1zbHAnwn/HA==",
       "type": "package",
       "path": "google.protobuf/3.0.0-beta4",
       "files": [
+        ".signature.p7s",
         "google.protobuf.3.0.0-beta4.nupkg.sha512",
         "google.protobuf.nuspec",
         "lib/net45/Google.Protobuf.dll",
@@ -8100,10 +8101,11 @@
       ]
     },
     "MySqlConnector/0.42.1": {
-      "sha512": "7jS8P+XOw+vS/reuwEEGhtAKvagiOEtOsu5/46Bnuiw+DgOjAFgMSojkiVaZi9DHcatP8jgmjY67iDGVZByQng==",
+      "sha512": "mw9ko3UC/tHH/wAqFrD4ZRUi5n39mWLn6Fzlqy+tpMdLYLjeCfGchZDWBHkqjAv54/LLgnlwGECDUk0Yg+JeXQ==",
       "type": "package",
       "path": "mysqlconnector/0.42.1",
       "files": [
+        ".signature.p7s",
         "lib/net45/MySqlConnector.dll",
         "lib/net461/MySqlConnector.dll",
         "lib/netcoreapp2.1/MySqlConnector.dll",
@@ -8280,20 +8282,22 @@
       ]
     },
     "Pomelo.EntityFrameworkCore.MySql/2.1.1": {
-      "sha512": "V/W72zl2iWUWdSvj0c9chzssv9OUdSbEiEeOmP3D5Co5CbAtOiyyFwov0hVN+D/VNGhUQGszUltIWuoYEjTHhQ==",
+      "sha512": "JauxInJNVU+yRtqf/J5snn1VPtDEQzAroAEt74IY/JYm0/rr4MgDhliR+Bg4mOutExthEFYgDuxRmDvtj6p6Tg==",
       "type": "package",
       "path": "pomelo.entityframeworkcore.mysql/2.1.1",
       "files": [
+        ".signature.p7s",
         "lib/netstandard2.0/Pomelo.EntityFrameworkCore.MySql.dll",
         "pomelo.entityframeworkcore.mysql.2.1.1.nupkg.sha512",
         "pomelo.entityframeworkcore.mysql.nuspec"
       ]
     },
     "Pomelo.JsonObject/1.1.1": {
-      "sha512": "erkYG/OW1LloSwDFGeS9MvVjy1FLmaV3k8GK/GMR8D3sSDEylZogoLdLiaOFc92+zTen92rG6XGiioNacSlg0A==",
+      "sha512": "IzQjzkvDn0R6QbGGBfcTXFhJMayGRx6cU55nXL0SrSooRFtarkQG2tPOCsyhZ2d6P3Ki6iBwKR5At2hFKeYmhQ==",
       "type": "package",
       "path": "pomelo.jsonobject/1.1.1",
       "files": [
+        ".signature.p7s",
         "lib/net451/Pomelo.JsonObject.dll",
         "lib/netstandard1.3/Pomelo.JsonObject.dll",
         "pomelo.jsonobject.1.1.1.nupkg.sha512",
@@ -13706,30 +13710,28 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Christian\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "/Users/usuario/.nuget/packages/": {},
+    "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Christian\\Desktop\\turnos\\turnos_back\\SistemaTurnos.WebApplication\\SistemaTurnos.WebApplication.csproj",
+      "projectUniqueName": "/Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/SistemaTurnos.WebApplication.csproj",
       "projectName": "SistemaTurnos.WebApplication",
-      "projectPath": "C:\\Users\\Christian\\Desktop\\turnos\\turnos_back\\SistemaTurnos.WebApplication\\SistemaTurnos.WebApplication.csproj",
-      "packagesPath": "C:\\Users\\Christian\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Christian\\Desktop\\turnos\\turnos_back\\SistemaTurnos.WebApplication\\obj\\",
+      "projectPath": "/Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/SistemaTurnos.WebApplication.csproj",
+      "packagesPath": "/Users/usuario/.nuget/packages/",
+      "outputPath": "/Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/obj/",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Christian\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/usuario/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
