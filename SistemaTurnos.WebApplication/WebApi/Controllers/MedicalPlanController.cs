@@ -127,6 +127,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 return dbContext.Clinic_MedicalPlans
                     .Where(s => s.MedicalInsuranceId == idDto.Id)
+                    .Where(s => s.UserId == 1)
                     .Select(s => new MedicalPlanDto
                     {
                         Id = s.Id,
