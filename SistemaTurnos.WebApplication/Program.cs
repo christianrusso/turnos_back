@@ -22,10 +22,12 @@ namespace SistemaTurnos.WebApplication
            WebHost.CreateDefaultBuilder(args)
                 .UseKestrel(options =>
                 {
-                    options.Listen(IPAddress.Loopback, 5000, lstOpt => lstOpt.UseHttps("orbitsa.xyz.pfx", "1682951"));
+                    options.Listen(IPAddress.Any, 443, listenOptions => {
+                        listenOptions.UseHttps("orbitsa.xyz.pfx", "1682951");
+                    });
                 })
                 .UseStartup<Startup>()
-            .Build();
+                .Build();
 
         //private static X509Certificate2 GetCertificateFromStore()
         //{

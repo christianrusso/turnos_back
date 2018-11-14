@@ -6,7 +6,10 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -89,6 +92,7 @@ namespace SistemaTurnos.WebApplication
             {
                 config.Filters.Add(new ModelStateValidationFilter());
                 config.Filters.Add(new TokenValidationFilter());
+                config.Filters.Add(new RequireHttpsAttribute());
             });
 
             // Add Cross-origin resourse sharing
@@ -114,6 +118,9 @@ namespace SistemaTurnos.WebApplication
 
             // Use Authentication
             application.UseAuthentication();
+
+            // Https Redirect
+            application.UseRewriter(new RewriteOptions().AddRedirectToHttps(StatusCodes.Status301MovedPermanently, 443));
 
             // Use MVC
             application.UseMvc();
