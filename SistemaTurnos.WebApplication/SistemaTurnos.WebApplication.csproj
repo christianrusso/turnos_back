@@ -57,6 +57,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>bin\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.xml</DocumentationFile>
+    <NoWarn>1701;1702;1572;1573;1591;</NoWarn>
   </PropertyGroup>
 
 </Project>

@@ -156,6 +156,11 @@
             Registra un cliente
             </summary>
         </member>
+        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.ClientController.Edit(SistemaTurnos.WebApplication.WebApi.Dto.Client.EditClientDto)">
+            <summary>
+            Edita un cliente
+            </summary>
+        </member>
         <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.ClientController.Remove(SistemaTurnos.WebApplication.WebApi.Dto.Client.RemoveClientDto)">
             <summary>
             Elimina cliente

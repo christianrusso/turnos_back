@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using System.Net;
-using System.Security.Cryptography.X509Certificates;
 
 namespace SistemaTurnos.WebApplication
 {
@@ -22,27 +21,11 @@ namespace SistemaTurnos.WebApplication
            WebHost.CreateDefaultBuilder(args)
                 .UseKestrel(options =>
                 {
-                    options.Listen(IPAddress.Loopback, 4443, listenOptions => {
+                    options.Listen(IPAddress.Any, 4443, listenOptions => {
                         listenOptions.UseHttps("orbitsa.xyz.pfx", "1682951");
                     });
                 })
                 .UseStartup<Startup>()
                 .Build();
-
-        //private static X509Certificate2 GetCertificateFromStore()
-        //{
-        //    var store = new X509Store(StoreName.My, StoreLocation.LocalMachine);
-        //    try
-        //    {
-        //        store.Open(OpenFlags.ReadOnly);
-        //        var certCollection = store.Certificates;
-        //        var currentCerts = certCollection.Find(X509FindType.FindBySubjectDistinguishedName, "CN=orbitsa.xyz", false);
-        //        return currentCerts.Count == 0 ? null : currentCerts[0];
-        //    }
-        //    finally
-        //    {
-        //        store.Close();
-        //    }
-        //}
     }
 }
