@@ -1,0 +1,10 @@
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.Populator\bin\Debug\netcoreapp2.1\SistemaTurnos.Populator.deps.json
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.Populator\bin\Debug\netcoreapp2.1\SistemaTurnos.Populator.runtimeconfig.json
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.Populator\bin\Debug\netcoreapp2.1\SistemaTurnos.Populator.runtimeconfig.dev.json
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.Populator\bin\Debug\netcoreapp2.1\SistemaTurnos.Populator.dll
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.Populator\bin\Debug\netcoreapp2.1\SistemaTurnos.Populator.pdb
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.Populator\obj\Debug\netcoreapp2.1\SistemaTurnos.Populator.csproj.CoreCompileInputs.cache
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.Populator\obj\Debug\netcoreapp2.1\SistemaTurnos.Populator.AssemblyInfoInputs.cache
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.Populator\obj\Debug\netcoreapp2.1\SistemaTurnos.Populator.AssemblyInfo.cs
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.Populator\obj\Debug\netcoreapp2.1\SistemaTurnos.Populator.dll
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.Populator\obj\Debug\netcoreapp2.1\SistemaTurnos.Populator.pdb

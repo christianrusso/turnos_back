@@ -1,0 +1,10 @@
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.Database\obj\Debug\netcoreapp2.1\SistemaTurnos.Database.csproj.CoreCompileInputs.cache
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.Database\obj\Debug\netcoreapp2.1\SistemaTurnos.Database.AssemblyInfoInputs.cache
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.Database\obj\Debug\netcoreapp2.1\SistemaTurnos.Database.AssemblyInfo.cs
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.Database\bin\Debug\netcoreapp2.1\SistemaTurnos.Database.deps.json
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.Database\bin\Debug\netcoreapp2.1\SistemaTurnos.Database.runtimeconfig.json
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.Database\bin\Debug\netcoreapp2.1\SistemaTurnos.Database.runtimeconfig.dev.json
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.Database\bin\Debug\netcoreapp2.1\SistemaTurnos.Database.dll
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.Database\bin\Debug\netcoreapp2.1\SistemaTurnos.Database.pdb
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.Database\obj\Debug\netcoreapp2.1\SistemaTurnos.Database.dll
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.Database\obj\Debug\netcoreapp2.1\SistemaTurnos.Database.pdb

@@ -2,11 +2,10 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using SistemaTurnos.WebApplication.Database;
-using SistemaTurnos.WebApplication.Database.ClinicModel;
-using SistemaTurnos.WebApplication.Database.Enums;
-using SistemaTurnos.WebApplication.Database.Model;
+using SistemaTurnos.Database;
+using SistemaTurnos.Database.ClinicModel;
+using SistemaTurnos.Database.Enums;
+using SistemaTurnos.Database.Model;
 using SistemaTurnos.WebApplication.Email;
 using SistemaTurnos.WebApplication.WebApi.Authorization;
 using SistemaTurnos.WebApplication.WebApi.Dto;
@@ -835,8 +834,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.Client)]
         public List<ClientDayDto> GetWeekForClient([FromBody] FilterClientWeekAppointmentDto filter)
         {
-            var service = new AppointmentService(this.HttpContext);
-            var week = service.Clinic_GetWeekForClient(filter, this.HttpContext);
+            var service = new AppointmentService(HttpContext);
+            var week = service.Clinic_GetWeekForClient(filter, HttpContext);
 
             return week;
         }

@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
-using SistemaTurnos.WebApplication.Database;
+using SistemaTurnos.Database;
 using SistemaTurnos.WebApplication.WebApi.Dto.Appointment;
 using SistemaTurnos.WebApplication.WebApi.Dto.Common;
 using SistemaTurnos.WebApplication.WebApi.Dto.HairdressingAppointment;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace SistemaTurnos.WebApplication.WebApi.Services
 {

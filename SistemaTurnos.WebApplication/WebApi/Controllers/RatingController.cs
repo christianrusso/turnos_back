@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SistemaTurnos.WebApplication.Database;
+using SistemaTurnos.Database;
 using SistemaTurnos.WebApplication.WebApi.Dto;
 using System.Collections.Generic;
 using System.Linq;

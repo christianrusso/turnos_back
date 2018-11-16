@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SistemaTurnos.WebApplication.Database;
-using SistemaTurnos.WebApplication.Database.ClinicModel;
-using SistemaTurnos.WebApplication.WebApi.Authorization;
+using SistemaTurnos.Database;
+using SistemaTurnos.Database.ClinicModel;
 using SistemaTurnos.WebApplication.WebApi.Dto;
 using SistemaTurnos.WebApplication.WebApi.Dto.Specialty;
 using SistemaTurnos.WebApplication.WebApi.Dto.Subspecialty;

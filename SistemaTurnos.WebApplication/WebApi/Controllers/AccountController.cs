@@ -17,10 +17,11 @@ using Microsoft.IdentityModel.Tokens;
 using SistemaTurnos.WebApplication.WebApi.Authorization;
 using SistemaTurnos.WebApplication.WebApi.Dto.Account;
 using SistemaTurnos.WebApplication.WebApi.Exceptions;
-using SistemaTurnos.WebApplication.Database.Model;
-using SistemaTurnos.WebApplication.Database;
-using SistemaTurnos.WebApplication.Database.ClinicModel;
-using SistemaTurnos.WebApplication.Database.HairdressingModel;
+using SistemaTurnos.Database.Model;
+using SistemaTurnos.Database;
+using SistemaTurnos.Database.ClinicModel;
+using SistemaTurnos.Database.HairdressingModel;
+using SistemaTurnos.Database.Enums;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
 {
@@ -89,7 +90,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                             throw new ApplicationException(ExceptionMessages.BadRequest);
                         }
 
-                        if(model.BusinessType == Database.Enums.BusinessType.Clinic)
+                        if(model.BusinessType == BusinessType.Clinic)
                         {
                             var employee = dbContext.Clinic_Employees.FirstOrDefault(e => e.UserId == appUser.Id);
                             if (employee != null)
@@ -106,7 +107,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                             logo = clinic.Logo;
                         }
                         
-                        else if(model.BusinessType == Database.Enums.BusinessType.Hairdressing)
+                        else if(model.BusinessType == BusinessType.Hairdressing)
                         {
                             var Hemployee = dbContext.Hairdressing_Employees.FirstOrDefault(e => e.UserId == appUser.Id);
                             if (Hemployee != null)
@@ -140,7 +141,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (_userManager.IsInRoleAsync(appUser, Roles.Administrator).Result)
                 {
-                    if (model.BusinessType == Database.Enums.BusinessType.Clinic)
+                    if (model.BusinessType == BusinessType.Clinic)
                     {
                         if (!dbContext.Clinics.Any(c => c.UserId == appUser.Id))
                         {
@@ -148,7 +149,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         }
                     }
 
-                    if (model.BusinessType == Database.Enums.BusinessType.Hairdressing)
+                    if (model.BusinessType == BusinessType.Hairdressing)
                     {
                         if (!dbContext.Hairdressings.Any(c => c.UserId == appUser.Id))
                         {
@@ -299,7 +300,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new ApplicationException(ExceptionMessages.BadRequest);
                 }
 
-                if(model.BusinessType == Database.Enums.BusinessType.Clinic)
+                if(model.BusinessType == BusinessType.Clinic)
                 {
                     var clinic = new Clinic
                     {
@@ -315,7 +316,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                     dbContext.Clinics.Add(clinic);
                 }
-                if(model.BusinessType == Database.Enums.BusinessType.Hairdressing)
+                if(model.BusinessType == BusinessType.Hairdressing)
                 {
                     var hairdressing = new Hairdressing
                     {

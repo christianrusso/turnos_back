@@ -1,18 +1,6 @@
-using Moq;
 using SistemaTurnos.WebApplication.WebApi.Controllers;
-using System;
 using Xunit;
-using Microsoft.AspNetCore.Identity;
-using SistemaTurnos.WebApplication.Database.Model;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
-using SistemaTurnos.WebApplication.WebApi.Authorization;
-using Microsoft.EntityFrameworkCore;
-using SistemaTurnos.WebApplication.Database;
-using System.Collections.Generic;
-using System.Linq;
+using SistemaTurnos.Database.Enums;
 
 namespace ApiTests
 {
@@ -37,7 +25,7 @@ namespace ApiTests
 
             var res = accountCtrl.Register(new SistemaTurnos.WebApplication.WebApi.Dto.Account.RegisterAccountDto()
             {
-                BusinessType = SistemaTurnos.WebApplication.Database.Enums.BusinessType.Hairdressing,
+                BusinessType = BusinessType.Hairdressing,
                 Email = "email@test.com",
                 Address = "Address",
                 Password = "aaa",
@@ -46,7 +34,7 @@ namespace ApiTests
 
             Assert.True(((Microsoft.AspNetCore.Mvc.ObjectResult)res).StatusCode == 200);
 
-            Assert.Equal(SistemaTurnos.WebApplication.Database.Enums.BusinessType.Hairdressing, ((Microsoft.AspNetCore.Mvc.ObjectResult)res).Value);
+            Assert.Equal(BusinessType.Hairdressing, ((Microsoft.AspNetCore.Mvc.ObjectResult)res).Value);
         }
 
         [Fact]
@@ -68,7 +56,7 @@ namespace ApiTests
 
             var res = accountCtrl.Login(new SistemaTurnos.WebApplication.WebApi.Dto.Account.LoginAccountDto()
             {
-                BusinessType = SistemaTurnos.WebApplication.Database.Enums.BusinessType.Hairdressing,
+                BusinessType = BusinessType.Hairdressing,
                 Email = "email@test.com",
                 Password = "1234"
             });

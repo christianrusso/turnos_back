@@ -1,4 +1,4 @@
-﻿using SistemaTurnos.WebApplication.Database.Enums;
+﻿using SistemaTurnos.Database.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace SistemaTurnos.WebApplication.WebApi.Dto.Account

@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using SistemaTurnos.WebApplication.Database;
-using SistemaTurnos.WebApplication.Database.ClinicModel;
-using SistemaTurnos.WebApplication.Database.Enums;
-using SistemaTurnos.WebApplication.Database.Model;
-using SistemaTurnos.WebApplication.Database.ModelData;
+using SistemaTurnos.Database;
+using SistemaTurnos.Database.ClinicModel;
+using SistemaTurnos.Database.Enums;
+using SistemaTurnos.Database.Model;
+using SistemaTurnos.Database.ModelData;
 using SistemaTurnos.WebApplication.WebApi.Authorization;
 using SistemaTurnos.WebApplication.WebApi.Exceptions;
 using System;

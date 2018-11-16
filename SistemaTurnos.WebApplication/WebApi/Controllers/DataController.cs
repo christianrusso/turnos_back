@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using SistemaTurnos.WebApplication.Database;
+using SistemaTurnos.Database;
 using SistemaTurnos.WebApplication.WebApi.Authorization;
 using SistemaTurnos.WebApplication.WebApi.Dto;
 using SistemaTurnos.WebApplication.WebApi.Exceptions;
@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SistemaTurnos.WebApplication.WebApi.Services;
-using SistemaTurnos.WebApplication.Database.Enums;
+using SistemaTurnos.Database.Enums;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
 {

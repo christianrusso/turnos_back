@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using SistemaTurnos.WebApplication.WebApi.Extension;
 using System;
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -9,10 +11,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Exceptions
     public class ExceptionHandlerMiddleware
     {
         private readonly RequestDelegate next;
+        private readonly ILogger<ExceptionHandlerMiddleware> logger;
 
-        public ExceptionHandlerMiddleware(RequestDelegate next)
+        public ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionHandlerMiddleware> logger)
         {
             this.next = next;
+            this.logger = logger;
         }
 
         public async Task Invoke(HttpContext context)
@@ -23,6 +27,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Exceptions
             }
             catch (Exception exception)
             {
+                if (!(exception is BadRequestException))
+                {
+                    logger.LogError(exception, $"User ID: {context.Items["userId"] ?? "Anonimo" } | Request Body {GetRequestBody(context)}");
+                }
+
                 await HandleExceptionAsync(context, exception);
             }
         }
@@ -31,8 +40,17 @@ namespace SistemaTurnos.WebApplication.WebApi.Exceptions
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = exception is BadRequestException ? HttpStatusCode.BadRequest.GetCode() : HttpStatusCode.InternalServerError.GetCode();
-            // var result = JsonConvert.SerializeObject(new { error = exception.Message });
             return context.Response.WriteAsync(exception.Message);
+        }
+
+        private string GetRequestBody(HttpContext context)
+        {
+            context.Request.Body.Seek(0, SeekOrigin.Begin);
+
+            using (var reader = new StreamReader(context.Request.Body))
+            {
+                return reader.ReadToEnd();
+            }
         }
     }
 }

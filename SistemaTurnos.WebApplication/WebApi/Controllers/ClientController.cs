@@ -2,12 +2,11 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using SistemaTurnos.WebApplication.Database;
-using SistemaTurnos.WebApplication.Database.ClinicModel;
-using SistemaTurnos.WebApplication.Database.HairdressingModel;
-using SistemaTurnos.WebApplication.Database.Model;
+using SistemaTurnos.Database;
+using SistemaTurnos.Database.ClinicModel;
+using SistemaTurnos.Database.HairdressingModel;
+using SistemaTurnos.Database.Model;
 using SistemaTurnos.WebApplication.WebApi.Authorization;
 using SistemaTurnos.WebApplication.WebApi.Dto;
 using SistemaTurnos.WebApplication.WebApi.Dto.Client;

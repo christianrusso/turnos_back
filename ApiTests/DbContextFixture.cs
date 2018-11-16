@@ -1,18 +1,9 @@
-﻿using Moq;
-using SistemaTurnos.WebApplication.WebApi.Controllers;
-using System;
-using Xunit;
-using Microsoft.AspNetCore.Identity;
-using SistemaTurnos.WebApplication.Database.Model;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Logging;
+﻿using System;
 using Microsoft.Extensions.Configuration;
-using SistemaTurnos.WebApplication.WebApi.Authorization;
 using Microsoft.EntityFrameworkCore;
-using SistemaTurnos.WebApplication.Database;
-using System.Collections.Generic;
-using System.Linq;
+using SistemaTurnos.Database;
+using SistemaTurnos.Database.ModelData;
+using SistemaTurnos.Database.HairdressingModel;
 
 namespace ApiTests
 {
@@ -24,24 +15,24 @@ namespace ApiTests
                       .UseInMemoryDatabase(Guid.NewGuid().ToString())
                       .Options;
             var context = new ApplicationDbContext(options);
-            context.Cities.Add(new SistemaTurnos.WebApplication.Database.ModelData.City() { Id = 1, Name = "City" });
+            context.Cities.Add(new City() { Id = 1, Name = "City" });
 
 
 
             //subspecialities
-            context.Hairdressing_Subspecialties.Add(new SistemaTurnos.WebApplication.Database.HairdressingModel.Hairdressing_Subspecialty()
+            context.Hairdressing_Subspecialties.Add(new Hairdressing_Subspecialty()
             {
                 Id = 1,
                 UserId = 1,
-                Data = new SistemaTurnos.WebApplication.Database.ModelData.SubspecialtyData()
+                Data = new SubspecialtyData()
                 {
                     Id = 2,
                     Description = "desc",
                 },
-                Specialty = new SistemaTurnos.WebApplication.Database.HairdressingModel.Hairdressing_Specialty()
+                Specialty = new Hairdressing_Specialty()
                 {
                     Id = 1,
-                    Data = new SistemaTurnos.WebApplication.Database.ModelData.SpecialtyData()
+                    Data = new SpecialtyData()
                     {
                         Id = 1,
                         Description = ""
@@ -50,19 +41,19 @@ namespace ApiTests
                 ConsultationLength = 2
             });
 
-            context.Hairdressing_Subspecialties.Add(new SistemaTurnos.WebApplication.Database.HairdressingModel.Hairdressing_Subspecialty()
+            context.Hairdressing_Subspecialties.Add(new Hairdressing_Subspecialty()
             {
                 Id = 2,
                 UserId = 1,
-                Data = new SistemaTurnos.WebApplication.Database.ModelData.SubspecialtyData()
+                Data = new SubspecialtyData()
                 {
                     Id = 2,
                     Description = "desc2",
                 },
-                Specialty = new SistemaTurnos.WebApplication.Database.HairdressingModel.Hairdressing_Specialty()
+                Specialty = new Hairdressing_Specialty()
                 {
                     Id = 1,
-                    Data = new SistemaTurnos.WebApplication.Database.ModelData.SpecialtyData()
+                    Data = new SpecialtyData()
                     {
                         Id = 1,
                         Description = ""

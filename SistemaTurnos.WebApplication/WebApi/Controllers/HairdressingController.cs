@@ -3,17 +3,16 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SistemaTurnos.WebApplication.Database;
+using SistemaTurnos.Database;
 using SistemaTurnos.WebApplication.WebApi.Authorization;
 using SistemaTurnos.WebApplication.WebApi.Dto;
 using SistemaTurnos.WebApplication.WebApi.Dto.Common;
 using SistemaTurnos.WebApplication.WebApi.Dto.Rating;
 using SistemaTurnos.WebApplication.WebApi.Exceptions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using SistemaTurnos.WebApplication.WebApi.Dto.Hairdressing;
-using SistemaTurnos.WebApplication.Database.HairdressingModel;
+using SistemaTurnos.Database.HairdressingModel;
 using SistemaTurnos.WebApplication.WebApi.Services;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
@@ -27,7 +26,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
         public HairdressingController()
         {
-            _service = new BusinessPlaceService(this.HttpContext);
+            _service = new BusinessPlaceService(HttpContext);
         }
 
         [HttpPost]

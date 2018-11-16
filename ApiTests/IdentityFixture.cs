@@ -3,14 +3,12 @@ using SistemaTurnos.WebApplication.WebApi.Controllers;
 using System;
 using Xunit;
 using Microsoft.AspNetCore.Identity;
-using SistemaTurnos.WebApplication.Database.Model;
+using SistemaTurnos.Database.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using SistemaTurnos.WebApplication.WebApi.Authorization;
-using Microsoft.EntityFrameworkCore;
-using SistemaTurnos.WebApplication.Database;
 using System.Collections.Generic;
 using System.Linq;
 

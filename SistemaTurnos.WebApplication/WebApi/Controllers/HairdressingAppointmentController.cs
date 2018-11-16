@@ -2,11 +2,10 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using SistemaTurnos.WebApplication.Database;
-using SistemaTurnos.WebApplication.Database.HairdressingModel;
-using SistemaTurnos.WebApplication.Database.Enums;
-using SistemaTurnos.WebApplication.Database.Model;
+using SistemaTurnos.Database;
+using SistemaTurnos.Database.HairdressingModel;
+using SistemaTurnos.Database.Enums;
+using SistemaTurnos.Database.Model;
 using SistemaTurnos.WebApplication.Email;
 using SistemaTurnos.WebApplication.WebApi.Authorization;
 using SistemaTurnos.WebApplication.WebApi.Dto;
@@ -16,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SistemaTurnos.WebApplication.WebApi.Services;
+using SistemaTurnos.Database.ClinicModel;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
 {
@@ -132,7 +132,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new ApplicationException(ExceptionMessages.InternalServerError);
                 }
 
-                var client = new Database.ClinicModel.SystemClient
+                var client = new SystemClient
                 {
                     UserId = appUser.Id,
                     FirstName = requestAppointmentDto.FirstName,
