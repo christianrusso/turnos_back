@@ -4,6 +4,7 @@ using SistemaTurnos.Commons.Exceptions;
 using SistemaTurnos.Database;
 using SistemaTurnos.Database.ClinicModel;
 using SistemaTurnos.Database.Enums;
+using SistemaTurnos.Database.HairdressingModel;
 using SistemaTurnos.Database.Model;
 using SistemaTurnos.Database.ModelData;
 using System;
@@ -23,9 +24,6 @@ namespace SistemaTurnos.Populator
             _roleManager = roleManager;
         }
 
-        /// <summary>
-        /// LLena la base con datos de prueba
-        /// </summary>
         public void Populate()
         {
             // Recreo el schema de la base de datos
@@ -51,6 +49,12 @@ namespace SistemaTurnos.Populator
             var clinic1 = CreateClinicUser("clinica1@asd.com", "clinica1@asd.com", "Clinica 1", "Clinica de Villa Bosch 1", "Villa Bosch", "Jose Maria Bosch 951", -34.5883457, -58.5732785);
             var clinic2 = CreateClinicUser("clinica2@asd.com", "clinica2@asd.com", "Clinica 2", "Clinica de Moron 1", "Moron", "Yatay 600", -34.6548052, -58.6173822);
             var clinic3 = CreateClinicUser("clinica3@asd.com", "clinica3@asd.com", "Clinica 3", "Clinica de Villa Bosch 2", "Villa Bosch", "Julio Besada 6300", -34.5873598, -58.5852697);
+            Console.Write("OK\n");
+
+            // Creo peluquerias
+            Console.Write("Peluquerias\t\t\t");
+            // email,  password,  name,  description,  city,  address,  latitude,  longitude
+            var hairdressing1 = CreateHairdressingUser("peluqueria1@asd.com", "peluqueria1@asd.com", "Peluqueria 1", "Peluqueria de Villa Bosch 1", "Villa Bosch", "Jose Maria Bosch 951", -34.5883457, -58.5732785);
             Console.Write("OK\n");
 
             // Creo empleados
@@ -82,7 +86,7 @@ namespace SistemaTurnos.Populator
             Console.Write("Subespecialidades\t\t");
             var subspecialtyData1 = CreateSubspecialtyData("Subespecialidad 1 de clinica", specialtyData1);
             var subspecialtyData2 = CreateSubspecialtyData("Subespecialidad 2 de clinica", specialtyData1);
-            var subspecialtyData3 = CreateSubspecialtyData("Subespecialidad 3 de clinica", specialtyData2);
+            var subspecialtyData3 = CreateSubspecialtyData("Subespecialidad 1 de peluqueria", specialtyData2);
 
             var subspecialty1 = CreateSubspecialty("Subespecialidad 1", specialty1, 10, clinic1);
             var subspecialty2 = CreateSubspecialty("Subespecialidad 2", specialty1, 20, clinic1);
@@ -435,6 +439,60 @@ namespace SistemaTurnos.Populator
             }
 
             return clinic;
+        }
+
+        private Hairdressing CreateHairdressingUser(string email, string password, string name, string description, string city, string address, double latitude, double longitude)
+        {
+            Hairdressing hairdressing;
+
+            var user = new ApplicationUser
+            {
+                UserName = email,
+                Email = email
+            };
+
+            var result = _userManager.CreateAsync(user, password).Result;
+
+            if (!result.Succeeded)
+            {
+                throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
+            }
+
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var appUser = _userManager.Users.SingleOrDefault(au => au.Email == email);
+
+                result = _userManager.AddToRoleAsync(appUser, Roles.Administrator).Result;
+
+                if (!result.Succeeded)
+                {
+                    throw new ApplicationException(ExceptionMessages.InternalServerError);
+                }
+
+                var cityData = dbContext.Cities.FirstOrDefault(c => c.Name == city);
+
+                if (cityData == null)
+                {
+                    cityData = CreateCity(city);
+                }
+
+                hairdressing = new Hairdressing
+                {
+                    Name = name,
+                    Description = description,
+                    CityId = cityData.Id,
+                    Address = address,
+                    Latitude = latitude,
+                    Longitude = longitude,
+                    Logo = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAAAoBAMAAACMbPD7AAAAG1BMVEXMzMyWlpbFxcWjo6OqqqqxsbGcnJy+vr63t7eN+fR5AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAApElEQVQ4je2QsQrCQBBEJ5fLpt2AHxCJWCc2WkZFsTwx9kcQ0ypK6lR+t3eInWw6q3vVLrwdlgECgcAvVFXqy3dm7GvR1ubczMxnjjnZ7ESbclqmJZK6B54c3x6iHYGsslBdByyYMBft2BwZDLxcvuHIXUuoatu6bEwHFGDK5ewUhf8bJ4t7lhUjf9Nw8J2oduWW0U7Sq9ETX2Tvbaxr0Q4E/s8bo1sUV4qjWrAAAAAASUVORK5CYII=",
+                    UserId = appUser.Id
+                };
+
+                dbContext.Hairdressings.Add(hairdressing);
+                dbContext.SaveChanges();
+            }
+
+            return hairdressing;
         }
 
         private City CreateCity(string cityName)
