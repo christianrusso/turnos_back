@@ -206,7 +206,7 @@
         </member>
         <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.ClientController.GetWeekForClient(SistemaTurnos.WebApplication.WebApi.Dto.Common.FilterClientWeekDto)">
             <summary>
-            Obtiene todos los turnos, de todos los rubro sjuntos, de un cliente dado entre un rango de fechas dado.
+            Obtiene todos los turnos, de todos los rubros juntos, de un cliente dado entre un rango de fechas dado.
             </summary>
         </member>
         <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.ClinicController.UpdateOpenCloseHours(SistemaTurnos.WebApplication.WebApi.Dto.Clinic.ClinicOpenCloseHoursDto)">

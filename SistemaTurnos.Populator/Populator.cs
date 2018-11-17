@@ -59,8 +59,12 @@ namespace SistemaTurnos.Populator
             var employee2 = CreateEmployee("empleado2@asd.com", "empleado2@asd.com", clinic1);
             Console.Write("OK\n");
 
+
             // Creo especialidades
             Console.Write("Especialidades\t\t\t");
+            var specialtyData1 = CreateSpecialtyData("Especialidad de clinica", RubroEnum.Clinic);
+            var specialtyData2 = CreateSpecialtyData("Especialidad de peluqueria", RubroEnum.Hairdressing);
+
             var specialty1 = CreateSpecialty("Kinesiologia", clinic1);
             var specialty2 = CreateSpecialty("Oftalmologia", clinic1);
             var specialty3 = CreateSpecialty("Farmacología", clinic1);
@@ -76,6 +80,10 @@ namespace SistemaTurnos.Populator
 
             // Creo subespecialidades
             Console.Write("Subespecialidades\t\t");
+            var subspecialtyData1 = CreateSubspecialtyData("Subespecialidad 1 de clinica", specialtyData1);
+            var subspecialtyData2 = CreateSubspecialtyData("Subespecialidad 2 de clinica", specialtyData1);
+            var subspecialtyData3 = CreateSubspecialtyData("Subespecialidad 3 de clinica", specialtyData2);
+
             var subspecialty1 = CreateSubspecialty("Subespecialidad 1", specialty1, 10, clinic1);
             var subspecialty2 = CreateSubspecialty("Subespecialidad 2", specialty1, 20, clinic1);
             var subspecialty3 = CreateSubspecialty("Subespecialidad 3", specialty2, 30, clinic1);
@@ -447,6 +455,41 @@ namespace SistemaTurnos.Populator
             return city;
         }
 
+        private SpecialtyData CreateSpecialtyData(string description, RubroEnum rubro)
+        {
+            SpecialtyData specialtyData = new SpecialtyData
+            {
+                Description = description,
+                Rubro = rubro
+            };
+
+            using (var dbContext = new ApplicationDbContext())
+            {
+                dbContext.Specialties.Add(specialtyData);
+                dbContext.SaveChanges();
+            }
+
+            return specialtyData;
+        }
+
+        private SubspecialtyData CreateSubspecialtyData(string description, SpecialtyData specialtyData)
+        {
+            SubspecialtyData subspecialtyData = new SubspecialtyData
+            {
+                Description = description,
+                SpecialtyDataId = specialtyData.Id,
+                Rubro = specialtyData.Rubro
+            };
+
+            using (var dbContext = new ApplicationDbContext())
+            {
+                dbContext.Subspecialties.Add(subspecialtyData);
+                dbContext.SaveChanges();
+            }
+
+            return subspecialtyData;
+        }
+
         private Clinic_Specialty CreateSpecialty(string description, Clinic clinic)
         {
             Clinic_Specialty specialty;
@@ -459,7 +502,8 @@ namespace SistemaTurnos.Populator
                 {
                     specialtyData = new SpecialtyData
                     {
-                        Description = description
+                        Description = description,
+                        Rubro = RubroEnum.Clinic
                     };
 
                     dbContext.Specialties.Add(specialtyData);
@@ -493,7 +537,8 @@ namespace SistemaTurnos.Populator
                     subspecialtyData = new SubspecialtyData
                     {
                         Description = description,
-                        SpecialtyDataId = specialty.DataId
+                        SpecialtyDataId = specialty.DataId,
+                        Rubro = RubroEnum.Clinic
                     };
 
                     dbContext.Subspecialties.Add(subspecialtyData);

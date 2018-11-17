@@ -29,8 +29,6 @@ namespace SistemaTurnos.Database.ClinicModel
 
         public virtual List<Hairdressing_ClientFavorite> FavoriteHairdressing { get; set; }
 
-        //---------
-
         [Required]
         [StringLength(50, MinimumLength = 4)]
         public string FirstName { get; set; }
@@ -52,6 +50,5 @@ namespace SistemaTurnos.Database.ClinicModel
         public string Dni { get; set; }
 
         public string FullName => $"{LastName} {FirstName}";
-
     }
 }

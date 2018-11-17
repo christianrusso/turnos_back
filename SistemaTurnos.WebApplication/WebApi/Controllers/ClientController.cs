@@ -208,7 +208,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         /// <summary>
         /// Agrega una peluqueria favorita
         /// </summary>
-        //Hairdressing Favorites
         [HttpPost]
         [Authorize(Roles = Roles.Client)]
         public void AddFavoriteHairdressing([FromBody] IdDto hairdressing)
@@ -313,9 +312,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
+
+                if (client == null)
+                {
+                    throw new ApplicationException(ExceptionMessages.InternalServerError);
+                }
 
                 var hairdressingFavorites = client.FavoriteHairdressing.Select(fv => new HairdressingDto
                 {
@@ -352,14 +356,44 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         /// <summary>
-        /// Obtiene todos los turnos, de todos los rubro sjuntos, de un cliente dado entre un rango de fechas dado.
+        /// Obtiene todos los turnos, de todos los rubros juntos, de un cliente dado entre un rango de fechas dado.
         /// </summary>
         [HttpPost]
         [Authorize(Roles = Roles.Client)]
         public WeekForClientDto GetWeekForClient([FromBody] FilterClientWeekDto filter)
         {
-            var service = new AppointmentService(this.HttpContext);
-            return service.GetWeekForClient(filter, this.HttpContext);
+            var service = new AppointmentService(HttpContext);
+            return service.GetWeekForClient(filter, HttpContext);
+        }
+
+        /// <summary>
+        /// Obtiene los datos de perfil del cliente
+        /// </summary>
+        [HttpPost]
+        [Authorize(Roles = Roles.Client)]
+        public ClientProfileDto GetProfile()
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = _service.GetUserId(HttpContext);
+
+                var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
+
+                if (client == null)
+                {
+                    throw new ApplicationException(ExceptionMessages.InternalServerError);
+                }
+
+                return new ClientProfileDto
+                {
+                    FirstName = client.FirstName,
+                    LastName = client.LastName,
+                    Address = client.Address,
+                    PhoneNumber = client.PhoneNumber,
+                    Dni = client.Dni,
+                    Logo = client.Logo
+                };
+            }
         }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using NLog.Web;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Net;
 
 namespace SistemaTurnos.WebApplication
 {
