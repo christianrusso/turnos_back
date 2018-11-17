@@ -2,6 +2,6 @@
 {
     public class HairdressingEditSubspecialtyDto : EditSubspecialtyDto
     {
-        public decimal Price { get; set; }
+        public uint Price { get; set; }
     }
 }

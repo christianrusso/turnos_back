@@ -2,6 +2,6 @@
 {
     public class HairdressingAddSubspecialtyDto : AddSubspecialtyDto
     {
-        public decimal Price { get; set; }
+        public uint Price { get; set; }
     }
 }
