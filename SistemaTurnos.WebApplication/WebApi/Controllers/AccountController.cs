@@ -54,16 +54,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public LogOnDto Login([FromBody] LoginAccountDto model)
         {
-            if(model.BusinessType == 0)
-            {
-                throw new ApplicationException(ExceptionMessages.BadRequest);
-            }
-
             var result = _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false).Result;
 
             if (!result.Succeeded)
             {
-                throw new ApplicationException(ExceptionMessages.LoginFailed);
+                throw new BadRequestException(ExceptionMessages.LoginFailed);
             }
 
             var appUser = _userManager.Users.SingleOrDefault(user => user.Email == model.Email);
@@ -89,6 +84,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 // El usuario es cliente administrador (clinica o peluqueria)
                 if (_userManager.IsInRoleAsync(appUser, Roles.Administrator).Result)
                 {
+                    if(model.BusinessType == 0)
+                    {
+                        throw new BadRequestException(ExceptionMessages.BadRequest);
+                    }
                     if (model.BusinessType == BusinessType.Clinic)
                     {
                         var clinic = dbContext.Clinics.FirstOrDefault(c => c.UserId == userId);
@@ -119,6 +118,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 } // El usuario es un empleado
                 else if (_userManager.IsInRoleAsync(appUser, Roles.Employee).Result)
                 {
+                    if(model.BusinessType == 0)
+                    {
+                        throw new BadRequestException(ExceptionMessages.BadRequest);
+                    }
                     if (model.BusinessType == BusinessType.Clinic)
                     {
                         var employee = dbContext.Clinic_Employees.FirstOrDefault(e => e.UserId == appUser.Id);

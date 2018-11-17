@@ -1,0 +1,25 @@
+2018-11-17 15:43:06.8380 Info Message Template Auto Format enabled
+2018-11-17 15:43:06.8602 Info Loading assembly: NLog.Web.AspNetCore
+2018-11-17 15:43:06.9847 Info Adding target File Target[sistema-turnos-log]
+2018-11-17 15:43:06.9941 Info Configured from an XML element in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/nlog.config...
+2018-11-17 15:43:07.0127 Info Found 21 configuration items
+2018-11-17 15:47:51.8173 Info Message Template Auto Format enabled
+2018-11-17 15:47:51.8435 Info Loading assembly: NLog.Web.AspNetCore
+2018-11-17 15:47:51.9659 Info Adding target File Target[sistema-turnos-log]
+2018-11-17 15:47:51.9750 Info Configured from an XML element in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/nlog.config...
+2018-11-17 15:47:51.9938 Info Found 21 configuration items
+2018-11-17 15:49:56.8602 Info Message Template Auto Format enabled
+2018-11-17 15:49:56.8822 Info Loading assembly: NLog.Web.AspNetCore
+2018-11-17 15:49:56.9916 Info Adding target File Target[sistema-turnos-log]
+2018-11-17 15:49:57.0012 Info Configured from an XML element in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/nlog.config...
+2018-11-17 15:49:57.0204 Info Found 21 configuration items
+2018-11-17 15:53:48.0032 Info Message Template Auto Format enabled
+2018-11-17 15:53:48.0251 Info Loading assembly: NLog.Web.AspNetCore
+2018-11-17 15:53:48.1354 Info Adding target File Target[sistema-turnos-log]
+2018-11-17 15:53:48.1456 Info Configured from an XML element in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/nlog.config...
+2018-11-17 15:53:48.1651 Info Found 21 configuration items
+2018-11-17 16:11:29.1468 Info Message Template Auto Format enabled
+2018-11-17 16:11:29.1697 Info Loading assembly: NLog.Web.AspNetCore
+2018-11-17 16:11:29.2902 Info Adding target File Target[sistema-turnos-log]
+2018-11-17 16:11:29.3008 Info Configured from an XML element in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/nlog.config...
+2018-11-17 16:11:29.3235 Info Found 21 configuration items
