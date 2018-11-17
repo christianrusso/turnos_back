@@ -9,7 +9,6 @@ using SistemaTurnos.Database.HairdressingModel;
 using SistemaTurnos.WebApplication.WebApi.Dto;
 using SistemaTurnos.WebApplication.WebApi.Dto.Subspecialty;
 using SistemaTurnos.WebApplication.WebApi.Services;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,19 +21,18 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
     public class HairdressingSubSpecialtyController : Controller
     {
         public BusinessPlaceService _service;
-        private ApplicationDbContext _dbContext;
+
         public HairdressingSubSpecialtyController(ApplicationDbContext dbContext)
         {
-            _service = new BusinessPlaceService(this.HttpContext);
-            _dbContext = dbContext;
+            _service = new BusinessPlaceService(HttpContext);
         }
 
         [HttpPost]
-        public void Add([FromBody] AddSubspecialtyDto subSpecialtyDto)
+        public void Add([FromBody] HairdressingAddSubspecialtyDto subSpecialtyDto)
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 var specialty = dbContext.Hairdressing_Specialties.FirstOrDefault(s => s.Id == subSpecialtyDto.SpecialtyId);
 
@@ -48,6 +46,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     DataId = subSpecialtyDto.Id,
                     SpecialtyId = subSpecialtyDto.SpecialtyId,
                     ConsultationLength = subSpecialtyDto.ConsultationLength,
+                    Price = subSpecialtyDto.Price,
                     UserId = userId
                 });
 
@@ -56,18 +55,20 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpGet]
-        public List<SubspecialtyDto> GetAll()
+        public List<HairdressingSubspecialtyDto> GetAll()
         {
-            using (var dbContext = _dbContext)
+            using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 var res = dbContext.Hairdressing_Subspecialties
                     .Where(ssp => ssp.UserId == userId)
-                    .Select(ssp => new SubspecialtyDto {
+                    .Select(ssp => new HairdressingSubspecialtyDto
+                    {
                         Id = ssp.Id,
                         Description = ssp.Data.Description,
                         ConsultationLength = ssp.ConsultationLength,
+                        Price = ssp.Price,
                         SpecialtyId = ssp.SpecialtyId,
                         SpecialtyDescription = ssp.Specialty.Data.Description
                 }).ToList();
@@ -77,19 +78,20 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
-        public List<SubspecialtyDto> GetAllOfSpecialty([FromBody] IdDto specialtyIdDto)
+        public List<HairdressingSubspecialtyDto> GetAllOfSpecialty([FromBody] IdDto specialtyIdDto)
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 return dbContext.Hairdressing_Subspecialties
                     .Where(ssp => ssp.SpecialtyId == specialtyIdDto.Id && ssp.UserId == userId)
-                    .Select(ssp => new SubspecialtyDto
+                    .Select(ssp => new HairdressingSubspecialtyDto
                     {
                         Id = ssp.Id,
                         Description = ssp.Data.Description,
                         ConsultationLength = ssp.ConsultationLength,
+                        Price = ssp.Price,
                         SpecialtyId = ssp.SpecialtyId,
                         SpecialtyDescription = ssp.Specialty.Data.Description
                     }).ToList();
@@ -101,7 +103,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 return dbContext.Hairdressing_Subspecialties
                     .Where(ssp => (specialtyIdDto.Id == -1 || ssp.SpecialtyId == specialtyIdDto.Id) && ssp.UserId == userId)
@@ -136,11 +138,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
-        public void Edit([FromBody] EditSubspecialtyDto subSpecialtyDto)
+        public void Edit([FromBody] HairdressingEditSubspecialtyDto subSpecialtyDto)
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 var subSpecialtyToUpdate = dbContext.Hairdressing_Subspecialties.FirstOrDefault(s => s.Id == subSpecialtyDto.Id && s.UserId == userId);
 
@@ -150,6 +152,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 }
 
                 subSpecialtyToUpdate.ConsultationLength = subSpecialtyDto.ConsultationLength;
+                subSpecialtyToUpdate.Price = subSpecialtyDto.Price;
                 dbContext.SaveChanges();
             }
         }

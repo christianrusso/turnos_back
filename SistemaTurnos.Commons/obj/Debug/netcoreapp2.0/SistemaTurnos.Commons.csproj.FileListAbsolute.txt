@@ -6,3 +6,4 @@ C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.Commons\obj\
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.Commons\obj\Debug\netcoreapp2.0\SistemaTurnos.Commons.AssemblyInfo.cs
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.Commons\obj\Debug\netcoreapp2.0\SistemaTurnos.Commons.dll
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.Commons\obj\Debug\netcoreapp2.0\SistemaTurnos.Commons.pdb
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.Commons\obj\Debug\netcoreapp2.0\SistemaTurnos.Commons.csprojAssemblyReference.cache

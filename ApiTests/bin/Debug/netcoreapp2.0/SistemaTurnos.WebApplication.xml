@@ -4,13 +4,6 @@
         <name>SistemaTurnos.WebApplication</name>
     </assembly>
     <members>
-        <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.AccountController.CreateRoles">
-            <summary>
-            Llena la base con los Roles necesarios. Metodo necesario para arrancar con los demas metodos.
-            </summary>
-            <param name="model"></param>
-            <returns></returns>
-        </member>
         <member name="M:SistemaTurnos.WebApplication.WebApi.Controllers.AccountController.Login(SistemaTurnos.WebApplication.WebApi.Dto.Account.LoginAccountDto)">
             <summary>
             Loging de una empresa.
