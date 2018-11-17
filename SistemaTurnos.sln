@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiTests", "ApiTests\ApiTes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SistemaTurnos.Populator", "SistemaTurnos.Populator\SistemaTurnos.Populator.csproj", "{B8A19807-3C80-4FB1-B4CB-5FC264134AC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SistemaTurnos.Database", "SistemaTurnos.Database\SistemaTurnos.Database.csproj", "{D8CE110F-94DE-4917-9C24-1C64307795BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SistemaTurnos.Database", "SistemaTurnos.Database\SistemaTurnos.Database.csproj", "{D8CE110F-94DE-4917-9C24-1C64307795BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SistemaTurnos.Commons", "SistemaTurnos.Commons\SistemaTurnos.Commons.csproj", "{9613DA4A-CCF3-490A-AEE8-E1E8544F013A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{D8CE110F-94DE-4917-9C24-1C64307795BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8CE110F-94DE-4917-9C24-1C64307795BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8CE110F-94DE-4917-9C24-1C64307795BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9613DA4A-CCF3-490A-AEE8-E1E8544F013A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9613DA4A-CCF3-490A-AEE8-E1E8544F013A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9613DA4A-CCF3-490A-AEE8-E1E8544F013A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9613DA4A-CCF3-490A-AEE8-E1E8544F013A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

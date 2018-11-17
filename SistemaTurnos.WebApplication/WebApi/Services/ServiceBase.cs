@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using SistemaTurnos.WebApplication.WebApi.Exceptions;
+using SistemaTurnos.Commons.Exceptions;
 using System;
 
 namespace SistemaTurnos.WebApplication.WebApi.Services

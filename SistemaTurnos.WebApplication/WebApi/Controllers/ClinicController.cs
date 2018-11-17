@@ -5,16 +5,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SistemaTurnos.Database;
 using SistemaTurnos.Database.ClinicModel;
-using SistemaTurnos.WebApplication.WebApi.Authorization;
 using SistemaTurnos.WebApplication.WebApi.Dto;
 using SistemaTurnos.WebApplication.WebApi.Dto.Common;
 using SistemaTurnos.WebApplication.WebApi.Dto.Clinic;
 using SistemaTurnos.WebApplication.WebApi.Dto.Rating;
-using SistemaTurnos.WebApplication.WebApi.Exceptions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using SistemaTurnos.WebApplication.WebApi.Services;
+using SistemaTurnos.Commons.Authorization;
+using SistemaTurnos.Commons.Exceptions;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
 {

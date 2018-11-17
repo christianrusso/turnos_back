@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
-using SistemaTurnos.WebApplication.WebApi.Exceptions;
+using SistemaTurnos.Commons.Exceptions;
 
 namespace SistemaTurnos.WebApplication.WebApi.Filters
 {

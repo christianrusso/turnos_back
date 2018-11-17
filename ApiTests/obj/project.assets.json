@@ -5685,6 +5685,16 @@
           "build/netcoreapp1.0/xunit.runner.visualstudio.props": {}
         }
       },
+      "SistemaTurnos.Commons/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.0",
+        "compile": {
+          "bin/placeholder/SistemaTurnos.Commons.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/SistemaTurnos.Commons.dll": {}
+        }
+      },
       "SistemaTurnos.Database/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
@@ -5717,6 +5727,7 @@
           "MySql.Data.Core": "7.0.4-IR-191",
           "NLog.Web.AspNetCore": "4.7.0",
           "Pomelo.EntityFrameworkCore.MySql": "2.1.1",
+          "SistemaTurnos.Commons": "1.0.0",
           "SistemaTurnos.Database": "1.0.0",
           "Swashbuckle.AspNetCore": "3.0.0"
         },
@@ -14734,6 +14745,11 @@
         "xunit.runner.visualstudio.2.3.1.nupkg.sha512",
         "xunit.runner.visualstudio.nuspec"
       ]
+    },
+    "SistemaTurnos.Commons/1.0.0": {
+      "type": "project",
+      "path": "../SistemaTurnos.Commons/SistemaTurnos.Commons.csproj",
+      "msbuildProject": "../SistemaTurnos.Commons/SistemaTurnos.Commons.csproj"
     },
     "SistemaTurnos.Database/1.0.0": {
       "type": "project",

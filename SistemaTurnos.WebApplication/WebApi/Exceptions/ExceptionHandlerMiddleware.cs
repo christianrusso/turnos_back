@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using SistemaTurnos.Commons.Exceptions;
 using SistemaTurnos.WebApplication.WebApi.Extension;
 using System;
 using System.IO;

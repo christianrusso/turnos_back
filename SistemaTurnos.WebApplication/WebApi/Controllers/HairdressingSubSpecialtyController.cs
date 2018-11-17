@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SistemaTurnos.Commons.Authorization;
+using SistemaTurnos.Commons.Exceptions;
 using SistemaTurnos.Database;
 using SistemaTurnos.Database.HairdressingModel;
-using SistemaTurnos.WebApplication.WebApi.Authorization;
 using SistemaTurnos.WebApplication.WebApi.Dto;
 using SistemaTurnos.WebApplication.WebApi.Dto.Subspecialty;
-using SistemaTurnos.WebApplication.WebApi.Exceptions;
 using SistemaTurnos.WebApplication.WebApi.Services;
 using System;
 using System.Collections.Generic;

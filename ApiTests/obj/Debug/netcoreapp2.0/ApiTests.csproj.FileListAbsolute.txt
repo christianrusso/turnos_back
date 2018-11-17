@@ -16,6 +16,10 @@ C:\Desarrollo .net\orbit\turnosBack\turnos_back\ApiTests\obj\Debug\netcoreapp2.0
 C:\Desarrollo .net\orbit\turnosBack\turnos_back\ApiTests\obj\Debug\netcoreapp2.0\ApiTests.csproj.CopyComplete
 C:\Desarrollo .net\orbit\turnosBack\turnos_back\ApiTests\obj\Debug\netcoreapp2.0\ApiTests.dll
 C:\Desarrollo .net\orbit\turnosBack\turnos_back\ApiTests\obj\Debug\netcoreapp2.0\ApiTests.pdb
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\obj\Debug\netcoreapp2.0\ApiTests.csproj.CoreCompileInputs.cache
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\obj\Debug\netcoreapp2.0\ApiTests.AssemblyInfoInputs.cache
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\obj\Debug\netcoreapp2.0\ApiTests.AssemblyInfo.cs
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\obj\Debug\netcoreapp2.0\ApiTests.csprojAssemblyReference.cache
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\bin\Debug\netcoreapp2.0\xunit.runner.visualstudio.dotnetcore.testadapter.dll
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\bin\Debug\netcoreapp2.0\xunit.runner.reporters.netcoreapp10.dll
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\bin\Debug\netcoreapp2.0\xunit.runner.utility.netcoreapp10.dll
@@ -26,15 +30,13 @@ C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\bin\Debug\netcore
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\bin\Debug\netcoreapp2.0\ApiTests.runtimeconfig.dev.json
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\bin\Debug\netcoreapp2.0\ApiTests.dll
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\bin\Debug\netcoreapp2.0\ApiTests.pdb
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\bin\Debug\netcoreapp2.0\SistemaTurnos.Commons.dll
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\bin\Debug\netcoreapp2.0\SistemaTurnos.Database.dll
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\bin\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.dll
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\bin\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.pdb
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\bin\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.xml
-C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\obj\Debug\netcoreapp2.0\ApiTests.csprojAssemblyReference.cache
-C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\obj\Debug\netcoreapp2.0\ApiTests.csproj.CoreCompileInputs.cache
-C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\obj\Debug\netcoreapp2.0\ApiTests.AssemblyInfoInputs.cache
-C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\obj\Debug\netcoreapp2.0\ApiTests.AssemblyInfo.cs
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\bin\Debug\netcoreapp2.0\SistemaTurnos.Commons.pdb
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\bin\Debug\netcoreapp2.0\SistemaTurnos.Database.pdb
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\obj\Debug\netcoreapp2.0\ApiTests.csproj.CopyComplete
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\obj\Debug\netcoreapp2.0\ApiTests.dll
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\obj\Debug\netcoreapp2.0\ApiTests.pdb
-C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\bin\Debug\netcoreapp2.0\SistemaTurnos.Database.dll
-C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\ApiTests\bin\Debug\netcoreapp2.0\SistemaTurnos.Database.pdb

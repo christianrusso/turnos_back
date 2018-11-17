@@ -7,15 +7,15 @@ using SistemaTurnos.Database.HairdressingModel;
 using SistemaTurnos.Database.Enums;
 using SistemaTurnos.Database.Model;
 using SistemaTurnos.WebApplication.Email;
-using SistemaTurnos.WebApplication.WebApi.Authorization;
 using SistemaTurnos.WebApplication.WebApi.Dto;
 using SistemaTurnos.WebApplication.WebApi.Dto.HairdressingAppointment;
-using SistemaTurnos.WebApplication.WebApi.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using SistemaTurnos.WebApplication.WebApi.Services;
 using SistemaTurnos.Database.ClinicModel;
+using SistemaTurnos.Commons.Authorization;
+using SistemaTurnos.Commons.Exceptions;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
 {

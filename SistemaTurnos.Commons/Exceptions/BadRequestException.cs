@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SistemaTurnos.WebApplication.WebApi.Exceptions
+namespace SistemaTurnos.Commons.Exceptions
 {
     public class BadRequestException : Exception
     {

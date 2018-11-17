@@ -16,12 +16,13 @@ using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using SistemaTurnos.WebApplication.WebApi.Authorization;
 using SistemaTurnos.WebApplication.WebApi.Dto.Account;
-using SistemaTurnos.WebApplication.WebApi.Exceptions;
 using SistemaTurnos.Database.Model;
 using SistemaTurnos.Database;
 using SistemaTurnos.Database.ClinicModel;
 using SistemaTurnos.Database.HairdressingModel;
 using SistemaTurnos.Database.Enums;
+using SistemaTurnos.Commons.Authorization;
+using SistemaTurnos.Commons.Exceptions;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
 {

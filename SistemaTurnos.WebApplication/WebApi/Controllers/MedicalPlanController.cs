@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SistemaTurnos.Commons.Exceptions;
 using SistemaTurnos.Database;
 using SistemaTurnos.Database.ClinicModel;
 using SistemaTurnos.WebApplication.WebApi.Dto;
 using SistemaTurnos.WebApplication.WebApi.Dto.MedicalInsurance;
 using SistemaTurnos.WebApplication.WebApi.Dto.MedicalPlan;
-using SistemaTurnos.WebApplication.WebApi.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

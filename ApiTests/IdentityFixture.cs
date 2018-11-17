@@ -1,24 +1,21 @@
 ﻿using Moq;
-using SistemaTurnos.WebApplication.WebApi.Controllers;
-using System;
-using Xunit;
 using Microsoft.AspNetCore.Identity;
 using SistemaTurnos.Database.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
-using SistemaTurnos.WebApplication.WebApi.Authorization;
 using System.Collections.Generic;
 using System.Linq;
+using SistemaTurnos.Commons.Authorization;
 
 namespace ApiTests
 {
     public class IdentityFixture
     {
-        public static Mock<Microsoft.AspNetCore.Http.HttpContext> GetHttpContext()
+        public static Mock<HttpContext> GetHttpContext()
         {
-            var httpContext = new Mock<Microsoft.AspNetCore.Http.HttpContext>();
+            var httpContext = new Mock<HttpContext>();
             var items = new Dictionary<object, object>();
             items.Add("userId", 1);
             httpContext.Setup(c => c.Items).Returns(items);

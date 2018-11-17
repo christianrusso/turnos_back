@@ -84,7 +84,9 @@ C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.WebApplicati
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.WebApplication\bin\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.runtimeconfig.dev.json
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.WebApplication\bin\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.dll
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.WebApplication\bin\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.pdb
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.WebApplication\bin\Debug\netcoreapp2.0\SistemaTurnos.Commons.dll
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.WebApplication\bin\Debug\netcoreapp2.0\SistemaTurnos.Database.dll
+C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.WebApplication\bin\Debug\netcoreapp2.0\SistemaTurnos.Commons.pdb
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.WebApplication\bin\Debug\netcoreapp2.0\SistemaTurnos.Database.pdb
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.WebApplication\obj\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.csproj.CopyComplete
 C:\Users\ferna\Documents\GitHub\Proyectos\turnos_back\SistemaTurnos.WebApplication\obj\Debug\netcoreapp2.0\SistemaTurnos.WebApplication.dll

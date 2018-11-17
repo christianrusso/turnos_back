@@ -95,7 +95,7 @@ namespace SistemaTurnos.WebApplication
             // Add Cross-origin resourse sharing
             services.AddCors(options => options.AddPolicy("AnyOrigin", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
 
-            //swagger
+            // Swagger
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Sistema Turnos API", Version = "v1" });

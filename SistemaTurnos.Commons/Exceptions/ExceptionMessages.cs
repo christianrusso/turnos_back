@@ -1,4 +1,4 @@
-﻿namespace SistemaTurnos.WebApplication.WebApi.Exceptions
+﻿namespace SistemaTurnos.Commons.Exceptions
 {
     public static class ExceptionMessages
     {

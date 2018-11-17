@@ -2,14 +2,14 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SistemaTurnos.Database;
-using SistemaTurnos.WebApplication.WebApi.Authorization;
 using SistemaTurnos.WebApplication.WebApi.Dto;
-using SistemaTurnos.WebApplication.WebApi.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using SistemaTurnos.WebApplication.WebApi.Services;
 using SistemaTurnos.Database.Enums;
+using SistemaTurnos.Commons.Exceptions;
+using SistemaTurnos.Commons.Authorization;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
 {

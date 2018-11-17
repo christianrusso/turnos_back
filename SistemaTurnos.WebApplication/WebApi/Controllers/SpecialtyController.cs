@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SistemaTurnos.Commons.Exceptions;
 using SistemaTurnos.Database;
 using SistemaTurnos.Database.ClinicModel;
 using SistemaTurnos.WebApplication.WebApi.Dto;
 using SistemaTurnos.WebApplication.WebApi.Dto.Specialty;
 using SistemaTurnos.WebApplication.WebApi.Dto.Subspecialty;
-using SistemaTurnos.WebApplication.WebApi.Exceptions;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
 {

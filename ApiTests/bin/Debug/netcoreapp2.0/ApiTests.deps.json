@@ -4584,6 +4584,11 @@
           "Microsoft.NET.Test.Sdk": "15.7.0"
         }
       },
+      "SistemaTurnos.Commons/1.0.0": {
+        "runtime": {
+          "SistemaTurnos.Commons.dll": {}
+        }
+      },
       "SistemaTurnos.Database/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore.All": "2.0.5",
@@ -4608,6 +4613,7 @@
           "MySql.Data.Core": "7.0.4-IR-191",
           "NLog.Web.AspNetCore": "4.7.0",
           "Pomelo.EntityFrameworkCore.MySql": "2.1.1",
+          "SistemaTurnos.Commons": "1.0.0",
           "SistemaTurnos.Database": "1.0.0",
           "Swashbuckle.AspNetCore": "3.0.0"
         },
@@ -6932,6 +6938,11 @@
       "sha512": "sha512-B+RtW4dyBquEyjSAFyV5RMifaOZOirDwlzcIq2DNVGo1gzJS8PAPu5S+2y1n6ZgEMWbpqJf9TkZ55+X6FLdy3A==",
       "path": "xunit.runner.visualstudio/2.3.1",
       "hashPath": "xunit.runner.visualstudio.2.3.1.nupkg.sha512"
+    },
+    "SistemaTurnos.Commons/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     },
     "SistemaTurnos.Database/1.0.0": {
       "type": "project",

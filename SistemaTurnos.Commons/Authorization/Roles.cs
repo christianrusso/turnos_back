@@ -1,4 +1,4 @@
-﻿namespace SistemaTurnos.WebApplication.WebApi.Authorization
+﻿namespace SistemaTurnos.Commons.Authorization
 {
     public class Roles
     {

@@ -35,6 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SistemaTurnos.Commons\SistemaTurnos.Commons.csproj" />
     <ProjectReference Include="..\SistemaTurnos.Database\SistemaTurnos.Database.csproj" />
   </ItemGroup>
 
