@@ -16,7 +16,7 @@ namespace SistemaTurnos.Database
         private const string databaseServer = "localhost";
         private const string databaseName = "sistematurnos";
         private const string databaseUser = "root";
-        private const string databasePass = "fernando";
+        private const string databasePass = "1682951";
         //private const string databasePass = "1682951!Abmtoba";
         //private const string databasePass = "tito1234H6*";
 
@@ -30,7 +30,6 @@ namespace SistemaTurnos.Database
         {
         }
 
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) => optionsBuilder.UseLazyLoadingProxies().UseMySql(GetConnectionString
         private static string GetConnectionString() => $"Server={databaseServer};database={databaseName};uid={databaseUser};pwd={databasePass};pooling=true;";
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
