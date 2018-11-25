@@ -35,5 +35,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Clinic
         public int? From { get; set; }
 
         public int? To { get; set; }
+
+        public int? Stars { get; set; }
     }
 }

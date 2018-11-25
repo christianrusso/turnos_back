@@ -60,7 +60,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 RubroEnum rubro = RubroEnumHelper.GetRubro(filter.Rubro);
 
                 return dbContext.Subspecialties
-                    .Where(ssp => !filter.Id.HasValue || ssp.SpecialtyDataId == filter.Id)
+                    .Where(ssp => !filter.Ids.Any() || filter.Ids.Any(id => id == ssp.SpecialtyDataId))
                     .Where(x => x.Rubro == rubro)
                     .Select(s => new SelectOptionDto
                     {

@@ -49,6 +49,7 @@ namespace SistemaTurnos.Populator
             var clinic1 = CreateClinicUser("clinica1@asd.com", "clinica1@asd.com", "Clinica 1", "Clinica de Villa Bosch 1", "Villa Bosch", "Jose Maria Bosch 951", -34.5883457, -58.5732785);
             var clinic2 = CreateClinicUser("clinica2@asd.com", "clinica2@asd.com", "Clinica 2", "Clinica de Moron 1", "Moron", "Yatay 600", -34.6548052, -58.6173822);
             var clinic3 = CreateClinicUser("clinica3@asd.com", "clinica3@asd.com", "Clinica 3", "Clinica de Villa Bosch 2", "Villa Bosch", "Julio Besada 6300", -34.5873598, -58.5852697);
+            var clinic4 = CreateClinicUser("clinica4@asd.com", "clinica4@asd.com", "Clinica 4", "Clinica de prueba", "prueba", "prueba", -34.5873598, -58.5852697);
             Console.Write("OK\n");
 
             // Creo peluquerias

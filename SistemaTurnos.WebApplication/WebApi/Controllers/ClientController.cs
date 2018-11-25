@@ -80,9 +80,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.AdministratorAndEmployee)]
         public List<ClientDto> GetAllNonPatients()
         {
-            var clients = _ClientService.GetAllNonPatients(this.HttpContext);
-
-            return clients;
+            return _ClientService.GetAllNonPatients(HttpContext);
         }
 
         /// <summary>

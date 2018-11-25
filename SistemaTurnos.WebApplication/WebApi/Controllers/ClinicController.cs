@@ -14,6 +14,7 @@ using System.Linq;
 using SistemaTurnos.WebApplication.WebApi.Services;
 using SistemaTurnos.Commons.Authorization;
 using SistemaTurnos.Commons.Exceptions;
+using System;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
 {
@@ -229,6 +230,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     var score = ratings.Any() ? ratings.Average(r => r.Score) : 0;
 
                     if (filterDto.Score.HasValue && score < filterDto.Score)
+                    {
+                        continue;
+                    }
+
+                    // Filtro por estrellas
+                    int stars = Convert.ToInt32(score / 2);
+
+                    if (filterDto.Stars.HasValue && stars < filterDto.Stars)
                     {
                         continue;
                     }
