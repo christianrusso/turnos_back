@@ -237,7 +237,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     // Filtro por estrellas
                     int stars = Convert.ToInt32(score / 2);
 
-                    if (filterDto.Stars.HasValue && stars < filterDto.Stars)
+                    if (!filterDto.Stars.Any(s => s == stars))
                     {
                         continue;
                     }

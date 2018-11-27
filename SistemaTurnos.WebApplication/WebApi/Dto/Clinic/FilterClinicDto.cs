@@ -36,6 +36,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Clinic
 
         public int? To { get; set; }
 
-        public int? Stars { get; set; }
+        public List<int> Stars { get; set; }
     }
 }
