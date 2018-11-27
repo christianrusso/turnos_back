@@ -1,2 +1,109 @@
 2018-11-27 11:00:38.9936|INFO||| Iniciando el Sistema de Turnos...
 
+2018-11-27 11:03:00.3557|INFO||| Iniciando el Sistema de Turnos...
+
+2018-11-27 11:20:46.6724|INFO||| Iniciando el Sistema de Turnos...
+
+2018-11-27 11:21:08.6996|ERROR||http://localhost/Api/Clinic/GetByFilter| User ID: Anonimo | Request Body {
+	"AvailableAppointmentStartDate": "2018-11-01T03:00:00.000Z",
+  "AvailableAppointmentEndDate": "2018-12-16T03:00:00.000Z",
+	"AscendingOrder": "false",
+"AvailableAppointmentDate": "",
+"Cities": [],
+"From": 0,
+"MedicalInsurances": [],
+"Score": "0",
+"ScoreQuantity": "",
+"SortField": "score",
+"Specialties": [],
+"Subspecialties": [],
+"medicalPlans": [],
+"to": 4
+}
+System.ArgumentNullException: Value cannot be null.
+Parameter name: source
+   at System.Linq.Enumerable.Any[TSource](IEnumerable`1 source, Func`2 predicate)
+   at SistemaTurnos.WebApplication.WebApi.Controllers.ClinicController.GetByFilter(FilterClinicDto filterDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Controllers/ClinicController.cs:line 240
+   at lambda_method(Closure , Object , Object[] )
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.Invoke(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 27
+2018-11-27 11:22:16.3096|ERROR||http://localhost/Api/Clinic/GetByFilter| User ID: Anonimo | Request Body {
+	"AvailableAppointmentStartDate": "2018-11-01T03:00:00.000Z",
+  "AvailableAppointmentEndDate": "2018-12-16T03:00:00.000Z",
+	"AscendingOrder": "false",
+"AvailableAppointmentDate": "",
+"Cities": [],
+"From": 0,
+"MedicalInsurances": [],
+"Score": "0",
+"ScoreQuantity": "",
+"SortField": "score",
+"Specialties": [],
+"Subspecialties": [],
+"medicalPlans": [],
+"to": 4,
+}
+System.ArgumentNullException: Value cannot be null.
+Parameter name: source
+   at System.Linq.Enumerable.Any[TSource](IEnumerable`1 source, Func`2 predicate)
+   at SistemaTurnos.WebApplication.WebApi.Controllers.ClinicController.GetByFilter(FilterClinicDto filterDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Controllers/ClinicController.cs:line 240
+   at lambda_method(Closure , Object , Object[] )
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.Invoke(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 27
+2018-11-27 11:28:44.5887|ERROR||http://localhost/Api/Clinic/GetByFilter| User ID: Anonimo | Request Body {
+	"AvailableAppointmentStartDate": "2018-11-01T03:00:00.000Z",
+  "AvailableAppointmentEndDate": "2018-12-16T03:00:00.000Z",
+	"AscendingOrder": "false",
+"AvailableAppointmentDate": "",
+"Cities": [],
+"From": 0,
+"MedicalInsurances": [],
+"ScoreQuantity": "",
+"SortField": "score",
+"Specialties": [],
+"Subspecialties": [],
+"medicalPlans": [],
+"to": 4
+}
+System.ArgumentNullException: Value cannot be null.
+Parameter name: source
+   at System.Linq.Enumerable.Any[TSource](IEnumerable`1 source, Func`2 predicate)
+   at SistemaTurnos.WebApplication.WebApi.Controllers.ClinicController.GetByFilter(FilterClinicDto filterDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Controllers/ClinicController.cs:line 240
+   at lambda_method(Closure , Object , Object[] )
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.Invoke(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 27
+2018-11-27 11:34:41.0479|INFO||| Iniciando el Sistema de Turnos...
+
