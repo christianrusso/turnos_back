@@ -17,6 +17,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Appointment
 
         public DateTime DateTime { get; set; }
 
+        public string Logo { get; set; }
+
         public int Id { get; set; }
 
         public AppointmentStateEnum State { get; set; }

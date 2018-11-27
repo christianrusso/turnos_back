@@ -32,7 +32,7 @@ namespace SistemaTurnos.WebApplication
             }
         }
 
-        /*
+        
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseUrls("http://*:5000")
@@ -44,9 +44,9 @@ namespace SistemaTurnos.WebApplication
                 })
                 .UseNLog()  // NLog: setup NLog for Dependency injection
                 .Build();
-                */
+                
 
-        
+        /* 
         public static IWebHost BuildWebHost(string[] args) =>
            WebHost.CreateDefaultBuilder(args)
                 .UseKestrel(options =>
@@ -63,6 +63,6 @@ namespace SistemaTurnos.WebApplication
                 })
                 .UseNLog()  // NLog: setup NLog for Dependency injection
                 .Build();
-        
+        */
     }
 }

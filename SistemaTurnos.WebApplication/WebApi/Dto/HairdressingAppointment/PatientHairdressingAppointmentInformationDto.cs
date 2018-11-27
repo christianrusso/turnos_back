@@ -12,6 +12,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.HairdressingAppointment
 
         public string Specialty { get; set; }
 
+        public string Logo { get; set; }
+
         public string Subspecialty { get; set; }
 
         public DateTime DateTime { get; set; }

@@ -41,6 +41,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
                         {
                             ClinicId = clinic.Id,
                             Clinic = clinic.Name,
+                            Logo = clinic.Logo,
                             Doctor = $"{dayAppointment.Doctor.FirstName} {dayAppointment.Doctor.LastName}",
                             Specialty = dayAppointment.Doctor.Specialty.Data.Description,
                             Subspecialty = dayAppointment.Doctor.Subspecialty?.Data.Description ?? string.Empty,
@@ -87,6 +88,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
                         {
                             HairdressingId = hairdressing.Id,
                             Hairdressing = hairdressing.Name,
+                            Logo = hairdressing.Logo,
                             Professional = $"{dayAppointment.Professional.FirstName} {dayAppointment.Professional.LastName}",
                             Specialty = dayAppointment.Professional.Specialty.Data.Description,
                             Subspecialty = dayAppointment.Professional.Subspecialty?.Data.Description ?? string.Empty,
