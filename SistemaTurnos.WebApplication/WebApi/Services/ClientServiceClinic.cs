@@ -20,7 +20,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
 
         public void Register(RegisterClientDto clientDto)
         {
-            var result = base.RegisterBase(clientDto);
+            var result = RegisterBase(clientDto);
 
             using (var dbContext = new ApplicationDbContext())
             {
@@ -50,7 +50,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
             }
         }
 
-        public List<ClientDto> GetAllNonPatients(HttpContext httpContex)
+        public List<ClientDto> GetAllNonPatientsByFilter(HttpContext httpContex, ClientFilterDto filter)
         {
             using (var dbContext = new ApplicationDbContext())
             {
@@ -58,7 +58,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
 
                 return dbContext.Clients
                     .Where(c => !c.Patients.Any(p => p.UserId == userId))
-                    .ToList()
+                    .Where(c => filter.Dni == null || c.Dni.Contains(filter.Dni))
+                    .Where(c => filter.Email == null || c.User.Email.Contains(filter.Email))
                     .Select(c => new ClientDto
                     {
                         Id = c.Id,
@@ -95,7 +96,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
             }
         }
 
-        public List<ClientDto> GetAllNonHairdressingPatients(HttpContext httpContex)
+        public List<ClientDto> GetAllNonHairdressingPatients(HttpContext httpContex, ClientFilterDto filter)
         {
             using (var dbContext = new ApplicationDbContext())
             {
@@ -103,7 +104,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
 
                 return dbContext.Clients
                     .Where(c => !c.HairdressingPatients.Any(p => p.UserId == userId))
-                    .ToList()
+                    .Where(c => filter.Dni == null || c.Dni.Contains(filter.Dni))
+                    .Where(c => filter.Email == null || c.User.Email.Contains(filter.Email))
                     .Select(c => new ClientDto
                     {
                         Id = c.Id,

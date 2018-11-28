@@ -80,7 +80,17 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.AdministratorAndEmployee)]
         public List<ClientDto> GetAllNonPatients()
         {
-            return _ClientService.GetAllNonPatients(HttpContext);
+            return _ClientService.GetAllNonPatientsByFilter(HttpContext, new ClientFilterDto());
+        }
+
+        /// <summary>
+        /// Devuelve todos los clientes que no son pacientes aplicando los filtros indicados por parametro
+        /// </summary>
+        [HttpPost]
+        [Authorize(Roles = Roles.AdministratorAndEmployee)]
+        public List<ClientDto> GetAllNonPatientsByFilter([FromBody] ClientFilterDto filter)
+        {
+            return _ClientService.GetAllNonPatientsByFilter(HttpContext, filter);
         }
 
         /// <summary>
@@ -90,9 +100,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.AdministratorAndEmployee)]
         public List<ClientDto> GetAllNonHairdressingPatients()
         {
-            var clients = _ClientService.GetAllNonHairdressingPatients(this.HttpContext);
+            return _ClientService.GetAllNonHairdressingPatients(HttpContext, new ClientFilterDto());
+        }
 
-            return clients;
+        [HttpPost]
+        [Authorize(Roles = Roles.AdministratorAndEmployee)]
+        public List<ClientDto> GetAllNonHairdressingPatientsByFilter([FromBody] ClientFilterDto filter)
+        {
+            return _ClientService.GetAllNonHairdressingPatients(HttpContext, filter);
         }
 
         /// <summary>
