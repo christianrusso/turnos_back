@@ -10,7 +10,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Filters
         {
             if (!context.ModelState.IsValid)
             {
-                throw new BadRequestException(ExceptionMessages.BadRequest);
+                throw new BadRequestException();
             }
         }
 

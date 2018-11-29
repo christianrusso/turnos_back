@@ -27,7 +27,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
         public HairdressingProfessionalController()
         {
-            _service = new BusinessPlaceService(this.HttpContext);
+            _service = new BusinessPlaceService();
         }
 
         [HttpPost]
@@ -35,7 +35,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 ValidateHairdressingProfessionalData(dbContext, userId, hairdressingProfessionalDto.SpecialtyId, hairdressingProfessionalDto.SubspecialtyId, hairdressingProfessionalDto.WorkingHours);
 
@@ -71,7 +71,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (hairdressingProfessionalToDelete == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 hairdressingProfessionalToDelete.WorkingHours.ForEach(wh => dbContext.Entry(wh).State = EntityState.Deleted);
@@ -86,13 +86,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 Hairdressing_Professional hairdressingProfessionalToUpdate = dbContext.Hairdressing_Professionals.FirstOrDefault(d => d.Id == hairdressingProfessionalDto.Id && d.UserId == userId);
 
                 if (hairdressingProfessionalToUpdate == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 ValidateHairdressingProfessionalData(dbContext, userId, hairdressingProfessionalDto.SpecialtyId, hairdressingProfessionalDto.SubspecialtyId, hairdressingProfessionalDto.WorkingHours);
@@ -209,13 +209,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 Hairdressing_Professional hairdressingProfessional = dbContext.Hairdressing_Professionals.FirstOrDefault(d => d.Id == hairdressingProfessionalDto.Id && d.UserId == userId);
 
                 if (hairdressingProfessional == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 hairdressingProfessional.State = HairdressingProfessionalStateEnum.Inactive;
@@ -234,7 +234,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (hairdressingProfessional == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 hairdressingProfessional.State = HairdressingProfessionalStateEnum.Active;
@@ -247,13 +247,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 Hairdressing_Professional hairdressingProfessional = dbContext.Hairdressing_Professionals.FirstOrDefault(d => d.Id == hairdressingProfessionalDto.Id && d.UserId == userId);
 
                 if (hairdressingProfessional == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 hairdressingProfessional.State = HairdressingProfessionalStateEnum.Vacation;
@@ -267,7 +267,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             if (specialty == null)
             {
-                throw new BadRequestException(ExceptionMessages.BadRequest);
+                throw new BadRequestException();
             }
 
             if (subSpecialtyId.HasValue)
@@ -276,7 +276,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (subspecialty == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
             }
             
@@ -294,7 +294,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (wh.Start <= min || wh.End <= min || wh.End <= wh.Start)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 min = wh.End;

@@ -35,7 +35,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             _userManager = userManager;
             _roleManager = roleManager;
             _dbContext = dbcontext;
-            _service = new BusinessPlaceService(this.HttpContext);
+            _service = new BusinessPlaceService();
         }
 
         [HttpPost]
@@ -43,7 +43,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = _dbContext)
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 var client = dbContext.Clients.FirstOrDefault(c => c.Id == patientDto.ClientId);
                 
@@ -51,7 +51,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 {
                     if (string.IsNullOrWhiteSpace(patientDto.Email))
                     {
-                        throw new ApplicationException(ExceptionMessages.BadRequest);
+                        throw new BadRequestException();
                     }
 
                     client = CreateClient(patientDto.Email, patientDto.Dni, patientDto);
@@ -160,13 +160,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 var patientToDelete = dbContext.Hairdressing_Patients.FirstOrDefault(p => p.Id == patientDto.Id && p.UserId == userId);
 
                 if (patientToDelete == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 dbContext.Entry(patientToDelete).State = EntityState.Deleted;
@@ -179,13 +179,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 var patientToUpdate = dbContext.Hairdressing_Patients.Include(x=>x.Client).FirstOrDefault(p => p.Id == patientDto.Id && p.UserId == userId);
 
                 if (patientToUpdate == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 patientToUpdate.Client.FirstName = patientDto.FirstName;

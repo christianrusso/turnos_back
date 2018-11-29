@@ -46,7 +46,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (prof == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var res = new List<DateTime>();
@@ -78,7 +78,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (prof == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 return prof.GetAllAvailablesForDay(getAppointmentDto.Day);
@@ -102,7 +102,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (prof == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 if (!_roleManager.RoleExistsAsync(Roles.Client).Result)
@@ -202,30 +202,25 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (prof == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var client = dbContext.Clients.FirstOrDefault(c => c.Id == requestAppointmentDto.ClientId);
 
                 if (client == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var patient = dbContext.Hairdressing_Patients.FirstOrDefault(p => p.ClientId == client.Id && p.UserId == userId);
 
                 if (patient != null)
                 {
-                    throw new ApplicationException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 patient = new Hairdressing_Patient
                 {
-                    //FirstName = requestAppointmentDto.FirstName,
-                    //LastName = requestAppointmentDto.LastName,
-                    //Address = requestAppointmentDto.Address,
-                    //PhoneNumber = requestAppointmentDto.PhoneNumber,
-                    //Dni = requestAppointmentDto.Dni,
                     UserId = userId,
                     ClientId = requestAppointmentDto.ClientId
                 };
@@ -279,14 +274,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (prof == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var patient = dbContext.Hairdressing_Patients.FirstOrDefault(p => p.Id == requestAppointmentDto.PatientId && p.UserId == userId);
 
                 if (patient == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var availableAppointments = prof.GetAllAvailablesForDay(requestAppointmentDto.Day.Date);
@@ -336,37 +331,32 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (hairdressing == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var prof = dbContext.Hairdressing_Professionals.FirstOrDefault(d => d.Id == requestAppointmentDto.ProfessionalId && d.UserId == hairdressing.UserId);
 
                 if (prof == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
 
                 if (client == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var patient = dbContext.Hairdressing_Patients.FirstOrDefault(p => p.ClientId == client.Id && p.UserId == hairdressing.UserId);
 
                 if (patient != null)
                 {
-                    throw new ApplicationException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 patient = new Hairdressing_Patient
                 {
-                    //FirstName = requestAppointmentDto.FirstName,
-                    //LastName = requestAppointmentDto.LastName,
-                    //Address = requestAppointmentDto.Address,
-                    //PhoneNumber = requestAppointmentDto.PhoneNumber,
-                    //Dni = requestAppointmentDto.Dni,
                     UserId = hairdressing.UserId,
                     ClientId = client.Id,
                 };
@@ -420,14 +410,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (hairdresing == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var prof = dbContext.Hairdressing_Professionals.FirstOrDefault(d => d.Id == requestAppointmentDto.ProfessionalId && d.UserId == hairdresing.UserId);
 
                 if (prof == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
@@ -435,7 +425,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (patient == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var availableAppointments = prof.GetAllAvailablesForDay(requestAppointmentDto.Day.Date);
@@ -482,14 +472,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (appointment == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var hairdressing = dbContext.Hairdressings.FirstOrDefault(c => c.UserId == userId);
 
                 if (hairdressing == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
                 
                 var maxCancelDateTime = appointment.DateTime.AddHours(-24);
@@ -528,7 +518,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (appointment == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 if (appointment.DateTime > DateTime.Now)
@@ -538,7 +528,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (hairdressing == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 appointment.State = AppointmentStateEnum.Completed;
@@ -568,7 +558,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (appointment == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var maxCancelDateTime = appointment.DateTime.AddHours(-24);
@@ -599,7 +589,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (appointment == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 if (appointment.DateTime > DateTime.Now)
@@ -609,7 +599,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (hairdressing == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 appointment.State = AppointmentStateEnum.Completed;
@@ -746,8 +736,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.Client)]
         public List<HairdressingClientDayDto> GetWeekForClient([FromBody] FilterClientWeekHairdressingAppointmentDto filter)
         {
-            var service = new AppointmentService(this.HttpContext);
-            var week = service.Hairdressing_GetWeekForClient(filter, this.HttpContext);
+            var service = new AppointmentService();
+            var week = service.Hairdressing_GetWeekForClient(filter, HttpContext);
 
             return week;
         }

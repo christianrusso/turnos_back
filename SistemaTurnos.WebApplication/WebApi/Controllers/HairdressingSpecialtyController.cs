@@ -22,7 +22,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
         public HairdressingSpecialtyController()
         {
-            _service = new BusinessPlaceService(HttpContext);
+            _service = new BusinessPlaceService();
         }
 
         [HttpPost]
@@ -80,7 +80,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (hairdressings == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 return dbContext.Hairdressing_Specialties
@@ -194,7 +194,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (specialtyToDelete == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 specialtyToDelete.Subspecialties.ForEach(ssp => dbContext.Entry(ssp).State = EntityState.Deleted);

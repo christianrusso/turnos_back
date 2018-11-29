@@ -10,8 +10,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
 {
     public class AppointmentService:ServiceBase
     {
-        public AppointmentService(HttpContext httpContext) : base(httpContext) { }
-
         public List<ClientDayDto> Clinic_GetWeekForClient(FilterClientWeekAppointmentDto filter, HttpContext httpContext)
         {
             var res = new List<ClientDayDto>();

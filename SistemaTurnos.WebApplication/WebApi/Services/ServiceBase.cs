@@ -6,12 +6,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
 {
     public class ServiceBase
     {
-        protected readonly HttpContext _httpContext;
-        public ServiceBase(HttpContext httpContext)
-        {
-            _httpContext = httpContext;
-        }
-
         public int GetUserId(HttpContext httpContext)
         {
             int? userId = (int?)httpContext.Items["userId"];

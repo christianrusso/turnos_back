@@ -1,18 +1,7 @@
-﻿using Moq;
-using SistemaTurnos.WebApplication.WebApi.Controllers;
-using System;
+﻿using SistemaTurnos.WebApplication.WebApi.Controllers;
 using Xunit;
-using Microsoft.AspNetCore.Identity;
-using SistemaTurnos.WebApplication.Database.Model;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Configuration;
-using SistemaTurnos.WebApplication.WebApi.Authorization;
-using Microsoft.EntityFrameworkCore;
-using SistemaTurnos.WebApplication.Database;
-using System.Collections.Generic;
-using System.Linq;
+using SistemaTurnos.WebApplication.WebApi.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ApiTests
 {
@@ -27,11 +16,12 @@ namespace ApiTests
             var roleMng = IdentityFixture.GetMockRoleManager();
             var controller = new HairdressingPatientController(userMng.Object, roleMng.Object, dbContext);
 
-            controller.ControllerContext = new Microsoft.AspNetCore.Mvc.ControllerContext();
-            controller.ControllerContext.HttpContext = httpContext.Object;
-            controller._service = new SistemaTurnos.WebApplication.WebApi.Services.BusinessPlaceService(httpContext.Object);
+            controller.ControllerContext = new ControllerContext
+            {
+                HttpContext = httpContext.Object
+            };
 
-
+            controller._service = new BusinessPlaceService();
 
             var res = controller.Add(new SistemaTurnos.WebApplication.WebApi.Dto.HairdressingPatient.AddHairdressingPatientDto()
             {
@@ -44,9 +34,9 @@ namespace ApiTests
                 PhoneNumber = ""
             });
 
-            Assert.True(((Microsoft.AspNetCore.Mvc.ObjectResult)res).StatusCode == 200);
+            Assert.True(((ObjectResult)res).StatusCode == 200);
 
-            Assert.True((int)((Microsoft.AspNetCore.Mvc.ObjectResult)res).Value > 0);
+            Assert.True((int)((ObjectResult)res).Value > 0);
         }
     }
 }

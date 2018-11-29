@@ -13,10 +13,10 @@ using System.Linq;
 
 namespace SistemaTurnos.WebApplication.WebApi.Services
 {
-    public class ClientServiceClinic: ClientServiceBase
+    public class ClientServiceClinic : ClientServiceBase
     {
-        public ClientServiceClinic(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration, HttpContext httpContext)
-            : base(userManager, roleManager, signInManager, configuration, httpContext) { }
+        public ClientServiceClinic(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration)
+            : base(userManager, roleManager, signInManager, configuration) { }
 
         public void Register(RegisterClientDto clientDto)
         {
@@ -83,7 +83,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
 
                 if (clientToUpdate == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 clientToUpdate.FirstName = clientDto.FirstName;

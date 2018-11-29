@@ -40,9 +40,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             _roleManager = roleManager;
             _signInManager = signInManager;
             _configuration = configuration;
-            _service = new BusinessPlaceService(this.HttpContext);
+            _service = new BusinessPlaceService();
             
-            _ClientService = new ClientServiceClinic(_userManager, _roleManager, _signInManager, _configuration, HttpContext);
+            _ClientService = new ClientServiceClinic(_userManager, _roleManager, _signInManager, _configuration);
         }
 
         /// <summary>
@@ -123,14 +123,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (!dbContext.Clinics.Any(c => c.Id == clinic.Id))
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
 
                 if (client.FavoriteClinics.Any(fc => fc.ClinicId == clinic.Id))
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 client.FavoriteClinics.Add(new Clinic_ClientFavorite
@@ -156,7 +156,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (!dbContext.Clinics.Any(c => c.Id == clinic.Id))
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
@@ -165,7 +165,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (favoriteClinic == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 foreach (var f in favoriteClinic)
@@ -173,7 +173,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     dbContext.Clinic_ClientFavorites.Remove(f);
                 }
 
-                //dbContext.Entry(favoriteClinic).State = EntityState.Deleted;
                 dbContext.SaveChanges();
             }
         }
@@ -231,14 +230,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (!dbContext.Hairdressings.Any(c => c.Id == hairdressing.Id))
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
 
                 if (client.FavoriteClinics.Any(fc => fc.ClinicId == hairdressing.Id))
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 client.FavoriteHairdressing.Add(new Hairdressing_ClientFavorite
@@ -264,7 +263,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (!dbContext.Clinics.Any(c => c.Id == hairdressing.Id))
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
@@ -273,7 +272,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (favoriteHairdressing == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 foreach (var f in favoriteHairdressing)
@@ -281,7 +280,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     dbContext.Hairdressing_ClientFavorites.Remove(f);
                 }
                 
-                //dbContext.Entry(favoriteHairdressing).State = EntityState.Deleted;
                 dbContext.SaveChanges();
             }
         }
@@ -375,8 +373,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.Client)]
         public WeekForClientDto GetWeekForClient([FromBody] FilterClientWeekDto filter)
         {
-            var service = new AppointmentService(HttpContext);
-            return service.GetWeekForClient(filter, HttpContext);
+            return new AppointmentService().GetWeekForClient(filter, HttpContext);
         }
 
         /// <summary>

@@ -27,7 +27,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
         public DoctorController()
         {
-            _service = new BusinessPlaceService(this.HttpContext);
+            _service = new BusinessPlaceService();
         }
 
         /// <summary>
@@ -72,12 +72,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
                 var doctorToDelete = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == doctorDto.Id && d.UserId == userId);
 
                 if (doctorToDelete == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 doctorToDelete.WorkingHours.ForEach(wh => dbContext.Entry(wh).State = EntityState.Deleted);
@@ -95,13 +95,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 Clinic_Doctor doctorToUpdate = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == doctorDto.Id && d.UserId == userId);
 
                 if (doctorToUpdate == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 ValidateDoctorData(dbContext, userId, doctorDto.SpecialtyId, doctorDto.SubspecialtyId, doctorDto.WorkingHours);
@@ -236,13 +236,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 Clinic_Doctor doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == doctorDto.Id && d.UserId == userId);
 
                 if (doctor == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 doctor.State = DoctorStateEnum.Inactive;
@@ -258,13 +258,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 Clinic_Doctor doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == doctorDto.Id && d.UserId == userId);
 
                 if (doctor == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 doctor.State = DoctorStateEnum.Active;
@@ -280,13 +280,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 Clinic_Doctor doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == doctorDto.Id && d.UserId == userId);
 
                 if (doctor == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 doctor.State = DoctorStateEnum.Vacation;
@@ -300,7 +300,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             if (specialty == null)
             {
-                throw new BadRequestException(ExceptionMessages.BadRequest);
+                throw new BadRequestException();
             }
 
             if (subSpecialtyId.HasValue)
@@ -309,7 +309,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (subspecialty == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
             }
             
@@ -327,7 +327,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (wh.Start <= min || wh.End <= min || wh.End <= wh.Start)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 min = wh.End;

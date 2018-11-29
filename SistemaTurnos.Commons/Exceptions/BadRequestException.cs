@@ -4,13 +4,13 @@ namespace SistemaTurnos.Commons.Exceptions
 {
     public class BadRequestException : Exception
     {
-        public BadRequestException()
+        public BadRequestException() : base(ExceptionMessages.BadRequest)
         { }
 
         public BadRequestException(string message) : base(message)
         { }
 
-        public BadRequestException(string message, Exception innerException): base(message, innerException)
+        public BadRequestException(Exception innerException): base(ExceptionMessages.BadRequest, innerException)
         { }
     }
 }

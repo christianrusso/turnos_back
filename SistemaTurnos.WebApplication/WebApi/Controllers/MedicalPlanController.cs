@@ -29,7 +29,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (medicalInsurance == null)
                 {
-                    throw new ApplicationException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 medicalInsurance.MedicalPlans.ForEach(mp => dbContext.Entry(mp).State = EntityState.Deleted);
@@ -54,7 +54,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (medicalInsurance == null)
                 {
-                    throw new ApplicationException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 dbContext.Clinic_MedicalPlans.Add(new Clinic_MedicalPlan {
@@ -78,7 +78,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (medicalPlan == null)
                 {
-                    throw new ApplicationException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 dbContext.Entry(medicalPlan).State = EntityState.Deleted;

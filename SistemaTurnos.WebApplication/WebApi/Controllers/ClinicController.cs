@@ -27,7 +27,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
         public ClinicController()
         {
-            _service = new BusinessPlaceService(this.HttpContext);
+            _service = new BusinessPlaceService();
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (clinicToUpdate == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 // Valido los datos de los horarios
@@ -57,7 +57,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 {
                     if (((int) och.DayNumber) <= previousDayNumber || och.Start > och.End)
                     {
-                        throw new BadRequestException(ExceptionMessages.BadRequest);
+                        throw new BadRequestException();
                     }
 
                     previousDayNumber = (int)och.DayNumber;
@@ -93,7 +93,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (clinicToUpdate == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 if (!string.IsNullOrWhiteSpace(clinicDto.Address))
@@ -388,7 +388,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (clinic == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);

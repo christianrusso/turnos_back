@@ -24,7 +24,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
         public HairdressingSubSpecialtyController(ApplicationDbContext dbContext)
         {
-            _service = new BusinessPlaceService(HttpContext);
+            _service = new BusinessPlaceService();
         }
 
         [HttpPost]
@@ -38,7 +38,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (specialty == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 dbContext.Hairdressing_Subspecialties.Add(new Hairdressing_Subspecialty
@@ -123,13 +123,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 var subSpecialtyToDelete = dbContext.Hairdressing_Subspecialties.FirstOrDefault(ssp => ssp.Id == subSpecialtyDto.Id && ssp.UserId == userId);
 
                 if (subSpecialtyToDelete == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 dbContext.Entry(subSpecialtyToDelete).State = EntityState.Deleted;
@@ -148,7 +148,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (subSpecialtyToUpdate == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 subSpecialtyToUpdate.ConsultationLength = subSpecialtyDto.ConsultationLength;

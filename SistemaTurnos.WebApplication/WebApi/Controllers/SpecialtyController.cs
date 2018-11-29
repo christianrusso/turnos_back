@@ -82,7 +82,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (clinic == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 return dbContext.Clinic_Specialties
@@ -205,7 +205,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (specialtyToDelete == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 specialtyToDelete.Subspecialties.ForEach(ssp => dbContext.Entry(ssp).State = EntityState.Deleted);

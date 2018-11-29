@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using SistemaTurnos.Commons.Authorization;
 using SistemaTurnos.Commons.Exceptions;
 using SistemaTurnos.Database.Model;
-using SistemaTurnos.WebApplication.WebApi.Authorization;
 using SistemaTurnos.WebApplication.WebApi.Dto.Client;
-using SistemaTurnos.WebApplication.WebApi.Exceptions;
 using System;
 using System.Linq;
 
@@ -20,7 +17,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
         protected readonly IConfiguration _configuration;
         
 
-        public ClientServiceBase(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration, HttpContext httpContext):base(httpContext)
+        public ClientServiceBase(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _roleManager = roleManager;

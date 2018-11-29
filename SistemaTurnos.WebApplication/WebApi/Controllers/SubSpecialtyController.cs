@@ -31,7 +31,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (specialty == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 dbContext.Clinic_Subspecialties.Add(new Clinic_Subspecialty
@@ -149,7 +149,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (subSpecialtyToDelete == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 dbContext.Entry(subSpecialtyToDelete).State = EntityState.Deleted;
@@ -171,7 +171,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (subSpecialtyToUpdate == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 subSpecialtyToUpdate.ConsultationLength = subSpecialtyDto.ConsultationLength;

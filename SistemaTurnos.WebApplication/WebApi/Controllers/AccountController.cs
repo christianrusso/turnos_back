@@ -86,7 +86,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 {
                     if(model.BusinessType == 0)
                     {
-                        throw new BadRequestException(ExceptionMessages.BadRequest);
+                        throw new BadRequestException();
                     }
                     if (model.BusinessType == BusinessType.Clinic)
                     {
@@ -120,7 +120,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 {
                     if(model.BusinessType == 0)
                     {
-                        throw new BadRequestException(ExceptionMessages.BadRequest);
+                        throw new BadRequestException();
                     }
                     if (model.BusinessType == BusinessType.Clinic)
                     {
@@ -235,7 +235,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 // Chequeo que el FacebookUserId sea correcto
                 if (client.FacebookUserId != model.UserId)
                 {
-                    throw new ApplicationException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 // Logueo al usuario
@@ -245,7 +245,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (!_userManager.IsInRoleAsync(appUser, Roles.Client).Result)
                 {
-                    throw new ApplicationException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 ValidTokens.Add($"{JwtBearerDefaults.AuthenticationScheme} {token}", userId);
@@ -302,12 +302,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (!dbContext.Cities.Any(c => c.Id == model.City))
                 {
-                    throw new ApplicationException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 if(model.BusinessType == 0)
                 {
-                    throw new ApplicationException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 if(model.BusinessType == BusinessType.Clinic)

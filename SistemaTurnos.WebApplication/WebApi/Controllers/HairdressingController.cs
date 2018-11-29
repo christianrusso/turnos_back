@@ -26,7 +26,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
         public HairdressingController()
         {
-            _service = new BusinessPlaceService(HttpContext);
+            _service = new BusinessPlaceService();
         }
 
         [HttpPost]
@@ -41,7 +41,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (HairdressingsToUpdate == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 // Valido los datos de los horarios
@@ -53,7 +53,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 {
                     if (((int) och.DayNumber) <= previousDayNumber || och.Start > och.End)
                     {
-                        throw new BadRequestException(ExceptionMessages.BadRequest);
+                        throw new BadRequestException();
                     }
 
                     previousDayNumber = (int)och.DayNumber;
@@ -257,7 +257,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (hairdressing == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);

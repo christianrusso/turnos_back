@@ -47,7 +47,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (clinic == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 return dbContext.Clinic_MedicalInsurances
@@ -174,7 +174,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (medicalInsuranceToDelete == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 dbContext.Entry(medicalInsuranceToDelete).State = EntityState.Deleted;

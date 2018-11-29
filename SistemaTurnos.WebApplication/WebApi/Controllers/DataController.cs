@@ -25,7 +25,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
         public DataController()
         {
-            _service = new BusinessPlaceService(HttpContext);
+            _service = new BusinessPlaceService();
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (specialty == null)
                 {
-                    throw new ApplicationException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 return dbContext.Subspecialties
@@ -115,7 +115,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (specialty == null)
                 {
-                    throw new ApplicationException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 return dbContext.Subspecialties
@@ -181,7 +181,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (medicalInsurance == null)
                 {
-                    throw new ApplicationException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 return dbContext.MedicalPlans

@@ -50,7 +50,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (doctor == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var res = new List<DateTime>();
@@ -87,7 +87,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (doctor == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 return doctor.GetAllAvailablesForDay(getAppointmentDto.Day);
@@ -117,14 +117,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (doctor == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var medicalPlan = dbContext.Clinic_MedicalPlans.FirstOrDefault(mp => mp.Id == requestAppointmentDto.MedicalPlanId);
 
                 if (medicalPlan == null)
                 {
-                    throw new ApplicationException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 if (!_roleManager.RoleExistsAsync(Roles.Client).Result)
@@ -229,37 +229,33 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (doctor == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var client = dbContext.Clients.FirstOrDefault(c => c.Id == requestAppointmentDto.ClientId);
 
                 if (client == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var medicalPlan = dbContext.Clinic_MedicalPlans.FirstOrDefault(mp => mp.Id == requestAppointmentDto.MedicalPlanId);
 
                 if (medicalPlan == null)
                 {
-                    throw new ApplicationException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var patient = dbContext.Clinic_Patients.FirstOrDefault(p => p.ClientId == client.Id && p.UserId == userId);
 
                 if (patient != null)
                 {
-                    throw new ApplicationException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 patient = new Clinic_Patient
                 {
-                    //FirstName = requestAppointmentDto.FirstName,
-                    //LastName = requestAppointmentDto.LastName,
-                    //Address = requestAppointmentDto.Address,
-                    //PhoneNumber = requestAppointmentDto.PhoneNumber,
-                    //Dni = requestAppointmentDto.Dni,
+
                     UserId = userId,
                     ClientId = requestAppointmentDto.ClientId,
                     MedicalPlanId = requestAppointmentDto.MedicalPlanId
@@ -280,7 +276,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (!availableAppointments.Contains(appointment))
                 {
-                    throw new BadRequestException(ExceptionMessages.AppointmentAlreadyTaken);
+                    throw new BadRequestException();
                 }
 
                 dbContext.Clinic_Appointments.Add(new Clinic_Appointment
@@ -319,14 +315,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (doctor == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var patient = dbContext.Clinic_Patients.FirstOrDefault(p => p.Id == requestAppointmentDto.PatientId && p.UserId == userId);
 
                 if (patient == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var availableAppointments = doctor.GetAllAvailablesForDay(requestAppointmentDto.Day.Date);
@@ -381,44 +377,39 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (clinic == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == requestAppointmentDto.DoctorId && d.UserId == clinic.UserId);
 
                 if (doctor == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
 
                 if (client == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var medicalPlan = dbContext.Clinic_MedicalPlans.FirstOrDefault(mp => mp.Id == requestAppointmentDto.MedicalPlanId && mp.UserId == clinic.UserId);
 
                 if (medicalPlan == null)
                 {
-                    throw new ApplicationException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var patient = dbContext.Clinic_Patients.FirstOrDefault(p => p.ClientId == client.Id && p.UserId == clinic.UserId);
 
                 if (patient != null)
                 {
-                    throw new ApplicationException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 patient = new Clinic_Patient
                 {
-                    //FirstName = requestAppointmentDto.FirstName,
-                    //LastName = requestAppointmentDto.LastName,
-                    //Address = requestAppointmentDto.Address,
-                    //PhoneNumber = requestAppointmentDto.PhoneNumber,
-                    //Dni = requestAppointmentDto.Dni,
                     UserId = clinic.UserId,
                     ClientId = client.Id,
                     MedicalPlanId = requestAppointmentDto.MedicalPlanId
@@ -478,14 +469,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (clinic == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == requestAppointmentDto.DoctorId && d.UserId == clinic.UserId);
 
                 if (doctor == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
@@ -493,7 +484,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (patient == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var availableAppointments = doctor.GetAllAvailablesForDay(requestAppointmentDto.Day.Date);
@@ -545,14 +536,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (appointment == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var clinic = dbContext.Clinics.FirstOrDefault(c => c.UserId == userId);
 
                 if (clinic == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
                 
                 var maxCancelDateTime = appointment.DateTime.AddHours(-24);
@@ -596,7 +587,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (appointment == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 if (appointment.DateTime > DateTime.Now)
@@ -606,7 +597,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (clinic == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 appointment.State = AppointmentStateEnum.Completed;
@@ -641,7 +632,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (appointment == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 var maxCancelDateTime = appointment.DateTime.AddHours(-24);
@@ -677,7 +668,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (appointment == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 if (appointment.DateTime > DateTime.Now)
@@ -687,7 +678,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (clinic == null)
                 {
-                    throw new BadRequestException(ExceptionMessages.BadRequest);
+                    throw new BadRequestException();
                 }
 
                 appointment.State = AppointmentStateEnum.Completed;
@@ -834,7 +825,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.Client)]
         public List<ClientDayDto> GetWeekForClient([FromBody] FilterClientWeekAppointmentDto filter)
         {
-            var service = new AppointmentService(HttpContext);
+            var service = new AppointmentService();
             var week = service.Clinic_GetWeekForClient(filter, HttpContext);
 
             return week;
