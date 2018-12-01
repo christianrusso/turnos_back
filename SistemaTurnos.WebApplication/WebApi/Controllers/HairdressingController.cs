@@ -312,5 +312,26 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 return patient != null;
             }
         }
+
+        [HttpPost]
+        [Authorize(Roles = Roles.AdministratorAndEmployee)]
+        public void ChangePayment([FromBody] RequireDto dto)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = _service.GetUserId(HttpContext);
+
+                var hairdressingToUpdate = dbContext.Hairdressings.FirstOrDefault(h => h.UserId == userId);
+
+                if (hairdressingToUpdate == null)
+                {
+                    throw new BadRequestException();
+                }
+
+                hairdressingToUpdate.RequiresPayment = dto.Require;
+
+                dbContext.SaveChanges();
+            }
+        }
     }
 }

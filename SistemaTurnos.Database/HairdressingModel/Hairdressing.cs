@@ -26,6 +26,8 @@ namespace SistemaTurnos.Database.HairdressingModel
 
         public string Logo { get; set; }
 
+        public bool RequiresPayment { get; set; }
+
         [Required]
         public int CityId { get; set; }
 

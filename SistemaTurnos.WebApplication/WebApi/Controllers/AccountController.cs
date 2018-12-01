@@ -337,7 +337,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         Latitude = model.Latitude,
                         Longitude = model.Longitude,
                         UserId = appUser.Id,
-                        Logo = model.Logo
+                        Logo = model.Logo,
+                        RequiresPayment = false
                     };
 
                     dbContext.Hairdressings.Add(hairdressing);
