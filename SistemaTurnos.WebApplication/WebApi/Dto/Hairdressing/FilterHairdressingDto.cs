@@ -20,6 +20,18 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Hairdressing
 
         public int? ScoreQuantity { get; set; }
 
-        public DateTime? AvailableAppointmentDate { get; set; }
+        public DateTime? AvailableAppointmentStartDate { get; set; }
+
+        public DateTime? AvailableAppointmentEndDate { get; set; }
+
+        public string SortField { get; set; }
+
+        public bool? AscendingOrder { get; set; }
+
+        public int? From { get; set; }
+
+        public int? To { get; set; }
+
+        public List<int> Stars { get; set; }
     }
 }

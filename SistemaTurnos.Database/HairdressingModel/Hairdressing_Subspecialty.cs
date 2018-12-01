@@ -19,7 +19,7 @@ namespace SistemaTurnos.Database.HairdressingModel
         [Required]
         public uint ConsultationLength { get; set; }
 
-        public uint Price { get; set; }
+        public uint? Price { get; set; }
 
         [Required]
         public int SpecialtyId { get; set; }

@@ -197,6 +197,7 @@ namespace SistemaTurnos.Populator
             var medicalInsurance1 = CreateMedicalInsurance("OSDE", clinic1);
             var medicalInsurance2 = CreateMedicalInsurance("Galeno", clinic1);
             var medicalInsurance3 = CreateMedicalInsurance("Swiss Medical", clinic1);
+            var medicalInsurance9 = CreateMedicalInsurance("Medlife", clinic1);
 
             var medicalInsurance4 = CreateMedicalInsurance("Galeno", clinic2);
             var medicalInsurance5 = CreateMedicalInsurance("Swiss Medical", clinic2);
@@ -214,17 +215,17 @@ namespace SistemaTurnos.Populator
             var medicalPlan4 = CreateMedicalPlan("Galeno XL", medicalInsurance2, clinic1);
             var medicalPlan5 = CreateMedicalPlan("SM 10", medicalInsurance3, clinic1);
             var medicalPlan6 = CreateMedicalPlan("SM 20", medicalInsurance3, clinic1);
-            var medicalPlan7 = CreateMedicalPlan("MEDI A", medicalInsurance7, clinic1);
-            var medicalPlan8 = CreateMedicalPlan("MEDI B", medicalInsurance7, clinic1);
-            var medicalPlan9 = CreateMedicalPlan("MEDI C", medicalInsurance7, clinic1);
+            var medicalPlan7 = CreateMedicalPlan("MEDI A", medicalInsurance9, clinic1);
+            var medicalPlan8 = CreateMedicalPlan("MEDI B", medicalInsurance9, clinic1);
+            var medicalPlan9 = CreateMedicalPlan("MEDI C", medicalInsurance9, clinic1);
 
-            var medicalPlan10 = CreateMedicalPlan("Galeno XL", medicalInsurance2, clinic2);
-            var medicalPlan11 = CreateMedicalPlan("SM 10", medicalInsurance3, clinic2);
-            var medicalPlan12 = CreateMedicalPlan("SM 20", medicalInsurance3, clinic2);
+            var medicalPlan10 = CreateMedicalPlan("Galeno XL", medicalInsurance4, clinic2);
+            var medicalPlan11 = CreateMedicalPlan("SM 10", medicalInsurance5, clinic2);
+            var medicalPlan12 = CreateMedicalPlan("SM 20", medicalInsurance5, clinic2);
 
-            var medicalPlan13 = CreateMedicalPlan("OSDE 410", medicalInsurance1, clinic3);
-            var medicalPlan14 = CreateMedicalPlan("SM 10", medicalInsurance3, clinic3);
-            var medicalPlan15 = CreateMedicalPlan("SM 20", medicalInsurance3, clinic3);
+            var medicalPlan13 = CreateMedicalPlan("OSDE 410", medicalInsurance6, clinic3);
+            var medicalPlan14 = CreateMedicalPlan("SM 10", medicalInsurance8, clinic3);
+            var medicalPlan15 = CreateMedicalPlan("SM 20", medicalInsurance8, clinic3);
             var medicalPlan16 = CreateMedicalPlan("MEDI A", medicalInsurance7, clinic3);
             var medicalPlan17 = CreateMedicalPlan("MEDI B", medicalInsurance7, clinic3);
             var medicalPlan18 = CreateMedicalPlan("MEDI C", medicalInsurance7, clinic3);

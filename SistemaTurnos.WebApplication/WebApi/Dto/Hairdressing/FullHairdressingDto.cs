@@ -35,5 +35,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Hairdressing
         public List<RatingDto> Ratings { get; set; }
 
         public List<OpenCloseHoursDto> OpenCloseHours { get; set; }
+
+        public bool IsFavorite { get; set; }
+
+        public int ResultSize { get; set; }
     }
 }

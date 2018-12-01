@@ -174,7 +174,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         /// <summary>
-        /// Devuelve todas las clinicas con filtros dados.
+        /// Devuelve todas las clinicas con los filtros dados.
         /// </summary>
         [HttpPost]
         public List<FullClinicDto> GetByFilter([FromBody] FilterClinicDto filterDto)
@@ -184,7 +184,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                var loggerUserId = _service.GetUserIdOrDefault(this.HttpContext);
+                var loggerUserId = _service.GetUserIdOrDefault(HttpContext);
                 var favoriteClinics = loggerUserId.HasValue ? dbContext.Clients.First(c => c.UserId == loggerUserId).FavoriteClinics : new List<Clinic_ClientFavorite>();
                 
                 // Filtro por ciudad y por id
@@ -320,7 +320,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         DistanceToUser = userLocation != null ? new GeoCoordinate(clinic.Latitude, clinic.Longitude).GetDistanceTo(userLocation) : 0,
                         Score = score,
                         ScoreQuantity = ratings.Count,
-                        Ratings = ratings.Select(r => new RatingDto { User = r.User.Email, Score = r.Score, Comment = r.Comment, DateTime = r.DateTime }).ToList(),
+                        Ratings = ratings.Select(r => new RatingDto { User = r.Appointment.Patient.Client.User.Email, Score = r.Score, Comment = r.Comment, DateTime = r.DateTime }).ToList(),
                         Specialties = specialties.Select(s => s.Data.Description).ToList(),
                         Subspecialties = subspecialties.Select(sp => sp.Data.Description).ToList(),
                         MedicalInsurances = medicalInsurances.Select(mi => mi.Data.Description).ToList(),
