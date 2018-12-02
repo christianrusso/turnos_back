@@ -6,7 +6,6 @@ using SistemaTurnos.Database;
 using SistemaTurnos.Database.HairdressingModel;
 using SistemaTurnos.Database.Enums;
 using SistemaTurnos.Database.Model;
-using SistemaTurnos.WebApplication.Email;
 using SistemaTurnos.WebApplication.WebApi.Dto;
 using SistemaTurnos.WebApplication.WebApi.Dto.HairdressingAppointment;
 using System;
@@ -16,6 +15,7 @@ using SistemaTurnos.WebApplication.WebApi.Services;
 using SistemaTurnos.Database.ClinicModel;
 using SistemaTurnos.Commons.Authorization;
 using SistemaTurnos.Commons.Exceptions;
+using SistemaTurnos.WebApplication.WebApi.Dto.Email;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
 {
@@ -26,6 +26,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly EmailService emailService = new EmailService();
 
         public HairdressingAppointmentController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
         {
@@ -462,7 +463,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.AdministratorAndEmployee)]
         public void CancelAppointmentByHairdressing([FromBody] CancelHairdressingAppointmentDto cancelAppointmentDto)
         {
-            var emailMessage = new EmailMessage();
+            var emailMessage = new EmailDto();
 
             using (var dbContext = new ApplicationDbContext())
             {
@@ -489,8 +490,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException(ExceptionMessages.AppointmentCantBeCanceled);
                 }
 
-                emailMessage = new EmailMessage
+                emailMessage = new EmailDto
                 {
+                    From = "no-reply@tuturno.com.ar",
                     Subject = $"{hairdressing.Name} - Cancelacion de turno",
                     To = new List<string> { appointment.Patient.Client.User.Email },
                     Message = cancelAppointmentDto.Comment
@@ -500,14 +502,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.SaveChanges();
             }
 
-            EmailSender.Send(emailMessage);
+            emailService.Send(emailMessage);
         }
 
         [HttpPost]
         [Authorize]
         public void CompleteAppointmentByHairdressing([FromBody] IdDto completeAppointmentDto)
         {
-            var emailMessage = new EmailMessage();
+            var emailMessage = new EmailDto();
 
             using (var dbContext = new ApplicationDbContext())
             {
@@ -533,8 +535,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 appointment.State = AppointmentStateEnum.Completed;
 
-                emailMessage = new EmailMessage
+                emailMessage = new EmailDto
                 {
+                    From = "no-reply@tuturno.com.ar",
                     Subject = "Turno completado",
                     To = new List<string> { appointment.Patient.Client.User.Email, hairdressing.User.Email },
                     Message = $"Se ha completado el turno numero {appointment.Id}."
@@ -543,7 +546,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.SaveChanges();
             }
 
-            EmailSender.Send(emailMessage);
+            emailService.Send(emailMessage);
         }
 
         [HttpPost]
@@ -578,7 +581,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize]
         public void CompleteAppointment([FromBody] CompleteHairdressingAppointmentDto completeAppointmentDto)
         {
-            var emailMessage = new EmailMessage();
+            var emailMessage = new EmailDto();
 
             using (var dbContext = new ApplicationDbContext())
             {
@@ -604,8 +607,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 appointment.State = AppointmentStateEnum.Completed;
 
-                emailMessage = new EmailMessage
+                emailMessage = new EmailDto
                 {
+                    From = "no-reply@tuturno.com.ar",
                     Subject = "Turno completado",
                     To = new List<string> { appointment.Patient.Client.User.Email, hairdressing.User.Email },
                     Message = $"Se ha completado el turno numero {appointment.Id}."
@@ -616,13 +620,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     AppointmentId = appointment.Id,
                     Score = completeAppointmentDto.Score,
                     Comment = completeAppointmentDto.Comment,
+                    DateTime = DateTime.Now,
                     UserId = userId
                 };
 
                 dbContext.SaveChanges();
             }
 
-            EmailSender.Send(emailMessage);
+            emailService.Send(emailMessage);
         }
 
         [HttpPost]
