@@ -695,6 +695,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     AppointmentId = appointment.Id,
                     Score = completeAppointmentDto.Score,
                     Comment = completeAppointmentDto.Comment,
+                    DateTime = DateTime.Now,
                     UserId = clinic.UserId
                 };
 
