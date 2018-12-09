@@ -43,5 +43,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Clinic
         public bool IsFavorite { get; set; }
 
         public int ResultSize { get; set; }
+
+        public bool RequiresPayment { get; set; }
     }
 }

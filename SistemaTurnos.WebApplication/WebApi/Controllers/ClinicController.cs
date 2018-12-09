@@ -327,7 +327,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         MedicalPlans = medicalPlans.Select(mp => mp.Data.Description).ToList(),
                         Logo = clinic.Logo,
                         OpenCloseHours = clinic.OpenCloseHours.Select(och => new OpenCloseHoursDto { DayNumber = och.DayNumber, Start = och.Start, End = och.End }).ToList(),
-                        IsFavorite = favoriteClinics.Any(f => f.ClinicId == clinic.Id)
+                        IsFavorite = favoriteClinics.Any(f => f.ClinicId == clinic.Id),
+                        RequiresPayment = false
                     });
                 }
             }

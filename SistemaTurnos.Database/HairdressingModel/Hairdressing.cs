@@ -28,6 +28,10 @@ namespace SistemaTurnos.Database.HairdressingModel
 
         public bool RequiresPayment { get; set; }
 
+        public string ClientId { get; set; }
+
+        public string ClientSecret { get; set; }
+
         [Required]
         public int CityId { get; set; }
 

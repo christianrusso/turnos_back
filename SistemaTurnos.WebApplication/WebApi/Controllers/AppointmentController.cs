@@ -95,7 +95,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
-
         /// <summary>
         /// Siendo Clinica, Agenda un turno para una persona que no sea cliente. Es necesario pasar todos los datos. Lo convierte en Cliente, tambien en paciente y registra turno.
         /// </summary>
@@ -709,7 +708,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             emailService.Send(emailMessage);
         }
 
-        
         [HttpPost]
         [Authorize]
         public List<RequestedAppointmentsByDoctorDto> GetRequestedAppointmentsByFilter([FromBody] FilterRequestedAppointmentDto filter)

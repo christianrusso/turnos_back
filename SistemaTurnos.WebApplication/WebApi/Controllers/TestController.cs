@@ -46,6 +46,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
               }
             );
 
+            //preference.BackUrls = new BackUrls
+            //{
+            //    Success = 
+            //}
+
             // Setting a payer object as value for Payer property
             preference.Payer = new Payer()
             {

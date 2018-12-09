@@ -16,6 +16,11 @@ using SistemaTurnos.Database.ClinicModel;
 using SistemaTurnos.Commons.Authorization;
 using SistemaTurnos.Commons.Exceptions;
 using SistemaTurnos.WebApplication.WebApi.Dto.Email;
+using MercadoPago;
+using MercadoPago.Common;
+using MercadoPago.Resources;
+using MercadoPago.DataStructures.Preference;
+using SistemaTurnos.WebApplication.WebApi.Dto.Payment;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
 {
@@ -317,7 +322,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
         [HttpPost]
         [Authorize(Roles = Roles.Client)]
-        public void RequestAppointmentByClient([FromBody] RequestHairdressingAppointmentByClientDto requestAppointmentDto)
+        public PaymentDto RequestAppointmentByClient([FromBody] RequestHairdressingAppointmentByClientDto requestAppointmentDto)
         {
             using (var dbContext = new ApplicationDbContext())
             {
@@ -380,7 +385,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException(ExceptionMessages.AppointmentAlreadyTaken);
                 }
 
-                dbContext.Hairdressing_Appointments.Add(new Hairdressing_Appointment
+                var hairdressingAppointment = new Hairdressing_Appointment
                 {
                     ProfessionalId = requestAppointmentDto.ProfessionalId,
                     Professional = prof,
@@ -388,15 +393,24 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     State = AppointmentStateEnum.Reserved,
                     PatientId = patient.Id,
                     UserId = hairdressing.UserId
-                });
+                };
+
+                dbContext.Hairdressing_Appointments.Add(hairdressingAppointment);
 
                 dbContext.SaveChanges();
+
+                var paymentLink = GeneratePaymentLink(hairdressing, hairdressingAppointment, client.User.Email);
+
+                return new PaymentDto
+                {
+                    PaymentLink = paymentLink
+                };
             }
         }
 
         [HttpPost]
         [Authorize(Roles = Roles.Client)]
-        public void RequestAppointmentByPatient([FromBody] RequestHairdressingAppointmentByPatientDto requestAppointmentDto)
+        public PaymentDto RequestAppointmentByPatient([FromBody] RequestHairdressingAppointmentByPatientDto requestAppointmentDto)
         {
             using (var dbContext = new ApplicationDbContext())
             {
@@ -407,14 +421,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException(ExceptionMessages.AppointmentCantBeRequested);
                 }
 
-                var hairdresing = dbContext.Hairdressings.FirstOrDefault(c => c.Id == requestAppointmentDto.HairdressingId);
+                var hairdressing = dbContext.Hairdressings.FirstOrDefault(c => c.Id == requestAppointmentDto.HairdressingId);
 
-                if (hairdresing == null)
+                if (hairdressing == null)
                 {
                     throw new BadRequestException();
                 }
 
-                var prof = dbContext.Hairdressing_Professionals.FirstOrDefault(d => d.Id == requestAppointmentDto.ProfessionalId && d.UserId == hairdresing.UserId);
+                var prof = dbContext.Hairdressing_Professionals.FirstOrDefault(d => d.Id == requestAppointmentDto.ProfessionalId && d.UserId == hairdressing.UserId);
 
                 if (prof == null)
                 {
@@ -422,7 +436,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 }
 
                 var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
-                var patient = dbContext.Hairdressing_Patients.FirstOrDefault(p => p.ClientId == client.Id && p.UserId == hairdresing.UserId);
+                var patient = dbContext.Hairdressing_Patients.FirstOrDefault(p => p.ClientId == client.Id && p.UserId == hairdressing.UserId);
 
                 if (patient == null)
                 {
@@ -445,17 +459,26 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException(ExceptionMessages.AppointmentAlreadyTaken);
                 }
 
-                dbContext.Hairdressing_Appointments.Add(new Hairdressing_Appointment
+                var hairdressingAppointment = new Hairdressing_Appointment
                 {
                     ProfessionalId = requestAppointmentDto.ProfessionalId,
                     Professional = prof,
                     DateTime = appointment,
                     State = AppointmentStateEnum.Reserved,
                     PatientId = patient.Id,
-                    UserId = hairdresing.UserId
-                });
+                    UserId = hairdressing.UserId
+                };
+
+                dbContext.Hairdressing_Appointments.Add(hairdressingAppointment);
 
                 dbContext.SaveChanges();
+
+                var paymentLink = GeneratePaymentLink(hairdressing, hairdressingAppointment, client.User.Email);
+
+                return new PaymentDto
+                {
+                    PaymentLink = paymentLink
+                };
             }
         }
 
@@ -790,6 +813,35 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
 
             return userId.Value;
+        }
+
+        private string GeneratePaymentLink(Hairdressing hairdressing, Hairdressing_Appointment hairdressingAppointment, string userEmail)
+        {
+            SDK.ClientId = hairdressing.ClientId;
+            SDK.ClientSecret = hairdressing.ClientSecret;
+
+            // Create a preference object
+            Preference preference = new Preference();
+            preference.Items.Add(
+              new Item()
+              {
+                  Id = hairdressingAppointment.ToString(),
+                  Title = $"Turno en peluqueria '{hairdressing.Name}' el dia {hairdressingAppointment.DateTime.ToShortDateString()} en el horario {hairdressingAppointment.DateTime.ToShortDateString()}",
+                  Quantity = 1,
+                  CurrencyId = CurrencyId.ARS,
+                  UnitPrice = hairdressingAppointment?.Professional?.Subspecialty?.Price ?? 1
+              }
+            );
+
+            preference.Payer = new Payer()
+            {
+                Email = userEmail
+            };
+
+            // Save and posting preference
+            preference.Save();
+
+            return preference.SandboxInitPoint;
         }
     }
 }
