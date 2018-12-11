@@ -157,7 +157,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 var client = new SystemClient
                 {
-                    UserId = appUser.Id
+                    UserId = appUser.Id,
+                    FirstName = requestAppointmentDto.FirstName,
+                    LastName = requestAppointmentDto.LastName,
+                    Address = requestAppointmentDto.Address,
+                    PhoneNumber = requestAppointmentDto.PhoneNumber,
+                    Dni = requestAppointmentDto.Dni,
                 };
 
                 dbContext.Clients.Add(client);
