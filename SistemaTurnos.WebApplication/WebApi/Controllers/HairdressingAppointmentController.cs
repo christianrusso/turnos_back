@@ -16,11 +16,8 @@ using SistemaTurnos.Database.ClinicModel;
 using SistemaTurnos.Commons.Authorization;
 using SistemaTurnos.Commons.Exceptions;
 using SistemaTurnos.WebApplication.WebApi.Dto.Email;
-using MercadoPago;
-using MercadoPago.Common;
-using MercadoPago.Resources;
-using MercadoPago.DataStructures.Preference;
 using SistemaTurnos.WebApplication.WebApi.Dto.Payment;
+using SistemaTurnos.WebApplication.WebApi.Dto.MercadoPago;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
 {
@@ -32,6 +29,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly EmailService emailService = new EmailService();
+        private readonly MercadoPagoService mercadoPagoService = new MercadoPagoService();
 
         public HairdressingAppointmentController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
         {
@@ -817,31 +815,19 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
         private string GeneratePaymentLink(Hairdressing hairdressing, Hairdressing_Appointment hairdressingAppointment, string userEmail)
         {
-            SDK.ClientId = hairdressing.ClientId;
-            SDK.ClientSecret = hairdressing.ClientSecret;
-
-            // Create a preference object
-            Preference preference = new Preference();
-            preference.Items.Add(
-              new Item()
-              {
-                  Id = hairdressingAppointment.ToString(),
-                  Title = $"Turno en peluqueria '{hairdressing.Name}' el dia {hairdressingAppointment.DateTime.ToShortDateString()} en el horario {hairdressingAppointment.DateTime.ToShortDateString()}",
-                  Quantity = 1,
-                  CurrencyId = CurrencyId.ARS,
-                  UnitPrice = hairdressingAppointment?.Professional?.Subspecialty?.Price ?? 1
-              }
-            );
-
-            preference.Payer = new Payer()
+            if (!hairdressing.RequiresPayment)
             {
-                Email = userEmail
-            };
+                return string.Empty;
+            }
 
-            // Save and posting preference
-            preference.Save();
-
-            return preference.SandboxInitPoint;
+            return mercadoPagoService.GeneratePaymentLink(new MpRequestDto
+            {
+                ClientId = hairdressing.ClientId,
+                ClientSecret = hairdressing.ClientSecret,
+                Title = $"Turno en peluqueria '{hairdressing.Name}' el dia {hairdressingAppointment.DateTime.ToShortDateString()} en el horario {hairdressingAppointment.DateTime.ToShortTimeString()}",
+                Price = hairdressingAppointment?.Professional?.Subspecialty?.Price ?? 1,
+                BuyerEmail = userEmail,
+            });
         }
     }
 }

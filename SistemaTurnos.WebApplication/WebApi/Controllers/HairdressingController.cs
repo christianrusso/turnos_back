@@ -330,8 +330,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 }
 
                 hairdressingToUpdate.RequiresPayment = dto.Require;
-                hairdressingToUpdate.ClientId = dto.ClientId;
-                hairdressingToUpdate.ClientSecret = dto.ClientSecret;
+                hairdressingToUpdate.ClientId = dto.Require ? dto.ClientId : string.Empty;
+                hairdressingToUpdate.ClientSecret = dto.Require ? dto.ClientSecret : string.Empty;
 
                 dbContext.SaveChanges();
             }
