@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SistemaTurnos.WebApplication.WebApi.Dto.Email;
+using SistemaTurnos.WebApplication.WebApi.Dto.MercadoPago;
 using SistemaTurnos.WebApplication.WebApi.Services;
 using System.Collections.Generic;
 
@@ -20,6 +21,19 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 To = new List<string>() { "fernando.gmz12@gmail.com", "christian.russo8@gmail.com" },
                 Subject = "Sistema de turnos",
                 Message = "<strong>MENSAJE DE PRUEBA CON ESTILOS EN HTML</strong>"
+            });
+        }
+
+        [HttpPost]
+        public void Pay()
+        {
+            new MercadoPagoService().GeneratePaymentLink(new MpRequestDto
+            {
+                ClientId = "2128552166781000",
+                ClientSecret = "xt23Yx9BO3wqXO26aHWlzxvTuw7vFo6G",
+                Title = "pruebitaaa",
+                Price = 86,
+                BuyerEmail = "christian.russo8@gmail.com",
             });
         }
     }

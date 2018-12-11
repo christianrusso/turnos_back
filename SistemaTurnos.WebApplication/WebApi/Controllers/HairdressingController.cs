@@ -243,7 +243,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         Subspecialties = subspecialties.Select(sp => sp.Data.Description).ToList(),
                         Logo = hairdressing.Logo,
                         OpenCloseHours = hairdressing.OpenCloseHours.Select(och => new OpenCloseHoursDto { DayNumber = och.DayNumber, Start = och.Start, End = och.End }).ToList(),
-                        IsFavorite = favoriteHairdressings.Any(f => f.HairdressingId == hairdressing.Id)
+                        IsFavorite = favoriteHairdressings.Any(f => f.HairdressingId == hairdressing.Id),
+                        RequiresPayment = hairdressing.RequiresPayment
                     });
                 }
             }
@@ -329,6 +330,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 }
 
                 hairdressingToUpdate.RequiresPayment = dto.Require;
+                hairdressingToUpdate.ClientId = dto.Require ? dto.ClientId : string.Empty;
+                hairdressingToUpdate.ClientSecret = dto.Require ? dto.ClientSecret : string.Empty;
 
                 dbContext.SaveChanges();
             }

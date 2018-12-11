@@ -55,7 +55,7 @@ namespace SistemaTurnos.Populator
             // Creo peluquerias
             Console.Write("Peluquerias\t\t\t");
             // email,  password,  name,  description,  city,  address,  latitude,  longitude
-            var hairdressing1 = CreateHairdressingUser("peluqueria1@asd.com", "peluqueria1@asd.com", "Peluqueria 1", "Peluqueria de Villa Bosch 1", "Villa Bosch", "Jose Maria Bosch 951", -34.5883457, -58.5732785);
+            var hairdressing1 = CreateHairdressingUser("peluqueria1@asd.com", "peluqueria1@asd.com", "Peluqueria 1", "Peluqueria de Villa Bosch 1", "Villa Bosch", "Jose Maria Bosch 951", -34.5883457, -58.5732785, true, "2128552166781000", "xt23Yx9BO3wqXO26aHWlzxvTuw7vFo6G");
             Console.Write("OK\n");
 
             // Creo empleados
@@ -443,7 +443,7 @@ namespace SistemaTurnos.Populator
             return clinic;
         }
 
-        private Hairdressing CreateHairdressingUser(string email, string password, string name, string description, string city, string address, double latitude, double longitude)
+        private Hairdressing CreateHairdressingUser(string email, string password, string name, string description, string city, string address, double latitude, double longitude, bool requiresPayment, string clientId, string clientSecret)
         {
             Hairdressing hairdressing;
 
