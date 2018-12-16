@@ -15,6 +15,9 @@ using SistemaTurnos.WebApplication.WebApi.Services;
 using SistemaTurnos.Commons.Authorization;
 using SistemaTurnos.Commons.Exceptions;
 using System;
+using Microsoft.AspNetCore.Identity;
+using SistemaTurnos.Database.Model;
+using SistemaTurnos.Database.ModelData;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
 {
@@ -24,10 +27,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
     public class ClinicController : Controller
     {
         private BusinessPlaceService _service;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ClinicController()
+        public ClinicController(UserManager<ApplicationUser> userManager)
         {
             _service = new BusinessPlaceService();
+            _userManager = userManager;
         }
 
         /// <summary>
@@ -39,7 +44,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 Clinic clinicToUpdate = dbContext.Clinics.FirstOrDefault(c => c.Id == hoursDto.ClinicId && c.UserId == userId);
 
@@ -124,6 +129,62 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 if (!string.IsNullOrWhiteSpace(clinicDto.Logo))
                 {
                     clinicToUpdate.Logo = clinicDto.Logo;
+                }
+
+                if (clinicDto.OpenCloseHours.Any())
+                {
+                    // Valido los datos de los horarios
+                    var openCloseHours = clinicDto.OpenCloseHours.OrderBy(wh => wh.DayNumber).ThenBy(wh => wh.Start).ToList();
+
+                    int previousDayNumber = -1;
+
+                    foreach (var och in openCloseHours)
+                    {
+                        if (((int)och.DayNumber) <= previousDayNumber || och.Start > och.End)
+                        {
+                            throw new BadRequestException();
+                        }
+
+                        previousDayNumber = (int)och.DayNumber;
+                    }
+
+                    clinicToUpdate.OpenCloseHours.ForEach(och => dbContext.Entry(och).State = EntityState.Deleted);
+
+                    var newOpenCloseHours = clinicDto.OpenCloseHours.Select(wh => new Clinic_OpenCloseHours
+                    {
+                        DayNumber = wh.DayNumber,
+                        Start = wh.Start,
+                        End = wh.End
+                    }).ToList();
+
+                    clinicToUpdate.OpenCloseHours = newOpenCloseHours;
+                }
+
+                if (!string.IsNullOrWhiteSpace(clinicDto.OldPassword) && !string.IsNullOrWhiteSpace(clinicDto.NewPassword))
+                {
+                    var appUser = _userManager.Users.SingleOrDefault(user => user.Id == userId);
+
+                    if (appUser == null)
+                    {
+                        throw new ApplicationException(ExceptionMessages.UserDoesNotExists);
+                    }
+
+                    var resultChangePassword = _userManager.ChangePasswordAsync(appUser, clinicDto.OldPassword, clinicDto.NewPassword).Result;
+
+                    if (!resultChangePassword.Succeeded)
+                    {
+                        throw new ApplicationException(ExceptionMessages.InternalServerError);
+                    }
+                }
+
+                if (clinicDto.Images.Any())
+                {
+                    clinicToUpdate.Images.ForEach(i => dbContext.Entry(i).State = EntityState.Deleted);
+                    clinicToUpdate.Images = clinicDto.Images.Select(i => new Image
+                    {
+                        Data = i,
+                        UserId = userId
+                    }).ToList();
                 }
 
                 dbContext.SaveChanges();

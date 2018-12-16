@@ -6,7 +6,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
 {
     public class MercadoPagoService
     {
-        public string GeneratePaymentLink(MpRequestDto request)
+        public MpPaymentInformationDto GeneratePaymentLink(MpRequestDto request)
         {
             var client = new RestClient("https://api.mercadopago.com");
 
@@ -42,14 +42,25 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
                 payer = new MpPayerDto
                 {
                     email = request.BuyerEmail
-                }
+                },
+                back_urls = new MpBackUrlsDto
+                {
+                    success = "https://www.orbitsa.xyz/#/success",
+                    failure = "https://www.orbitsa.xyz/#/failure",
+                    pending = "https://www.orbitsa.xyz/#/pending",
+                },
+                notification_url = "https://www.orbitsa.xyz/Api/Hairdressing/HairdressingAppointment/UpdatePaymentInformation"
             };
 
             preferenceRequest.AddJsonBody(preferencePayload);
 
             var preferenceResponse = client.Execute<MpPreferenceResponseDto>(preferenceRequest);
 
-            return preferenceResponse.Data.sandbox_init_point;
+            return new MpPaymentInformationDto
+            {
+                PaymentLink = preferenceResponse.Data.sandbox_init_point,
+                PreferenceId = preferenceResponse.Data.id
+            };
         }
     }
 }

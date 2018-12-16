@@ -8,6 +8,7 @@ using SistemaTurnos.Database.TypeConfigurations;
 using SistemaTurnos.Database.TypeConfigurations.Clinic;
 using SistemaTurnos.Database.TypeConfigurations.Hairdressing;
 using Microsoft.EntityFrameworkCore.InMemory.Infrastructure.Internal;
+using SistemaTurnos.Database.TypeConfigurations.Data;
 
 namespace SistemaTurnos.Database
 {
@@ -16,8 +17,8 @@ namespace SistemaTurnos.Database
         private const string databaseServer = "localhost";
         private const string databaseName = "sistematurnos";
         private const string databaseUser = "root";
-        //private const string databasePass = "1682951";
-        private const string databasePass = "1682951!Abmtoba";
+        private const string databasePass = "1682951";
+        //private const string databasePass = "fernando";
         //private const string databasePass = "tito1234H6*";
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) 
@@ -39,6 +40,9 @@ namespace SistemaTurnos.Database
             // Application
             modelBuilder.ApplyConfiguration(new ApplicationUserTypeConfiguration());
             modelBuilder.ApplyConfiguration(new ApplicationRoleTypeConfiguration());
+
+            // Data
+            modelBuilder.ApplyConfiguration(new ImageTypeConfiguration());
 
             // Clinic
             modelBuilder.ApplyConfiguration(new Clinic_AppointmentTypeConfiguration());
@@ -109,6 +113,8 @@ namespace SistemaTurnos.Database
         public DbSet<MedicalPlanData> MedicalPlans { get; set; }
 
         public DbSet<City> Cities { get; set; }
+
+        public DbSet<Image> Images { get; set; }
 
         // Hairdressing Model
         public DbSet<Hairdressing_Specialty> Hairdressing_Specialties { get; set; }

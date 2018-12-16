@@ -25,9 +25,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
-        public void Pay()
+        public MpPaymentInformationDto Pay()
         {
-            new MercadoPagoService().GeneratePaymentLink(new MpRequestDto
+            return new MercadoPagoService().GeneratePaymentLink(new MpRequestDto
             {
                 ClientId = "2128552166781000",
                 ClientSecret = "xt23Yx9BO3wqXO26aHWlzxvTuw7vFo6G",

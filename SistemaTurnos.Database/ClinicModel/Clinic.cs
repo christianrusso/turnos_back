@@ -26,6 +26,8 @@ namespace SistemaTurnos.Database.ClinicModel
 
         public string Logo { get; set; }
 
+        public virtual List<Image> Images { get; set; }
+
         [Required]
         public int CityId { get; set; }
 

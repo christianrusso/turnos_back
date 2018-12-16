@@ -4,6 +4,8 @@
     {
         public int Professionals { get; set; }
 
+        public int ActiveProfessionals { get; set; }
+
         public int Patients { get; set; }
 
         public int Specialties { get; set; }

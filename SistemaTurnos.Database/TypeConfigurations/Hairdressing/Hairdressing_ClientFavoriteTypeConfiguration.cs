@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SistemaTurnos.Database.ClinicModel;
 using SistemaTurnos.Database.HairdressingModel;
 
 namespace SistemaTurnos.Database.TypeConfigurations.Clinic

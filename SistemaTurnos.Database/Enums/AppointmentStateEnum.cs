@@ -11,6 +11,9 @@ namespace SistemaTurnos.Database.Enums
         Cancelled = 2,
 
         [Description("Completado")]
-        Completed = 3
+        Completed = 3,
+
+        [Description("Pagado")]
+        Paid = 4
     }
 }

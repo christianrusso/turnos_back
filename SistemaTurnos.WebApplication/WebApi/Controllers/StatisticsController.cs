@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SistemaTurnos.Commons.Exceptions;
 using SistemaTurnos.Database;
@@ -16,6 +17,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
     public class StatisticsController : Controller
     {
         [HttpGet]
+        [Authorize]
         public StatisticsFullDto GetForClinic()
         {
             using (var dbContext = new ApplicationDbContext())
@@ -27,6 +29,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
+                var now = DateTime.Now;
                 var todayStart = DateTime.Today;
                 var todayEnd = DateTime.Today.AddHours(23).AddMinutes(59).AddSeconds(59);
                 var appointments = dbContext.Clinic_Appointments.Where(a => a.UserId == userId).ToList();
@@ -34,6 +37,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 return new StatisticsFullDto
                 {
                     Professionals = dbContext.Clinic_Doctors.Count(d => d.UserId == userId),
+                    ActiveProfessionals = dbContext.Clinic_Doctors.Count(d => d.UserId == userId && d.IsActive(now)),
                     Patients = dbContext.Clinic_Patients.Count(p => p.UserId == userId),
                     Specialties = dbContext.Clinic_Specialties.Count(s => s.UserId == userId),
                     MedicalInsurances = dbContext.Clinic_MedicalInsurances.Count(mi => mi.UserId == userId),
@@ -46,6 +50,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public StatisticsFullDto GetForHairdressing()
         {
             using (var dbContext = new ApplicationDbContext())
@@ -57,6 +62,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
+                var now = DateTime.Now;
                 var todayStart = DateTime.Today;
                 var todayEnd = DateTime.Today.AddHours(23).AddMinutes(59).AddSeconds(59);
                 var appointments = dbContext.Hairdressing_Appointments.Where(a => a.UserId == userId).ToList();
@@ -64,6 +70,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 return new StatisticsFullDto
                 {
                     Professionals = dbContext.Hairdressing_Professionals.Count(d => d.UserId == userId),
+                    ActiveProfessionals = dbContext.Hairdressing_Professionals.Count(d => d.UserId == userId && d.IsActive(now)),
                     Patients = dbContext.Hairdressing_Patients.Count(p => p.UserId == userId),
                     Specialties = dbContext.Hairdressing_Specialties.Count(s => s.UserId == userId),
                     MedicalInsurances = 0,
