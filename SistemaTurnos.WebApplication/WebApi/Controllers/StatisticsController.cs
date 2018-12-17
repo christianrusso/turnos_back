@@ -3,10 +3,13 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SistemaTurnos.Commons.Exceptions;
 using SistemaTurnos.Database;
+using SistemaTurnos.Database.ClinicModel;
 using SistemaTurnos.Database.Enums;
+using SistemaTurnos.Database.HairdressingModel;
 using SistemaTurnos.WebApplication.WebApi.Dto.Statistics;
 using SistemaTurnos.WebApplication.WebApi.Services;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
@@ -37,7 +40,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 return new StatisticsFullDto
                 {
                     Professionals = dbContext.Clinic_Doctors.Count(d => d.UserId == userId),
-                    ActiveProfessionals = dbContext.Clinic_Doctors.Count(d => d.UserId == userId && d.IsActive(now)),
+                    ActiveProfessionals = dbContext.Clinic_Doctors.Count(d => d.UserId == userId && IsActive(d.WorkingHours, now)),
                     Patients = dbContext.Clinic_Patients.Count(p => p.UserId == userId),
                     Specialties = dbContext.Clinic_Specialties.Count(s => s.UserId == userId),
                     MedicalInsurances = dbContext.Clinic_MedicalInsurances.Count(mi => mi.UserId == userId),
@@ -70,7 +73,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 return new StatisticsFullDto
                 {
                     Professionals = dbContext.Hairdressing_Professionals.Count(d => d.UserId == userId),
-                    ActiveProfessionals = dbContext.Hairdressing_Professionals.Count(d => d.UserId == userId && d.IsActive(now)),
+                    ActiveProfessionals = dbContext.Hairdressing_Professionals.Count(d => d.UserId == userId && IsActive(d.WorkingHours, now)),
                     Patients = dbContext.Hairdressing_Patients.Count(p => p.UserId == userId),
                     Specialties = dbContext.Hairdressing_Specialties.Count(s => s.UserId == userId),
                     MedicalInsurances = 0,
@@ -80,6 +83,16 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     TodayAppointments = appointments.Count(a => todayStart <= a.DateTime && a.DateTime <= todayEnd)
                 };
             }
+        }
+
+        private bool IsActive(List<Clinic_WorkingHours> workingHours, DateTime dateTime)
+        {
+            return workingHours.Any(wh => wh.DayNumber == dateTime.DayOfWeek && wh.Start <= dateTime.TimeOfDay && dateTime.TimeOfDay <= wh.End);
+        }
+
+        private bool IsActive(List<Hairdressing_WorkingHours> workingHours, DateTime dateTime)
+        {
+            return workingHours.Any(wh => wh.DayNumber == dateTime.DayOfWeek && wh.Start <= dateTime.TimeOfDay && dateTime.TimeOfDay <= wh.End);
         }
     }
 }

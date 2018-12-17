@@ -221,7 +221,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         SubspecialtyId = d.SubspecialtyId,
                         SubspecialtyDescription = d.Subspecialty != null ? d.Subspecialty.Data.Description : "Ninguna",
                         ConsultationLength = d.ConsultationLength,
-                        State = d.IsActive(now),
+                        State = d.WorkingHours.Any(wh => wh.DayNumber == now.DayOfWeek && wh.Start <= now.TimeOfDay && now.TimeOfDay <= wh.End),
                         WorkingHours = d.WorkingHours.Select(wh => new WorkingHoursDto { DayNumber = wh.DayNumber, Start = wh.Start, End = wh.End }).OrderBy(wh => wh.DayNumber).ToList(),
                         Appointments = d.Appointments.OrderBy(a => a.DateTime).Take(10).Select(a => a.DateTime).ToList()
                     }).ToList();
