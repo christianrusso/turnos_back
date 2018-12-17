@@ -397,11 +397,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.SaveChanges();
 
-                var paymentLink = GeneratePaymentLink(hairdressing, hairdressingAppointment, client.User.Email);
+                var paymentInformation = GeneratePaymentLink(hairdressing, hairdressingAppointment, client.User.Email);
+                hairdressingAppointment.PreferenceId = paymentInformation.PreferenceId;
 
                 return new PaymentDto
                 {
-                    PaymentLink = paymentLink
+                    PaymentLink = paymentInformation.PaymentLink
                 };
             }
         }
@@ -471,11 +472,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.SaveChanges();
 
-                var paymentLink = GeneratePaymentLink(hairdressing, hairdressingAppointment, client.User.Email);
+                var paymentInformation = GeneratePaymentLink(hairdressing, hairdressingAppointment, client.User.Email);
+                hairdressingAppointment.PreferenceId = paymentInformation.PreferenceId;
 
                 return new PaymentDto
                 {
-                    PaymentLink = paymentLink
+                    PaymentLink = paymentInformation.PaymentLink
                 };
             }
         }
@@ -537,7 +539,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var userId = GetUserId();
 
                 var appointment = dbContext.Hairdressing_Appointments.FirstOrDefault(a => a.Id == completeAppointmentDto.Id && a.UserId == userId);
-                var hairdressing = dbContext.Hairdressings.FirstOrDefault(c => c.UserId == appointment.UserId);
+                var hairdressing = dbContext.Hairdressings.FirstOrDefault(c => c.UserId == userId);
 
                 if (appointment == null)
                 {
@@ -578,7 +580,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                var appointment = dbContext.Hairdressing_Appointments.FirstOrDefault(a => a.Id == cancelAppointmentDto.Id && a.UserId == userId);
+                var appointment = dbContext.Hairdressing_Appointments.FirstOrDefault(a => a.Id == cancelAppointmentDto.Id && a.State != AppointmentStateEnum.Completed);
 
                 if (appointment == null)
                 {
@@ -608,10 +610,17 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
-                var appointment = dbContext.Hairdressing_Appointments.FirstOrDefault(a => a.Id == completeAppointmentDto.Id && a.UserId == userId);
-                var hairdressing = dbContext.Hairdressings.FirstOrDefault(c => c.UserId == appointment.UserId);
+                var appointment = dbContext.Hairdressing_Appointments.FirstOrDefault(a => a.Id == completeAppointmentDto.Id);
+                var hairdressing = dbContext.Hairdressings.FirstOrDefault(c => c.UserId == appointment.Professional.UserId);
 
                 if (appointment == null)
+                {
+                    throw new BadRequestException();
+                }
+
+                var appointmentRequiredState = hairdressing.RequiresPayment ? AppointmentStateEnum.Paid : AppointmentStateEnum.Reserved;
+
+                if  (appointment.State != appointmentRequiredState)
                 {
                     throw new BadRequestException();
                 }
@@ -801,6 +810,30 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             return res;
         }
 
+        [HttpPost]
+        public void UpdatePaymentInformation([FromQuery(Name = "topic")] string topic, [FromQuery(Name = "id")] string id)
+        {
+            Console.WriteLine($"Received payment notification. Topic: {topic}, Id: {id}");
+
+            if (topic != "payment")
+            {
+                return;
+            }
+
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var preference = dbContext.Hairdressing_Appointments.FirstOrDefault(a => a.PreferenceId == id);
+
+                if (preference == null)
+                {
+                    throw new BadRequestException();
+                }
+
+                preference.State = AppointmentStateEnum.Paid;
+                dbContext.SaveChanges();
+            }
+        }
+
         private int GetUserId()
         {
             int? userId = (int?)HttpContext.Items["userId"];
@@ -813,11 +846,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             return userId.Value;
         }
 
-        private string GeneratePaymentLink(Hairdressing hairdressing, Hairdressing_Appointment hairdressingAppointment, string userEmail)
+        private MpPaymentInformationDto GeneratePaymentLink(Hairdressing hairdressing, Hairdressing_Appointment hairdressingAppointment, string userEmail)
         {
             if (!hairdressing.RequiresPayment)
             {
-                return string.Empty;
+                return new MpPaymentInformationDto
+                {
+                    PaymentLink = string.Empty,
+                    PreferenceId = string.Empty
+                };
             }
 
             return mercadoPagoService.GeneratePaymentLink(new MpRequestDto

@@ -31,6 +31,8 @@ namespace SistemaTurnos.Database.HairdressingModel
 
         public virtual Hairdressing_Patient Patient { get; set; }
 
+        public string PreferenceId { get; set; }
+
         [Required]
         public int UserId { get; set; }
 

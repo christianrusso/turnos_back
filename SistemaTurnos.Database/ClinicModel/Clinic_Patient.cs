@@ -11,8 +11,6 @@ namespace SistemaTurnos.Database.ClinicModel
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        
-
         public int MedicalPlanId { get; set; }
 
         public virtual Clinic_MedicalPlan MedicalPlan { get; set; }

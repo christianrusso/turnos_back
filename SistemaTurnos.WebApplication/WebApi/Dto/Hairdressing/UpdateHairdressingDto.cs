@@ -1,9 +1,9 @@
-using SistemaTurnos.WebApplication.WebApi.Dto.Common;
+﻿using SistemaTurnos.WebApplication.WebApi.Dto.Common;
 using System.Collections.Generic;
 
-namespace SistemaTurnos.WebApplication.WebApi.Dto.Clinic
+namespace SistemaTurnos.WebApplication.WebApi.Dto.Hairdressing
 {
-    public class UpdateClinicDto
+    public class UpdateHairdressingDto
     {
         public string Address { get; set; }
 
@@ -24,5 +24,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Clinic
         public List<OpenCloseHoursDto> OpenCloseHours { get; set; }
 
         public List<string> Images { get; set; }
+
+        public bool Require { get; set; }
+
+        public string ClientId { get; set; }
+
+        public string ClientSecret { get; set; }
     }
 }

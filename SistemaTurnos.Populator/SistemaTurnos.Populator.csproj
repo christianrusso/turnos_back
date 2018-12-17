@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Populator.cs~RF1185aab0.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SistemaTurnos.Commons\SistemaTurnos.Commons.csproj" />
     <ProjectReference Include="..\SistemaTurnos.Database\SistemaTurnos.Database.csproj" />
   </ItemGroup>

@@ -15,6 +15,9 @@ using SistemaTurnos.WebApplication.WebApi.Services;
 using SistemaTurnos.Commons.Authorization;
 using SistemaTurnos.Commons.Exceptions;
 using System;
+using Microsoft.AspNetCore.Identity;
+using SistemaTurnos.Database.Model;
+using SistemaTurnos.Database.ModelData;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
 {
@@ -24,10 +27,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
     public class HairdressingController : Controller
     {
         private BusinessPlaceService _service;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public HairdressingController()
+        public HairdressingController(UserManager<ApplicationUser> userManager)
         {
             _service = new BusinessPlaceService();
+            _userManager = userManager;
         }
 
         [HttpPost]
@@ -332,6 +337,118 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 hairdressingToUpdate.RequiresPayment = dto.Require;
                 hairdressingToUpdate.ClientId = dto.Require ? dto.ClientId : string.Empty;
                 hairdressingToUpdate.ClientSecret = dto.Require ? dto.ClientSecret : string.Empty;
+
+                dbContext.SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// Actualiza los datos de una peluqueria dada.
+        /// </summary>
+        [HttpPost]
+        [Authorize(Roles = Roles.Administrator)]
+        public void UpdateInformation([FromBody] UpdateHairdressingDto hairdressingDto)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = _service.GetUserId(HttpContext);
+
+                var hairdressingToUpdate = dbContext.Hairdressings.FirstOrDefault(c => c.UserId == userId);
+
+                if (hairdressingToUpdate == null)
+                {
+                    throw new BadRequestException();
+                }
+
+                if (!string.IsNullOrWhiteSpace(hairdressingDto.Address))
+                {
+                    hairdressingToUpdate.Address = hairdressingDto.Address;
+                }
+
+                if (!string.IsNullOrWhiteSpace(hairdressingDto.Description))
+                {
+                    hairdressingToUpdate.Description = hairdressingDto.Description;
+                }
+
+                if (hairdressingDto.CityId.HasValue)
+                {
+                    hairdressingToUpdate.CityId = hairdressingDto.CityId.Value;
+                }
+
+                if (hairdressingDto.Latitude.HasValue)
+                {
+                    hairdressingToUpdate.Latitude = hairdressingDto.Latitude.Value;
+                }
+
+                if (hairdressingDto.Longitude.HasValue)
+                {
+                    hairdressingToUpdate.Longitude = hairdressingDto.Longitude.Value;
+                }
+
+                if (!string.IsNullOrWhiteSpace(hairdressingDto.Logo))
+                {
+                    hairdressingToUpdate.Logo = hairdressingDto.Logo;
+                }
+
+                if (hairdressingDto.OpenCloseHours.Any())
+                {
+                    // Valido los datos de los horarios
+                    var openCloseHours = hairdressingDto.OpenCloseHours.OrderBy(wh => wh.DayNumber).ThenBy(wh => wh.Start).ToList();
+
+                    int previousDayNumber = -1;
+
+                    foreach (var och in openCloseHours)
+                    {
+                        if (((int)och.DayNumber) <= previousDayNumber || och.Start > och.End)
+                        {
+                            throw new BadRequestException();
+                        }
+
+                        previousDayNumber = (int)och.DayNumber;
+                    }
+
+                    hairdressingToUpdate.OpenCloseHours.ForEach(och => dbContext.Entry(och).State = EntityState.Deleted);
+
+                    var newOpenCloseHours = hairdressingDto.OpenCloseHours.Select(wh => new Hairdressing_OpenCloseHours
+                    {
+                        DayNumber = wh.DayNumber,
+                        Start = wh.Start,
+                        End = wh.End
+                    }).ToList();
+
+                    hairdressingToUpdate.OpenCloseHours = newOpenCloseHours;
+                }
+
+                if (!string.IsNullOrWhiteSpace(hairdressingDto.OldPassword) && !string.IsNullOrWhiteSpace(hairdressingDto.NewPassword))
+                {
+                    var appUser = _userManager.Users.SingleOrDefault(user => user.Id == userId);
+
+                    if (appUser == null)
+                    {
+                        throw new ApplicationException(ExceptionMessages.UserDoesNotExists);
+                    }
+
+                    var resultChangePassword = _userManager.ChangePasswordAsync(appUser, hairdressingDto.OldPassword, hairdressingDto.NewPassword).Result;
+
+                    if (!resultChangePassword.Succeeded)
+                    {
+                        throw new ApplicationException(ExceptionMessages.InternalServerError);
+                    }
+                }
+
+                if (hairdressingDto.Images.Any())
+                {
+                    hairdressingToUpdate.Images.ForEach(i => dbContext.Entry(i).State = EntityState.Deleted);
+                    hairdressingToUpdate.Images = hairdressingDto.Images.Select(i => new Image
+                    {
+                        Data = i,
+                        UserId = userId
+                    }).ToList();
+                }
+
+                hairdressingToUpdate.RequiresPayment = hairdressingDto.Require;
+                hairdressingToUpdate.ClientId = hairdressingDto.Require ? hairdressingDto.ClientId : string.Empty;
+                hairdressingToUpdate.ClientSecret = hairdressingDto.Require ? hairdressingDto.ClientSecret : string.Empty;
 
                 dbContext.SaveChanges();
             }

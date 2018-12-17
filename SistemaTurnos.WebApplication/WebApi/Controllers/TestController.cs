@@ -25,9 +25,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
-        public void Pay()
+        public MpPaymentInformationDto Pay()
         {
-            var a = new MercadoPagoService().GeneratePaymentLink(new MpRequestDto
+
+            return new MercadoPagoService().GeneratePaymentLink(new MpRequestDto
             {
                 ClientId = "2128552166781000",
                 ClientSecret = "xt23Yx9BO3wqXO26aHWlzxvTuw7vFo6G",
@@ -36,7 +37,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 BuyerEmail = "christian.russo8@gmail.com",
             });
             
-            var b = new MercadoPagoService().GeneratePaymentLink(new MpRequestDto
+            new MercadoPagoService().GeneratePaymentLink(new MpRequestDto
             {
                 ClientId = "4986484432940194",
                 ClientSecret = "numE4yM1DbHWzSHBw3lnTfTRgZ6nW1NX",
