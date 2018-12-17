@@ -89,10 +89,5 @@ namespace SistemaTurnos.Database.HairdressingModel
 
             return availableAppointments;
         }
-
-        public bool IsActive(DateTime dateTime)
-        {
-            return WorkingHours.Any(wh => wh.DayNumber == dateTime.DayOfWeek && wh.Start <= dateTime.TimeOfDay && dateTime.TimeOfDay <= wh.End);
-        }
     }
 }
