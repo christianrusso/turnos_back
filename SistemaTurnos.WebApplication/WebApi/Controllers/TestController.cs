@@ -29,11 +29,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             return new MercadoPagoService().GeneratePaymentLink(new MpRequestDto
             {
-                ClientId = "2128552166781000",
-                ClientSecret = "xt23Yx9BO3wqXO26aHWlzxvTuw7vFo6G",
+                ClientId = "5351800290861040",
+                ClientSecret = "is9T7uCAk2GGAUolTSatjwegqcAog90e",
                 Title = "pruebitaaa",
-                Price = 86,
-                BuyerEmail = "christian.russo8@gmail.com",
+                Price = 315
             });
         }
     }
