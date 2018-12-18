@@ -398,6 +398,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.SaveChanges();
 
                 var paymentInformation = GeneratePaymentLink(hairdressing, hairdressingAppointment, client.User.Email);
+
+                if (paymentInformation == null)
+                {
+                    throw new ApplicationException(ExceptionMessages.InternalServerError);
+                }
+
                 hairdressingAppointment.PreferenceId = paymentInformation.PreferenceId;
 
                 return new PaymentDto
@@ -473,6 +479,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.SaveChanges();
 
                 var paymentInformation = GeneratePaymentLink(hairdressing, hairdressingAppointment, client.User.Email);
+
+                if (paymentInformation == null)
+                {
+                    throw new ApplicationException(ExceptionMessages.InternalServerError);
+                }
+
                 hairdressingAppointment.PreferenceId = paymentInformation.PreferenceId;
 
                 return new PaymentDto
@@ -810,8 +822,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             return res;
         }
 
-        [HttpPost]
-        public void UpdatePaymentInformation([FromQuery(Name = "topic")] string topic, [FromQuery(Name = "id")] string id)
+        [HttpPost("{sellerId:int}")]
+        public void UpdatePaymentInformation(int sellerId, [FromQuery(Name = "topic")] string topic, [FromQuery(Name = "id")] string id)
         {
             Console.WriteLine($"Received payment notification. Topic: {topic}, Id: {id}");
 
@@ -822,7 +834,33 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                var preference = dbContext.Hairdressing_Appointments.FirstOrDefault(a => a.PreferenceId == id);
+                var hairdressing = dbContext.Hairdressings.FirstOrDefault(h => h.Id == sellerId);
+
+                if (hairdressing == null)
+                {
+                    throw new BadRequestException();
+                }
+
+                var merchantOrder = mercadoPagoService.GetMerchantOrder(new MpGetMerchantOrderRequestDto
+                {
+                    ClientId = hairdressing.ClientId,
+                    ClientSecret = hairdressing.ClientSecret,
+                    MerchantOrderId = id
+                });
+
+                Console.WriteLine("Merchant Order: " + merchantOrder);
+
+                if (merchantOrder == null || string.IsNullOrWhiteSpace(merchantOrder.preference_id))
+                {
+                    throw new BadRequestException();
+                }
+
+                if (merchantOrder.paid_amount != merchantOrder.total_amount)
+                {
+                    return;
+                }
+
+                var preference = dbContext.Hairdressing_Appointments.FirstOrDefault(a => a.PreferenceId == merchantOrder.preference_id);
 
                 if (preference == null)
                 {
@@ -857,8 +895,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 };
             }
 
-            return mercadoPagoService.GeneratePaymentLink(new MpRequestDto
+            return mercadoPagoService.GeneratePaymentLink(new MpGeneratePaymentRequestDto
             {
+                SellerId = hairdressing.Id,
                 ClientId = hairdressing.ClientId,
                 ClientSecret = hairdressing.ClientSecret,
                 Title = $"Turno en peluqueria '{hairdressing.Name}' el dia {hairdressingAppointment.DateTime.ToShortDateString()} en el horario {hairdressingAppointment.DateTime.ToShortTimeString()}",

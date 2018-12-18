@@ -27,12 +27,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public MpPaymentInformationDto Pay()
         {
-            return new MercadoPagoService().GeneratePaymentLink(new MpRequestDto
+            return new MercadoPagoService().GeneratePaymentLink(new MpGeneratePaymentRequestDto
             {
+                SellerId = 1,
                 ClientId = "5351800290861040",
                 ClientSecret = "is9T7uCAk2GGAUolTSatjwegqcAog90e",
                 Title = "pruebitaaa",
-                Price = 315
+                Price = 315,
+                BuyerEmail = "christian.russo8@gmail.com",
             });
         }
     }
