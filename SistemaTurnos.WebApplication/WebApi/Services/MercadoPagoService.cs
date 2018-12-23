@@ -52,7 +52,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
                         failure = "https://www.orbitsa.xyz:4443/#/failure",
                         pending = "https://www.orbitsa.xyz:4443/#/pending",
                     },
-                    notification_url = $"https://www.orbitsa.xyz:4443/Api/Hairdressing/HairdressingAppointment/UpdatePaymentInformation/{request.SellerId}"
+                    notification_url = $"https://www.orbitsa.xyz:4443/Api/Hairdressing/HairdressingAppointment/UpdatePaymentInformation/{request.Id}"
                 };
 
                 preferenceRequest.AddJsonBody(preferencePayload);
