@@ -409,6 +409,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 }
 
                 hairdressingAppointment.PreferenceId = paymentInformation.PreferenceId;
+                dbContext.SaveChanges();
 
                 return new PaymentDto
                 {
@@ -491,6 +492,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 }
 
                 hairdressingAppointment.PreferenceId = paymentInformation.PreferenceId;
+                dbContext.SaveChanges();
 
                 return new PaymentDto
                 {
