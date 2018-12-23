@@ -48,11 +48,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
                     },
                     back_urls = new MpBackUrlsDto
                     {
-                        success = "https://www.orbitsa.xyz:4443/#/success",
-                        failure = "https://www.orbitsa.xyz:4443/#/failure",
-                        pending = "https://www.orbitsa.xyz:4443/#/pending",
+                        success = "https://www.todoreservas.com.ar:4443/#/success",
+                        failure = "https://www.todoreservas.com.ar:4443/#/failure",
+                        pending = "https://www.todoreservas.com.ar:4443/#/pending",
                     },
-                    notification_url = $"https://www.orbitsa.xyz:4443/Api/Hairdressing/HairdressingAppointment/UpdatePaymentInformation/{request.Id}"
+                    notification_url = $"https://www.todoreservas.com.ar:4443/Api/Hairdressing/HairdressingAppointment/UpdatePaymentInformation/{request.Id}"
                 };
 
                 preferenceRequest.AddJsonBody(preferencePayload);

@@ -44,7 +44,7 @@ namespace SistemaTurnos.WebApplication
                 })
                 .UseNLog()  // NLog: setup NLog for Dependency injection
                 .Build();
-                
+
 
         /* 
         public static IWebHost BuildWebHost(string[] args) =>
@@ -52,7 +52,7 @@ namespace SistemaTurnos.WebApplication
                 .UseKestrel(options =>
                 {
                     options.Listen(IPAddress.Any, 4443, listenOptions => {
-                        listenOptions.UseHttps("orbitsa.xyz.pfx", "1682951");
+                        listenOptions.UseHttps("todoreservas.com.ar.pfx", "1682951");
                     });
                 })
                 .UseStartup<Startup>()
