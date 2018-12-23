@@ -181,6 +181,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     Professional = prof,
                     DateTime = appointment,
                     State = AppointmentStateEnum.Reserved,
+                    Source = AppointmentSourceEnum.Panel,
                     PatientId = patient.Id,
                     UserId = userId
                 });
@@ -253,6 +254,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     Professional = prof,
                     DateTime = appointment,
                     State = AppointmentStateEnum.Reserved,
+                    Source = AppointmentSourceEnum.Panel,
                     PatientId = patient.Id,
                     UserId = userId
                 });
@@ -310,6 +312,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     Professional = prof,
                     DateTime = appointment,
                     State = AppointmentStateEnum.Reserved,
+                    Source = AppointmentSourceEnum.Panel,
                     PatientId = patient.Id,
                     UserId = userId
                 });
@@ -389,6 +392,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     Professional = prof,
                     DateTime = appointment,
                     State = AppointmentStateEnum.Reserved,
+                    Source = (AppointmentSourceEnum) requestAppointmentDto.Source,
                     PatientId = patient.Id,
                     UserId = hairdressing.UserId
                 };
@@ -470,6 +474,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     Professional = prof,
                     DateTime = appointment,
                     State = AppointmentStateEnum.Reserved,
+                    Source = (AppointmentSourceEnum)requestAppointmentDto.Source,
                     PatientId = patient.Id,
                     UserId = hairdressing.UserId
                 };

@@ -45,5 +45,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Clinic
         public int ResultSize { get; set; }
 
         public bool RequiresPayment { get; set; }
+
+        public List<string> Images { get; set; }
     }
 }

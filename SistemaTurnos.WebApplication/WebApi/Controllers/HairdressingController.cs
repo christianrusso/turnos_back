@@ -249,7 +249,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         Logo = hairdressing.Logo,
                         OpenCloseHours = hairdressing.OpenCloseHours.Select(och => new OpenCloseHoursDto { DayNumber = och.DayNumber, Start = och.Start, End = och.End }).ToList(),
                         IsFavorite = favoriteHairdressings.Any(f => f.HairdressingId == hairdressing.Id),
-                        RequiresPayment = hairdressing.RequiresPayment
+                        RequiresPayment = hairdressing.RequiresPayment,
+                        Images = hairdressing.Images.Select(i => i.Data).ToList()
                     });
                 }
             }
@@ -358,6 +359,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 if (hairdressingToUpdate == null)
                 {
                     throw new BadRequestException();
+                }
+
+                if (!string.IsNullOrWhiteSpace(hairdressingDto.Name))
+                {
+                    hairdressingToUpdate.Name = hairdressingDto.Name;
                 }
 
                 if (!string.IsNullOrWhiteSpace(hairdressingDto.Address))

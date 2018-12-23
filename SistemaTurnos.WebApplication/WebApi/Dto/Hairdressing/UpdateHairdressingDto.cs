@@ -5,6 +5,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Hairdressing
 {
     public class UpdateHairdressingDto
     {
+        public string Name { get; set; }
+
         public string Address { get; set; }
 
         public string Description { get; set; }
