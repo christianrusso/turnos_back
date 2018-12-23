@@ -830,7 +830,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost("{sellerId:int}")]
         public void UpdatePaymentInformation(int sellerId, [FromQuery(Name = "topic")] string topic, [FromQuery(Name = "id")] string id)
         {
-            Console.WriteLine($"Received payment notification. Topic: {topic}, Id: {id}");
+            Console.WriteLine($"Received payment notification. Seller Id: {sellerId}, Topic: {topic}, Merchant order Id: {id}");
 
             if (topic != "payment")
             {

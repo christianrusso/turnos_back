@@ -30,10 +30,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             return new MercadoPagoService().GeneratePaymentLink(new MpGeneratePaymentRequestDto
             {
                 SellerId = 1,
-                ClientId = "5351800290861040",
-                ClientSecret = "is9T7uCAk2GGAUolTSatjwegqcAog90e",
-                Title = "pruebitaaa",
-                Price = 315,
+                ClientId = "2128552166781000",
+                ClientSecret = "xt23Yx9BO3wqXO26aHWlzxvTuw7vFo6G",
+                Title = "Item de prueba",
+                Price = 10,
                 BuyerEmail = "christian.russo8@gmail.com",
             });
         }
