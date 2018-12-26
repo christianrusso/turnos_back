@@ -439,6 +439,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public ProfileDto GetProfile()
         {
             using (var dbContext = new ApplicationDbContext())
