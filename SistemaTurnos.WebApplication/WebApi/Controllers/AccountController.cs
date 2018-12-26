@@ -23,6 +23,8 @@ using SistemaTurnos.Database.HairdressingModel;
 using SistemaTurnos.Database.Enums;
 using SistemaTurnos.Commons.Authorization;
 using SistemaTurnos.Commons.Exceptions;
+using SistemaTurnos.WebApplication.WebApi.Services;
+using SistemaTurnos.WebApplication.WebApi.Dto.Common;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
 {
@@ -62,7 +64,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
 
             var appUser = _userManager.Users.SingleOrDefault(user => user.Email == model.Email);
-            
+
             int userId = appUser.Id;
             string logo = string.Empty;
 
@@ -84,7 +86,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 // El usuario es cliente administrador (clinica o peluqueria)
                 if (_userManager.IsInRoleAsync(appUser, Roles.Administrator).Result)
                 {
-                    if(model.BusinessType == 0)
+                    if (model.BusinessType == 0)
                     {
                         throw new BadRequestException();
                     }
@@ -118,7 +120,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 } // El usuario es un empleado
                 else if (_userManager.IsInRoleAsync(appUser, Roles.Employee).Result)
                 {
-                    if(model.BusinessType == 0)
+                    if (model.BusinessType == 0)
                     {
                         throw new BadRequestException();
                     }
@@ -278,7 +280,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             };
 
             var result = _userManager.CreateAsync(user, model.Password).Result;
-            
+
             if (!result.Succeeded)
             {
                 throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
@@ -305,12 +307,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
-                if(model.BusinessType == 0)
+                if (model.BusinessType == 0)
                 {
                     throw new BadRequestException();
                 }
 
-                if(model.BusinessType == BusinessType.Clinic)
+                if (model.BusinessType == BusinessType.Clinic)
                 {
                     var clinic = new Clinic
                     {
@@ -326,7 +328,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                     dbContext.Clinics.Add(clinic);
                 }
-                if(model.BusinessType == BusinessType.Hairdressing)
+                if (model.BusinessType == BusinessType.Hairdressing)
                 {
                     var hairdressing = new Hairdressing
                     {
@@ -343,7 +345,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                     dbContext.Hairdressings.Add(hairdressing);
                 }
-                
+
                 dbContext.SaveChanges();
             }
 
@@ -434,6 +436,59 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
 
             ValidTokens.Remove(token);
+        }
+
+        [HttpGet]
+        public ProfileDto GetProfile()
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = new BusinessPlaceService().GetUserId(HttpContext);
+
+                var clinic = dbContext.Clinics.FirstOrDefault(c => c.UserId == userId);
+
+                if (clinic != null)
+                {
+                    return new ProfileDto
+                    {
+                        Name = clinic.Name,
+                        Address = clinic.Address,
+                        Description = clinic.Description,
+                        City = clinic.City.Name,
+                        Latitude = clinic.Latitude,
+                        Longitude = clinic.Longitude,
+                        Logo = clinic.Logo,
+                        OpenCloseHours = clinic.OpenCloseHours.Select(och => new OpenCloseHoursDto { DayNumber = och.DayNumber, Start = och.Start, End = och.End }).ToList(),
+                        Images = clinic.Images.Select(i => i.Data).ToList(),
+                        Require = false,
+                        ClientId = string.Empty,
+                        ClientSecret = string.Empty
+                    };
+                }
+
+                var hairdressing = dbContext.Hairdressings.FirstOrDefault(h => h.UserId == userId);
+
+                if (hairdressing != null)
+                {
+                    return new ProfileDto
+                    {
+                        Name = hairdressing.Name,
+                        Address = hairdressing.Address,
+                        Description = hairdressing.Description,
+                        City = hairdressing.City.Name,
+                        Latitude = hairdressing.Latitude,
+                        Longitude = hairdressing.Longitude,
+                        Logo = hairdressing.Logo,
+                        OpenCloseHours = hairdressing.OpenCloseHours.Select(och => new OpenCloseHoursDto { DayNumber = och.DayNumber, Start = och.Start, End = och.End }).ToList(),
+                        Images = hairdressing.Images.Select(i => i.Data).ToList(),
+                        Require = hairdressing.RequiresPayment,
+                        ClientId = hairdressing.ClientId,
+                        ClientSecret = hairdressing.ClientSecret
+                    };
+                }
+
+                throw new ApplicationException(ExceptionMessages.InternalServerError);
+            }
         }
 
         private string GenerateJwtToken(string email, ApplicationUser user)
