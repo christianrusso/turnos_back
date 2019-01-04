@@ -7,11 +7,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.HairdressingProfessional
     public class AddHairdressingProfessionalDto : BaseDto
     {
         [Required]
-        [StringLength(50, MinimumLength = 4)]
+        [StringLength(50, MinimumLength = 2)]
         public string FirstName { get; set; }
 
         [Required]
-        [StringLength(50, MinimumLength = 4)]
+        [StringLength(50, MinimumLength = 2)]
         public string LastName { get; set; }
 
         [StringLength(50)]

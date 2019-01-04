@@ -8,11 +8,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Patient
         public int Id { get; set; }
 
         [Required]
-        [StringLength(50, MinimumLength = 4)]
+        [StringLength(50, MinimumLength = 2)]
         public string FirstName { get; set; }
 
         [Required]
-        [StringLength(50, MinimumLength = 4)]
+        [StringLength(50, MinimumLength = 2)]
         public string LastName { get; set; }
 
         [Required]
