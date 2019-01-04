@@ -1,0 +1,108 @@
+2018-12-23 15:22:01.4874|INFO||| Iniciando el Sistema de Turnos...
+
+2018-12-23 15:24:43.1766|ERROR||http://localhost/Api/Account/Login| User ID: Anonimo | Request Body {"email":"peluqueria1@asd.com","password":"peluqueria1@asd.com","businessType":"Clinic"}
+System.ApplicationException: Nombre de usuario, contraseña o rubro invalidos.
+   at SistemaTurnos.WebApplication.WebApi.Controllers.AccountController.Login(LoginAccountDto model) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Controllers/AccountController.cs:line 78
+   at lambda_method(Closure , Object , Object[] )
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.Invoke(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 27
+2018-12-23 15:24:53.6601|ERROR|13|http://localhost/Api/Statistics/GetForHairdressing| Connection id "0HLJ90E6MG7NL", Request id "0HLJ90E6MG7NL:00000006": An unhandled exception was thrown by the application.
+System.NotSupportedException: Specified method is not supported.
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.FrameRequestStream.Seek(Int64 offset, SeekOrigin origin)
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.GetRequestBody(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 49
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.Invoke(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 33
+   at Microsoft.AspNetCore.Hosting.Internal.RequestServicesContainerMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.Frame`1.ProcessRequestsAsync()
+2018-12-23 15:25:48.4388|ERROR||http://localhost/Api/Hairdressing/HairdressingAppointment/GetWeek| User ID: 5 | Request Body {"startDate":"2018-12-17T03:00:00.000Z","endDate":"2018-12-23T03:00:00.000Z","specialtyId":null,"subSpecialtyId":null}
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'a.Source' in 'field list' ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'a.Source' in 'field list'
+   at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in C:\projects\mysqlconnector\src\MySqlConnector\Core\ResultSet.cs:line 44
+   at MySql.Data.MySqlClient.MySqlDataReader.ActivateResultSet(ResultSet resultSet) in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlDataReader.cs:line 93
+   at MySql.Data.MySqlClient.MySqlDataReader.ReadFirstResultSetAsync(IOBehavior ioBehavior) in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlDataReader.cs:line 328
+   at MySql.Data.MySqlClient.MySqlDataReader.CreateAsync(MySqlCommand command, CommandBehavior behavior, IOBehavior ioBehavior) in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlDataReader.cs:line 313
+   at MySqlConnector.Core.TextCommandExecutor.ExecuteReaderAsync(String commandText, MySqlParameterCollection parameterCollection, CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in C:\projects\mysqlconnector\src\MySqlConnector\Core\TextCommandExecutor.cs:line 73
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReader(CommandBehavior behavior) in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlCommand.cs:line 168
+   at Microsoft.EntityFrameworkCore.Storage.Internal.RelationalCommand.Execute(IRelationalConnection connection, DbCommandMethod executeMethod, IReadOnlyDictionary`2 parameterValues)
+   at Microsoft.EntityFrameworkCore.Storage.Internal.RelationalCommand.ExecuteReader(IRelationalConnection connection, IReadOnlyDictionary`2 parameterValues)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.BufferlessMoveNext(DbContext _, Boolean buffer)
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+   at Microsoft.EntityFrameworkCore.Query.Internal.LinqOperatorProvider._TrackEntities[TOut,TIn](IEnumerable`1 results, QueryContext queryContext, IList`1 entityTrackingInfos, IList`1 entityAccessors)+MoveNext()
+   at Microsoft.EntityFrameworkCore.Query.Internal.LinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext()
+   at System.Collections.Generic.List`1.AddEnumerable(IEnumerable`1 enumerable)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at SistemaTurnos.WebApplication.WebApi.Controllers.HairdressingAppointmentController.GetWeek(FilterWeekHairdressingAppointmentDto filter) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Controllers/HairdressingAppointmentController.cs:line 742
+   at lambda_method(Closure , Object , Object[] )
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.Invoke(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 27
+2018-12-23 15:27:15.8892|ERROR||http://localhost/Api/Hairdressing/HairdressingAppointment/GetRequestedAppointmentsByFilter| User ID: 5 | Request Body {"day":"2018-12-23T18:25:36.090Z","specialtyId":null,"subSpecialtyId":null}
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'e.Source' in 'field list' ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'e.Source' in 'field list'
+   at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in C:\projects\mysqlconnector\src\MySqlConnector\Core\ResultSet.cs:line 44
+   at MySql.Data.MySqlClient.MySqlDataReader.ActivateResultSet(ResultSet resultSet) in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlDataReader.cs:line 93
+   at MySql.Data.MySqlClient.MySqlDataReader.ReadFirstResultSetAsync(IOBehavior ioBehavior) in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlDataReader.cs:line 328
+   at MySql.Data.MySqlClient.MySqlDataReader.CreateAsync(MySqlCommand command, CommandBehavior behavior, IOBehavior ioBehavior) in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlDataReader.cs:line 313
+   at MySqlConnector.Core.TextCommandExecutor.ExecuteReaderAsync(String commandText, MySqlParameterCollection parameterCollection, CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in C:\projects\mysqlconnector\src\MySqlConnector\Core\TextCommandExecutor.cs:line 73
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReader(CommandBehavior behavior) in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlCommand.cs:line 168
+   at Microsoft.EntityFrameworkCore.Storage.Internal.RelationalCommand.Execute(IRelationalConnection connection, DbCommandMethod executeMethod, IReadOnlyDictionary`2 parameterValues)
+   at Microsoft.EntityFrameworkCore.Storage.Internal.RelationalCommand.ExecuteReader(IRelationalConnection connection, IReadOnlyDictionary`2 parameterValues)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.BufferlessMoveNext(DbContext _, Boolean buffer)
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+   at Microsoft.EntityFrameworkCore.Query.Internal.LinqOperatorProvider._TrackEntities[TOut,TIn](IEnumerable`1 results, QueryContext queryContext, IList`1 entityTrackingInfos, IList`1 entityAccessors)+MoveNext()
+   at Microsoft.EntityFrameworkCore.Query.Internal.LinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.Load[TSource](IQueryable`1 source)
+   at Microsoft.EntityFrameworkCore.Internal.EntityFinder`1.Load(INavigation navigation, InternalEntityEntry entry)
+   at Microsoft.EntityFrameworkCore.Internal.LazyLoader.Load(Object entity, String navigationName)
+   at Microsoft.EntityFrameworkCore.Proxies.Internal.LazyLoadingInterceptor.Intercept(IInvocation invocation)
+   at Castle.DynamicProxy.AbstractInvocation.Proceed()
+   at Castle.Proxies.Hairdressing_ProfessionalProxy.get_Appointments()
+   at SistemaTurnos.WebApplication.WebApi.Controllers.HairdressingAppointmentController.<>c__DisplayClass16_2.<GetRequestedAppointmentsByFilter>b__5(Int32 hour) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Controllers/HairdressingAppointmentController.cs:line 702
+   at System.Linq.Enumerable.SelectIPartitionIterator`2.MoveNext()
+   at System.Linq.Enumerable.SkipWhileIterator[TSource](IEnumerable`1 source, Func`2 predicate)+MoveNext()
+   at System.Collections.Generic.EnumerableHelpers.ToArray[T](IEnumerable`1 source, Int32& length)
+   at System.Linq.Buffer`1..ctor(IEnumerable`1 source)
+   at System.Linq.Enumerable.ReverseIterator`1.MoveNext()
+   at System.Linq.Enumerable.SkipWhileIterator[TSource](IEnumerable`1 source, Func`2 predicate)+MoveNext()
+   at System.Collections.Generic.List`1.AddEnumerable(IEnumerable`1 enumerable)
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at System.Linq.Enumerable.ReverseIterator`1.ToList()
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at SistemaTurnos.WebApplication.WebApi.Controllers.HairdressingAppointmentController.<>c__DisplayClass16_1.<GetRequestedAppointmentsByFilter>b__4(Hairdressing_Professional d) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Controllers/HairdressingAppointmentController.cs:line 696
+   at System.Linq.Enumerable.SelectListIterator`2.ToList()
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at SistemaTurnos.WebApplication.WebApi.Controllers.HairdressingAppointmentController.GetRequestedAppointmentsByFilter(FilterRequestedHairdressingAppointmentDto filter) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Controllers/HairdressingAppointmentController.cs:line 696
+   at lambda_method(Closure , Object , Object[] )
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.Invoke(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 27

@@ -38,7 +38,7 @@ namespace SistemaTurnos.Database.ClinicModel
         public string LastName { get; set; }
 
         [Required]
-        [StringLength(50, MinimumLength = 4)]
+        [StringLength(500, MinimumLength = 4)]
         public string Address { get; set; }
 
         [Required]

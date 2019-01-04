@@ -1,0 +1,68 @@
+2018-12-11 12:01:10.0173|INFO||| Iniciando el Sistema de Turnos...
+
+2018-12-11 12:03:47.2626|INFO||| Iniciando el Sistema de Turnos...
+
+2018-12-11 16:12:33.1550|INFO||| Iniciando el Sistema de Turnos...
+
+2018-12-11 16:13:10.5155|ERROR|13|http://localhost/api/Statistics/GetForClinic| Connection id "0HLIVJIFIK4CU", Request id "0HLIVJIFIK4CU:00000001": An unhandled exception was thrown by the application.
+System.NotSupportedException: Specified method is not supported.
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.FrameRequestStream.Seek(Int64 offset, SeekOrigin origin)
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.GetRequestBody(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 49
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.Invoke(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 33
+   at Microsoft.AspNetCore.Hosting.Internal.RequestServicesContainerMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.Frame`1.ProcessRequestsAsync()
+2018-12-11 16:14:01.8285|ERROR|13|http://localhost/api/Statistics/GetForClinic| Connection id "0HLIVJIFIK4CU", Request id "0HLIVJIFIK4CU:00000002": An unhandled exception was thrown by the application.
+System.NotSupportedException: Specified method is not supported.
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.FrameRequestStream.Seek(Int64 offset, SeekOrigin origin)
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.GetRequestBody(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 49
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.Invoke(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 33
+   at Microsoft.AspNetCore.Hosting.Internal.RequestServicesContainerMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.Frame`1.ProcessRequestsAsync()
+2018-12-11 16:14:28.4296|ERROR|13|http://localhost/api/Statistics/GetForClinic| Connection id "0HLIVJIFIK4CU", Request id "0HLIVJIFIK4CU:00000003": An unhandled exception was thrown by the application.
+System.NotSupportedException: Specified method is not supported.
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.FrameRequestStream.Seek(Int64 offset, SeekOrigin origin)
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.GetRequestBody(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 49
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.Invoke(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 33
+   at Microsoft.AspNetCore.Hosting.Internal.RequestServicesContainerMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Http.Frame`1.ProcessRequestsAsync()
+2018-12-11 16:14:38.3557|ERROR||http://localhost/api/account/login| User ID: Anonimo | Request Body {
+  "email":"peluqueria1@asd.com",
+  "password":"peluqueria1@asd.com",
+  "BusinessType": 2
+}
+MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'c.ClientId' in 'field list' ---> MySql.Data.MySqlClient.MySqlException (0x80004005): Unknown column 'c.ClientId' in 'field list'
+   at MySqlConnector.Core.ResultSet.ReadResultSetHeaderAsync(IOBehavior ioBehavior) in C:\projects\mysqlconnector\src\MySqlConnector\Core\ResultSet.cs:line 44
+   at MySql.Data.MySqlClient.MySqlDataReader.ActivateResultSet(ResultSet resultSet) in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlDataReader.cs:line 93
+   at MySql.Data.MySqlClient.MySqlDataReader.ReadFirstResultSetAsync(IOBehavior ioBehavior) in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlDataReader.cs:line 328
+   at MySql.Data.MySqlClient.MySqlDataReader.CreateAsync(MySqlCommand command, CommandBehavior behavior, IOBehavior ioBehavior) in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlDataReader.cs:line 313
+   at MySqlConnector.Core.TextCommandExecutor.ExecuteReaderAsync(String commandText, MySqlParameterCollection parameterCollection, CommandBehavior behavior, IOBehavior ioBehavior, CancellationToken cancellationToken) in C:\projects\mysqlconnector\src\MySqlConnector\Core\TextCommandExecutor.cs:line 73
+   at MySql.Data.MySqlClient.MySqlCommand.ExecuteDbDataReader(CommandBehavior behavior) in C:\projects\mysqlconnector\src\MySqlConnector\MySql.Data.MySqlClient\MySqlCommand.cs:line 168
+   at Microsoft.EntityFrameworkCore.Storage.Internal.RelationalCommand.Execute(IRelationalConnection connection, DbCommandMethod executeMethod, IReadOnlyDictionary`2 parameterValues)
+   at Microsoft.EntityFrameworkCore.Storage.Internal.RelationalCommand.ExecuteReader(IRelationalConnection connection, IReadOnlyDictionary`2 parameterValues)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.BufferlessMoveNext(DbContext _, Boolean buffer)
+   at Pomelo.EntityFrameworkCore.MySql.Storage.Internal.MySqlExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryingEnumerable`1.Enumerator.MoveNext()
+   at System.Linq.Enumerable.TryGetFirst[TSource](IEnumerable`1 source, Boolean& found)
+   at lambda_method(Closure )
+   at Microsoft.EntityFrameworkCore.Query.Internal.LinqOperatorProvider.ResultEnumerable`1.GetEnumerator()
+   at Microsoft.EntityFrameworkCore.Query.Internal.LinqOperatorProvider._TrackEntities[TOut,TIn](IEnumerable`1 results, QueryContext queryContext, IList`1 entityTrackingInfos, IList`1 entityAccessors)+MoveNext()
+   at Microsoft.EntityFrameworkCore.Query.Internal.LinqOperatorProvider.ExceptionInterceptor`1.EnumeratorExceptionInterceptor.MoveNext()
+   at System.Linq.Enumerable.TryGetFirst[TSource](IEnumerable`1 source, Boolean& found)
+   at System.Linq.Enumerable.First[TSource](IEnumerable`1 source)
+   at Microsoft.EntityFrameworkCore.Query.Internal.QueryCompiler.<>c__DisplayClass15_1`1.<CompileQueryCore>b__0(QueryContext qc)
+   at System.Linq.Queryable.FirstOrDefault[TSource](IQueryable`1 source, Expression`1 predicate)
+   at SistemaTurnos.WebApplication.WebApi.Controllers.AccountController.Login(LoginAccountDto model) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Controllers/AccountController.cs:line 109
+   at lambda_method(Closure , Object , Object[] )
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.Invoke(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 27
