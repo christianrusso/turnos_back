@@ -8,8 +8,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Appointment
         [Required]
         public int ClinicId { get; set; }
 
-       
-
         public int MedicalPlanId { get; set; }
 
         [Required]
@@ -20,5 +18,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Appointment
 
         [Required]
         public int DoctorId { get; set; }
+
+        [Required]
+        [Range(1, 3)]
+        public int Source { get; set; }
     }
 }

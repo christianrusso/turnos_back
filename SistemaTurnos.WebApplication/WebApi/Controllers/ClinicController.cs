@@ -101,6 +101,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
+                if (!string.IsNullOrWhiteSpace(clinicDto.Name))
+                {
+                    clinicToUpdate.Name = clinicDto.Name;
+                }
+
                 if (!string.IsNullOrWhiteSpace(clinicDto.Address))
                 {
                     clinicToUpdate.Address = clinicDto.Address;
@@ -389,7 +394,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         Logo = clinic.Logo,
                         OpenCloseHours = clinic.OpenCloseHours.Select(och => new OpenCloseHoursDto { DayNumber = och.DayNumber, Start = och.Start, End = och.End }).ToList(),
                         IsFavorite = favoriteClinics.Any(f => f.ClinicId == clinic.Id),
-                        RequiresPayment = false
+                        RequiresPayment = false,
+                        Images = clinic.Images.Select(i => i.Data).ToList()
                     });
                 }
             }

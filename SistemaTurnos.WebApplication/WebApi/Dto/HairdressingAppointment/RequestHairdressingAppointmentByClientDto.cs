@@ -8,7 +8,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.HairdressingAppointment
         [Required]
         public int HairdressingId { get; set; }
 
-
         [Required]
         public DateTime Day { get; set; }
 
@@ -17,5 +16,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.HairdressingAppointment
 
         [Required]
         public int ProfessionalId { get; set; }
+
+        [Required]
+        [Range(1, 3)]
+        public int Source { get; set; }
     }
 }

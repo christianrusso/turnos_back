@@ -28,23 +28,18 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         public MpPaymentInformationDto Pay()
         {
 
-            return new MercadoPagoService().GeneratePaymentLink(new MpRequestDto
+
+            return new MercadoPagoService().GeneratePaymentLink(new MpGeneratePaymentRequestDto
             {
+                SellerId = 1,
                 ClientId = "2128552166781000",
                 ClientSecret = "xt23Yx9BO3wqXO26aHWlzxvTuw7vFo6G",
-                Title = "pruebitaaa",
-                Price = 86,
+                Title = "Item de prueba",
+                Price = 10,
                 BuyerEmail = "christian.russo8@gmail.com",
             });
             
-            new MercadoPagoService().GeneratePaymentLink(new MpRequestDto
-            {
-                ClientId = "4986484432940194",
-                ClientSecret = "numE4yM1DbHWzSHBw3lnTfTRgZ6nW1NX",
-                Title = "Soy Christian",
-                Price = 10000,
-                BuyerEmail = "christian.russo8@gmail.com",
-            });
+           
         }
     }
 }

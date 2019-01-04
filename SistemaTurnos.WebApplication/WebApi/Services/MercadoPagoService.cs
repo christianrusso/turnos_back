@@ -1,35 +1,38 @@
 ﻿using RestSharp;
 using SistemaTurnos.WebApplication.WebApi.Dto.MercadoPago;
+using System;
 using System.Collections.Generic;
 
 namespace SistemaTurnos.WebApplication.WebApi.Services
 {
     public class MercadoPagoService
     {
-        public MpPaymentInformationDto GeneratePaymentLink(MpRequestDto request)
+        public MpPaymentInformationDto GeneratePaymentLink(MpGeneratePaymentRequestDto request)
         {
-            var client = new RestClient("https://api.mercadopago.com");
-
-            var tokenRequest = new RestRequest("oauth/token", Method.POST, DataFormat.Json);
-
-            var tokenPayload = new MpTokenRequestDto
+            try
             {
-                grant_type = "client_credentials",
-                client_id = request.ClientId,
-                client_secret = request.ClientSecret
-            };
+                var client = new RestClient("https://api.mercadopago.com");
 
-            tokenRequest.AddJsonBody(tokenPayload);
+                var tokenRequest = new RestRequest("oauth/token", Method.POST, DataFormat.Json);
 
-            var response = client.Execute<MpTokenResponseDto>(tokenRequest);
+                var tokenPayload = new MpTokenRequestDto
+                {
+                    grant_type = "client_credentials",
+                    client_id = request.ClientId,
+                    client_secret = request.ClientSecret
+                };
 
-            var token = response.Data.access_token;
+                tokenRequest.AddJsonBody(tokenPayload);
 
-            var preferenceRequest = new RestRequest($"checkout/preferences?access_token={token}", Method.POST, DataFormat.Json);
+                var response = client.Execute<MpTokenResponseDto>(tokenRequest);
 
-            var preferencePayload = new MpPreferenceRequestDto
-            {
-                items = new List<MpItemDto>
+                var token = response.Data.access_token;
+
+                var preferenceRequest = new RestRequest($"checkout/preferences?access_token={token}", Method.POST, DataFormat.Json);
+
+                var preferencePayload = new MpPreferenceRequestDto
+                {
+                    items = new List<MpItemDto>
                 {
                     new MpItemDto
                     {
@@ -39,28 +42,66 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
                         unit_price = request.Price
                     }
                 },
-                payer = new MpPayerDto
+                    payer = new MpPayerDto
+                    {
+                        email = request.BuyerEmail
+                    },
+                    back_urls = new MpBackUrlsDto
+                    {
+                        success = "https://www.orbitsa.xyz:4443/#/success",
+                        failure = "https://www.orbitsa.xyz:4443/#/failure",
+                        pending = "https://www.orbitsa.xyz:4443/#/pending",
+                    },
+                    notification_url = $"https://www.orbitsa.xyz:4443/Api/Hairdressing/HairdressingAppointment/UpdatePaymentInformation/{request.SellerId}"
+                };
+
+                preferenceRequest.AddJsonBody(preferencePayload);
+
+                var preferenceResponse = client.Execute<MpPreferenceResponseDto>(preferenceRequest);
+
+                return new MpPaymentInformationDto
                 {
-                    email = request.BuyerEmail
-                },
-                back_urls = new MpBackUrlsDto
-                {
-                    success = "https://www.orbitsa.xyz/#/success",
-                    failure = "https://www.orbitsa.xyz/#/failure",
-                    pending = "https://www.orbitsa.xyz/#/pending",
-                },
-                notification_url = "https://www.orbitsa.xyz/Api/Hairdressing/HairdressingAppointment/UpdatePaymentInformation"
-            };
-
-            preferenceRequest.AddJsonBody(preferencePayload);
-
-            var preferenceResponse = client.Execute<MpPreferenceResponseDto>(preferenceRequest);
-
-            return new MpPaymentInformationDto
+                    PaymentLink = preferenceResponse.Data.init_point,
+                    PreferenceId = preferenceResponse.Data.id
+                };
+            }
+            catch (Exception)
             {
-                PaymentLink = preferenceResponse.Data.sandbox_init_point,
-                PreferenceId = preferenceResponse.Data.id
-            };
+                return null;
+            }
+        }
+
+        public MpMerchantOrderResponseDto GetMerchantOrder(MpGetMerchantOrderRequestDto request)
+        {
+            try
+            {
+                var client = new RestClient("https://api.mercadopago.com");
+
+                var tokenRequest = new RestRequest("oauth/token", Method.POST, DataFormat.Json);
+
+                var tokenPayload = new MpTokenRequestDto
+                {
+                    grant_type = "client_credentials",
+                    client_id = request.ClientId,
+                    client_secret = request.ClientSecret
+                };
+
+                tokenRequest.AddJsonBody(tokenPayload);
+
+                var response = client.Execute<MpTokenResponseDto>(tokenRequest);
+
+                var token = response.Data.access_token;
+
+                var merchantOrderRequest = new RestRequest($"merchant_orders/{request.MerchantOrderId}?access_token={token}", Method.GET, DataFormat.Json);
+
+                var merchantOrderResponse = client.Execute<MpMerchantOrderResponseDto>(merchantOrderRequest);
+
+                return merchantOrderResponse.Data;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
     }
 }

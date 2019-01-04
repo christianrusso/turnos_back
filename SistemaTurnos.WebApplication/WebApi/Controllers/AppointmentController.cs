@@ -169,11 +169,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 var patient = new Clinic_Patient
                 {
-                    //FirstName = requestAppointmentDto.FirstName,
-                    //LastName = requestAppointmentDto.LastName,
-                    //Address = requestAppointmentDto.Address,
-                    //PhoneNumber = requestAppointmentDto.PhoneNumber,
-                    //Dni = requestAppointmentDto.Dni,
                     UserId = userId,
                     ClientId = client.Id,
                     MedicalPlanId = requestAppointmentDto.MedicalPlanId
@@ -204,6 +199,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     Doctor = doctor,
                     DateTime = appointment,
                     State = AppointmentStateEnum.Reserved,
+                    Source = AppointmentSourceEnum.Panel,
                     PatientId = patient.Id,
                     UserId = userId
                 });
@@ -290,6 +286,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     Doctor = doctor,
                     DateTime = appointment,
                     State = AppointmentStateEnum.Reserved,
+                    Source = AppointmentSourceEnum.Panel,
                     PatientId = patient.Id,
                     UserId = userId
                 });
@@ -352,6 +349,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     Doctor = doctor,
                     DateTime = appointment,
                     State = AppointmentStateEnum.Reserved,
+                    Source = AppointmentSourceEnum.Panel,
                     PatientId = patient.Id,
                     UserId = userId
                 });
@@ -444,6 +442,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     Doctor = doctor,
                     DateTime = appointment,
                     State = AppointmentStateEnum.Reserved,
+                    Source = (AppointmentSourceEnum) requestAppointmentDto.Source,
                     PatientId = patient.Id,
                     UserId = clinic.UserId
                 });
@@ -514,6 +513,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     Doctor = doctor,
                     DateTime = appointment,
                     State = AppointmentStateEnum.Reserved,
+                    Source = (AppointmentSourceEnum)requestAppointmentDto.Source,
                     PatientId = patient.Id,
                     UserId = clinic.UserId
                 });

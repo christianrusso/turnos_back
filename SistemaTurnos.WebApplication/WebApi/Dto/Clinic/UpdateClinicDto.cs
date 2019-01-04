@@ -5,6 +5,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Clinic
 {
     public class UpdateClinicDto
     {
+        public string Name { get; set; }
+
         public string Address { get; set; }
 
         public string Description { get; set; }

@@ -19,5 +19,11 @@
         public int CanceledAppointments { get; set; }
 
         public int TodayAppointments { get; set; }
+
+        public int WebAppointments { get; set; }
+
+        public int PanelAppointments { get; set; }
+
+        public int MobileAppointments { get; set; }
     }
 }

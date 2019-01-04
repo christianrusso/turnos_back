@@ -47,7 +47,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     Appointments = appointments.Count(),
                     CompletedAppointments = appointments.Count(a => a.State == AppointmentStateEnum.Completed),
                     CanceledAppointments = appointments.Count(a => a.State == AppointmentStateEnum.Cancelled),
-                    TodayAppointments = appointments.Count(a => todayStart <= a.DateTime && a.DateTime <= todayEnd)
+                    TodayAppointments = appointments.Count(a => todayStart <= a.DateTime && a.DateTime <= todayEnd),
+                    PanelAppointments = appointments.Count(a => a.Source == AppointmentSourceEnum.Panel),
+                    WebAppointments = appointments.Count(a => a.Source == AppointmentSourceEnum.Web),
+                    MobileAppointments = appointments.Count(a => a.Source == AppointmentSourceEnum.Mobile),
                 };
             }
         }
@@ -80,7 +83,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     Appointments = appointments.Count(),
                     CompletedAppointments = appointments.Count(a => a.State == AppointmentStateEnum.Completed),
                     CanceledAppointments = appointments.Count(a => a.State == AppointmentStateEnum.Cancelled),
-                    TodayAppointments = appointments.Count(a => todayStart <= a.DateTime && a.DateTime <= todayEnd)
+                    TodayAppointments = appointments.Count(a => todayStart <= a.DateTime && a.DateTime <= todayEnd),
+                    PanelAppointments = appointments.Count(a => a.Source == AppointmentSourceEnum.Panel),
+                    WebAppointments = appointments.Count(a => a.Source == AppointmentSourceEnum.Web),
+                    MobileAppointments = appointments.Count(a => a.Source == AppointmentSourceEnum.Mobile),
                 };
             }
         }

@@ -23,6 +23,9 @@ namespace SistemaTurnos.Database.HairdressingModel
         [Required]
         public AppointmentStateEnum State { get; set; }
 
+        [Required]
+        public AppointmentSourceEnum Source { get; set; }
+
         public int RatingId { get; set; }
 
         public virtual Hairdressing_Rating Rating { get; set; }
