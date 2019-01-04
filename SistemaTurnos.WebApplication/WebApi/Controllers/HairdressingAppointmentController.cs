@@ -180,7 +180,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     ProfessionalId = requestAppointmentDto.ProfessionalId,
                     Professional = prof,
                     DateTime = appointment,
-                    State = AppointmentStateEnum.Reserved,
+                    State = AppointmentStateEnum.Paid,
                     Source = AppointmentSourceEnum.Panel,
                     PatientId = patient.Id,
                     UserId = userId
@@ -253,7 +253,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     ProfessionalId = requestAppointmentDto.ProfessionalId,
                     Professional = prof,
                     DateTime = appointment,
-                    State = AppointmentStateEnum.Reserved,
+                    State = AppointmentStateEnum.Paid,
                     Source = AppointmentSourceEnum.Panel,
                     PatientId = patient.Id,
                     UserId = userId
@@ -311,7 +311,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     ProfessionalId = requestAppointmentDto.ProfessionalId,
                     Professional = prof,
                     DateTime = appointment,
-                    State = AppointmentStateEnum.Reserved,
+                    State = AppointmentStateEnum.Paid,
                     Source = AppointmentSourceEnum.Panel,
                     PatientId = patient.Id,
                     UserId = userId
@@ -409,6 +409,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 }
 
                 hairdressingAppointment.PreferenceId = paymentInformation.PreferenceId;
+                dbContext.SaveChanges();
 
                 return new PaymentDto
                 {
@@ -491,6 +492,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 }
 
                 hairdressingAppointment.PreferenceId = paymentInformation.PreferenceId;
+                dbContext.SaveChanges();
 
                 return new PaymentDto
                 {
@@ -827,53 +829,95 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             return res;
         }
 
-        [HttpPost("{sellerId:int}")]
-        public void UpdatePaymentInformation(int sellerId, [FromQuery(Name = "topic")] string topic, [FromQuery(Name = "id")] string id)
+        [HttpPost("{appointmentId:int}")]
+        public void UpdatePaymentInformation(int appointmentId, [FromQuery(Name = "topic")] string topic, [FromQuery(Name = "id")] string id)
         {
-            Console.WriteLine($"Received payment notification. Seller Id: {sellerId}, Topic: {topic}, Merchant order Id: {id}");
+            Console.WriteLine($"Received payment notification. Appointment Id: {appointmentId}, Topic: {topic}, Merchant order Id: {id}");
 
-            if (topic != "payment")
+            if (topic == "merchant_order")
             {
-                return;
+                using (var dbContext = new ApplicationDbContext())
+                {
+                    var appointment = dbContext.Hairdressing_Appointments.FirstOrDefault(a => a.Id == appointmentId);
+
+                    if (appointment == null)
+                    {
+                        throw new BadRequestException();
+                    }
+
+                    Console.WriteLine($"Se pudo obtener el turno con id: {appointmentId}");
+
+                    var hairdressing = dbContext.Hairdressings.FirstOrDefault(h => h.UserId == appointment.UserId);
+
+                    if (hairdressing == null)
+                    {
+                        throw new BadRequestException();
+                    }
+
+                    Console.WriteLine($"Se pudo obtener la peluqueria con id: {hairdressing.Id}");
+
+                    var merchantOrder = mercadoPagoService.GetMerchantOrder(new MpGetMerchantOrderRequestDto
+                    {
+                        ClientId = hairdressing.ClientId,
+                        ClientSecret = hairdressing.ClientSecret,
+                        MerchantOrderId = id
+                    });
+
+                    Console.WriteLine($"Se pudo obtener la merchant order con id: {id}");
+
+                    appointment.MerchantOrder = id;
+                    dbContext.SaveChanges();
+                }
             }
 
-            using (var dbContext = new ApplicationDbContext())
+            if (topic == "payment")
             {
-                var hairdressing = dbContext.Hairdressings.FirstOrDefault(h => h.Id == sellerId);
-
-                if (hairdressing == null)
+                using (var dbContext = new ApplicationDbContext())
                 {
-                    throw new BadRequestException();
+                    var appointment = dbContext.Hairdressing_Appointments.FirstOrDefault(a => a.Id == appointmentId);
+
+                    if (appointment == null)
+                    {
+                        throw new BadRequestException();
+                    }
+
+                    Console.WriteLine($"Se pudo obtener el turno con id: {appointmentId}");
+
+                    var hairdressing = dbContext.Hairdressings.FirstOrDefault(h => h.UserId == appointment.UserId);
+
+                    if (hairdressing == null)
+                    {
+                        throw new BadRequestException();
+                    }
+
+                    Console.WriteLine($"Se pudo obtener la peluqueria con id: {hairdressing.Id}");
+
+                    var merchantOrder = mercadoPagoService.GetMerchantOrder(new MpGetMerchantOrderRequestDto
+                    {
+                        ClientId = hairdressing.ClientId,
+                        ClientSecret = hairdressing.ClientSecret,
+                        MerchantOrderId = appointment.MerchantOrder
+                    });
+
+                    Console.WriteLine($"Se pudo obtener la merchant order con id: {id}");
+
+                    if (merchantOrder == null || string.IsNullOrWhiteSpace(merchantOrder.preference_id))
+                    {
+                        throw new BadRequestException();
+                    }
+
+                    Console.WriteLine($"Pagado: {merchantOrder.paid_amount}. Total {merchantOrder.total_amount}");
+
+                    if (merchantOrder.paid_amount != merchantOrder.total_amount)
+                    {
+                        return;
+                    }
+
+                    Console.WriteLine($"Se pago el turno con merchant order {appointment.MerchantOrder} y preference {appointment.PreferenceId}");
+
+                    appointment.State = AppointmentStateEnum.Paid;
+                    dbContext.SaveChanges();
                 }
-
-                var merchantOrder = mercadoPagoService.GetMerchantOrder(new MpGetMerchantOrderRequestDto
-                {
-                    ClientId = hairdressing.ClientId,
-                    ClientSecret = hairdressing.ClientSecret,
-                    MerchantOrderId = id
-                });
-
-                Console.WriteLine("Merchant Order: " + merchantOrder);
-
-                if (merchantOrder == null || string.IsNullOrWhiteSpace(merchantOrder.preference_id))
-                {
-                    throw new BadRequestException();
-                }
-
-                if (merchantOrder.paid_amount != merchantOrder.total_amount)
-                {
-                    return;
-                }
-
-                var preference = dbContext.Hairdressing_Appointments.FirstOrDefault(a => a.PreferenceId == merchantOrder.preference_id);
-
-                if (preference == null)
-                {
-                    throw new BadRequestException();
-                }
-
-                preference.State = AppointmentStateEnum.Paid;
-                dbContext.SaveChanges();
             }
         }
 
@@ -902,7 +946,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             return mercadoPagoService.GeneratePaymentLink(new MpGeneratePaymentRequestDto
             {
-                SellerId = hairdressing.Id,
+                Id = hairdressingAppointment.Id,
                 ClientId = hairdressing.ClientId,
                 ClientSecret = hairdressing.ClientSecret,
                 Title = $"Turno en peluqueria '{hairdressing.Name}' el dia {hairdressingAppointment.DateTime.ToShortDateString()} en el horario {hairdressingAppointment.DateTime.ToShortTimeString()}",

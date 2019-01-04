@@ -2,7 +2,7 @@
 {
     public class MpGeneratePaymentRequestDto
     {
-        public int SellerId { get; set; }
+        public int Id { get; set; }
 
         public string ClientId { get; set; }
 

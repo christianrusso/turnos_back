@@ -379,7 +379,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         /// <summary>
         /// Obtiene los datos de perfil del cliente
         /// </summary>
-        [HttpPost]
+        [HttpGet]
         [Authorize(Roles = Roles.Client)]
         public ClientProfileDto GetProfile()
         {
@@ -396,11 +396,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 return new ClientProfileDto
                 {
+                    Username = client.User.UserName,
                     FirstName = client.FirstName,
                     LastName = client.LastName,
+                    Dni = client.Dni,
+                    Email = client.User.Email,
                     Address = client.Address,
                     PhoneNumber = client.PhoneNumber,
-                    Dni = client.Dni,
                     Logo = client.Logo
                 };
             }

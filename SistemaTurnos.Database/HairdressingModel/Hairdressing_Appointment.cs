@@ -36,6 +36,8 @@ namespace SistemaTurnos.Database.HairdressingModel
 
         public string PreferenceId { get; set; }
 
+        public string MerchantOrder { get; set; }
+
         [Required]
         public int UserId { get; set; }
 

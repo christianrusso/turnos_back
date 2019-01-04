@@ -31,7 +31,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             return new MercadoPagoService().GeneratePaymentLink(new MpGeneratePaymentRequestDto
             {
-                SellerId = 1,
+                Id = 1,
                 ClientId = "2128552166781000",
                 ClientSecret = "xt23Yx9BO3wqXO26aHWlzxvTuw7vFo6G",
                 Title = "Item de prueba",
