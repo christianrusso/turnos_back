@@ -4,5 +4,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Patient
     {
         public int? MedicalInsuranceId { get; set; }
 
+        public string Text { get; set; }
     }
 }

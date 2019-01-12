@@ -11,6 +11,5 @@
         public const string AppointmentCantBeCanceled = "Los turnos pueden cancelarse hasta 24 horas antes.";
         public const string AppointmentCantBeCompleted = "El turno aun no puede ser completado.";
         public const string AppointmentCantBeRequested = "No es posible solicitar turnos para fechas anteriores a la fecha actual.";
-        public const string RolesHaveNotBeenCreated = "Los roles aun no han sido creados.";
     }
 }

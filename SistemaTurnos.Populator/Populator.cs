@@ -491,6 +491,7 @@ namespace SistemaTurnos.Populator
                     ClientId = clientId,
                     ClientSecret = clientSecret,
                     UserId = appUser.Id,
+                    BusinessType = BusinessType.Hairdressing
                 };
 
                 dbContext.Hairdressings.Add(hairdressing);
@@ -722,7 +723,7 @@ namespace SistemaTurnos.Populator
 
             if (!_roleManager.RoleExistsAsync(Roles.Client).Result)
             {
-                throw new ApplicationException(ExceptionMessages.RolesHaveNotBeenCreated);
+                throw new ApplicationException(ExceptionMessages.InternalServerError);
             }
 
             var user = new ApplicationUser

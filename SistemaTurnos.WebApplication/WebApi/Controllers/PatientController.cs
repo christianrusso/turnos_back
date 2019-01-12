@@ -89,7 +89,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (!_roleManager.RoleExistsAsync(Roles.Client).Result)
                 {
-                    throw new ApplicationException(ExceptionMessages.RolesHaveNotBeenCreated);
+                    throw new ApplicationException(ExceptionMessages.InternalServerError);
                 }
 
                 var user = new ApplicationUser
@@ -236,11 +236,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 return dbContext.Clinic_Patients
                     .Include(x => x.Client)
                     .Where(p => p.UserId == userId)
+                    .Where(p => p.FullName.Contains(filter.Text) || p.Client.User.Email.Contains(filter.Text))
                     .Where(p => filter.MedicalInsuranceId == null | p.MedicalPlan.MedicalInsuranceId == filter.MedicalInsuranceId)
                     .Select(s => new PatientDto
                     {
@@ -267,7 +268,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             if (!_roleManager.RoleExistsAsync(Roles.Client).Result)
             {
-                throw new ApplicationException(ExceptionMessages.RolesHaveNotBeenCreated);
+                throw new ApplicationException(ExceptionMessages.InternalServerError);
             }
 
             var user = new ApplicationUser

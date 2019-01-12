@@ -111,7 +111,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 if (!_roleManager.RoleExistsAsync(Roles.Client).Result)
                 {
-                    throw new ApplicationException(ExceptionMessages.RolesHaveNotBeenCreated);
+                    throw new ApplicationException(ExceptionMessages.InternalServerError);
                 }
 
                 var user = new ApplicationUser

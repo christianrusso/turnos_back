@@ -72,12 +72,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 if (_userManager.IsInRoleAsync(appUser, Roles.Administrator).Result)
                 {
-                    if (model.BusinessType == BusinessType.Clinic && !dbContext.Clinics.Any(c => c.UserId == appUser.Id))
+                    if (model.BusinessType.IsClinic() && !dbContext.Clinics.Any(c => c.UserId == appUser.Id))
                     {
                         throw new ApplicationException(ExceptionMessages.LoginFailed);
                     }
 
-                    if (model.BusinessType == BusinessType.Hairdressing && !dbContext.Hairdressings.Any(c => c.UserId == appUser.Id))
+                    if (model.BusinessType.IsHBE() && !dbContext.Hairdressings.Any(c => c.UserId == appUser.Id))
                     {
                         throw new ApplicationException(ExceptionMessages.LoginFailed);
                     }
@@ -90,7 +90,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     {
                         throw new BadRequestException();
                     }
-                    if (model.BusinessType == BusinessType.Clinic)
+                    if (model.BusinessType.IsClinic())
                     {
                         var clinic = dbContext.Clinics.FirstOrDefault(c => c.UserId == userId);
 
@@ -101,7 +101,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                         logo = clinic.Logo;
                     }
-                    else if (model.BusinessType == BusinessType.Hairdressing)
+                    else if (model.BusinessType.IsHBE())
                     {
                         var Hemployee = dbContext.Hairdressing_Employees.FirstOrDefault(e => e.UserId == appUser.Id);
                         if (Hemployee != null)
@@ -124,7 +124,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     {
                         throw new BadRequestException();
                     }
-                    if (model.BusinessType == BusinessType.Clinic)
+                    if (model.BusinessType.IsClinic())
                     {
                         var employee = dbContext.Clinic_Employees.FirstOrDefault(e => e.UserId == appUser.Id);
                         if (employee != null)
@@ -140,7 +140,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                         logo = clinic.Logo;
                     }
-                    else if (model.BusinessType == BusinessType.Hairdressing)
+                    else if (model.BusinessType.IsHBE())
                     {
                         var Hemployee = dbContext.Hairdressing_Employees.FirstOrDefault(e => e.UserId == appUser.Id);
                         if (Hemployee != null)
@@ -198,7 +198,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     // Registrar cliente
                     if (!_roleManager.RoleExistsAsync(Roles.Client).Result)
                     {
-                        throw new ApplicationException(ExceptionMessages.RolesHaveNotBeenCreated);
+                        throw new ApplicationException(ExceptionMessages.InternalServerError);
                     }
 
                     var user = new ApplicationUser
@@ -270,7 +270,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             if (!_roleManager.RoleExistsAsync(Roles.Administrator).Result)
             {
-                throw new ApplicationException(ExceptionMessages.RolesHaveNotBeenCreated);
+                throw new ApplicationException(ExceptionMessages.InternalServerError);
             }
 
             var user = new ApplicationUser
@@ -312,7 +312,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
-                if (model.BusinessType == BusinessType.Clinic)
+                if (model.BusinessType.IsClinic())
                 {
                     var clinic = new Clinic
                     {
@@ -328,7 +328,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                     dbContext.Clinics.Add(clinic);
                 }
-                if (model.BusinessType == BusinessType.Hairdressing)
+                if (model.BusinessType.IsHBE())
                 {
                     var hairdressing = new Hairdressing
                     {
