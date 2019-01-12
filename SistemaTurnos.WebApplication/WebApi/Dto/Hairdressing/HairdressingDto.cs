@@ -15,7 +15,9 @@
         public double Longitude { get; set; }
 
         public double DistanceToUser { get; set; }
+
         public string City { get; internal set; }
+
         public string Logo { get; internal set; }
     }
 }

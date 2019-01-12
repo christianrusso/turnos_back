@@ -58,12 +58,23 @@ namespace SistemaTurnos.Populator
             var hairdressing1 = CreateHairdressingUser("peluqueria1@asd.com", "peluqueria1@asd.com", "Peluqueria 1", "Peluqueria de Villa Bosch 1", "Villa Bosch", "Jose Maria Bosch 951", -34.5883457, -58.5732785, true, "2128552166781000", "xt23Yx9BO3wqXO26aHWlzxvTuw7vFo6G");
             Console.Write("OK\n");
 
+            // Creo barberias
+            Console.Write("Barberias\t\t\t");
+            // email,  password,  name,  description,  city,  address,  latitude,  longitude
+            var babershop1 = CreateBabershopUser("barberia1@asd.com", "barberia1@asd.com", "Barberia 1", "Barberia de Villa Bosch 1", "Villa Bosch", "Jose Maria Bosch 951", -34.5883457, -58.5732785, true, "2128552166781000", "xt23Yx9BO3wqXO26aHWlzxvTuw7vFo6G");
+            Console.Write("OK\n");
+
+            // Creo esteticas
+            Console.Write("Esteticas\t\t\t");
+            // email,  password,  name,  description,  city,  address,  latitude,  longitude
+            var esthetic1 = CreateEstheticUser("estetica1@asd.com", "estetica1@asd.com", "Estetica 1", "Estetica de Villa Bosch 1", "Villa Bosch", "Jose Maria Bosch 951", -34.5883457, -58.5732785, true, "2128552166781000", "xt23Yx9BO3wqXO26aHWlzxvTuw7vFo6G");
+            Console.Write("OK\n");
+
             // Creo empleados
             Console.Write("Empleados\t\t\t");
             var employee1 = CreateEmployee("empleado1@asd.com", "empleado1@asd.com", clinic1);
             var employee2 = CreateEmployee("empleado2@asd.com", "empleado2@asd.com", clinic1);
             Console.Write("OK\n");
-
 
             // Creo especialidades
             Console.Write("Especialidades\t\t\t");
@@ -112,7 +123,6 @@ namespace SistemaTurnos.Populator
             var subspecialty10 = CreateSubspecialty("Subespecialidad 10", specialty6, 40, clinic2);
             var subspecialty11 = CreateSubspecialty("Subespecialidad 11", specialty6, 60, clinic2);
 
-
             var subspecialty12 = CreateSubspecialty("Subespecialidad 12", specialty7, 20, clinic3);
             var subspecialty13 = CreateSubspecialty("Subespecialidad 13", specialty7, 40, clinic3);
             var subspecialty14 = CreateSubspecialty("Subespecialidad 14", specialty7, 60, clinic3);
@@ -144,7 +154,6 @@ namespace SistemaTurnos.Populator
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) }
                 }, clinic1);
 
-
             var doctor3 = CreateDoctor("Sabrina", "Fillol", 10, specialty1, subspecialty1, DoctorStateEnum.Active,
                 new List<Clinic_WorkingHours> {
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(7, 0, 0), End = new TimeSpan(21, 0, 0) },
@@ -155,7 +164,6 @@ namespace SistemaTurnos.Populator
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Saturday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) }
                 }, clinic1);
-
 
             var doctor4 = CreateDoctor("Pedro", "Perez", 30, specialty5, subspecialty9, DoctorStateEnum.Active,
                 new List<Clinic_WorkingHours> {
@@ -501,6 +509,123 @@ namespace SistemaTurnos.Populator
                     ClientId = clientId,
                     ClientSecret = clientSecret,
                     UserId = appUser.Id,
+                    BusinessType = BusinessType.Hairdressing
+                };
+
+                dbContext.Hairdressings.Add(hairdressing);
+                dbContext.SaveChanges();
+            }
+
+            return hairdressing;
+        }
+
+        private Hairdressing CreateBabershopUser(string email, string password, string name, string description, string city, string address, double latitude, double longitude, bool requiresPayment, string clientId, string clientSecret)
+        {
+            Hairdressing hairdressing;
+
+            var user = new ApplicationUser
+            {
+                UserName = email,
+                Email = email
+            };
+
+            var result = _userManager.CreateAsync(user, password).Result;
+
+            if (!result.Succeeded)
+            {
+                throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
+            }
+
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var appUser = _userManager.Users.SingleOrDefault(au => au.Email == email);
+
+                result = _userManager.AddToRoleAsync(appUser, Roles.Administrator).Result;
+
+                if (!result.Succeeded)
+                {
+                    throw new ApplicationException(ExceptionMessages.InternalServerError);
+                }
+
+                var cityData = dbContext.Cities.FirstOrDefault(c => c.Name == city);
+
+                if (cityData == null)
+                {
+                    cityData = CreateCity(city);
+                }
+
+                hairdressing = new Hairdressing
+                {
+                    Name = name,
+                    Description = description,
+                    CityId = cityData.Id,
+                    Address = address,
+                    Latitude = latitude,
+                    Longitude = longitude,
+                    Logo = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAAAoBAMAAACMbPD7AAAAG1BMVEXMzMyWlpbFxcWjo6OqqqqxsbGcnJy+vr63t7eN+fR5AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAApElEQVQ4je2QsQrCQBBEJ5fLpt2AHxCJWCc2WkZFsTwx9kcQ0ypK6lR+t3eInWw6q3vVLrwdlgECgcAvVFXqy3dm7GvR1ubczMxnjjnZ7ESbclqmJZK6B54c3x6iHYGsslBdByyYMBft2BwZDLxcvuHIXUuoatu6bEwHFGDK5ewUhf8bJ4t7lhUjf9Nw8J2oduWW0U7Sq9ETX2Tvbaxr0Q4E/s8bo1sUV4qjWrAAAAAASUVORK5CYII=",
+                    RequiresPayment = requiresPayment,
+                    ClientId = clientId,
+                    ClientSecret = clientSecret,
+                    UserId = appUser.Id,
+                    BusinessType = BusinessType.Babershop
+                };
+
+                dbContext.Hairdressings.Add(hairdressing);
+                dbContext.SaveChanges();
+            }
+
+            return hairdressing;
+        }
+
+        private Hairdressing CreateEstheticUser(string email, string password, string name, string description, string city, string address, double latitude, double longitude, bool requiresPayment, string clientId, string clientSecret)
+        {
+            Hairdressing hairdressing;
+
+            var user = new ApplicationUser
+            {
+                UserName = email,
+                Email = email
+            };
+
+            var result = _userManager.CreateAsync(user, password).Result;
+
+            if (!result.Succeeded)
+            {
+                throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
+            }
+
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var appUser = _userManager.Users.SingleOrDefault(au => au.Email == email);
+
+                result = _userManager.AddToRoleAsync(appUser, Roles.Administrator).Result;
+
+                if (!result.Succeeded)
+                {
+                    throw new ApplicationException(ExceptionMessages.InternalServerError);
+                }
+
+                var cityData = dbContext.Cities.FirstOrDefault(c => c.Name == city);
+
+                if (cityData == null)
+                {
+                    cityData = CreateCity(city);
+                }
+
+                hairdressing = new Hairdressing
+                {
+                    Name = name,
+                    Description = description,
+                    CityId = cityData.Id,
+                    Address = address,
+                    Latitude = latitude,
+                    Longitude = longitude,
+                    Logo = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAAAoBAMAAACMbPD7AAAAG1BMVEXMzMyWlpbFxcWjo6OqqqqxsbGcnJy+vr63t7eN+fR5AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAApElEQVQ4je2QsQrCQBBEJ5fLpt2AHxCJWCc2WkZFsTwx9kcQ0ypK6lR+t3eInWw6q3vVLrwdlgECgcAvVFXqy3dm7GvR1ubczMxnjjnZ7ESbclqmJZK6B54c3x6iHYGsslBdByyYMBft2BwZDLxcvuHIXUuoatu6bEwHFGDK5ewUhf8bJ4t7lhUjf9Nw8J2oduWW0U7Sq9ETX2Tvbaxr0Q4E/s8bo1sUV4qjWrAAAAAASUVORK5CYII=",
+                    RequiresPayment = requiresPayment,
+                    ClientId = clientId,
+                    ClientSecret = clientSecret,
+                    UserId = appUser.Id,
+                    BusinessType = BusinessType.Esthetic
                 };
 
                 dbContext.Hairdressings.Add(hairdressing);
@@ -732,7 +857,7 @@ namespace SistemaTurnos.Populator
 
             if (!_roleManager.RoleExistsAsync(Roles.Client).Result)
             {
-                throw new ApplicationException(ExceptionMessages.RolesHaveNotBeenCreated);
+                throw new ApplicationException(ExceptionMessages.InternalServerError);
             }
 
             var user = new ApplicationUser

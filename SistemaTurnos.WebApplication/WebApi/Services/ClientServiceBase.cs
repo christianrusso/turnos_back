@@ -29,7 +29,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
         {
             if (!_roleManager.RoleExistsAsync(Roles.Client).Result)
             {
-                throw new ApplicationException(ExceptionMessages.RolesHaveNotBeenCreated);
+                throw new ApplicationException(ExceptionMessages.InternalServerError);
             }
 
             var user = new ApplicationUser

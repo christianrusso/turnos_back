@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using SistemaTurnos.Database.Enums;
 using SistemaTurnos.Database.Model;
 using SistemaTurnos.Database.ModelData;
 
@@ -33,6 +34,8 @@ namespace SistemaTurnos.Database.HairdressingModel
         public string ClientId { get; set; }
 
         public string ClientSecret { get; set; }
+
+        public BusinessType BusinessType { get; set; }
 
         [Required]
         public int CityId { get; set; }

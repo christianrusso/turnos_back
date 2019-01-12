@@ -9,6 +9,7 @@ using SistemaTurnos.Database;
 using SistemaTurnos.Database.ClinicModel;
 using SistemaTurnos.Database.Model;
 using SistemaTurnos.WebApplication.WebApi.Dto.Employee;
+using SistemaTurnos.WebApplication.WebApi.Services;
 using System;
 using System.Linq;
 
@@ -24,6 +25,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly IConfiguration _configuration;
+        private readonly BusinessPlaceService _businessPlaceServive;
 
         public EmployeeController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration)
         {
@@ -31,6 +33,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             _roleManager = roleManager;
             _signInManager = signInManager;
             _configuration = configuration;
+            _businessPlaceServive = new BusinessPlaceService();
         }
 
         /// <summary>
@@ -41,10 +44,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             if (!_roleManager.RoleExistsAsync(Roles.Employee).Result)
             {
-                throw new ApplicationException(ExceptionMessages.RolesHaveNotBeenCreated);
+                throw new ApplicationException(ExceptionMessages.InternalServerError);
             }
 
-            var userId = GetUserId();
+            var userId = _businessPlaceServive.GetUserIdOrDefault(HttpContext);
+
+            if (userId == null)
+            {
+                throw new ApplicationException(ExceptionMessages.InternalServerError);
+            }
 
             var user = new ApplicationUser
             {
@@ -73,7 +81,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var employee = new Clinic_Employee
                 {
                     UserId = appUser.Id,
-                    OwnerUserId = userId
+                    OwnerUserId = userId.Value
                 };
 
                 dbContext.Clinic_Employees.Add(employee);
@@ -100,18 +108,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 throw new ApplicationException(ExceptionMessages.InternalServerError);
             }
-        }
-
-        private int GetUserId()
-        {
-            int? userId = (int?)HttpContext.Items["userId"];
-
-            if (!userId.HasValue)
-            {
-                throw new ApplicationException(ExceptionMessages.InternalServerError);
-            }
-
-            return userId.Value;
         }
     }
 }
