@@ -239,9 +239,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var userId = _service.GetUserId(HttpContext);
 
                 return dbContext.Clinic_Patients
-                    .Include(x => x.Client)
                     .Where(p => p.UserId == userId)
-                    .Where(p => p.FullName.Contains(filter.Text) || p.Client.User.Email.Contains(filter.Text))
+                    .Where(p => p.Client.FullName.Contains(filter.Text) || p.Client.User.Email.Contains(filter.Text))
                     .Where(p => filter.MedicalInsuranceId == null | p.MedicalPlan.MedicalInsuranceId == filter.MedicalInsuranceId)
                     .Select(s => new PatientDto
                     {
