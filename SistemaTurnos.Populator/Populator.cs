@@ -68,7 +68,17 @@ namespace SistemaTurnos.Populator
             // Creo especialidades
             Console.Write("Especialidades\t\t\t");
             var specialtyData1 = CreateSpecialtyData("Especialidad de clinica", RubroEnum.Clinic);
-            var specialtyData2 = CreateSpecialtyData("Especialidad de peluqueria", RubroEnum.Hairdressing);
+            var specialtyData2 = CreateSpecialtyData("Maquillaje", RubroEnum.Hairdressing);
+            var specialtyData3 = CreateSpecialtyData("Peluqueria", RubroEnum.Hairdressing);
+            var specialtyData4 = CreateSpecialtyData("Manos", RubroEnum.Hairdressing);
+            var specialtyData5 = CreateSpecialtyData("Pedicura", RubroEnum.Hairdressing);
+            var specialtyData6 = CreateSpecialtyData("Depilacion", RubroEnum.Hairdressing);
+            var specialtyData7 = CreateSpecialtyData("Tratamientos", RubroEnum.Hairdressing);
+            var specialtyData8 = CreateSpecialtyData("Extension", RubroEnum.Hairdressing);
+            var specialtyData9 = CreateSpecialtyData("Permanente", RubroEnum.Hairdressing);
+            var specialtyData10 = CreateSpecialtyData("Masajes", RubroEnum.Hairdressing);
+            var specialtyData11 = CreateSpecialtyData("Pilates", RubroEnum.Hairdressing);
+            var specialtyData12 = CreateSpecialtyData("Novias y Quinces", RubroEnum.Hairdressing);
 
             var specialty1 = CreateSpecialty("Kinesiologia", clinic1);
             var specialty2 = CreateSpecialty("Oftalmologia", clinic1);
