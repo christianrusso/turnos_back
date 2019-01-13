@@ -26,7 +26,5 @@ namespace SistemaTurnos.Database.ClinicModel
         public int ClientId { get; set; }
 
         public virtual SystemClient Client { get; set; }
-
-        public string FullName => Client.FullName;
     }
 }

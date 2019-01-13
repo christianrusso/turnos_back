@@ -23,7 +23,5 @@ namespace SistemaTurnos.Database.HairdressingModel
         public int ClientId { get; set; }
 
         public virtual SystemClient Client { get; set; }
-
-        public string FullName => Client.FullName;
     }
 }
