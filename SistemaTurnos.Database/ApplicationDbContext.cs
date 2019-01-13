@@ -17,8 +17,8 @@ namespace SistemaTurnos.Database
         private const string databaseServer = "localhost";
         private const string databaseName = "sistematurnos";
         private const string databaseUser = "root";
-        //private const string databasePass = "1682951!Abmtoba";
-        private const string databasePass = "fernando";
+        private const string databasePass = "1682951!Abmtoba";
+        //private const string databasePass = "fernando";
         //private const string databasePass = "tito1234H6*";
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) 

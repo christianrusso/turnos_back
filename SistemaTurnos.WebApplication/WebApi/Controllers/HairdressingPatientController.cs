@@ -205,7 +205,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var userId = _service.GetUserId(HttpContext);
 
                 return dbContext.Hairdressing_Patients
-                    .Include(x => x.Client)
                     .Where(p => p.UserId == userId)
                     .Where(p => p.FullName.Contains(filter.Text) || p.Client.User.Email.Contains(filter.Text))
                     .Select(s => new HairdressingPatientDto()
