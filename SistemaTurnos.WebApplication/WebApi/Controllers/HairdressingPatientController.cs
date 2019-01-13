@@ -181,7 +181,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = _service.GetUserId(HttpContext);
 
-                var patientToUpdate = dbContext.Hairdressing_Patients.Include(x=>x.Client).FirstOrDefault(p => p.Id == patientDto.Id && p.UserId == userId);
+                var patientToUpdate = dbContext.Hairdressing_Patients.FirstOrDefault(p => p.Id == patientDto.Id && p.UserId == userId);
 
                 if (patientToUpdate == null)
                 {
@@ -205,9 +205,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var userId = _service.GetUserId(HttpContext);
 
                 return dbContext.Hairdressing_Patients
-                    .Include(x => x.Client)
                     .Where(p => p.UserId == userId)
-                    .Where(p => p.FullName.Contains(filter.Text) || p.Client.User.Email.Contains(filter.Text))
+                    .Where(p => string.IsNullOrWhiteSpace(filter.Text) || p.FullName.Contains(filter.Text) || p.Client.User.Email.Contains(filter.Text))
                     .Select(s => new HairdressingPatientDto()
                     {
                         Id = s.Id,
