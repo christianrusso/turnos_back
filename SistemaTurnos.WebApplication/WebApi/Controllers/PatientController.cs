@@ -204,7 +204,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = _service.GetUserId(HttpContext);
 
-                var patientToUpdate = dbContext.Clinic_Patients.Include(x=>x.Client).FirstOrDefault(p => p.Id == patientDto.Id && p.UserId == userId);
+                var patientToUpdate = dbContext.Clinic_Patients.FirstOrDefault(p => p.Id == patientDto.Id && p.UserId == userId);
 
                 if (patientToUpdate == null)
                 {
