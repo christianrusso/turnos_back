@@ -240,7 +240,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 return dbContext.Clinic_Patients
                     .Where(p => p.UserId == userId)
-                    .Where(p => p.Client.FullName.Contains(filter.Text) || p.Client.User.Email.Contains(filter.Text))
+                    .Where(p => string.IsNullOrWhiteSpace(filter.Text) || p.Client.FullName.Contains(filter.Text) || p.Client.User.Email.Contains(filter.Text))
                     .Where(p => filter.MedicalInsuranceId == null | p.MedicalPlan.MedicalInsuranceId == filter.MedicalInsuranceId)
                     .Select(s => new PatientDto
                     {
