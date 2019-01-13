@@ -77,7 +77,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         throw new ApplicationException(ExceptionMessages.LoginFailed);
                     }
 
-                    if (model.BusinessType.IsHBE() && !dbContext.Hairdressings.Any(c => c.UserId == appUser.Id))
+                    if (model.BusinessType.IsHBE() && !dbContext.Hairdressings.Any(h => h.BusinessType == model.BusinessType && h.UserId == appUser.Id))
                     {
                         throw new ApplicationException(ExceptionMessages.LoginFailed);
                     }
@@ -108,7 +108,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         {
                             userId = Hemployee.OwnerUserId;
                         }
-                        var hairdressing = dbContext.Hairdressings.FirstOrDefault(c => c.UserId == userId);
+                        var hairdressing = dbContext.Hairdressings.FirstOrDefault(h => h.BusinessType == model.BusinessType && h.UserId == userId);
 
                         if (hairdressing == null)
                         {
@@ -147,7 +147,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         {
                             userId = Hemployee.OwnerUserId;
                         }
-                        var hairdressing = dbContext.Hairdressings.FirstOrDefault(c => c.UserId == userId);
+                        var hairdressing = dbContext.Hairdressings.FirstOrDefault(h => h.BusinessType == model.BusinessType && h.UserId == userId);
 
                         if (hairdressing == null)
                         {
@@ -340,7 +340,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         Longitude = model.Longitude,
                         UserId = appUser.Id,
                         Logo = model.Logo,
-                        RequiresPayment = false
+                        RequiresPayment = false,
+                        BusinessType = model.BusinessType
                     };
 
                     dbContext.Hairdressings.Add(hairdressing);
