@@ -20,5 +20,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.HairdressingAppointment
         public DateTime DateTime { get; set; }
 
         public AppointmentStateEnum State { get; set; }
+
+        public int Id { get; set; }
     }
 }
