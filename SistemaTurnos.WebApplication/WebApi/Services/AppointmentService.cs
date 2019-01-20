@@ -41,8 +41,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
                             Clinic = clinic.Name,
                             Logo = clinic.Logo,
                             Doctor = $"{dayAppointment.Doctor.FirstName} {dayAppointment.Doctor.LastName}",
-                            Specialty = dayAppointment.Doctor.Specialty.Data.Description,
-                            Subspecialty = dayAppointment.Doctor.Subspecialty?.Data.Description ?? string.Empty,
+                            Specialty = dayAppointment.Subspecialty.Specialty.Data.Description,
+                            Subspecialty = dayAppointment.Subspecialty.Data.Description ?? string.Empty,
                             DateTime = dayAppointment.DateTime,
                             Id = dayAppointment.Id,
                             State = dayAppointment.State,
@@ -88,8 +88,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
                             Hairdressing = hairdressing.Name,
                             Logo = hairdressing.Logo,
                             Professional = $"{dayAppointment.Professional.FirstName} {dayAppointment.Professional.LastName}",
-                            Specialty = dayAppointment.Professional.Specialty.Data.Description,
-                            Subspecialty = dayAppointment.Professional.Subspecialty?.Data.Description ?? string.Empty,
+                            Specialty = dayAppointment.Subspecialty.Specialty.Data.Description,
+                            Subspecialty = dayAppointment.Subspecialty?.Data.Description ?? string.Empty,
                             DateTime = dayAppointment.DateTime,
                         };
 

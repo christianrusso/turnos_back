@@ -16,5 +16,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.HairdressingAppointment
 
         [Required]
         public int ProfessionalId { get; set; }
+
+        [Required]
+        public int SubspecialtyId { get; set; }
     }
 }

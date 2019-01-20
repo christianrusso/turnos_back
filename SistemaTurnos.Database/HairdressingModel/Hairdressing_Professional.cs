@@ -29,20 +29,9 @@ namespace SistemaTurnos.Database.HairdressingModel
         public string PhoneNumber { get; set; }
 
         [Required]
-        public uint ConsultationLength { get; set; }
-
-        [Required]
-        public int SpecialtyId { get; set; }
-
-        [Required]
-        public virtual Hairdressing_Specialty Specialty { get; set; }
-
-        [Required]
         public HairdressingProfessionalStateEnum State { get; set; }
 
-        public int? SubspecialtyId { get; set; }
-
-        public virtual Hairdressing_Subspecialty Subspecialty { get; set; }
+        public virtual List<Hairdressing_ProfessionalSubspecialty> Subspecialties { get; set; }
 
         public virtual List<Hairdressing_WorkingHours> WorkingHours { get; set; }
 
@@ -53,11 +42,12 @@ namespace SistemaTurnos.Database.HairdressingModel
 
         public virtual ApplicationUser User { get; set; }
 
-        public List<DateTime> GetAvailableAppointmentsForDay(DateTime day)
+        public List<DateTime> GetAvailableAppointmentsForDay(DateTime day, int subspecialtyId)
         {
+            var professionalSubspecialty = Subspecialties.First(ssp => ssp.SubspecialtyId == subspecialtyId);
             day = day.Date;
             var dayNumber = day.DayOfWeek;
-            var consultationMinutes = TimeSpan.FromMinutes(ConsultationLength);
+            var consultationMinutes = TimeSpan.FromMinutes(professionalSubspecialty.ConsultationLength);
             var dayWorkingHours = WorkingHours.Where(wh => wh.DayNumber == dayNumber).OrderBy(wh => wh.Start).ToList();
             var allAppointments = new List<DateTime>();
 
@@ -75,9 +65,9 @@ namespace SistemaTurnos.Database.HairdressingModel
             return allAppointments;
         }
 
-        public List<DateTime> GetAllAvailablesForDay(DateTime day)
+        public List<DateTime> GetAllAvailablesForDay(DateTime day, int subspecialtyId)
         {
-            var availableAppointments = GetAvailableAppointmentsForDay(day);
+            var availableAppointments = GetAvailableAppointmentsForDay(day, subspecialtyId);
 
             foreach (var appointment in Appointments)
             {

@@ -122,7 +122,7 @@ namespace SistemaTurnos.Populator
 
             // Creo doctores 
             Console.Write("Doctores\t\t\t");
-            var doctor1 = CreateDoctor("Fernando", "Gomez", 30, specialty2, null, DoctorStateEnum.Active,
+            var doctor1 = CreateDoctor("Fernando", "Gomez", new List<uint> { 30 }, new List<Clinic_Subspecialty> { subspecialty1 }, DoctorStateEnum.Active,
                 new List<Clinic_WorkingHours> {
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
@@ -133,7 +133,7 @@ namespace SistemaTurnos.Populator
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) }
                 }, clinic1);
 
-            var doctor2 = CreateDoctor("Christian", "Russo", 10, specialty1, subspecialty1, DoctorStateEnum.Active,
+            var doctor2 = CreateDoctor("Christian", "Russo", new List<uint> { 10, 15 }, new List<Clinic_Subspecialty> { subspecialty2, subspecialty3 }, DoctorStateEnum.Active,
                 new List<Clinic_WorkingHours> {
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(7, 0, 0), End = new TimeSpan(21, 0, 0) },
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
@@ -144,7 +144,7 @@ namespace SistemaTurnos.Populator
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) }
                 }, clinic1);
 
-            var doctor3 = CreateDoctor("Sabrina", "Fillol", 10, specialty1, subspecialty1, DoctorStateEnum.Active,
+            var doctor3 = CreateDoctor("Sabrina", "Fillol", new List<uint> { 10 }, new List<Clinic_Subspecialty> { subspecialty5 }, DoctorStateEnum.Active,
                 new List<Clinic_WorkingHours> {
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(7, 0, 0), End = new TimeSpan(21, 0, 0) },
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
@@ -155,7 +155,7 @@ namespace SistemaTurnos.Populator
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) }
                 }, clinic1);
 
-            var doctor4 = CreateDoctor("Pedro", "Perez", 30, specialty5, subspecialty9, DoctorStateEnum.Active,
+            var doctor4 = CreateDoctor("Pedro", "Perez", new List<uint> { 30 }, new List<Clinic_Subspecialty> { subspecialty9 }, DoctorStateEnum.Active,
                 new List<Clinic_WorkingHours> {
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(20, 0, 0) },
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(20, 0, 0) },
@@ -166,7 +166,7 @@ namespace SistemaTurnos.Populator
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(20, 0, 0) }
                 }, clinic2);
 
-            var doctor5 = CreateDoctor("Eduardo", "Martinez", 10, specialty6, subspecialty11, DoctorStateEnum.Active,
+            var doctor5 = CreateDoctor("Eduardo", "Martinez", new List<uint> { 10 }, new List<Clinic_Subspecialty> { subspecialty11 }, DoctorStateEnum.Active,
                 new List<Clinic_WorkingHours> {
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(17, 50, 0) },
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(17, 50, 0) },
@@ -177,7 +177,7 @@ namespace SistemaTurnos.Populator
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(17, 50, 0) }
                 }, clinic2);
 
-            var doctor6 = CreateDoctor("Eliana", "Lint", 60, specialty8, subspecialty15, DoctorStateEnum.Active,
+            var doctor6 = CreateDoctor("Eliana", "Lint", new List<uint> { 60 }, new List<Clinic_Subspecialty> { subspecialty15 }, DoctorStateEnum.Active,
                 new List<Clinic_WorkingHours> {
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(22, 30, 0) },
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(22, 30, 0) },
@@ -188,7 +188,7 @@ namespace SistemaTurnos.Populator
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(22, 30, 0) }
                 }, clinic3);
 
-            var doctor7 = CreateDoctor("Daniela", "Disig", 30, specialty9, null, DoctorStateEnum.Active,
+            var doctor7 = CreateDoctor("Daniela", "Disig", new List<uint> { 10, 20, 30, 50, 60 }, new List<Clinic_Subspecialty> { subspecialty12, subspecialty13, subspecialty14, subspecialty15, subspecialty16 }, DoctorStateEnum.Active,
                 new List<Clinic_WorkingHours> {
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(7, 30, 0), End = new TimeSpan(12, 30, 0) },
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(7, 30, 0), End = new TimeSpan(12, 30, 0) },
@@ -286,68 +286,68 @@ namespace SistemaTurnos.Populator
 
             // Creo turnos
             Console.Write("Turnos\t\t\t\t");
-            var appointment1 = CreateAppointment(DateTime.Today.AddDays(-5).AddHours(8).AddMinutes(30), doctor1, patient1, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment2 = CreateAppointment(DateTime.Today.AddDays(-3).AddHours(10).AddMinutes(30), doctor1, patient2, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment3 = CreateAppointment(DateTime.Today.AddDays(-3).AddHours(12).AddMinutes(0), doctor1, patient3, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment4 = CreateAppointment(DateTime.Today.AddDays(-2).AddHours(15).AddMinutes(30), doctor1, patient5, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment5 = CreateAppointment(DateTime.Today.AddDays(-1).AddHours(8).AddMinutes(40), doctor2, patient3, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment6 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(8).AddMinutes(50), doctor2, patient1, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment7 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(9).AddMinutes(20), doctor2, patient2, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment8 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(9).AddMinutes(30), doctor2, patient3, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment9 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(9).AddMinutes(50), doctor2, patient4, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment10 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(9).AddMinutes(30), doctor1, patient3, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment11 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(14).AddMinutes(20), doctor2, patient5, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment12 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(15).AddMinutes(0), doctor2, patient2, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment13 = CreateAppointment(DateTime.Today.AddDays(2).AddHours(16).AddMinutes(0), doctor1, patient1, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment14 = CreateAppointment(DateTime.Today.AddDays(3).AddHours(9).AddMinutes(20), doctor2, patient4, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment15 = CreateAppointment(DateTime.Today.AddDays(4).AddHours(16).AddMinutes(40), doctor2, patient5, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment16 = CreateAppointment(DateTime.Today.AddDays(4).AddHours(16).AddMinutes(50), doctor2, patient2, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment17 = CreateAppointment(DateTime.Today.AddDays(4).AddHours(17).AddMinutes(0), doctor2, patient3, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment18 = CreateAppointment(DateTime.Today.AddDays(4).AddHours(17).AddMinutes(10), doctor2, patient4, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment19 = CreateAppointment(DateTime.Today.AddDays(4).AddHours(17).AddMinutes(20), doctor2, patient5, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment20 = CreateAppointment(DateTime.Today.AddDays(4).AddHours(17).AddMinutes(40), doctor2, patient1, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment1 = CreateAppointment(DateTime.Today.AddDays(-5).AddHours(8).AddMinutes(30), doctor1, subspecialty1, patient1, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment2 = CreateAppointment(DateTime.Today.AddDays(-3).AddHours(10).AddMinutes(30), doctor1, subspecialty1, patient2, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment3 = CreateAppointment(DateTime.Today.AddDays(-3).AddHours(12).AddMinutes(0), doctor1, subspecialty1, patient3, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment4 = CreateAppointment(DateTime.Today.AddDays(-2).AddHours(15).AddMinutes(30), doctor1, subspecialty1, patient5, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment5 = CreateAppointment(DateTime.Today.AddDays(-1).AddHours(8).AddMinutes(40), doctor2, subspecialty2, patient3, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment6 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(8).AddMinutes(50), doctor2, subspecialty3, patient1, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment7 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(9).AddMinutes(20), doctor2, subspecialty3, patient2, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment8 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(9).AddMinutes(30), doctor2, subspecialty3, patient3, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment9 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(9).AddMinutes(50), doctor2, subspecialty2, patient4, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment10 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(9).AddMinutes(30), doctor1, subspecialty1, patient3, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment11 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(14).AddMinutes(20), doctor2, subspecialty2, patient5, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment12 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(15).AddMinutes(0), doctor2, subspecialty2, patient2, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment13 = CreateAppointment(DateTime.Today.AddDays(2).AddHours(16).AddMinutes(0), doctor1, subspecialty1, patient1, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment14 = CreateAppointment(DateTime.Today.AddDays(3).AddHours(9).AddMinutes(20), doctor2, subspecialty3, patient4, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment15 = CreateAppointment(DateTime.Today.AddDays(4).AddHours(16).AddMinutes(40), doctor2, subspecialty3, patient5, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment16 = CreateAppointment(DateTime.Today.AddDays(4).AddHours(16).AddMinutes(50), doctor2, subspecialty2, patient2, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment17 = CreateAppointment(DateTime.Today.AddDays(4).AddHours(17).AddMinutes(0), doctor2, subspecialty3, patient3, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment18 = CreateAppointment(DateTime.Today.AddDays(4).AddHours(17).AddMinutes(10), doctor2, subspecialty3, patient4, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment19 = CreateAppointment(DateTime.Today.AddDays(4).AddHours(17).AddMinutes(20), doctor2, subspecialty2, patient5, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment20 = CreateAppointment(DateTime.Today.AddDays(4).AddHours(17).AddMinutes(40), doctor2, subspecialty2, patient1, AppointmentStateEnum.Reserved, null, clinic1);
 
-            var appointment21 = CreateAppointment(DateTime.Today.AddDays(-10).AddHours(8).AddMinutes(0), doctor4, patient6, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment22 = CreateAppointment(DateTime.Today.AddDays(-9).AddHours(9).AddMinutes(30), doctor4, patient7, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment23 = CreateAppointment(DateTime.Today.AddDays(-8).AddHours(10).AddMinutes(0), doctor4, patient8, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment24 = CreateAppointment(DateTime.Today.AddDays(-7).AddHours(11).AddMinutes(30), doctor4, patient9, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment25 = CreateAppointment(DateTime.Today.AddDays(-6).AddHours(12).AddMinutes(0), doctor4, patient10, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment26 = CreateAppointment(DateTime.Today.AddDays(-5).AddHours(13).AddMinutes(30), doctor4, patient6, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment27 = CreateAppointment(DateTime.Today.AddDays(-4).AddHours(14).AddMinutes(0), doctor4, patient6, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment28 = CreateAppointment(DateTime.Today.AddDays(-3).AddHours(15).AddMinutes(30), doctor4, patient7, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment29 = CreateAppointment(DateTime.Today.AddDays(-2).AddHours(16).AddMinutes(0), doctor4, patient8, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment30 = CreateAppointment(DateTime.Today.AddDays(-1).AddHours(17).AddMinutes(30), doctor4, patient9, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment31 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(18).AddMinutes(0), doctor4, patient9, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment32 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(19).AddMinutes(30), doctor4, patient10, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment33 = CreateAppointment(DateTime.Today.AddDays(2).AddHours(20).AddMinutes(0), doctor4, patient6, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment34 = CreateAppointment(DateTime.Today.AddDays(3).AddHours(9).AddMinutes(30), doctor5, patient7, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment35 = CreateAppointment(DateTime.Today.AddDays(4).AddHours(10).AddMinutes(40), doctor5, patient8, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment36 = CreateAppointment(DateTime.Today.AddDays(5).AddHours(11).AddMinutes(50), doctor5, patient8, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment37 = CreateAppointment(DateTime.Today.AddDays(6).AddHours(12).AddMinutes(0), doctor5, patient8, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment38 = CreateAppointment(DateTime.Today.AddDays(7).AddHours(13).AddMinutes(10), doctor5, patient9, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment39 = CreateAppointment(DateTime.Today.AddDays(8).AddHours(14).AddMinutes(20), doctor5, patient9, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment40 = CreateAppointment(DateTime.Today.AddDays(9).AddHours(15).AddMinutes(30), doctor5, patient9, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment21 = CreateAppointment(DateTime.Today.AddDays(-10).AddHours(8).AddMinutes(0), doctor4, subspecialty9, patient6, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment22 = CreateAppointment(DateTime.Today.AddDays(-9).AddHours(9).AddMinutes(30), doctor4, subspecialty9, patient7, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment23 = CreateAppointment(DateTime.Today.AddDays(-8).AddHours(10).AddMinutes(0), doctor4, subspecialty9, patient8, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment24 = CreateAppointment(DateTime.Today.AddDays(-7).AddHours(11).AddMinutes(30), doctor4, subspecialty9, patient9, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment25 = CreateAppointment(DateTime.Today.AddDays(-6).AddHours(12).AddMinutes(0), doctor4, subspecialty9, patient10, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment26 = CreateAppointment(DateTime.Today.AddDays(-5).AddHours(13).AddMinutes(30), doctor4, subspecialty9, patient6, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment27 = CreateAppointment(DateTime.Today.AddDays(-4).AddHours(14).AddMinutes(0), doctor4, subspecialty9, patient6, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment28 = CreateAppointment(DateTime.Today.AddDays(-3).AddHours(15).AddMinutes(30), doctor4, subspecialty9, patient7, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment29 = CreateAppointment(DateTime.Today.AddDays(-2).AddHours(16).AddMinutes(0), doctor4, subspecialty9, patient8, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment30 = CreateAppointment(DateTime.Today.AddDays(-1).AddHours(17).AddMinutes(30), doctor4, subspecialty9, patient9, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment31 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(18).AddMinutes(0), doctor4, subspecialty9, patient9, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment32 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(19).AddMinutes(30), doctor4, subspecialty9, patient10, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment33 = CreateAppointment(DateTime.Today.AddDays(2).AddHours(20).AddMinutes(0), doctor4, subspecialty9, patient6, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment34 = CreateAppointment(DateTime.Today.AddDays(3).AddHours(9).AddMinutes(30), doctor5, subspecialty11, patient7, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment35 = CreateAppointment(DateTime.Today.AddDays(4).AddHours(10).AddMinutes(40), doctor5, subspecialty11, patient8, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment36 = CreateAppointment(DateTime.Today.AddDays(5).AddHours(11).AddMinutes(50), doctor5, subspecialty11, patient8, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment37 = CreateAppointment(DateTime.Today.AddDays(6).AddHours(12).AddMinutes(0), doctor5, subspecialty11, patient8, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment38 = CreateAppointment(DateTime.Today.AddDays(7).AddHours(13).AddMinutes(10), doctor5, subspecialty11, patient9, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment39 = CreateAppointment(DateTime.Today.AddDays(8).AddHours(14).AddMinutes(20), doctor5, subspecialty11, patient9, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment40 = CreateAppointment(DateTime.Today.AddDays(9).AddHours(15).AddMinutes(30), doctor5, subspecialty11, patient9, AppointmentStateEnum.Reserved, null, clinic2);
 
-            var appointment41 = CreateAppointment(DateTime.Today.AddDays(-2).AddHours(10).AddMinutes(30), doctor6, patient15, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment42 = CreateAppointment(DateTime.Today.AddDays(-2).AddHours(7).AddMinutes(30), doctor7, patient14, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment43 = CreateAppointment(DateTime.Today.AddDays(-2).AddHours(16).AddMinutes(30), doctor6, patient14, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment44 = CreateAppointment(DateTime.Today.AddDays(-2).AddHours(12).AddMinutes(0), doctor7, patient12, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment45 = CreateAppointment(DateTime.Today.AddDays(-2).AddHours(22).AddMinutes(30), doctor6, patient11, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment46 = CreateAppointment(DateTime.Today.AddDays(-1).AddHours(8).AddMinutes(0), doctor7, patient11, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment47 = CreateAppointment(DateTime.Today.AddDays(-1).AddHours(14).AddMinutes(30), doctor6, patient13, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment48 = CreateAppointment(DateTime.Today.AddDays(-1).AddHours(9).AddMinutes(0), doctor7, patient3, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment49 = CreateAppointment(DateTime.Today.AddDays(-1).AddHours(16).AddMinutes(30), doctor6, patient13, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment50 = CreateAppointment(DateTime.Today.AddDays(-1).AddHours(11).AddMinutes(0), doctor7, patient14, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment51 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(18).AddMinutes(30), doctor6, patient15, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment52 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(12).AddMinutes(30), doctor7, patient11, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment53 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(20).AddMinutes(30), doctor6, patient11, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment54 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(9).AddMinutes(30), doctor7, patient12, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment55 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(10).AddMinutes(30), doctor6, patient12, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment56 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(10).AddMinutes(30), doctor7, patient12, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment57 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(10).AddMinutes(30), doctor6, patient14, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment58 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(11).AddMinutes(0), doctor7, patient13, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment59 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(11).AddMinutes(30), doctor6, patient15, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment60 = CreateAppointment(DateTime.Today.AddDays(2).AddHours(11).AddMinutes(30), doctor7, patient11, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment41 = CreateAppointment(DateTime.Today.AddDays(-2).AddHours(10).AddMinutes(30), doctor6, subspecialty15, patient15, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment42 = CreateAppointment(DateTime.Today.AddDays(-2).AddHours(7).AddMinutes(30), doctor7, subspecialty12, patient14, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment43 = CreateAppointment(DateTime.Today.AddDays(-2).AddHours(16).AddMinutes(30), doctor6, subspecialty15, patient14, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment44 = CreateAppointment(DateTime.Today.AddDays(-2).AddHours(12).AddMinutes(0), doctor7, subspecialty13, patient12, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment45 = CreateAppointment(DateTime.Today.AddDays(-2).AddHours(22).AddMinutes(30), doctor6, subspecialty15, patient11, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment46 = CreateAppointment(DateTime.Today.AddDays(-1).AddHours(8).AddMinutes(0), doctor7, subspecialty14, patient11, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment47 = CreateAppointment(DateTime.Today.AddDays(-1).AddHours(14).AddMinutes(30), doctor6, subspecialty15, patient13, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment48 = CreateAppointment(DateTime.Today.AddDays(-1).AddHours(9).AddMinutes(0), doctor7, subspecialty15, patient3, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment49 = CreateAppointment(DateTime.Today.AddDays(-1).AddHours(16).AddMinutes(30), doctor6, subspecialty15, patient13, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment50 = CreateAppointment(DateTime.Today.AddDays(-1).AddHours(11).AddMinutes(0), doctor7, subspecialty16, patient14, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment51 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(18).AddMinutes(30), doctor6, subspecialty15, patient15, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment52 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(12).AddMinutes(30), doctor7, subspecialty12, patient11, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment53 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(20).AddMinutes(30), doctor6, subspecialty15, patient11, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment54 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(9).AddMinutes(30), doctor7, subspecialty13, patient12, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment55 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(10).AddMinutes(30), doctor6, subspecialty15, patient12, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment56 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(10).AddMinutes(30), doctor7, subspecialty14, patient12, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment57 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(10).AddMinutes(30), doctor6, subspecialty15, patient14, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment58 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(11).AddMinutes(0), doctor7, subspecialty16, patient13, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment59 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(11).AddMinutes(30), doctor6, subspecialty15, patient15, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment60 = CreateAppointment(DateTime.Today.AddDays(2).AddHours(11).AddMinutes(30), doctor7, subspecialty16, patient11, AppointmentStateEnum.Reserved, null, clinic3);
             Console.Write("OK\n");
 
             Console.WriteLine("Se finalizo el populado de la base de datos.");
@@ -749,7 +749,7 @@ namespace SistemaTurnos.Populator
             return subspecialty;
         }
 
-        private Clinic_Doctor CreateDoctor(string firstName, string lastName, uint consultationLength, Clinic_Specialty specialty, Clinic_Subspecialty subspecialty, DoctorStateEnum state, List<Clinic_WorkingHours> workingHours, Clinic clinic)
+        private Clinic_Doctor CreateDoctor(string firstName, string lastName, List<uint> consultationLengths, List<Clinic_Subspecialty> subspecialties, DoctorStateEnum state, List<Clinic_WorkingHours> workingHours, Clinic clinic)
         {
             Clinic_Doctor doctor;
 
@@ -761,15 +761,27 @@ namespace SistemaTurnos.Populator
                     LastName = lastName,
                     PhoneNumber = string.Empty,
                     Email = string.Empty,
-                    ConsultationLength = consultationLength,
-                    SpecialtyId = specialty.Id,
-                    SubspecialtyId = subspecialty?.Id,
+                    Subspecialties = new List<Clinic_DoctorSubspecialty>(),
                     State = state,
                     WorkingHours = workingHours,
                     UserId = clinic.UserId
                 };
 
                 dbContext.Clinic_Doctors.Add(doctor);
+                dbContext.SaveChanges();
+
+                for (var i = 0; i < subspecialties.Count; i++)
+                {
+                    var doctorSubspecialty = new Clinic_DoctorSubspecialty
+                    {
+                        DoctorId = doctor.Id,
+                        SubspecialtyId = subspecialties[i].Id,
+                        ConsultationLength = consultationLengths[i]
+                    };
+
+                    doctor.Subspecialties.Add(doctorSubspecialty);
+                }
+
                 dbContext.SaveChanges();
             }
 
@@ -911,7 +923,7 @@ namespace SistemaTurnos.Populator
             return patient;
         }
 
-        private Clinic_Appointment CreateAppointment(DateTime dateTime, Clinic_Doctor doctor, Clinic_Patient patient, AppointmentStateEnum state, Clinic_Rating rating, Clinic clinic)
+        private Clinic_Appointment CreateAppointment(DateTime dateTime, Clinic_Doctor doctor, Clinic_Subspecialty subspecialty, Clinic_Patient patient, AppointmentStateEnum state, Clinic_Rating rating, Clinic clinic)
         {
             Clinic_Appointment appointment;
 
@@ -924,7 +936,8 @@ namespace SistemaTurnos.Populator
                     PatientId = patient.Id,
                     State = state,
                     RatingId = rating?.Id ?? 0,
-                    UserId = clinic.UserId
+                    UserId = clinic.UserId,
+                    SubspecialtyId = subspecialty.Id
                 };
 
                 dbContext.Clinic_Appointments.Add(appointment);

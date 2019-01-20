@@ -25,12 +25,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
-        private readonly EmailService emailService = new EmailService();
+        private readonly EmailService _emailService;
+        private readonly BusinessPlaceService _businessPlaceService;
 
         public AppointmentController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _emailService = new EmailService();
+            _businessPlaceService = new BusinessPlaceService();
         }
 
         /// <summary>
@@ -39,13 +42,28 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         /// <param name="getAppointmentDto"></param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize]
         public List<DateTime> GetAllAvailablesFromDay([FromBody] GetAppointmentDto getAppointmentDto)
         {
             using (var dbContext = new ApplicationDbContext())
             {
+                var userId = _businessPlaceService.GetUserIdOrDefault(HttpContext);
 
-                var userId = GetUserId();
+                if (getAppointmentDto.ClinicId.HasValue)
+                {
+                    var clinic = dbContext.Clinics.FirstOrDefault(c => c.Id == getAppointmentDto.ClinicId);
+
+                    if (clinic == null)
+                    {
+                        throw new BadRequestException();
+                    }
+
+                    userId = clinic.UserId;
+                }
+
+                if (userId == null)
+                {
+                    throw new BadRequestException();
+                }
 
                 Clinic_Doctor doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == getAppointmentDto.DoctorId && d.UserId == userId);
 
@@ -54,10 +72,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
+                if (!doctor.Subspecialties.Any(ds => ds.SubspecialtyId == getAppointmentDto.SubspecialtyId))
+                {
+                    throw new BadRequestException();
+                }
+
                 var res = new List<DateTime>();
                 for (int i = 0; i < 15; i++)
                 {
-                    foreach (var datetime in doctor.GetAllAvailablesForDay(getAppointmentDto.Day.AddDays(i)))
+                    foreach (var datetime in doctor.GetAllAvailablesForDay(getAppointmentDto.Day.AddDays(i), getAppointmentDto.SubspecialtyId))
                     {
                         res.Add(datetime);
                     }
@@ -73,25 +96,42 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         /// <param name="getAppointmentDto"></param>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Roles = Roles.AdministratorAndEmployeeAndClient)]
         public List<DateTime> GetAllAvailablesForDay([FromBody] GetAppointmentDto getAppointmentDto)
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                
-                int? userId = GetUserId();
+                var userId = _businessPlaceService.GetUserIdOrDefault(HttpContext);
 
-                if(getAppointmentDto.ClinicId != null)
-                    userId = getAppointmentDto.ClinicId;
+                if (getAppointmentDto.ClinicId.HasValue)
+                {
+                    var clinic = dbContext.Clinics.FirstOrDefault(c => c.Id == getAppointmentDto.ClinicId);
 
-                var doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == getAppointmentDto.DoctorId);
+                    if (clinic == null)
+                    {
+                        throw new BadRequestException();
+                    }
+
+                    userId = clinic.UserId;
+                }
+
+                if (userId == null)
+                {
+                    throw new BadRequestException();
+                }
+
+                var doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == getAppointmentDto.DoctorId && d.UserId == userId);
 
                 if (doctor == null)
                 {
                     throw new BadRequestException();
                 }
 
-                return doctor.GetAllAvailablesForDay(getAppointmentDto.Day);
+                if (!doctor.Subspecialties.Any(ds => ds.SubspecialtyId == getAppointmentDto.SubspecialtyId))
+                {
+                    throw new BadRequestException();
+                }
+
+                return doctor.GetAllAvailablesForDay(getAppointmentDto.Day, getAppointmentDto.SubspecialtyId);
             }
         }
 
@@ -106,7 +146,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _businessPlaceService.GetUserId(HttpContext);
 
                 if (requestAppointmentDto.Day.Date < DateTime.Today.Date)
                 {
@@ -116,6 +156,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == requestAppointmentDto.DoctorId && d.UserId == userId);
 
                 if (doctor == null)
+                {
+                    throw new BadRequestException();
+                }
+
+                if (!doctor.Subspecialties.Any(ds => ds.SubspecialtyId == requestAppointmentDto.SubspecialtyId))
                 {
                     throw new BadRequestException();
                 }
@@ -177,7 +222,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.Clinic_Patients.Add(patient);
                 dbContext.SaveChanges();
 
-                var availableAppointments = doctor.GetAllAvailablesForDay(requestAppointmentDto.Day.Date);
+                var availableAppointments = doctor.GetAllAvailablesForDay(requestAppointmentDto.Day.Date, requestAppointmentDto.SubspecialtyId);
 
                 var appointment = new DateTime(
                         requestAppointmentDto.Day.Year,
@@ -201,6 +246,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     State = AppointmentStateEnum.Reserved,
                     Source = AppointmentSourceEnum.Panel,
                     PatientId = patient.Id,
+                    SubspecialtyId = requestAppointmentDto.SubspecialtyId,
                     UserId = userId
                 });
 
@@ -219,7 +265,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _businessPlaceService.GetUserId(HttpContext);
 
                 if (requestAppointmentDto.Day.Date < DateTime.Today.Date)
                 {
@@ -229,6 +275,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == requestAppointmentDto.DoctorId && d.UserId == userId);
 
                 if (doctor == null)
+                {
+                    throw new BadRequestException();
+                }
+
+                if (!doctor.Subspecialties.Any(ds => ds.SubspecialtyId == requestAppointmentDto.SubspecialtyId))
                 {
                     throw new BadRequestException();
                 }
@@ -264,7 +315,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.Clinic_Patients.Add(patient);
 
-                var availableAppointments = doctor.GetAllAvailablesForDay(requestAppointmentDto.Day.Date);
+                var availableAppointments = doctor.GetAllAvailablesForDay(requestAppointmentDto.Day.Date, requestAppointmentDto.SubspecialtyId);
 
                 var appointment = new DateTime(
                         requestAppointmentDto.Day.Year,
@@ -288,6 +339,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     State = AppointmentStateEnum.Reserved,
                     Source = AppointmentSourceEnum.Panel,
                     PatientId = patient.Id,
+                    SubspecialtyId = requestAppointmentDto.SubspecialtyId,
                     UserId = userId
                 });
 
@@ -306,7 +358,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _businessPlaceService.GetUserId(HttpContext);
 
                 if (requestAppointmentDto.Day.Date < DateTime.Today.Date)
                 {
@@ -320,6 +372,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
+                if (!doctor.Subspecialties.Any(ds => ds.SubspecialtyId == requestAppointmentDto.SubspecialtyId))
+                {
+                    throw new BadRequestException();
+                }
+
                 var patient = dbContext.Clinic_Patients.FirstOrDefault(p => p.Id == requestAppointmentDto.PatientId && p.UserId == userId);
 
                 if (patient == null)
@@ -327,7 +384,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
-                var availableAppointments = doctor.GetAllAvailablesForDay(requestAppointmentDto.Day.Date);
+                var availableAppointments = doctor.GetAllAvailablesForDay(requestAppointmentDto.Day.Date, requestAppointmentDto.SubspecialtyId);
 
                 var appointment = new DateTime(
                         requestAppointmentDto.Day.Year,
@@ -351,6 +408,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     State = AppointmentStateEnum.Reserved,
                     Source = AppointmentSourceEnum.Panel,
                     PatientId = patient.Id,
+                    SubspecialtyId = requestAppointmentDto.SubspecialtyId,
                     UserId = userId
                 });
 
@@ -369,7 +427,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _businessPlaceService.GetUserId(HttpContext);
 
                 if (requestAppointmentDto.Day.Date < DateTime.Today.Date)
                 {
@@ -386,6 +444,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == requestAppointmentDto.DoctorId && d.UserId == clinic.UserId);
 
                 if (doctor == null)
+                {
+                    throw new BadRequestException();
+                }
+
+                if (!doctor.Subspecialties.Any(ds => ds.SubspecialtyId == requestAppointmentDto.SubspecialtyId))
                 {
                     throw new BadRequestException();
                 }
@@ -420,7 +483,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.Clinic_Patients.Add(patient);
 
-                var availableAppointments = doctor.GetAllAvailablesForDay(requestAppointmentDto.Day.Date);
+                var availableAppointments = doctor.GetAllAvailablesForDay(requestAppointmentDto.Day.Date, requestAppointmentDto.SubspecialtyId);
 
                 var appointment = new DateTime(
                         requestAppointmentDto.Day.Year,
@@ -444,6 +507,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     State = AppointmentStateEnum.Reserved,
                     Source = (AppointmentSourceEnum) requestAppointmentDto.Source,
                     PatientId = patient.Id,
+                    SubspecialtyId = requestAppointmentDto.SubspecialtyId,
                     UserId = clinic.UserId
                 });
 
@@ -462,7 +526,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _businessPlaceService.GetUserId(HttpContext);
 
                 if (requestAppointmentDto.Day.Date < DateTime.Today.Date)
                 {
@@ -483,6 +547,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
+                if (!doctor.Subspecialties.Any(ds => ds.SubspecialtyId == requestAppointmentDto.SubspecialtyId))
+                {
+                    throw new BadRequestException();
+                }
+
                 var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
                 var patient = dbContext.Clinic_Patients.FirstOrDefault(p => p.ClientId == client.Id && p.UserId == clinic.UserId);
 
@@ -491,7 +560,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
-                var availableAppointments = doctor.GetAllAvailablesForDay(requestAppointmentDto.Day.Date);
+                var availableAppointments = doctor.GetAllAvailablesForDay(requestAppointmentDto.Day.Date, requestAppointmentDto.SubspecialtyId);
 
                 var appointment = new DateTime(
                         requestAppointmentDto.Day.Year,
@@ -515,7 +584,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     State = AppointmentStateEnum.Reserved,
                     Source = (AppointmentSourceEnum)requestAppointmentDto.Source,
                     PatientId = patient.Id,
-                    UserId = clinic.UserId
+                    SubspecialtyId = requestAppointmentDto.SubspecialtyId,
+                    UserId = clinic.UserId,
                 });
 
                 dbContext.SaveChanges();
@@ -535,7 +605,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _businessPlaceService.GetUserId(HttpContext);
 
                 var appointment = dbContext.Clinic_Appointments.FirstOrDefault(a => a.Id == cancelAppointmentDto.Id && a.UserId == userId);
 
@@ -572,7 +642,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.SaveChanges();
             }
 
-            emailService.Send(emailMessage);
+            _emailService.Send(emailMessage);
         }
 
         /// <summary>
@@ -588,7 +658,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _businessPlaceService.GetUserId(HttpContext);
 
                 var appointment = dbContext.Clinic_Appointments.FirstOrDefault(a => a.Id == completeAppointmentDto.Id && a.UserId == userId);
                 var clinic = dbContext.Clinics.FirstOrDefault(c => c.UserId == appointment.UserId);
@@ -623,7 +693,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.SaveChanges();
             }
 
-            emailService.Send(emailMessage);
+            _emailService.Send(emailMessage);
         }
 
         /// <summary>
@@ -637,7 +707,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _businessPlaceService.GetUserId(HttpContext);
 
                 var appointment = dbContext.Clinic_Appointments.FirstOrDefault(a => a.Id == cancelAppointmentDto.Id);
 
@@ -672,7 +742,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _businessPlaceService.GetUserId(HttpContext);
 
                 var appointment = dbContext.Clinic_Appointments.FirstOrDefault(a => a.Id == completeAppointmentDto.Id);
                 var clinic = dbContext.Clinics.FirstOrDefault(c => c.UserId == appointment.UserId);
@@ -716,7 +786,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.SaveChanges();
             }
 
-            emailService.Send(emailMessage);
+            _emailService.Send(emailMessage);
         }
 
         [HttpPost]
@@ -725,14 +795,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _businessPlaceService.GetUserId(HttpContext);
 
                 var patients = dbContext.Clinic_Patients.Where(p => p.UserId == userId).ToList();
 
                 var doctors = dbContext.Clinic_Doctors
                     .Where(d => d.UserId == userId)
-                    .Where(d => !filter.SpecialtyId.HasValue || d.SpecialtyId == filter.SpecialtyId)
-                    .Where(d => !filter.SubspecialtyId.HasValue || d.SubspecialtyId == filter.SubspecialtyId)
+                    .Where(d => !filter.SpecialtyId.HasValue || d.Subspecialties.Any(ssp => ssp.Subspecialty.SpecialtyId == filter.SpecialtyId))
+                    .Where(d => !filter.SubspecialtyId.HasValue || d.Subspecialties.Any(ssp => ssp.SubspecialtyId == filter.SubspecialtyId))
                     .ToList();
 
                 return doctors.Select(d => new RequestedAppointmentsByDoctorDto
@@ -750,7 +820,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                                 Id = a.Id,
                                 Hour = a.DateTime,
                                 Patient = patients.FirstOrDefault(p => p.Id == a.PatientId)?.Client?.FullName ?? string.Empty,
-                                State = (int) a.State
+                                State = (int) a.State,
+                                Specialty = a.Subspecialty.Specialty.Data.Description,
+                                Subspecialty = a.Subspecialty.Data.Description
                             })
                             .OrderBy(a => a.Hour.Minute)
                             .ToList()
@@ -781,15 +853,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _businessPlaceService.GetUserId(HttpContext);
 
                 var specialties = dbContext.Clinic_Specialties.Where(s => s.UserId == userId).ToList();
 
                 var appointments = dbContext.Clinic_Appointments
                     .Where(a => a.Doctor.UserId == userId)
                     .Where(a => !filter.DoctorId.HasValue || a.DoctorId == filter.DoctorId)
-                    .Where(a => !filter.SubSpecialtyId.HasValue || a.Doctor.SubspecialtyId == filter.SubSpecialtyId)
-                    .Where(a => !filter.SpecialtyId.HasValue || a.Doctor.SpecialtyId == filter.SpecialtyId)
+                    .Where(a => !filter.SubSpecialtyId.HasValue || a.Doctor.Subspecialties.Any(ssp => ssp.SubspecialtyId == filter.SubSpecialtyId))
+                    .Where(a => !filter.SpecialtyId.HasValue || a.Doctor.Subspecialties.Any(ssp => ssp.Subspecialty.SpecialtyId == filter.SpecialtyId))
                     .Where(a => filter.StartDate <= a.DateTime && a.DateTime <= filter.EndDate)
                     .ToList();
 
@@ -805,7 +877,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         
                         foreach (var specialty in specialties)
                         {
-                            var count = appointments.Count(a => datetime <= a.DateTime && a.DateTime < nextHour && a.Doctor.SpecialtyId == specialty.Id);
+                            var count = appointments.Count(a => datetime <= a.DateTime && a.DateTime < nextHour && a.Subspecialty.SpecialtyId == specialty.Id);
 
                             if (count > 0)
                             {
@@ -862,8 +934,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var doctors = dbContext.Clinic_Doctors
                     .Where(d => !filter.ClinicId.HasValue || d.UserId == userId)
                     .Where(d => !filter.DoctorId.HasValue || d.Id == filter.DoctorId)
-                    .Where(d => !filter.SubSpecialtyId.HasValue || d.SubspecialtyId == filter.SubSpecialtyId)
-                    .Where(d => !filter.SpecialtyId.HasValue || d.SpecialtyId == filter.SpecialtyId)
+                    .Where(d => d.Subspecialties.Any(ssp => ssp.SubspecialtyId == filter.SubSpecialtyId))
                     .ToList();
 
                 for (var date = filter.StartDate.Date; date <= filter.EndDate.Date; date = date.AddDays(1))
@@ -872,7 +943,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                     foreach (var doctor in doctors)
                     {
-                        var availableAppointments = doctor.GetAllAvailablesForDay(date);
+                        var availableAppointments = doctor.GetAllAvailablesForDay(date, filter.SubSpecialtyId);
                         day.AvailableAppointments += availableAppointments.Count;
                     }
 
@@ -881,18 +952,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
 
             return res;
-        }
-
-        private int GetUserId()
-        {
-            int? userId = (int?)HttpContext.Items["userId"];
-
-            if (!userId.HasValue)
-            {
-                throw new ApplicationException(ExceptionMessages.InternalServerError);
-            }
-
-            return userId.Value;
         }
     }
 }

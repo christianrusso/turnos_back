@@ -37,7 +37,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = _service.GetUserId(HttpContext);
 
-                ValidateHairdressingProfessionalData(dbContext, userId, hairdressingProfessionalDto.SpecialtyId, hairdressingProfessionalDto.SubspecialtyId, hairdressingProfessionalDto.WorkingHours);
+                ValidateHairdressingProfessionalData(dbContext, userId, hairdressingProfessionalDto.Subspecialties, hairdressingProfessionalDto.WorkingHours);
 
                 var HairdressingProfessional = new Hairdressing_Professional
                 {
@@ -45,9 +45,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     LastName = hairdressingProfessionalDto.LastName,
                     Email = hairdressingProfessionalDto.Email,
                     PhoneNumber = hairdressingProfessionalDto.PhoneNumber,
-                    SpecialtyId = hairdressingProfessionalDto.SpecialtyId,
-                    SubspecialtyId = hairdressingProfessionalDto.SubspecialtyId,
-                    ConsultationLength = hairdressingProfessionalDto.ConsultationLength,
+                    Subspecialties = new List<Hairdressing_ProfessionalSubspecialty>(),
                     WorkingHours = new List<Hairdressing_WorkingHours>(),
                     State = HairdressingProfessionalStateEnum.Active,
                     UserId = userId
@@ -56,7 +54,19 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.Hairdressing_Professionals.Add(HairdressingProfessional);
                 dbContext.SaveChanges();
 
-                HairdressingProfessional.WorkingHours = hairdressingProfessionalDto.WorkingHours.Select(wh => new Hairdressing_WorkingHours { DayNumber = wh.DayNumber, Start = wh.Start, End = wh.End }).ToList();
+                HairdressingProfessional.Subspecialties = hairdressingProfessionalDto.Subspecialties.Select(sp => new Hairdressing_ProfessionalSubspecialty
+                {
+                    ProfessionalId = HairdressingProfessional.Id,
+                    SubspecialtyId = sp.SubspecialtyId,
+                    ConsultationLength = sp.ConsultationLength
+                }).ToList();
+
+                HairdressingProfessional.WorkingHours = hairdressingProfessionalDto.WorkingHours.Select(wh => new Hairdressing_WorkingHours
+                {
+                    DayNumber = wh.DayNumber,
+                    Start = wh.Start,
+                    End = wh.End
+                }).ToList();
                 dbContext.SaveChanges();
             }
         }
@@ -66,7 +76,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
                 var hairdressingProfessionalToDelete = dbContext.Hairdressing_Professionals.FirstOrDefault(d => d.Id == hairdressingProfessionalDto.Id && d.UserId == userId);
 
                 if (hairdressingProfessionalToDelete == null)
@@ -95,16 +105,20 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
-                ValidateHairdressingProfessionalData(dbContext, userId, hairdressingProfessionalDto.SpecialtyId, hairdressingProfessionalDto.SubspecialtyId, hairdressingProfessionalDto.WorkingHours);
+                ValidateHairdressingProfessionalData(dbContext, userId, hairdressingProfessionalDto.Subspecialties, hairdressingProfessionalDto.WorkingHours);
 
                 hairdressingProfessionalToUpdate.FirstName = hairdressingProfessionalDto.FirstName;
                 hairdressingProfessionalToUpdate.LastName = hairdressingProfessionalDto.LastName;
                 hairdressingProfessionalToUpdate.Email = hairdressingProfessionalDto.Email;
                 hairdressingProfessionalToUpdate.PhoneNumber = hairdressingProfessionalDto.PhoneNumber;
-                hairdressingProfessionalToUpdate.SpecialtyId = hairdressingProfessionalDto.SpecialtyId;
-                hairdressingProfessionalToUpdate.SubspecialtyId = hairdressingProfessionalDto.SubspecialtyId;
-                hairdressingProfessionalToUpdate.ConsultationLength = hairdressingProfessionalDto.ConsultationLength;
+                hairdressingProfessionalToUpdate.Subspecialties.ForEach(sp => dbContext.Entry(sp).State = EntityState.Deleted);
                 hairdressingProfessionalToUpdate.WorkingHours.ForEach(wh => dbContext.Entry(wh).State = EntityState.Deleted);
+
+                var newSubspecialties = hairdressingProfessionalDto.Subspecialties.Select(sp => new Hairdressing_ProfessionalSubspecialty {
+                    ProfessionalId = hairdressingProfessionalToUpdate.Id,
+                    SubspecialtyId = sp.SubspecialtyId,
+                    ConsultationLength = sp.ConsultationLength
+                }).ToList();
 
                 var newWorkingHours = hairdressingProfessionalDto.WorkingHours.Select(wh => new Hairdressing_WorkingHours
                 {
@@ -113,6 +127,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     End = wh.End
                 }).ToList();
 
+                hairdressingProfessionalToUpdate.Subspecialties = newSubspecialties;
                 hairdressingProfessionalToUpdate.WorkingHours = newWorkingHours;
 
                 dbContext.SaveChanges();
@@ -126,7 +141,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 return dbContext.Hairdressing_Professionals
                     .Where(d => d.UserId == userId)
@@ -136,11 +151,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         LastName = d.LastName,
                         Email = d.Email,
                         PhoneNumber = d.PhoneNumber,
-                        SpecialtyId = d.SpecialtyId,
-                        SpecialtyDescription = d.Specialty.Data.Description,
-                        SubspecialtyId = d.SubspecialtyId,
-                        SubspecialtyDescription = d.Subspecialty != null ? d.Subspecialty.Data.Description : "Ninguna",
-                        ConsultationLength = d.ConsultationLength,
+                        Subspecialties = d.Subspecialties.Select(ssp => new HairdressingProfessionalSubspecialtyInfoDto
+                        {
+                            SpecialtyId = ssp.Subspecialty.SpecialtyId,
+                            SpecialtyDescription = ssp.Subspecialty.Specialty.Data.Description,
+                            SubspecialtyId = ssp.SubspecialtyId,
+                            SubspecialtyDescription = ssp.Subspecialty.Data.Description,
+                            ConsultationLength = ssp.ConsultationLength
+                        }).ToList(),
                         State = d.WorkingHours.Any(wh => wh.DayNumber == now.DayOfWeek && wh.Start >= now.TimeOfDay && now.TimeOfDay <= wh.End),
                         WorkingHours = d.WorkingHours.Select(wh => new WorkingHoursDto { DayNumber = wh.DayNumber, Start = wh.Start, End = wh.End }).OrderBy(wh => wh.DayNumber).ToList(),
                         Appointments = d.Appointments.OrderBy(a => a.DateTime).Take(10).Select(a => a.DateTime).ToList()
@@ -173,7 +191,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                int? userId = _service.GetUserId(this.HttpContext);
+                int? userId = _service.GetUserId(HttpContext);
 
                 if(filter.HairdressingId != null)
                     userId = filter.HairdressingId;
@@ -183,8 +201,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     .Where(d => d.UserId == userId)
                     .Where(d => filter.Id == null || d.Id == filter.Id)
                     .Where(d => filter.FullName == null || $"{d.FirstName} {d.LastName}".Contains(filter.FullName) || $"{d.LastName} {d.FirstName}".Contains(filter.FullName))
-                    .Where(d => filter.SpecialtyId == null || d.SpecialtyId == filter.SpecialtyId)
-                    .Where(d => filter.SubspecialtyId == null || d.SubspecialtyId == filter.SubspecialtyId)
+                    .Where(d => filter.SpecialtyId == null || d.Subspecialties.Any(ssp => ssp.Subspecialty.SpecialtyId == filter.SpecialtyId))
+                    .Where(d => filter.SubspecialtyId == null || d.Subspecialties.Any(ssp => ssp.SubspecialtyId == filter.SubspecialtyId))
                     .Select(d => new HairdressingProfessionalDto
                     {
                         Id = d.Id,
@@ -192,11 +210,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         LastName = d.LastName,
                         Email = d.Email,
                         PhoneNumber = d.PhoneNumber,
-                        SpecialtyId = d.SpecialtyId,
-                        SpecialtyDescription = d.Specialty.Data.Description,
-                        SubspecialtyId = d.SubspecialtyId,
-                        SubspecialtyDescription = d.Subspecialty != null ? d.Subspecialty.Data.Description : "Ninguna",
-                        ConsultationLength = d.ConsultationLength,
+                        Subspecialties = d.Subspecialties.Select(ssp => new HairdressingProfessionalSubspecialtyInfoDto
+                        {
+                            SpecialtyId = ssp.Subspecialty.SpecialtyId,
+                            SpecialtyDescription = ssp.Subspecialty.Specialty.Data.Description,
+                            SubspecialtyId = ssp.SubspecialtyId,
+                            SubspecialtyDescription = ssp.Subspecialty.Data.Description,
+                            ConsultationLength = ssp.ConsultationLength
+                        }).ToList(),
                         State = d.WorkingHours.Any(wh => wh.DayNumber == now.DayOfWeek && wh.Start <= now.TimeOfDay && now.TimeOfDay <= wh.End),
                         WorkingHours = d.WorkingHours.Select(wh => new WorkingHoursDto { DayNumber = wh.DayNumber, Start = wh.Start, End = wh.End }).OrderBy(wh => wh.DayNumber).ToList(),
                         Appointments = d.Appointments.OrderBy(a => a.DateTime).Take(10).Select(a => a.DateTime).ToList()
@@ -261,18 +282,16 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
-        private void ValidateHairdressingProfessionalData(ApplicationDbContext dbContext, int userId, int specialtyId, int? subSpecialtyId, List<WorkingHoursDto> workingHoursDtos)
+        private void ValidateHairdressingProfessionalData(ApplicationDbContext dbContext, int userId, List<HairdressingProfessionalSubspecialtyDto> subspecialties, List<WorkingHoursDto> workingHoursDtos)
         {
-            var specialty = dbContext.Hairdressing_Specialties.FirstOrDefault(s => s.Id == specialtyId && s.UserId == userId);
-
-            if (specialty == null)
+            if (!subspecialties.Any())
             {
                 throw new BadRequestException();
             }
 
-            if (subSpecialtyId.HasValue)
+            foreach (var ssp in subspecialties)
             {
-                var subspecialty = dbContext.Hairdressing_Subspecialties.FirstOrDefault(s => s.Id == subSpecialtyId.Value && s.UserId == userId);
+                var subspecialty = dbContext.Hairdressing_Subspecialties.FirstOrDefault(s => s.Id == ssp.SubspecialtyId && s.UserId == userId);
 
                 if (subspecialty == null)
                 {

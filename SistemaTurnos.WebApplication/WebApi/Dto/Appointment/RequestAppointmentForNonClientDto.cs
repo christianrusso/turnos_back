@@ -43,5 +43,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Appointment
 
         [Required]
         public int DoctorId { get; set; }
+
+        [Required]
+        public int SubspecialtyId { get; set; }
     }
 }

@@ -40,6 +40,7 @@ namespace SistemaTurnos.Database
             // Application
             modelBuilder.ApplyConfiguration(new ApplicationUserTypeConfiguration());
             modelBuilder.ApplyConfiguration(new ApplicationRoleTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new ClinicTypeConfiguration());
 
             // Data
             modelBuilder.ApplyConfiguration(new ImageTypeConfiguration());
@@ -57,8 +58,8 @@ namespace SistemaTurnos.Database
             modelBuilder.ApplyConfiguration(new Clinic_SubspecialtyTypeConfiguration());
             modelBuilder.ApplyConfiguration(new Clinic_WorkingHoursTypeConfiguration());
             modelBuilder.ApplyConfiguration(new Clinic_OpenCloseHoursTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new ClinicTypeConfiguration());
             modelBuilder.ApplyConfiguration(new Clinic_ClientFavoriteTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new Clinic_DoctorSubspecialtyTypeConfiguration());
 
             // Hairdressing
             modelBuilder.ApplyConfiguration(new Hairdressing_AppointmentTypeConfiguration());
@@ -72,6 +73,7 @@ namespace SistemaTurnos.Database
             modelBuilder.ApplyConfiguration(new Hairdressing_OpenCloseHoursTypeConfiguration());
             modelBuilder.ApplyConfiguration(new HairdressingTypeConfiguration());
             modelBuilder.ApplyConfiguration(new Hairdressing_ClientFavoriteTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new Hairdressing_ProfessionalSubspecialtyTypeConfiguration());
         }
         
         // Clinic Model

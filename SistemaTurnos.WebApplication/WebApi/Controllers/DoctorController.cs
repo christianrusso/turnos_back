@@ -38,9 +38,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
-                ValidateDoctorData(dbContext, userId, doctorDto.SpecialtyId, doctorDto.SubspecialtyId, doctorDto.WorkingHours);
+                ValidateDoctorData(dbContext, userId, doctorDto.Subspecialties, doctorDto.WorkingHours);
 
                 var doctor = new Clinic_Doctor
                 {
@@ -48,9 +48,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     LastName = doctorDto.LastName,
                     Email = doctorDto.Email,
                     PhoneNumber = doctorDto.PhoneNumber,
-                    SpecialtyId = doctorDto.SpecialtyId,
-                    SubspecialtyId = doctorDto.SubspecialtyId,
-                    ConsultationLength = doctorDto.ConsultationLength,
+                    Subspecialties = new List<Clinic_DoctorSubspecialty>(),
                     WorkingHours = new List<Clinic_WorkingHours>(),
                     State = DoctorStateEnum.Active,
                     UserId = userId
@@ -59,6 +57,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.Clinic_Doctors.Add(doctor);
                 dbContext.SaveChanges();
 
+                doctor.Subspecialties = doctorDto.Subspecialties.Select(sp => new Clinic_DoctorSubspecialty { DoctorId = doctor.Id, SubspecialtyId = sp.SubspecialtyId, ConsultationLength = sp.ConsultationLength }).ToList();
                 doctor.WorkingHours = doctorDto.WorkingHours.Select(wh => new Clinic_WorkingHours { DayNumber = wh.DayNumber, Start = wh.Start, End = wh.End }).ToList();
                 dbContext.SaveChanges();
             }
@@ -104,16 +103,21 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
-                ValidateDoctorData(dbContext, userId, doctorDto.SpecialtyId, doctorDto.SubspecialtyId, doctorDto.WorkingHours);
+                ValidateDoctorData(dbContext, userId, doctorDto.Subspecialties, doctorDto.WorkingHours);
 
                 doctorToUpdate.FirstName = doctorDto.FirstName;
                 doctorToUpdate.LastName = doctorDto.LastName;
                 doctorToUpdate.Email = doctorDto.Email;
                 doctorToUpdate.PhoneNumber = doctorDto.PhoneNumber;
-                doctorToUpdate.SpecialtyId = doctorDto.SpecialtyId;
-                doctorToUpdate.SubspecialtyId = doctorDto.SubspecialtyId;
-                doctorToUpdate.ConsultationLength = doctorDto.ConsultationLength;
+                doctorToUpdate.Subspecialties.ForEach(sp => dbContext.Entry(sp).State = EntityState.Deleted);
                 doctorToUpdate.WorkingHours.ForEach(wh => dbContext.Entry(wh).State = EntityState.Deleted);
+
+                var newSubspecialties = doctorDto.Subspecialties.Select(sp => new Clinic_DoctorSubspecialty
+                {
+                    DoctorId = doctorToUpdate.Id,
+                    SubspecialtyId = sp.SubspecialtyId,
+                    ConsultationLength = sp.ConsultationLength
+                }).ToList();
 
                 var newWorkingHours = doctorDto.WorkingHours.Select(wh => new Clinic_WorkingHours
                 {
@@ -122,6 +126,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     End = wh.End
                 }).ToList();
 
+                doctorToUpdate.Subspecialties = newSubspecialties;
                 doctorToUpdate.WorkingHours = newWorkingHours;
 
                 dbContext.SaveChanges();
@@ -138,7 +143,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 return dbContext.Clinic_Doctors
                     .Where(d => d.UserId == userId)
@@ -148,11 +153,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         LastName = d.LastName,
                         Email = d.Email,
                         PhoneNumber = d.PhoneNumber,
-                        SpecialtyId = d.SpecialtyId,
-                        SpecialtyDescription = d.Specialty.Data.Description,
-                        SubspecialtyId = d.SubspecialtyId,
-                        SubspecialtyDescription = d.Subspecialty != null ? d.Subspecialty.Data.Description : "Ninguna",
-                        ConsultationLength = d.ConsultationLength,
+                        Subspecialties = d.Subspecialties.Select(ssp => new DoctorSubspecialtyInfoDto
+                        {
+                            SpecialtyId = ssp.Subspecialty.SpecialtyId,
+                            SpecialtyDescription = ssp.Subspecialty.Specialty.Data.Description,
+                            SubspecialtyId = ssp.SubspecialtyId,
+                            SubspecialtyDescription = ssp.Subspecialty.Data.Description,
+                            ConsultationLength = ssp.ConsultationLength
+                        }).ToList(),
                         State = d.WorkingHours.Any(wh => wh.DayNumber == now.DayOfWeek && wh.Start >= now.TimeOfDay && now.TimeOfDay <= wh.End),
                         WorkingHours = d.WorkingHours.Select(wh => new WorkingHoursDto { DayNumber = wh.DayNumber, Start = wh.Start, End = wh.End }).OrderBy(wh => wh.DayNumber).ToList(),
                         Appointments = d.Appointments.OrderBy(a => a.DateTime).Take(10).Select(a => a.DateTime).ToList()
@@ -191,7 +199,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                int? userId = _service.GetUserId(this.HttpContext);
+                int? userId = _service.GetUserId(HttpContext);
 
                 if(filter.ClinicId != null)
                     userId = filter.ClinicId;
@@ -207,8 +215,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     .Where(d => d.UserId == userId)
                     .Where(d => filter.Id == null || d.Id == filter.Id)
                     .Where(d => filter.FullName == null || $"{d.FirstName} {d.LastName}".Contains(filter.FullName) || $"{d.LastName} {d.FirstName}".Contains(filter.FullName))
-                    .Where(d => filter.SpecialtyId == null || d.SpecialtyId == filter.SpecialtyId)
-                    .Where(d => filter.SubspecialtyId == null || d.SubspecialtyId == filter.SubspecialtyId)
+                    .Where(d => filter.SpecialtyId == null || d.Subspecialties.Any(ssp => ssp.Subspecialty.SpecialtyId == filter.SpecialtyId))
+                    .Where(d => filter.SubspecialtyId == null || d.Subspecialties.Any(ssp => ssp.SubspecialtyId == filter.SubspecialtyId))
                     .Select(d => new DoctorDto
                     {
                         Id = d.Id,
@@ -216,11 +224,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         LastName = d.LastName,
                         Email = d.Email,
                         PhoneNumber = d.PhoneNumber,
-                        SpecialtyId = d.SpecialtyId,
-                        SpecialtyDescription = d.Specialty.Data.Description,
-                        SubspecialtyId = d.SubspecialtyId,
-                        SubspecialtyDescription = d.Subspecialty != null ? d.Subspecialty.Data.Description : "Ninguna",
-                        ConsultationLength = d.ConsultationLength,
+                        Subspecialties = d.Subspecialties.Select(ssp => new DoctorSubspecialtyInfoDto
+                        {
+                            SpecialtyId = ssp.Subspecialty.SpecialtyId,
+                            SpecialtyDescription = ssp.Subspecialty.Specialty.Data.Description,
+                            SubspecialtyId = ssp.SubspecialtyId,
+                            SubspecialtyDescription = ssp.Subspecialty.Data.Description,
+                            ConsultationLength = ssp.ConsultationLength
+                        }).ToList(),
                         State = d.WorkingHours.Any(wh => wh.DayNumber == now.DayOfWeek && wh.Start <= now.TimeOfDay && now.TimeOfDay <= wh.End),
                         WorkingHours = d.WorkingHours.Select(wh => new WorkingHoursDto { DayNumber = wh.DayNumber, Start = wh.Start, End = wh.End }).OrderBy(wh => wh.DayNumber).ToList(),
                         Appointments = d.Appointments.OrderBy(a => a.DateTime).Take(10).Select(a => a.DateTime).ToList()
@@ -294,18 +305,16 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
-        private void ValidateDoctorData(ApplicationDbContext dbContext, int userId, int specialtyId, int? subSpecialtyId, List<WorkingHoursDto> workingHoursDtos)
+        private void ValidateDoctorData(ApplicationDbContext dbContext, int userId, List<DoctorSubspecialtyDto> subSpecialties, List<WorkingHoursDto> workingHoursDtos)
         {
-            var specialty = dbContext.Clinic_Specialties.FirstOrDefault(s => s.Id == specialtyId && s.UserId == userId);
-
-            if (specialty == null)
+            if (!subSpecialties.Any())
             {
                 throw new BadRequestException();
             }
 
-            if (subSpecialtyId.HasValue)
+            foreach (var sp in subSpecialties)
             {
-                var subspecialty = dbContext.Clinic_Subspecialties.FirstOrDefault(s => s.Id == subSpecialtyId.Value && s.UserId == userId);
+                var subspecialty = dbContext.Clinic_Subspecialties.FirstOrDefault(s => s.Id == sp.SubspecialtyId && s.UserId == userId);
 
                 if (subspecialty == null)
                 {

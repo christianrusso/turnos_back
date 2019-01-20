@@ -245,6 +245,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public List<FullClinicDto> GetByFilter([FromBody] FilterClinicDto filterDto)
         {
+            filterDto.Specialties = filterDto.Specialties ?? new List<int>();
+            filterDto.Subspecialties = filterDto.Subspecialties ?? new List<int>();
+            filterDto.MedicalInsurances = filterDto.MedicalInsurances ?? new List<int>();
+            filterDto.MedicalPlans = filterDto.MedicalPlans ?? new List<int>();
+            filterDto.Cities = filterDto.Cities ?? new List<int>();
+            filterDto.Stars = filterDto.Stars ?? new List<int>();
+
             var res = new List<FullClinicDto>();
             var userLocation = filterDto.Location != null ? new GeoCoordinate(filterDto.Location.Latitude, filterDto.Location.Longitude) : null;
 
@@ -345,17 +352,22 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     {
                         var doctors = dbContext.Clinic_Doctors
                             .Where(d => d.UserId == userId)
-                            .Where(d => !filterDto.Specialties.Any() || filterDto.Specialties.Any(s => s == d.Specialty.DataId))
-                            .Where(d => !filterDto.Subspecialties.Any() || filterDto.Subspecialties.Any(ss => ss == d.Subspecialty.DataId))
+                            .Where(d => !filterDto.Specialties.Any() || filterDto.Specialties.Any(s => d.Subspecialties.Any(ssp => ssp.Subspecialty.Specialty.DataId == s)))
+                            .Where(d => !filterDto.Subspecialties.Any() || filterDto.Subspecialties.Any(ss => d.Subspecialties.Any(ssp => ssp.Subspecialty.DataId == ss)))
                             .ToList();
 
                         var hasAppointmentAvailable = false;
 
                         foreach (var doctor in doctors)
                         {
+                            var doctorSubspecialties = doctor.Subspecialties
+                                .Where(ds => !filterDto.Specialties.Any() || filterDto.Specialties.Any(ssp => ssp == ds.Subspecialty.Specialty.DataId))
+                                .Where(ds => !filterDto.Subspecialties.Any() || filterDto.Subspecialties.Any(ss => ss == ds.Subspecialty.DataId))
+                                .ToList();
+
                             for (var day = filterDto.AvailableAppointmentStartDate.Value.Date; day <= filterDto.AvailableAppointmentEndDate.Value.Date; day = day.AddDays(1))
                             {
-                                if (doctor.GetAllAvailablesForDay(day).Any())
+                                if (doctorSubspecialties.Any(ds => doctor.GetAllAvailablesForDay(day, ds.SubspecialtyId).Any()))
                                 {
                                     hasAppointmentAvailable = true;
                                     break;

@@ -30,9 +30,15 @@ namespace SistemaTurnos.Database.ClinicModel
 
         public virtual Clinic_Rating Rating { get; set; }
 
+        [Required]
         public int PatientId { get; set; }
 
         public virtual Clinic_Patient Patient { get; set; }
+
+        [Required]
+        public int SubspecialtyId { get; set; }
+
+        public virtual Clinic_Subspecialty Subspecialty { get; set; }
 
         [Required]
         public int UserId { get; set; }
