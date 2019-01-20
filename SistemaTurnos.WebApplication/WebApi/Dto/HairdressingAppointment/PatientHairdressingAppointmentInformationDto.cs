@@ -1,4 +1,5 @@
 ﻿using System;
+using SistemaTurnos.Database.Enums;
 
 namespace SistemaTurnos.WebApplication.WebApi.Dto.HairdressingAppointment
 {
@@ -17,5 +18,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.HairdressingAppointment
         public string Subspecialty { get; set; }
 
         public DateTime DateTime { get; set; }
+
+        public AppointmentStateEnum State { get; set; }
+
+        public int Id { get; set; }
     }
 }

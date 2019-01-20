@@ -91,6 +91,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
                             Specialty = dayAppointment.Subspecialty.Specialty.Data.Description,
                             Subspecialty = dayAppointment.Subspecialty?.Data.Description ?? string.Empty,
                             DateTime = dayAppointment.DateTime,
+                            Id = dayAppointment.Id,
+                            State = dayAppointment.State
                         };
 
                         day.Appointments.Add(appointmentInformation);

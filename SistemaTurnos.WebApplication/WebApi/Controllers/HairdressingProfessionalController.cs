@@ -196,6 +196,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 if(filter.HairdressingId != null)
                     userId = filter.HairdressingId;
                 
+                var hairdressing = dbContext.Hairdressings.FirstOrDefault(c => c.Id == filter.HairdressingId);
+
+                if (hairdressing != null)
+                {
+                    userId = hairdressing.UserId;
+                }
+                
 
                 return dbContext.Hairdressing_Professionals
                     .Where(d => d.UserId == userId)
