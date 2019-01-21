@@ -30,9 +30,15 @@ namespace SistemaTurnos.Database.HairdressingModel
 
         public virtual Hairdressing_Rating Rating { get; set; }
 
+        [Required]
         public int PatientId { get; set; }
 
         public virtual Hairdressing_Patient Patient { get; set; }
+
+        [Required]
+        public int SubspecialtyId { get; set; }
+
+        public virtual Hairdressing_Subspecialty Subspecialty { get; set; }
 
         public string PreferenceId { get; set; }
 

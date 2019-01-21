@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using SistemaTurnos.Database.ClinicModel;
+using SistemaTurnos.Database.Model;
 
 namespace SistemaTurnos.Database.TypeConfigurations.Clinic
 {

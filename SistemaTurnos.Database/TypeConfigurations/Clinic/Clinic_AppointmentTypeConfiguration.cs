@@ -23,6 +23,13 @@ namespace SistemaTurnos.Database.TypeConfigurations.Clinic
                 .HasForeignKey<Clinic_Rating>(r => r.AppointmentId)
                 .HasConstraintName("FK_Appointment_Rating");
 
+            // Subspecialty
+            builder
+                .HasOne(a => a.Subspecialty)
+                .WithMany()
+                .HasForeignKey(a => a.SubspecialtyId)
+                .HasConstraintName("FK_Appointment_Subspecialty");
+
             // Patient
             builder
                 .HasOne(a => a.Patient)

@@ -8,21 +8,6 @@ namespace SistemaTurnos.Database.TypeConfigurations.Clinic
     {
         public void Configure(EntityTypeBuilder<Clinic_Doctor> builder)
         {
-            // Specialty
-            builder
-                .HasOne(d => d.Specialty)
-                .WithMany(s => s.Doctors)
-                .HasForeignKey(d => d.SpecialtyId)
-                .IsRequired()
-                .HasConstraintName("FK_Doctor_Specialty");
-
-            // Subspecialty
-            builder
-                .HasOne(d => d.Subspecialty)
-                .WithMany()
-                .HasForeignKey(d => d.SubspecialtyId)
-                .HasConstraintName("FK_Doctor_Subspecialty");
-
             // User
             builder
                 .HasOne(d => d.User)

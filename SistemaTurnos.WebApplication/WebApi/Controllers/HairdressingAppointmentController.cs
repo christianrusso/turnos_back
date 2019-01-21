@@ -28,23 +28,42 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
-        private readonly EmailService emailService = new EmailService();
-        private readonly MercadoPagoService mercadoPagoService = new MercadoPagoService();
+        private readonly EmailService _emailService;
+        private readonly MercadoPagoService _mercadoPagoService;
+        private readonly BusinessPlaceService _businessPlaceService;
 
         public HairdressingAppointmentController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
+            _emailService = new EmailService();
+            _mercadoPagoService = new MercadoPagoService();
+            _businessPlaceService = new BusinessPlaceService();
         }
 
         [HttpPost]
-        [Authorize]
         public List<DateTime> GetAllAvailablesFromDay([FromBody] GetHairdressingAppointmentDto getAppointmentDto)
         {
             using (var dbContext = new ApplicationDbContext())
             {
+                var userId = _businessPlaceService.GetUserIdOrDefault(HttpContext);
 
-                var userId = GetUserId();
+                if (getAppointmentDto.HairdressingId.HasValue)
+                {
+                    var hairdressing = dbContext.Hairdressings.FirstOrDefault(h => h.Id == getAppointmentDto.HairdressingId);
+
+                    if (hairdressing == null)
+                    {
+                        throw new BadRequestException();
+                    }
+
+                    userId = hairdressing.UserId;
+                }
+
+                if (userId == null)
+                {
+                    throw new BadRequestException();
+                }
 
                 var prof = dbContext.Hairdressing_Professionals.FirstOrDefault(d => d.Id == getAppointmentDto.ProfessionalId && d.UserId == userId);
 
@@ -53,10 +72,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
+                if (!prof.Subspecialties.Any(ds => ds.SubspecialtyId == getAppointmentDto.SubspecialtyId))
+                {
+                    throw new BadRequestException();
+                }
+
                 var res = new List<DateTime>();
                 for (int i = 0; i < 15; i++)
                 {
-                    foreach (var datetime in prof.GetAllAvailablesForDay(getAppointmentDto.Day.AddDays(i)))
+                    foreach (var datetime in prof.GetAllAvailablesForDay(getAppointmentDto.Day.AddDays(i), getAppointmentDto.SubspecialtyId))
                     {
                         res.Add(datetime);
                     }
@@ -67,25 +91,48 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = Roles.AdministratorAndEmployeeAndClient)]
         public List<DateTime> GetAllAvailablesForDay([FromBody] GetHairdressingAppointmentDto getAppointmentDto)
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                
-                int? userId = GetUserId();
+                var userId = _businessPlaceService.GetUserIdOrDefault(HttpContext);
 
-                if(getAppointmentDto.HairdressingId != null)
+                if (getAppointmentDto.HairdressingId.HasValue)
+                {
+                    var hairdressing = dbContext.Hairdressings.FirstOrDefault(h => h.Id == getAppointmentDto.HairdressingId);
+
+                    if (hairdressing == null)
+                    {
+                        throw new BadRequestException();
+                    }
+
+                    userId = hairdressing.UserId;
+                }
+
+                if (userId == null)
+                {
+                    throw new BadRequestException();
+                }
+
+                if (getAppointmentDto.HairdressingId != null)
+                {
                     userId = getAppointmentDto.HairdressingId;
 
-                var prof = dbContext.Hairdressing_Professionals.FirstOrDefault(d => d.Id == getAppointmentDto.ProfessionalId);
+                }
+
+                var prof = dbContext.Hairdressing_Professionals.FirstOrDefault(p => p.Id == getAppointmentDto.ProfessionalId && p.UserId == userId);
 
                 if (prof == null)
                 {
                     throw new BadRequestException();
                 }
 
-                return prof.GetAllAvailablesForDay(getAppointmentDto.Day);
+                if (!prof.Subspecialties.Any(ds => ds.SubspecialtyId == getAppointmentDto.SubspecialtyId))
+                {
+                    throw new BadRequestException();
+                }
+
+                return prof.GetAllAvailablesForDay(getAppointmentDto.Day, getAppointmentDto.SubspecialtyId);
             }
         }
 
@@ -95,7 +142,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _businessPlaceService.GetUserId(HttpContext);
 
                 if (requestAppointmentDto.Day.Date < DateTime.Today.Date)
                 {
@@ -105,6 +152,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var prof = dbContext.Hairdressing_Professionals.FirstOrDefault(d => d.Id == requestAppointmentDto.ProfessionalId && d.UserId == userId);
 
                 if (prof == null)
+                {
+                    throw new BadRequestException();
+                }
+
+                if (!prof.Subspecialties.Any(ds => ds.SubspecialtyId == requestAppointmentDto.SubspecialtyId))
                 {
                     throw new BadRequestException();
                 }
@@ -159,7 +211,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.Hairdressing_Patients.Add(patient);
                 dbContext.SaveChanges();
 
-                var availableAppointments = prof.GetAllAvailablesForDay(requestAppointmentDto.Day.Date);
+                var availableAppointments = prof.GetAllAvailablesForDay(requestAppointmentDto.Day.Date, requestAppointmentDto.SubspecialtyId);
 
                 var appointment = new DateTime(
                         requestAppointmentDto.Day.Year,
@@ -183,6 +235,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     State = AppointmentStateEnum.Paid,
                     Source = AppointmentSourceEnum.Panel,
                     PatientId = patient.Id,
+                    SubspecialtyId = requestAppointmentDto.SubspecialtyId,
                     UserId = userId
                 });
 
@@ -196,7 +249,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _businessPlaceService.GetUserId(HttpContext);
 
                 if (requestAppointmentDto.Day.Date < DateTime.Today.Date)
                 {
@@ -210,6 +263,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
+                if (!prof.Subspecialties.Any(ds => ds.SubspecialtyId == requestAppointmentDto.SubspecialtyId))
+                {
+                    throw new BadRequestException();
+
+                }
                 var client = dbContext.Clients.FirstOrDefault(c => c.Id == requestAppointmentDto.ClientId);
 
                 if (client == null)
@@ -232,7 +290,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.Hairdressing_Patients.Add(patient);
 
-                var availableAppointments = prof.GetAllAvailablesForDay(requestAppointmentDto.Day.Date);
+                var availableAppointments = prof.GetAllAvailablesForDay(requestAppointmentDto.Day.Date, requestAppointmentDto.SubspecialtyId);
 
                 var appointment = new DateTime(
                         requestAppointmentDto.Day.Year,
@@ -256,6 +314,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     State = AppointmentStateEnum.Paid,
                     Source = AppointmentSourceEnum.Panel,
                     PatientId = patient.Id,
+                    SubspecialtyId = requestAppointmentDto.SubspecialtyId,
                     UserId = userId
                 });
 
@@ -269,7 +328,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _businessPlaceService.GetUserId(HttpContext);
 
                 if (requestAppointmentDto.Day.Date < DateTime.Today.Date)
                 {
@@ -283,6 +342,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
+                if (!prof.Subspecialties.Any(ds => ds.SubspecialtyId == requestAppointmentDto.SubspecialtyId))
+                {
+                    throw new BadRequestException();
+                }
+
                 var patient = dbContext.Hairdressing_Patients.FirstOrDefault(p => p.Id == requestAppointmentDto.PatientId && p.UserId == userId);
 
                 if (patient == null)
@@ -290,7 +354,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
-                var availableAppointments = prof.GetAllAvailablesForDay(requestAppointmentDto.Day.Date);
+                var availableAppointments = prof.GetAllAvailablesForDay(requestAppointmentDto.Day.Date, requestAppointmentDto.SubspecialtyId);
 
                 var appointment = new DateTime(
                         requestAppointmentDto.Day.Year,
@@ -314,6 +378,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     State = AppointmentStateEnum.Paid,
                     Source = AppointmentSourceEnum.Panel,
                     PatientId = patient.Id,
+                    SubspecialtyId = requestAppointmentDto.SubspecialtyId,
                     UserId = userId
                 });
 
@@ -327,7 +392,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _businessPlaceService.GetUserId(HttpContext);
 
                 if (requestAppointmentDto.Day.Date < DateTime.Today.Date)
                 {
@@ -344,6 +409,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var prof = dbContext.Hairdressing_Professionals.FirstOrDefault(d => d.Id == requestAppointmentDto.ProfessionalId && d.UserId == hairdressing.UserId);
 
                 if (prof == null)
+                {
+                    throw new BadRequestException();
+                }
+
+                if (!prof.Subspecialties.Any(ds => ds.SubspecialtyId == requestAppointmentDto.SubspecialtyId))
                 {
                     throw new BadRequestException();
                 }
@@ -370,7 +440,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.Hairdressing_Patients.Add(patient);
 
-                var availableAppointments = prof.GetAllAvailablesForDay(requestAppointmentDto.Day.Date);
+                var availableAppointments = prof.GetAllAvailablesForDay(requestAppointmentDto.Day.Date, requestAppointmentDto.SubspecialtyId);
 
                 var appointment = new DateTime(
                         requestAppointmentDto.Day.Year,
@@ -394,6 +464,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     State = AppointmentStateEnum.Reserved,
                     Source = (AppointmentSourceEnum) requestAppointmentDto.Source,
                     PatientId = patient.Id,
+                    SubspecialtyId = requestAppointmentDto.SubspecialtyId,
                     UserId = hairdressing.UserId
                 };
 
@@ -424,7 +495,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _businessPlaceService.GetUserId(HttpContext);
 
                 if (requestAppointmentDto.Day.Date < DateTime.Today.Date)
                 {
@@ -445,6 +516,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
+                if (!prof.Subspecialties.Any(ds => ds.SubspecialtyId == requestAppointmentDto.SubspecialtyId))
+                {
+                    throw new BadRequestException();
+                }
+
                 var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
                 var patient = dbContext.Hairdressing_Patients.FirstOrDefault(p => p.ClientId == client.Id && p.UserId == hairdressing.UserId);
 
@@ -453,7 +529,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
-                var availableAppointments = prof.GetAllAvailablesForDay(requestAppointmentDto.Day.Date);
+                var availableAppointments = prof.GetAllAvailablesForDay(requestAppointmentDto.Day.Date, requestAppointmentDto.SubspecialtyId);
 
                 var appointment = new DateTime(
                         requestAppointmentDto.Day.Year,
@@ -477,6 +553,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     State = AppointmentStateEnum.Reserved,
                     Source = (AppointmentSourceEnum)requestAppointmentDto.Source,
                     PatientId = patient.Id,
+                    SubspecialtyId = requestAppointmentDto.SubspecialtyId,
                     UserId = hairdressing.UserId
                 };
 
@@ -509,7 +586,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _businessPlaceService.GetUserId(HttpContext);
 
                 var appointment = dbContext.Hairdressing_Appointments.FirstOrDefault(a => a.Id == cancelAppointmentDto.Id && a.UserId == userId);
 
@@ -546,7 +623,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.SaveChanges();
             }
 
-            emailService.Send(emailMessage);
+            _emailService.Send(emailMessage);
         }
 
         [HttpPost]
@@ -557,7 +634,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _businessPlaceService.GetUserId(HttpContext);
 
                 var appointment = dbContext.Hairdressing_Appointments.FirstOrDefault(a => a.Id == completeAppointmentDto.Id && a.UserId == userId);
                 var hairdressing = dbContext.Hairdressings.FirstOrDefault(c => c.UserId == userId);
@@ -592,7 +669,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.SaveChanges();
             }
 
-            emailService.Send(emailMessage);
+            _emailService.Send(emailMessage);
         }
 
         [HttpPost]
@@ -601,7 +678,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _businessPlaceService.GetUserId(HttpContext);
 
                 var appointment = dbContext.Hairdressing_Appointments.FirstOrDefault(a => a.Id == cancelAppointmentDto.Id && a.State != AppointmentStateEnum.Completed);
 
@@ -631,7 +708,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _businessPlaceService.GetUserId(HttpContext);
 
                 var appointment = dbContext.Hairdressing_Appointments.FirstOrDefault(a => a.Id == completeAppointmentDto.Id);
                 var hairdressing = dbContext.Hairdressings.FirstOrDefault(c => c.UserId == appointment.Professional.UserId);
@@ -658,7 +735,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
-                string template = "<html lang='en'> <head> <meta charset='UTF-8'> <meta http-equiv='X-UA-Compatible' content='IE=edge'> <meta name='viewport' content='width=device-width, initial-scale=1'> <title>Mail Se Completó el Turno</title> </head> <body> <table style='max-width: 600px; width:100%;height: 100vh;margin:auto;border-spacing: 0px;'> <thead> <tr style='height:65px;background-color: #373fc2;'> <th><img src='http://todoreservas.com.ar/panel/assets/img/logo.jpg' alt='Todo Reservas'></th> </tr> </thead> <tbody> <tr style='height: 167px;background-color: #454edb;display: block;'> <th style='width: 100%;display: block;'> <span style='font-family: Roboto;font-size: 25px;font-weight: 400;font-style: normal;font-stretch: normal;line-height: 1.2;letter-spacing: normal;text-align: center;color: #ffffff;display: block;padding-bottom:10px;padding-top: 50px;'>¡Felicitaciones!</span> <span style='font-family: Roboto;font-size: 16px;font-weight: 100;font-style: normal;font-stretch: normal;line-height: 1.2;letter-spacing: normal;text-align: center;color: #ffffff;display: block;'>Se ha completado el turno</span> </th> <th style='display: block; margin: auto;'> </th> </tr> <tr style='display: block;border-left: 1px solid #cccccc; border-right: 1px solid #cccccc;padding-bottom: 50px;'> <th style='width: 100%;display: block;padding-top: 115px;'> <span style='font-family: Roboto;font-size: 14px; font-weight: 300; font-style: normal; font-stretch: normal; line-height: 1.14;letter-spacing: normal;text-align: center;color: #060706;display: block;padding-top:10px'>El turno con el paciente " + appointment.Patient.FullName + " del día " + appointment.DateTime.Day + "/" + appointment.DateTime.Month + "/" + appointment.DateTime.Year + " " + appointment.DateTime.Hour + ":" + appointment.DateTime.Minute + " fue completado con un puntaje de " + completeAppointmentDto.Score + " puntos y el siguiente comentario: <i>" + completeAppointmentDto.Comment + "</i></span> <span style='display: block;padding-top: 40px;'><a href='http://todoreservas.com.ar/panel' style='font-family: Roboto;font-size: 12px;font-weight: 500;font-style: normal;font-stretch: normal;line-height: 30px;letter-spacing: normal;text-align: center;color: #ffffff;height: 30px;border-radius: 15px;background-color: #00b900;display:inline-block;padding: 0px 10px;text-decoration: none;'>VER MIS RESERVAS</a></span> </th> </tr> <tr style='display: block; padding-top: 30px;padding-bottom: 30px;border: 1px solid #ccc;'> <th style='width:100%;text-align:center;display: block;'> <span style='font-family: Roboto;font-size: 12.5px;font-weight: 300;font-style: normal;font-stretch: normal;line-height: 1.17;letter-spacing: normal;text-align: center;color: #060706;padding-right: 10px;'>¿Tiene dudas?</span> <span style='border-radius: 13px;border: 1px solid #030303;padding:3px 10px;'><a href='http://todoreservas.com.ar/preguntasFrecuentes' style='font-family: Roboto;font-size: 11px;font-weight: 300;font-style: normal;font-stretch: normal;line-height: 1.2;letter-spacing: normal;text-align: center;color: #030303;text-decoration: none'>CENTRO DE AYUDA</a></span> </th> </tr> </tbody> </table> </body></html>";
+                string template = "<html lang='en'> <head> <meta charset='UTF-8'> <meta http-equiv='X-UA-Compatible' content='IE=edge'> <meta name='viewport' content='width=device-width, initial-scale=1'> <title>Mail Se Completó el Turno</title> </head> <body> <table style='max-width: 600px; width:100%;height: 100vh;margin:auto;border-spacing: 0px;'> <thead> <tr style='height:65px;background-color: #373fc2;'> <th><img src='http://todoreservas.com.ar/panel/assets/img/logo.jpg' alt='Todo Reservas'></th> </tr> </thead> <tbody> <tr style='height: 167px;background-color: #454edb;display: block;'> <th style='width: 100%;display: block;'> <span style='font-family: Roboto;font-size: 25px;font-weight: 400;font-style: normal;font-stretch: normal;line-height: 1.2;letter-spacing: normal;text-align: center;color: #ffffff;display: block;padding-bottom:10px;padding-top: 50px;'>¡Felicitaciones!</span> <span style='font-family: Roboto;font-size: 16px;font-weight: 100;font-style: normal;font-stretch: normal;line-height: 1.2;letter-spacing: normal;text-align: center;color: #ffffff;display: block;'>Se ha completado el turno</span> </th> <th style='display: block; margin: auto;'> </th> </tr> <tr style='display: block;border-left: 1px solid #cccccc; border-right: 1px solid #cccccc;padding-bottom: 50px;'> <th style='width: 100%;display: block;padding-top: 115px;'> <span style='font-family: Roboto;font-size: 14px; font-weight: 300; font-style: normal; font-stretch: normal; line-height: 1.14;letter-spacing: normal;text-align: center;color: #060706;display: block;padding-top:10px'>El turno con el paciente " + appointment.Patient.Client.FullName + " del día " + appointment.DateTime.Day + "/" + appointment.DateTime.Month + "/" + appointment.DateTime.Year + " " + appointment.DateTime.Hour + ":" + appointment.DateTime.Minute + " fue completado con un puntaje de " + completeAppointmentDto.Score + " puntos y el siguiente comentario: <i>" + completeAppointmentDto.Comment + "</i></span> <span style='display: block;padding-top: 40px;'><a href='http://todoreservas.com.ar/panel' style='font-family: Roboto;font-size: 12px;font-weight: 500;font-style: normal;font-stretch: normal;line-height: 30px;letter-spacing: normal;text-align: center;color: #ffffff;height: 30px;border-radius: 15px;background-color: #00b900;display:inline-block;padding: 0px 10px;text-decoration: none;'>VER MIS RESERVAS</a></span> </th> </tr> <tr style='display: block; padding-top: 30px;padding-bottom: 30px;border: 1px solid #ccc;'> <th style='width:100%;text-align:center;display: block;'> <span style='font-family: Roboto;font-size: 12.5px;font-weight: 300;font-style: normal;font-stretch: normal;line-height: 1.17;letter-spacing: normal;text-align: center;color: #060706;padding-right: 10px;'>¿Tiene dudas?</span> <span style='border-radius: 13px;border: 1px solid #030303;padding:3px 10px;'><a href='http://todoreservas.com.ar/preguntasFrecuentes' style='font-family: Roboto;font-size: 11px;font-weight: 300;font-style: normal;font-stretch: normal;line-height: 1.2;letter-spacing: normal;text-align: center;color: #030303;text-decoration: none'>CENTRO DE AYUDA</a></span> </th> </tr> </tbody> </table> </body></html>";
 
                 appointment.State = AppointmentStateEnum.Completed;
 
@@ -682,7 +759,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.SaveChanges();
             }
 
-            emailService.Send(emailMessage);
+            _emailService.Send(emailMessage);
         }
 
         [HttpPost]
@@ -691,14 +768,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _businessPlaceService.GetUserId(HttpContext);
 
                 var patients = dbContext.Hairdressing_Patients.Where(p => p.UserId == userId).ToList();
 
                 var profs = dbContext.Hairdressing_Professionals
                     .Where(d => d.UserId == userId)
-                    .Where(d => !filter.SpecialtyId.HasValue || d.SpecialtyId == filter.SpecialtyId)
-                    .Where(d => !filter.SubspecialtyId.HasValue || d.SubspecialtyId == filter.SubspecialtyId)
+                    .Where(d => !filter.SpecialtyId.HasValue || d.Subspecialties.Any(ssp => ssp.Subspecialty.SpecialtyId == filter.SpecialtyId))
+                    .Where(d => !filter.SubspecialtyId.HasValue || d.Subspecialties.Any(ssp => ssp.SubspecialtyId == filter.SubspecialtyId))
                     .ToList();
 
                 return profs.Select(d => new RequestedHairdressingAppointmentsByProfessionalDto
@@ -716,7 +793,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                             .Select(a => new HairdressingAppointmentDto {
                                 Id = a.Id,
                                 Hour = a.DateTime,
-                                Patient = patients.FirstOrDefault(p => p.Id == a.PatientId)?.FullName ?? string.Empty,
+                                Patient = patients.FirstOrDefault(p => p.Id == a.PatientId)?.Client?.FullName ?? string.Empty,
                                 State = (int) a.State
                             })
                             .OrderBy(a => a.Hour.Minute)
@@ -743,15 +820,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = GetUserId();
+                var userId = _businessPlaceService.GetUserId(HttpContext);
 
                 var specialties = dbContext.Hairdressing_Specialties.Where(s => s.UserId == userId).ToList();
 
                 var appointments = dbContext.Hairdressing_Appointments
                     .Where(a => a.Professional.UserId == userId)
                     .Where(a => !filter.ProfessionalId.HasValue || a.ProfessionalId == filter.ProfessionalId)
-                    .Where(a => !filter.SubSpecialtyId.HasValue || a.Professional.SubspecialtyId == filter.SubSpecialtyId)
-                    .Where(a => !filter.SpecialtyId.HasValue || a.Professional.SpecialtyId == filter.SpecialtyId)
+                    .Where(a => !filter.SubSpecialtyId.HasValue || a.Professional.Subspecialties.Any(ssp => ssp.SubspecialtyId == filter.SubSpecialtyId))
+                    .Where(a => !filter.SpecialtyId.HasValue || a.Professional.Subspecialties.Any(ssp => ssp.Subspecialty.SpecialtyId == filter.SpecialtyId))
                     .Where(a => filter.StartDate <= a.DateTime && a.DateTime <= filter.EndDate)
                     .ToList();
 
@@ -767,7 +844,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         
                         foreach (var specialty in specialties)
                         {
-                            var count = appointments.Count(a => datetime <= a.DateTime && a.DateTime < nextHour && a.Professional.SpecialtyId == specialty.Id);
+                            var count = appointments.Count(a => datetime <= a.DateTime && a.DateTime < nextHour && a.Subspecialty.SpecialtyId == specialty.Id);
 
                             if (count > 0)
                             {
@@ -814,8 +891,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var profs = dbContext.Hairdressing_Professionals
                     .Where(d => !filter.ProfessionalId.HasValue || d.UserId == userId)
                     .Where(d => !filter.ProfessionalId.HasValue || d.Id == filter.ProfessionalId)
-                    .Where(d => !filter.SubSpecialtyId.HasValue || d.SubspecialtyId == filter.SubSpecialtyId)
-                    .Where(d => !filter.SpecialtyId.HasValue || d.SpecialtyId == filter.SpecialtyId)
+                    .Where(d => d.Subspecialties.Any(ssp => ssp.SubspecialtyId == filter.SubSpecialtyId))
                     .ToList();
 
                 for (var date = filter.StartDate.Date; date <= filter.EndDate.Date; date = date.AddDays(1))
@@ -824,7 +900,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                     foreach (var prof in profs)
                     {
-                        var availableAppointments = prof.GetAllAvailablesForDay(date);
+                        var availableAppointments = prof.GetAllAvailablesForDay(date, filter.SubSpecialtyId);
                         day.AvailableAppointments += availableAppointments.Count;
                     }
 
@@ -862,7 +938,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                     Console.WriteLine($"Se pudo obtener la peluqueria con id: {hairdressing.Id}");
 
-                    var merchantOrder = mercadoPagoService.GetMerchantOrder(new MpGetMerchantOrderRequestDto
+                    var merchantOrder = _mercadoPagoService.GetMerchantOrder(new MpGetMerchantOrderRequestDto
                     {
                         ClientId = hairdressing.ClientId,
                         ClientSecret = hairdressing.ClientSecret,
@@ -898,7 +974,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                     Console.WriteLine($"Se pudo obtener la peluqueria con id: {hairdressing.Id}");
 
-                    var merchantOrder = mercadoPagoService.GetMerchantOrder(new MpGetMerchantOrderRequestDto
+                    var merchantOrder = _mercadoPagoService.GetMerchantOrder(new MpGetMerchantOrderRequestDto
                     {
                         ClientId = hairdressing.ClientId,
                         ClientSecret = hairdressing.ClientSecret,
@@ -927,18 +1003,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
         }
 
-        private int GetUserId()
-        {
-            int? userId = (int?)HttpContext.Items["userId"];
-
-            if (!userId.HasValue)
-            {
-                throw new ApplicationException(ExceptionMessages.InternalServerError);
-            }
-
-            return userId.Value;
-        }
-
         private MpPaymentInformationDto GeneratePaymentLink(Hairdressing hairdressing, Hairdressing_Appointment hairdressingAppointment, string userEmail)
         {
             if (!hairdressing.RequiresPayment)
@@ -950,13 +1014,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 };
             }
 
-            return mercadoPagoService.GeneratePaymentLink(new MpGeneratePaymentRequestDto
+            return _mercadoPagoService.GeneratePaymentLink(new MpGeneratePaymentRequestDto
             {
                 Id = hairdressingAppointment.Id,
                 ClientId = hairdressing.ClientId,
                 ClientSecret = hairdressing.ClientSecret,
                 Title = $"Turno en peluqueria '{hairdressing.Name}' el dia {hairdressingAppointment.DateTime.ToShortDateString()} en el horario {hairdressingAppointment.DateTime.ToShortTimeString()}",
-                Price = hairdressingAppointment?.Professional?.Subspecialty?.Price ?? 1,
+                Price = hairdressingAppointment?.Subspecialty?.Price ?? 1,
                 BuyerEmail = userEmail,
             });
         }

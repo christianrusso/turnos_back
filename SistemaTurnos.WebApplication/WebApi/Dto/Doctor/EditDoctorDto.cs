@@ -24,12 +24,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Doctor
         public string PhoneNumber { get; set; }
 
         [Required]
-        public int SpecialtyId { get; set; }
-
-        public int? SubspecialtyId { get; set; }
-
-        [Required]
-        public uint ConsultationLength { get; set; }
+        public List<DoctorSubspecialtyDto> Subspecialties { get; set; }
 
         [Required]
         public List<WorkingHoursDto> WorkingHours { get; set; }

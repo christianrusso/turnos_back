@@ -21,12 +21,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.HairdressingProfessional
         public string PhoneNumber { get; set; }
 
         [Required]
-        public int SpecialtyId { get; set; }
-
-        public int? SubspecialtyId { get; set; }
-
-        [Required]
-        public uint ConsultationLength { get; set; }
+        public List<HairdressingProfessionalSubspecialtyDto> Subspecialties { get; set; }
 
         [Required]
         public List<WorkingHoursDto> WorkingHours { get; set; }

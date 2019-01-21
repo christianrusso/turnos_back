@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace SistemaTurnos.WebApplication.WebApi.Dto.HairdressingAppointment
 {
@@ -12,8 +13,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.HairdressingAppointment
 
         public int? ProfessionalId { get; set; }
 
-        public int? SpecialtyId { get; set; }
-
-        public int? SubSpecialtyId { get; set; }
+        [Required]
+        public int SubSpecialtyId { get; set; }
     }
 }

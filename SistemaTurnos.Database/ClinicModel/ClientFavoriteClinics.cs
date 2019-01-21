@@ -1,3 +1,4 @@
+using SistemaTurnos.Database.Model;
 using System.ComponentModel.DataAnnotations;
 
 namespace SistemaTurnos.Database.ClinicModel

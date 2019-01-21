@@ -8,21 +8,6 @@ namespace SistemaTurnos.Database.TypeConfigurations.Hairdressing
     {
         public void Configure(EntityTypeBuilder<Hairdressing_Professional> builder)
         {
-            // Specialty
-            builder
-                .HasOne(d => d.Specialty)
-                .WithMany(s => s.Professionals)
-                .HasForeignKey(d => d.SpecialtyId)
-                .IsRequired()
-                .HasConstraintName("FK_Hairdressing_Professional_Specialty");
-
-            // Subspecialty
-            builder
-                .HasOne(d => d.Subspecialty)
-                .WithMany()
-                .HasForeignKey(d => d.SubspecialtyId)
-                .HasConstraintName("FK_Hairdressing_Professional_Subspecialty");
-
             // User
             builder
                 .HasOne(d => d.User)
