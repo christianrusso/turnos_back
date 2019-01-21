@@ -9,6 +9,12 @@ namespace SistemaTurnos.Database.Enums
 
         [Description("Hairdressing")]
         Hairdressing = 2,
+        
+        [Description("Babershop")]
+        Babershop = 3,
+
+        [Description("Esthetic")]
+        Esthetic = 4,
 
         [Description("Unknown")]
         Unknown = 999,

@@ -78,61 +78,395 @@ namespace SistemaTurnos.Populator
 
             // Creo especialidades
             Console.Write("Especialidades\t\t\t");
-            var specialtyData1 = CreateSpecialtyData("Especialidad de clinica", RubroEnum.Clinic);
-            var specialtyData2 = CreateSpecialtyData("Maquillaje", RubroEnum.Hairdressing);
-            var specialtyData3 = CreateSpecialtyData("Peluqueria", RubroEnum.Hairdressing);
-            var specialtyData4 = CreateSpecialtyData("Manos", RubroEnum.Hairdressing);
-            var specialtyData5 = CreateSpecialtyData("Pedicura", RubroEnum.Hairdressing);
-            var specialtyData6 = CreateSpecialtyData("Depilacion", RubroEnum.Hairdressing);
-            var specialtyData7 = CreateSpecialtyData("Tratamientos", RubroEnum.Hairdressing);
-            var specialtyData8 = CreateSpecialtyData("Extension", RubroEnum.Hairdressing);
-            var specialtyData9 = CreateSpecialtyData("Permanente", RubroEnum.Hairdressing);
-            var specialtyData10 = CreateSpecialtyData("Masajes", RubroEnum.Hairdressing);
-            var specialtyData11 = CreateSpecialtyData("Pilates", RubroEnum.Hairdressing);
-            var specialtyData12 = CreateSpecialtyData("Novias y Quinces", RubroEnum.Hairdressing);
+            var specialtyData0 = CreateSpecialtyData("TEST", RubroEnum.Clinic);
+            var specialtyData1 = CreateSpecialtyData("Servicios de Maquillaje", RubroEnum.Hairdressing);
+            var specialtyData2 = CreateSpecialtyData("Servicios de Peluqueria", RubroEnum.Hairdressing);
+            var specialtyData3 = CreateSpecialtyData("Peinados", RubroEnum.Hairdressing);
+            var specialtyData4 = CreateSpecialtyData("TRATAMIENTS de Cabellos", RubroEnum.Hairdressing);
+            var specialtyData5 = CreateSpecialtyData("Rituales/Lavados", RubroEnum.Hairdressing);
+            var specialtyData6 = CreateSpecialtyData("coloracion", RubroEnum.Hairdressing);
+            var specialtyData7 = CreateSpecialtyData("Manicuria/Pedicuria", RubroEnum.Hairdressing);
+            var specialtyData8 = CreateSpecialtyData("Corte", RubroEnum.Hairdressing);
+            var specialtyData9 = CreateSpecialtyData("Servivicios de Barberia", RubroEnum.Babershop);
+            var specialtyData10 = CreateSpecialtyData("Servivicios de Peluqueria", RubroEnum.Babershop);
+            var specialtyData11 = CreateSpecialtyData("Cosmiatría", RubroEnum.Esthetic);
+            var specialtyData12 = CreateSpecialtyData("Tratamientos Corporales", RubroEnum.Esthetic);
+            var specialtyData13 = CreateSpecialtyData("Tratamientos Faciales", RubroEnum.Esthetic);
+            var specialtyData14 = CreateSpecialtyData("Camas Solares", RubroEnum.Esthetic);
+            var specialtyData15 = CreateSpecialtyData("Masajes", RubroEnum.Esthetic);
+            var specialtyData16 = CreateSpecialtyData("Depilacion", RubroEnum.Esthetic);
+            var specialtyData17 = CreateSpecialtyData("Pestañas", RubroEnum.Esthetic);
+            var specialtyData18 = CreateSpecialtyData("Spa", RubroEnum.Esthetic);
+            var specialtyData19 = CreateSpecialtyData("Manos y Pies", RubroEnum.Esthetic);
+            var specialtyData20 = CreateSpecialtyData("Medicina Estetica", RubroEnum.Esthetic);
 
-            var specialty1 = CreateSpecialty("Kinesiologia", clinic1);
-            var specialty2 = CreateSpecialty("Oftalmologia", clinic1);
-            var specialty3 = CreateSpecialty("Farmacología", clinic1);
-
-            var specialty4 = CreateSpecialty("Traumatología", clinic2);
-            var specialty5 = CreateSpecialty("Especialidad 1", clinic2);
-            var specialty6 = CreateSpecialty("Especialidad 2", clinic2);
-
-            var specialty7 = CreateSpecialty("Especialidad 3", clinic3);
-            var specialty8 = CreateSpecialty("Especialidad 4", clinic3);
-            var specialty9 = CreateSpecialty("Especialidad 5", clinic3);
             Console.Write("OK\n");
 
             // Creo subespecialidades
             Console.Write("Subespecialidades\t\t");
-            var subspecialtyData1 = CreateSubspecialtyData("Subespecialidad 1 de clinica", specialtyData1);
-            var subspecialtyData2 = CreateSubspecialtyData("Subespecialidad 2 de clinica", specialtyData1);
-            var subspecialtyData3 = CreateSubspecialtyData("Subespecialidad 1 de peluqueria", specialtyData2);
+            
+            //********************************************* SERVICIOS DE MAQUILLAJE
 
-            var subspecialty1 = CreateSubspecialty("Subespecialidad 1", specialty1, 10, clinic1);
-            var subspecialty2 = CreateSubspecialty("Subespecialidad 2", specialty1, 20, clinic1);
-            var subspecialty3 = CreateSubspecialty("Subespecialidad 3", specialty2, 30, clinic1);
-            var subspecialty4 = CreateSubspecialty("Subespecialidad 4", specialty2, 40, clinic1);
-            var subspecialty5 = CreateSubspecialty("Subespecialidad 5", specialty3, 50, clinic1);
-            var subspecialty6 = CreateSubspecialty("Subespecialidad 6", specialty3, 60, clinic1);
+            var especialityTEST = CreateSpecialty("TEST", clinic1);
+            var subespecialityTEST = CreateSubspecialty("TEST", especialityTEST, 10,clinic1);
+            var subspecialtyData1 = CreateSubspecialtyData("Make up social", specialtyData1);
+            var subspecialtyData2 = CreateSubspecialtyData("Novia ceremonia: make up", specialtyData1);
+            var subspecialtyData3 = CreateSubspecialtyData("Novia ceremonia: make up y peinado", specialtyData1);
+            var subspecialtyData4 = CreateSubspecialtyData("Peinado y maquillaje social", specialtyData1);
+            var subspecialtyData5 = CreateSubspecialtyData("Novia civil: make up", specialtyData1);
+            var subspecialtyData6 = CreateSubspecialtyData("Novia civil: make up y peinado", specialtyData1);
+            var subspecialtyData7 = CreateSubspecialtyData("Madrinas ceremonia: make up", specialtyData1);
+            var subspecialtyData8 = CreateSubspecialtyData("Madrinas ceremonia: peinado", specialtyData1);
+            var subspecialtyData9 = CreateSubspecialtyData("Madrinas ceremonia: make up y peinado", specialtyData1);
+            var subspecialtyData10 = CreateSubspecialtyData("Madrinas civil: make up", specialtyData1);
+            var subspecialtyData11 = CreateSubspecialtyData("Perfilado de Cejas", specialtyData1);
+            var subspecialtyData12 = CreateSubspecialtyData("Maquillaje social", specialtyData1);
+            var subspecialtyData13 = CreateSubspecialtyData("Maquillaje novias y 15 años", specialtyData1);
 
-            var subspecialty7 = CreateSubspecialty("Subespecialidad 7", specialty4, 10, clinic2);
-            var subspecialty8 = CreateSubspecialty("Subespecialidad 8", specialty4, 20, clinic2);
-            var subspecialty9 = CreateSubspecialty("Subespecialidad 9", specialty5, 30, clinic2);
-            var subspecialty10 = CreateSubspecialty("Subespecialidad 10", specialty6, 40, clinic2);
-            var subspecialty11 = CreateSubspecialty("Subespecialidad 11", specialty6, 60, clinic2);
+            //******************************************************SERVICIOS DE PELUQUERÍA
+            var subspecialtyData14 = CreateSubspecialtyData("Peinado social", specialtyData2);
+            var subspecialtyData15 = CreateSubspecialtyData("Novia ceremonia: peinado", specialtyData2);
+            var subspecialtyData16 = CreateSubspecialtyData("Novia civil: peinado", specialtyData2);
+            var subspecialtyData17 = CreateSubspecialtyData("Lavado moroccanoil", specialtyData2);
+            var subspecialtyData18 = CreateSubspecialtyData("Lavado común", specialtyData2);
+            var subspecialtyData19 = CreateSubspecialtyData("Madrinas civil: peinado", specialtyData2);
+            var subspecialtyData20 = CreateSubspecialtyData("Clases de autopeinado", specialtyData2);
 
-            var subspecialty12 = CreateSubspecialty("Subespecialidad 12", specialty7, 20, clinic3);
-            var subspecialty13 = CreateSubspecialty("Subespecialidad 13", specialty7, 40, clinic3);
-            var subspecialty14 = CreateSubspecialty("Subespecialidad 14", specialty7, 60, clinic3);
-            var subspecialty15 = CreateSubspecialty("Subespecialidad 15", specialty8, 30, clinic3);
-            var subspecialty16 = CreateSubspecialty("Subespecialidad 16", specialty9, 80, clinic3);
+
+            //****************************************************** PEINADOS
+            var subspecialtyData21 = CreateSubspecialtyData("peinados de novia", specialtyData3);
+            var subspecialtyData22 = CreateSubspecialtyData("peinado de 15", specialtyData3);
+            var subspecialtyData23 = CreateSubspecialtyData("Modelado", specialtyData3);
+            var subspecialtyData24 = CreateSubspecialtyData("Peinado con ondas", specialtyData3);
+            var subspecialtyData25 = CreateSubspecialtyData("peinado de fiesta", specialtyData3);
+            var subspecialtyData26 = CreateSubspecialtyData("brushing", specialtyData3);
+
+            //****************************************************** TRATAMIENTS DE CABELLOS
+            var subspecialtyData27 = CreateSubspecialtyData("alisado brazilian", specialtyData4);
+            var subspecialtyData28 = CreateSubspecialtyData("Alisados", specialtyData4);
+            var subspecialtyData29 = CreateSubspecialtyData("alisado cristal", specialtyData4);
+            var subspecialtyData30 = CreateSubspecialtyData("alisado evans", specialtyData4);
+            var subspecialtyData31 = CreateSubspecialtyData("Ampolla", specialtyData4);
+            var subspecialtyData32 = CreateSubspecialtyData("botox capilar", specialtyData4);
+            var subspecialtyData33 = CreateSubspecialtyData("shock de keratina", specialtyData4);
+            var subspecialtyData34 = CreateSubspecialtyData("Baño de crema", specialtyData4);
+
+            //****************************************************** RITUALES/LAVADOS
+            var subspecialtyData35 = CreateSubspecialtyData("ampollas", specialtyData5);
+            var subspecialtyData36 = CreateSubspecialtyData("cauterización", specialtyData5);
+            var subspecialtyData37 = CreateSubspecialtyData("tratamiento moroccanoil", specialtyData5);
+
+            //****************************************************** COLORACIÓN
+            var subspecialtyData38 = CreateSubspecialtyData("baño de luz", specialtyData6);
+            var subspecialtyData39 = CreateSubspecialtyData("Desgaste de puntas", specialtyData6);
+            var subspecialtyData40 = CreateSubspecialtyData("color desde raiz", specialtyData6);
+            var subspecialtyData41 = CreateSubspecialtyData("color touch", specialtyData6);
+            var subspecialtyData42 = CreateSubspecialtyData("desgaste", specialtyData6);
+            var subspecialtyData43 = CreateSubspecialtyData("decoloracion", specialtyData6);
+            var subspecialtyData44 = CreateSubspecialtyData("Color s/amoniaco", specialtyData6);
+            var subspecialtyData45 = CreateSubspecialtyData("Color inoa", specialtyData6);
+            var subspecialtyData46 = CreateSubspecialtyData("mechas", specialtyData6);
+            var subspecialtyData47 = CreateSubspecialtyData("Iluminación", specialtyData6);
+            var subspecialtyData48 = CreateSubspecialtyData("reflejos", specialtyData6);
+            var subspecialtyData49 = CreateSubspecialtyData("color fantasia", specialtyData6);
+            var subspecialtyData50 = CreateSubspecialtyData("balayage", specialtyData6);
+
+            //****************************************************** MANICURÍA/PEDICURÍA
+            var subspecialtyData51 = CreateSubspecialtyData("belleza de pies", specialtyData7);
+            var subspecialtyData52 = CreateSubspecialtyData("belleza de manos", specialtyData7);
+            var subspecialtyData53 = CreateSubspecialtyData("Manicuria con parafina", specialtyData7);
+            var subspecialtyData54 = CreateSubspecialtyData("manos semipermanente", specialtyData7);
+            var subspecialtyData55 = CreateSubspecialtyData("pedicuria semipermanente", specialtyData7);
+            var subspecialtyData56 = CreateSubspecialtyData("Pedicuría con esmalte en gel semi", specialtyData7);
+            var subspecialtyData57 = CreateSubspecialtyData("Belleza de pies con esmalte en gel semi", specialtyData7);
+            var subspecialtyData58 = CreateSubspecialtyData("pedicuria", specialtyData7);
+
+            //****************************************************** Corte 
+            var subspecialtyData59 = CreateSubspecialtyData("Corte", specialtyData8);
+            var subspecialtyData60 = CreateSubspecialtyData("Corte caballero", specialtyData8);
+            var subspecialtyData61 = CreateSubspecialtyData("Corte niño", specialtyData8);
+
+            
+            //****************************************************** SERVICIOS DE BARBERÍA
+            var subspecialtyData62 = CreateSubspecialtyData("Barba", specialtyData9);
+            var subspecialtyData63 = CreateSubspecialtyData("Corte y barba", specialtyData9);
+            var subspecialtyData64 = CreateSubspecialtyData("Teñido de barba", specialtyData9);
+
+            //****************************************************** SERVICIOS DE PELUQUERÍA
+            var subspecialtyData65 = CreateSubspecialtyData("Corte", specialtyData10);
+            var subspecialtyData66 = CreateSubspecialtyData("Corte de niño", specialtyData10);
+            var subspecialtyData67 = CreateSubspecialtyData("Corte jubilados", specialtyData10);
+            var subspecialtyData68 = CreateSubspecialtyData("Lavado normal", specialtyData10);
+            var subspecialtyData69 = CreateSubspecialtyData("Lavado con masajes y mascarilla", specialtyData10);
+            var subspecialtyData70 = CreateSubspecialtyData("Alisado", specialtyData10);
+            var subspecialtyData71 = CreateSubspecialtyData("Mascarilla", specialtyData10);
+            var subspecialtyData72 = CreateSubspecialtyData("Iluminación", specialtyData10);
+            var subspecialtyData73 = CreateSubspecialtyData("Balayage", specialtyData10);
+            var subspecialtyData74 = CreateSubspecialtyData("Perfilado de cejas", specialtyData10);
+            var subspecialtyData75 = CreateSubspecialtyData("Claritos", specialtyData10);
+
+
+
+
+
+            //++++++++++++++++++++++++++++++++++++++++++ Cosmiatría
+            var subspecialtyData76 = CreateSubspecialtyData("Limpieza Facial Profunda", specialtyData11);
+            var subspecialtyData77 = CreateSubspecialtyData("Máscara de LED (Light Emitting Diodes).", specialtyData11);
+            var subspecialtyData78 = CreateSubspecialtyData("Microdermoabrasión", specialtyData11);
+            var subspecialtyData79 = CreateSubspecialtyData("Peeling", specialtyData11);
+            var subspecialtyData80 = CreateSubspecialtyData("Drenaje Linfático manual facial.", specialtyData11);
+            var subspecialtyData81 = CreateSubspecialtyData("Rubber mask", specialtyData11);
+            var subspecialtyData82 = CreateSubspecialtyData("Masajes", specialtyData11);
+            var subspecialtyData83 = CreateSubspecialtyData("Microdermoabrasión", specialtyData11);
+            var subspecialtyData84 = CreateSubspecialtyData("Drenaje Linfático Manual", specialtyData11);
+            var subspecialtyData85 = CreateSubspecialtyData("Radiofrecuencia", specialtyData11);
+            var subspecialtyData86 = CreateSubspecialtyData("Electroestimulación", specialtyData11);
+            var subspecialtyData87 = CreateSubspecialtyData("Presoterapia", specialtyData11);
+
+            //++++++++++++++++++++++++++++++++++++++++++ TRATAMIENTOS CORPORALES
+            var subspecialtyData88 = CreateSubspecialtyData("Tratamiento anticelulitico reductor", specialtyData12);
+            var subspecialtyData89 = CreateSubspecialtyData("Tratamiento reafirmante anticelulitico", specialtyData12);
+            var subspecialtyData90 = CreateSubspecialtyData("Masaje descontracturante de espalda", specialtyData12);
+            var subspecialtyData91 = CreateSubspecialtyData("Limpieza de cutis", specialtyData12);
+            var subspecialtyData92 = CreateSubspecialtyData("Peeling de espalda", specialtyData12);
+            var subspecialtyData93 = CreateSubspecialtyData("Rellenos y toxinas botulínicas", specialtyData12);
+            var subspecialtyData94 = CreateSubspecialtyData("Peeling", specialtyData12);
+            var subspecialtyData95 = CreateSubspecialtyData("Despigmentante", specialtyData12);
+            var subspecialtyData96 = CreateSubspecialtyData("Bomba de nutrición", specialtyData12);
+            var subspecialtyData97 = CreateSubspecialtyData("Limpieza de cutis", specialtyData12);
+            var subspecialtyData98 = CreateSubspecialtyData("Extracciones", specialtyData12);
+            var subspecialtyData99 = CreateSubspecialtyData("Exfoliación Facial", specialtyData12);
+            var subspecialtyData100 = CreateSubspecialtyData("Lifting sin cirugía", specialtyData12);
+            var subspecialtyData101 = CreateSubspecialtyData("Rejuvenecedor", specialtyData12);
+            var subspecialtyData102 = CreateSubspecialtyData("Radiofrecuencia", specialtyData12);
+            var subspecialtyData103 = CreateSubspecialtyData("Masajes", specialtyData12);
+            var subspecialtyData104 = CreateSubspecialtyData("Espuma celulitis control", specialtyData12);
+            var subspecialtyData105 = CreateSubspecialtyData("Exfoliación Corpora", specialtyData12);
+            var subspecialtyData106 = CreateSubspecialtyData("Anticelulitis", specialtyData12);
+            var subspecialtyData107 = CreateSubspecialtyData("Radiofrecuencia/Ultracavitación", specialtyData12);
+            var subspecialtyData108 = CreateSubspecialtyData("Gel térmico / criógeno", specialtyData12);
+            var subspecialtyData109 = CreateSubspecialtyData("Vendas", specialtyData12);
+            var subspecialtyData110 = CreateSubspecialtyData("Mesoterapia para celulitis", specialtyData12);
+            var subspecialtyData111 = CreateSubspecialtyData("HImFU", specialtyData12);
+            var subspecialtyData112 = CreateSubspecialtyData("Reducción de adiposidad localizada intensiva", specialtyData12);
+            var subspecialtyData113 = CreateSubspecialtyData("Flaccidez", specialtyData12);
+            var subspecialtyData114 = CreateSubspecialtyData("Celulitis fláccida o edematosa", specialtyData12);
+            var subspecialtyData115 = CreateSubspecialtyData("Peeling corporal- blanqueamiento", specialtyData12);
+            var subspecialtyData116 = CreateSubspecialtyData("Modelación corporal", specialtyData12);
+            var subspecialtyData117 = CreateSubspecialtyData("Endormologie", specialtyData12);
+            var subspecialtyData118 = CreateSubspecialtyData("Vacunterapia micro circulación infrarrojo.", specialtyData12);
+            var subspecialtyData119 = CreateSubspecialtyData("Pressoterapia", specialtyData12);
+            var subspecialtyData120 = CreateSubspecialtyData("Corrientes rusas ,australianas y tens", specialtyData12);
+            var subspecialtyData122 = CreateSubspecialtyData("Radiogrecuencia", specialtyData12);
+            var subspecialtyData123 = CreateSubspecialtyData("Ultracavitación de alta frecuencia", specialtyData12);
+            var subspecialtyData124 = CreateSubspecialtyData("Mesoterapia virtual", specialtyData12);
+            var subspecialtyData125 = CreateSubspecialtyData("Dermo Health", specialtyData12);
+            var subspecialtyData126 = CreateSubspecialtyData("Crio Frecuencia", specialtyData12);
+            var subspecialtyData127 = CreateSubspecialtyData("Ultracavitación de alta frecuencia", specialtyData12);
+            var subspecialtyData128 = CreateSubspecialtyData("Dermo Health", specialtyData12);
+            var subspecialtyData129 = CreateSubspecialtyData("Ultracavitacion", specialtyData12);
+            var subspecialtyData130 = CreateSubspecialtyData("Tratamiento para celulitis", specialtyData12);
+            var subspecialtyData131 = CreateSubspecialtyData("Tratamiento para estrias", specialtyData12);
+            var subspecialtyData132 = CreateSubspecialtyData("Tratamiento para flacidez", specialtyData12);
+            var subspecialtyData133 = CreateSubspecialtyData("Altafrecuencia", specialtyData12);
+            var subspecialtyData134 = CreateSubspecialtyData("Piunta de diamantes microdermoabrasion", specialtyData12);
+            var subspecialtyData135 = CreateSubspecialtyData("Limpieza corporal inicial. Pulido", specialtyData12);
+            var subspecialtyData136 = CreateSubspecialtyData("Drenaje linfatico mecanico - presoterapia", specialtyData12);
+            var subspecialtyData137 = CreateSubspecialtyData("Drenaje linfatico manual", specialtyData12);
+            var subspecialtyData138 = CreateSubspecialtyData("Criolipotisis", specialtyData12);
+            var subspecialtyData139 = CreateSubspecialtyData("Electroestimulacion", specialtyData12);
+            var subspecialtyData140 = CreateSubspecialtyData("Electroeracion corporal", specialtyData12);
+            var subspecialtyData141 = CreateSubspecialtyData("Venus legacy", specialtyData12);
+            var subspecialtyData142 = CreateSubspecialtyData("Bronceado sano - sol pleno", specialtyData12);
+            var subspecialtyData143 = CreateSubspecialtyData("Vendras frias", specialtyData12);
+            var subspecialtyData144 = CreateSubspecialtyData("Maderoterapia", specialtyData12);
+            var subspecialtyData145 = CreateSubspecialtyData("Hifi", specialtyData12);
+            var subspecialtyData146 = CreateSubspecialtyData("Eternity", specialtyData12);
+            var subspecialtyData147 = CreateSubspecialtyData("Electrodos - ondas rusas", specialtyData12);
+            var subspecialtyData148 = CreateSubspecialtyData("Dermo Health", specialtyData12);
+            var subspecialtyData149 = CreateSubspecialtyData("Electroterapia", specialtyData12);
+            var subspecialtyData150 = CreateSubspecialtyData("Crio Frecuencia", specialtyData12);
+            var subspecialtyData151 = CreateSubspecialtyData("Radiofrecuencia", specialtyData12);
+            var subspecialtyData152 = CreateSubspecialtyData("Drenaje linfatico manual", specialtyData12);
+            var subspecialtyData153 = CreateSubspecialtyData("Drenaje linfático manual + botas de presoterapia", specialtyData12);
+            var subspecialtyData154 = CreateSubspecialtyData("Tratamiento reductor", specialtyData12);
+            var subspecialtyData155 = CreateSubspecialtyData("Tratamiento integral", specialtyData12);
+            var subspecialtyData156 = CreateSubspecialtyData("Ultrasonido", specialtyData12);
+            var subspecialtyData157 = CreateSubspecialtyData("Criolipolisis plana", specialtyData12);
+            var subspecialtyData158 = CreateSubspecialtyData("Ondas de choques", specialtyData12);
+            var subspecialtyData159 = CreateSubspecialtyData("Termoterapia combianada", specialtyData12);
+            var subspecialtyData160 = CreateSubspecialtyData("Ondas rusas /electrodos", specialtyData12);
+            var subspecialtyData161 = CreateSubspecialtyData("Ultracavitación", specialtyData12);
+            var subspecialtyData162 = CreateSubspecialtyData("Ozonoterapia", specialtyData12);
+            var subspecialtyData163 = CreateSubspecialtyData("Presoterapia", specialtyData12);
+            var subspecialtyData164 = CreateSubspecialtyData("Tratamiento para estrias", specialtyData12);
+            var subspecialtyData165 = CreateSubspecialtyData("Radiofrecuencia", specialtyData12);
+
+
+
+            //++++++++++++++++++++++++++++++++++++++++++ TRATAMIENTOS FACIALES
+            var subspecialtyData166 = CreateSubspecialtyData("Tratamiento anti age", specialtyData13);
+            var subspecialtyData167 = CreateSubspecialtyData("Tratamiento humectación", specialtyData13);
+            var subspecialtyData168 = CreateSubspecialtyData("Peeling químico", specialtyData13);
+            var subspecialtyData169 = CreateSubspecialtyData("punta de diamante", specialtyData13);
+            var subspecialtyData170 = CreateSubspecialtyData("Tratamiento intensivo para acné con mácara led", specialtyData13);
+            var subspecialtyData171 = CreateSubspecialtyData("Fototerapia con máscara led", specialtyData13);
+        
+            var subspecialtyData173 = CreateSubspecialtyData("Peeling con máscara led", specialtyData13);
+            var subspecialtyData174 = CreateSubspecialtyData("higiene facial", specialtyData13);
+            var subspecialtyData175 = CreateSubspecialtyData("Tratamiento para acné", specialtyData13);
+            var subspecialtyData176 = CreateSubspecialtyData("Limpieza de cutis con punta de diamantes", specialtyData13);
+            var subspecialtyData177 = CreateSubspecialtyData("Peeling", specialtyData13);
+            var subspecialtyData178 = CreateSubspecialtyData("Radiofrecuencia facial", specialtyData13);
+            var subspecialtyData179 = CreateSubspecialtyData("ultherapy", specialtyData13);
+            var subspecialtyData180 = CreateSubspecialtyData("accent ultra", specialtyData13);
+            var subspecialtyData181 = CreateSubspecialtyData("harmony", specialtyData13);
+            var subspecialtyData182 = CreateSubspecialtyData("laser co2", specialtyData13);
+            var subspecialtyData183 = CreateSubspecialtyData("infini", specialtyData13);
+            var subspecialtyData184 = CreateSubspecialtyData("mesoterapia", specialtyData13);
+            var subspecialtyData185 = CreateSubspecialtyData("venus legacy", specialtyData13);
+            var subspecialtyData186 = CreateSubspecialtyData("terapia de quelaciones", specialtyData13);
+            var subspecialtyData187 = CreateSubspecialtyData("bioplatia", specialtyData13);
+            var subspecialtyData188 = CreateSubspecialtyData("shape", specialtyData13);
+            var subspecialtyData189 = CreateSubspecialtyData("dermapen", specialtyData13);
+            var subspecialtyData190 = CreateSubspecialtyData("endymed", specialtyData13);
+            var subspecialtyData191 = CreateSubspecialtyData("rinoplatica sin cirugia", specialtyData13);
+            var subspecialtyData192 = CreateSubspecialtyData("plasmarico", specialtyData13);
+            var subspecialtyData193 = CreateSubspecialtyData("radiesse", specialtyData13);
+            var subspecialtyData194 = CreateSubspecialtyData("rellenos de acido hialurinico", specialtyData13);
+            var subspecialtyData195 = CreateSubspecialtyData("Crio Frecuencia", specialtyData13);
+            var subspecialtyData196 = CreateSubspecialtyData("Dermo Leds", specialtyData13);
+            var subspecialtyData197 = CreateSubspecialtyData("Microdermoabrasión", specialtyData13);
+            var subspecialtyData198 = CreateSubspecialtyData("PEELING MECANICO Y QUIMICO", specialtyData13);
+            var subspecialtyData199 = CreateSubspecialtyData("ROCEASEA", specialtyData13);
+            var subspecialtyData200 = CreateSubspecialtyData("AGNE", specialtyData13);
+            var subspecialtyData201 = CreateSubspecialtyData("LIFTING ( CRIO RADIOFRECUENCIA)", specialtyData13);
+            var subspecialtyData202 = CreateSubspecialtyData("LIFTING ( HI FU ULTHERAPY)", specialtyData13);
+            var subspecialtyData203 = CreateSubspecialtyData("MICRO DERMOHABRACION", specialtyData13);
+            var subspecialtyData204 = CreateSubspecialtyData("TERAPIA LUMINICA ANTI AGE", specialtyData13);
+            var subspecialtyData205 = CreateSubspecialtyData("FOTOENVEJECIMIENTO", specialtyData13);
+            var subspecialtyData206 = CreateSubspecialtyData("MASCARAS, BLAMQUEADORAS-COLAGENO-ACIDO HIARURONICO", specialtyData13);
+            var subspecialtyData207 = CreateSubspecialtyData("HIDROPLASTICAS REJUVENECEDORAS", specialtyData13);
+            var subspecialtyData208 = CreateSubspecialtyData("limpieza de cutis con punta de diamante", specialtyData13);
+            var subspecialtyData209 = CreateSubspecialtyData("Casimiatria", specialtyData13);
+            var subspecialtyData210 = CreateSubspecialtyData("Tratamiento para distintos tipos de pieles", specialtyData13);
+            var subspecialtyData211 = CreateSubspecialtyData("Tratamiento para acne y puntos negros", specialtyData13);
+            var subspecialtyData212 = CreateSubspecialtyData("Relleno de arrugas", specialtyData13);
+            var subspecialtyData213 = CreateSubspecialtyData("Lifting facial sin cirugia", specialtyData13);
+            var subspecialtyData214 = CreateSubspecialtyData("Tratamiento con espatula ultrasonica", specialtyData13);
+            var subspecialtyData215 = CreateSubspecialtyData("Microdermaabrasion - punta d diamentes", specialtyData13);
+            var subspecialtyData292 = CreateSubspecialtyData("Limpieza de cutis", specialtyData13);
+            var subspecialtyData216 = CreateSubspecialtyData("Mascarrilla con led", specialtyData13);
+            var subspecialtyData217 = CreateSubspecialtyData("Mascara de colageno", specialtyData13);
+            var subspecialtyData218 = CreateSubspecialtyData("Drenaje linfatico manual", specialtyData13);
+            var subspecialtyData219 = CreateSubspecialtyData("Radiofrecuencia", specialtyData13);
+            var subspecialtyData220 = CreateSubspecialtyData("Alta frecuencia", specialtyData13);
+            var subspecialtyData221 = CreateSubspecialtyData("Peeling", specialtyData13);
+            var subspecialtyData222 = CreateSubspecialtyData("Masoterapia", specialtyData13);
+            var subspecialtyData223 = CreateSubspecialtyData("Plasma rico en plaquetas", specialtyData13);
+            var subspecialtyData224 = CreateSubspecialtyData("Tratamiento para manchas cutaneas", specialtyData13);
+            var subspecialtyData225 = CreateSubspecialtyData("Masaje descontracurante de rostro", specialtyData13);
+            var subspecialtyData226 = CreateSubspecialtyData("tratamiento para rosacea", specialtyData13);
+
+
+            //++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Camas Solares
+            var subspecialtyData227 = CreateSubspecialtyData("48 Body wave Q Vertical con plataforma vibratoria", specialtyData14);
+            var subspecialtyData228 = CreateSubspecialtyData("Ergoline Super Power Classic 300", specialtyData14);
+            var subspecialtyData229 = CreateSubspecialtyData("Infinity Ultrasun Q", specialtyData14);
+
+
+            //++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Masajes
+
+            var subspecialtyData230 = CreateSubspecialtyData("Reductores", specialtyData15);
+            var subspecialtyData231 = CreateSubspecialtyData("Descontracturantes", specialtyData15);
+            var subspecialtyData232 = CreateSubspecialtyData("Relajantes", specialtyData15);
+            var subspecialtyData233 = CreateSubspecialtyData("Masaje descontracturante", specialtyData15);
+            var subspecialtyData234 = CreateSubspecialtyData("Masajes relajante", specialtyData15);
+
+
+            //++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Depilacion
+
+            var subspecialtyData235 = CreateSubspecialtyData("Sistema español facial y corporal (descartable)", specialtyData16);
+            var subspecialtyData236 = CreateSubspecialtyData("Sistema español juveniles", specialtyData16);
+            var subspecialtyData237 = CreateSubspecialtyData("Depilacion definitiva", specialtyData16);
+            var subspecialtyData238 = CreateSubspecialtyData("Depilación láser", specialtyData16);
+            var subspecialtyData239 = CreateSubspecialtyData("Depilación de axilas", specialtyData16);
+            var subspecialtyData240 = CreateSubspecialtyData("Depilación de cavado profundo", specialtyData16);
+            var subspecialtyData241 = CreateSubspecialtyData("Depilación de gluteos", specialtyData16);
+            var subspecialtyData242 = CreateSubspecialtyData("Depilación de media pelvis", specialtyData16);
+            var subspecialtyData243 = CreateSubspecialtyData("Depilación de media pierna", specialtyData16);
+            var subspecialtyData244 = CreateSubspecialtyData("Depilación de pelvis completa", specialtyData16);
+            var subspecialtyData245 = CreateSubspecialtyData("Depilación de pierna entera", specialtyData16);
+            var subspecialtyData246 = CreateSubspecialtyData("Depilación de tira de cola", specialtyData16);
+            var subspecialtyData247 = CreateSubspecialtyData("Depilación de tira de pelvis", specialtyData16);
+            var subspecialtyData248 = CreateSubspecialtyData("Depilación de bozo", specialtyData16);
+            var subspecialtyData249 = CreateSubspecialtyData("Depilación hombres espalda", specialtyData16);
+            var subspecialtyData250 = CreateSubspecialtyData("Depilación hombres cejas con pinza", specialtyData16);
+            var subspecialtyData251 = CreateSubspecialtyData("Depilación hombres cejas con modelación", specialtyData16);
+            var subspecialtyData252 = CreateSubspecialtyData("Depilación hombres gluteos", specialtyData16);
+            var subspecialtyData253 = CreateSubspecialtyData("Depilación hombres tira de cola", specialtyData16);
+            var subspecialtyData254 = CreateSubspecialtyData("Depilacion de cejas", specialtyData16);
+            var subspecialtyData255 = CreateSubspecialtyData("Depilación de hombre pierna entera", specialtyData16);
+            var subspecialtyData256 = CreateSubspecialtyData("Perfilado de cejas ", specialtyData16);
+
+
+            //++++++++++++++++++++++++++++++++++++++++++++++++++++++++  Pestañas
+
+            var subspecialtyData257 = CreateSubspecialtyData("Extensiones Pelo a pelo", specialtyData17);
+            var subspecialtyData258 = CreateSubspecialtyData("Extensiones en grupo", specialtyData17);
+            var subspecialtyData259 = CreateSubspecialtyData("Extensiones enteras", specialtyData17);
+            var subspecialtyData260 = CreateSubspecialtyData("Permanente y Tintura", specialtyData17);
+
+            //++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Spa
+
+            var subspecialtyData261 = CreateSubspecialtyData("Piedas calientes", specialtyData18);
+            var subspecialtyData262 = CreateSubspecialtyData("Piedas calientes corporal y facial", specialtyData18);
+            var subspecialtyData263 = CreateSubspecialtyData("Manta termica", specialtyData18);
+            var subspecialtyData264 = CreateSubspecialtyData("Sauna seco con ezonoterapia", specialtyData18);
+            var subspecialtyData265 = CreateSubspecialtyData("Maderoterapia", specialtyData18);
+            var subspecialtyData266 = CreateSubspecialtyData("Mascara corporal de chocolate", specialtyData18);
+            var subspecialtyData267 = CreateSubspecialtyData("Relajantes", specialtyData18);
+            var subspecialtyData268 = CreateSubspecialtyData("Descontracturantes", specialtyData18);
+            var subspecialtyData269 = CreateSubspecialtyData("Con Piedas Calientes", specialtyData18);
+            var subspecialtyData270 = CreateSubspecialtyData("Con Pindas", specialtyData18);
+            var subspecialtyData271 = CreateSubspecialtyData("Reiki", specialtyData18);
+            var subspecialtyData272 = CreateSubspecialtyData("Massege Eyes", specialtyData18);
+            var subspecialtyData273 = CreateSubspecialtyData("Aromaterapia, Aceites", specialtyData18);
+            var subspecialtyData274 = CreateSubspecialtyData("Esenciales Frutales O Herbales", specialtyData18);
+
+
+            //++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Manos Y Pies
+            var subspecialtyData275 = CreateSubspecialtyData("Bellea de manos y pies", specialtyData19);
+            var subspecialtyData276 = CreateSubspecialtyData("Esmaltado semipermanente en manos y pies", specialtyData19);
+            var subspecialtyData277 = CreateSubspecialtyData("Uñas gelificadas o acrilicas en manos", specialtyData19);
+            var subspecialtyData278 = CreateSubspecialtyData("Uñas gelificadas o acrilicas en pies", specialtyData19);
+            var subspecialtyData279 = CreateSubspecialtyData("Relexologa", specialtyData19);
+            var subspecialtyData280 = CreateSubspecialtyData("Spa de pies", specialtyData19);
+            var subspecialtyData281 = CreateSubspecialtyData("Parafina en manos y codos", specialtyData19);
+            var subspecialtyData282 = CreateSubspecialtyData("Embellecimiento de manos (piel)", specialtyData19);
+            var subspecialtyData283 = CreateSubspecialtyData("Nail art", specialtyData19);
+
+            //++++++++++++++++++++++++++++++++++++++++++++++++++++++++ Medicina EStetica:
+            var subspecialtyData284 = CreateSubspecialtyData("Mesoterapia o IDT", specialtyData20);
+            var subspecialtyData285 = CreateSubspecialtyData("Mesoterapia", specialtyData20);
+            var subspecialtyData286 = CreateSubspecialtyData("Lipodisolución", specialtyData20);
+            var subspecialtyData287 = CreateSubspecialtyData("Mesodysport", specialtyData20);
+            var subspecialtyData288 = CreateSubspecialtyData("Plasma Rico en Plaquetas", specialtyData20);
+            var subspecialtyData289 = CreateSubspecialtyData("Relleno con Ácido Hialurónico Restylane", specialtyData20);
+            var subspecialtyData290 = CreateSubspecialtyData("Toxina Botulínina Dysport", specialtyData20);
+            var subspecialtyData291 = CreateSubspecialtyData("Hidratación profunda con Restylane SkinBoosters", specialtyData20);
+
+
+
+
+
+
+           
             Console.Write("OK\n");
 
             // Creo doctores 
             Console.Write("Doctores\t\t\t");
-            var doctor1 = CreateDoctor("Fernando", "Gomez", new List<uint> { 30 }, new List<Clinic_Subspecialty> { subspecialty1 }, DoctorStateEnum.Active,
+            var doctor1 = CreateDoctor("Fernando", "Gomez", new List<uint> { 30 }, new List<Clinic_Subspecialty> { subespecialityTEST }, DoctorStateEnum.Active,
                 new List<Clinic_WorkingHours> {
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
@@ -143,7 +477,7 @@ namespace SistemaTurnos.Populator
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) }
                 }, clinic1);
 
-            var doctor2 = CreateDoctor("Christian", "Russo", new List<uint> { 10, 15 }, new List<Clinic_Subspecialty> { subspecialty2, subspecialty3 }, DoctorStateEnum.Active,
+            var doctor2 = CreateDoctor("Christian", "Russo", new List<uint> { 10, 15 }, new List<Clinic_Subspecialty> { subespecialityTEST, subespecialityTEST }, DoctorStateEnum.Active,
                 new List<Clinic_WorkingHours> {
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(7, 0, 0), End = new TimeSpan(21, 0, 0) },
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
@@ -154,7 +488,7 @@ namespace SistemaTurnos.Populator
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) }
                 }, clinic1);
 
-            var doctor3 = CreateDoctor("Sabrina", "Fillol", new List<uint> { 10 }, new List<Clinic_Subspecialty> { subspecialty5 }, DoctorStateEnum.Active,
+            var doctor3 = CreateDoctor("Sabrina", "Fillol", new List<uint> { 10 }, new List<Clinic_Subspecialty> { subespecialityTEST }, DoctorStateEnum.Active,
                 new List<Clinic_WorkingHours> {
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(7, 0, 0), End = new TimeSpan(21, 0, 0) },
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
@@ -165,7 +499,7 @@ namespace SistemaTurnos.Populator
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) }
                 }, clinic1);
 
-            var doctor4 = CreateDoctor("Pedro", "Perez", new List<uint> { 30 }, new List<Clinic_Subspecialty> { subspecialty9 }, DoctorStateEnum.Active,
+            var doctor4 = CreateDoctor("Pedro", "Perez", new List<uint> { 30 }, new List<Clinic_Subspecialty> { subespecialityTEST }, DoctorStateEnum.Active,
                 new List<Clinic_WorkingHours> {
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(20, 0, 0) },
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(20, 0, 0) },
@@ -176,7 +510,7 @@ namespace SistemaTurnos.Populator
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(20, 0, 0) }
                 }, clinic2);
 
-            var doctor5 = CreateDoctor("Eduardo", "Martinez", new List<uint> { 10 }, new List<Clinic_Subspecialty> { subspecialty11 }, DoctorStateEnum.Active,
+            var doctor5 = CreateDoctor("Eduardo", "Martinez", new List<uint> { 10 }, new List<Clinic_Subspecialty> { subespecialityTEST }, DoctorStateEnum.Active,
                 new List<Clinic_WorkingHours> {
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(17, 50, 0) },
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(17, 50, 0) },
@@ -187,7 +521,7 @@ namespace SistemaTurnos.Populator
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(17, 50, 0) }
                 }, clinic2);
 
-            var doctor6 = CreateDoctor("Eliana", "Lint", new List<uint> { 60 }, new List<Clinic_Subspecialty> { subspecialty15 }, DoctorStateEnum.Active,
+            var doctor6 = CreateDoctor("Eliana", "Lint", new List<uint> { 60 }, new List<Clinic_Subspecialty> { subespecialityTEST }, DoctorStateEnum.Active,
                 new List<Clinic_WorkingHours> {
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(22, 30, 0) },
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(22, 30, 0) },
@@ -198,7 +532,7 @@ namespace SistemaTurnos.Populator
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(22, 30, 0) }
                 }, clinic3);
 
-            var doctor7 = CreateDoctor("Daniela", "Disig", new List<uint> { 10, 20, 30, 50, 60 }, new List<Clinic_Subspecialty> { subspecialty12, subspecialty13, subspecialty14, subspecialty15, subspecialty16 }, DoctorStateEnum.Active,
+            var doctor7 = CreateDoctor("Daniela", "Disig", new List<uint> { 10, 20, 30, 50, 60 }, new List<Clinic_Subspecialty> { subespecialityTEST, subespecialityTEST, subespecialityTEST, subespecialityTEST, subespecialityTEST }, DoctorStateEnum.Active,
                 new List<Clinic_WorkingHours> {
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(7, 30, 0), End = new TimeSpan(12, 30, 0) },
                     new Clinic_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(7, 30, 0), End = new TimeSpan(12, 30, 0) },
@@ -266,11 +600,6 @@ namespace SistemaTurnos.Populator
             var client13 = CreateClientUser("cliente13@asd.com", "cliente13@asd.com", "Luis", "Salas", "qwerty 13", "1000013");
             var client14 = CreateClientUser("cliente14@asd.com", "cliente14@asd.com", "Ezequiel", "Morzt", "qwerty 14", "1000014");
             var client15 = CreateClientUser("cliente15@asd.com", "cliente15@asd.com", "Manuela", "Gomez", "qwerty 15", "1000015");
-            //var client16 = CreateClientUser("cliente16@asd.com", "cliente16@asd.com");
-            //var client17 = CreateClientUser("cliente17@asd.com", "cliente17@asd.com");
-            //var client18 = CreateClientUser("cliente18@asd.com", "cliente18@asd.com");
-            //var client19 = CreateClientUser("cliente19@asd.com", "cliente19@asd.com");
-            //var client20 = CreateClientUser("cliente20@asd.com", "cliente20@asd.com");
             Console.Write("OK\n");
 
             // Creo pacientes
@@ -296,68 +625,68 @@ namespace SistemaTurnos.Populator
 
             // Creo turnos
             Console.Write("Turnos\t\t\t\t");
-            var appointment1 = CreateAppointment(DateTime.Today.AddDays(-5).AddHours(8).AddMinutes(30), doctor1, subspecialty1, patient1, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment2 = CreateAppointment(DateTime.Today.AddDays(-3).AddHours(10).AddMinutes(30), doctor1, subspecialty1, patient2, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment3 = CreateAppointment(DateTime.Today.AddDays(-3).AddHours(12).AddMinutes(0), doctor1, subspecialty1, patient3, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment4 = CreateAppointment(DateTime.Today.AddDays(-2).AddHours(15).AddMinutes(30), doctor1, subspecialty1, patient5, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment5 = CreateAppointment(DateTime.Today.AddDays(-1).AddHours(8).AddMinutes(40), doctor2, subspecialty2, patient3, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment6 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(8).AddMinutes(50), doctor2, subspecialty3, patient1, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment7 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(9).AddMinutes(20), doctor2, subspecialty3, patient2, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment8 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(9).AddMinutes(30), doctor2, subspecialty3, patient3, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment9 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(9).AddMinutes(50), doctor2, subspecialty2, patient4, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment10 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(9).AddMinutes(30), doctor1, subspecialty1, patient3, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment11 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(14).AddMinutes(20), doctor2, subspecialty2, patient5, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment12 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(15).AddMinutes(0), doctor2, subspecialty2, patient2, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment13 = CreateAppointment(DateTime.Today.AddDays(2).AddHours(16).AddMinutes(0), doctor1, subspecialty1, patient1, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment14 = CreateAppointment(DateTime.Today.AddDays(3).AddHours(9).AddMinutes(20), doctor2, subspecialty3, patient4, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment15 = CreateAppointment(DateTime.Today.AddDays(4).AddHours(16).AddMinutes(40), doctor2, subspecialty3, patient5, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment16 = CreateAppointment(DateTime.Today.AddDays(4).AddHours(16).AddMinutes(50), doctor2, subspecialty2, patient2, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment17 = CreateAppointment(DateTime.Today.AddDays(4).AddHours(17).AddMinutes(0), doctor2, subspecialty3, patient3, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment18 = CreateAppointment(DateTime.Today.AddDays(4).AddHours(17).AddMinutes(10), doctor2, subspecialty3, patient4, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment19 = CreateAppointment(DateTime.Today.AddDays(4).AddHours(17).AddMinutes(20), doctor2, subspecialty2, patient5, AppointmentStateEnum.Reserved, null, clinic1);
-            var appointment20 = CreateAppointment(DateTime.Today.AddDays(4).AddHours(17).AddMinutes(40), doctor2, subspecialty2, patient1, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment1 = CreateAppointment(DateTime.Today.AddDays(-5).AddHours(8).AddMinutes(30), doctor1, subespecialityTEST, patient1, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment2 = CreateAppointment(DateTime.Today.AddDays(-3).AddHours(10).AddMinutes(30), doctor1, subespecialityTEST, patient2, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment3 = CreateAppointment(DateTime.Today.AddDays(-3).AddHours(12).AddMinutes(0), doctor1, subespecialityTEST, patient3, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment4 = CreateAppointment(DateTime.Today.AddDays(-2).AddHours(15).AddMinutes(30), doctor1, subespecialityTEST, patient5, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment5 = CreateAppointment(DateTime.Today.AddDays(-1).AddHours(8).AddMinutes(40), doctor2, subespecialityTEST, patient3, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment6 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(8).AddMinutes(50), doctor2, subespecialityTEST, patient1, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment7 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(9).AddMinutes(20), doctor2, subespecialityTEST, patient2, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment8 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(9).AddMinutes(30), doctor2, subespecialityTEST, patient3, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment9 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(9).AddMinutes(50), doctor2, subespecialityTEST, patient4, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment10 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(9).AddMinutes(30), doctor1, subespecialityTEST, patient3, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment11 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(14).AddMinutes(20), doctor2, subespecialityTEST, patient5, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment12 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(15).AddMinutes(0), doctor2, subespecialityTEST, patient2, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment13 = CreateAppointment(DateTime.Today.AddDays(2).AddHours(16).AddMinutes(0), doctor1, subespecialityTEST, patient1, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment14 = CreateAppointment(DateTime.Today.AddDays(3).AddHours(9).AddMinutes(20), doctor2, subespecialityTEST, patient4, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment15 = CreateAppointment(DateTime.Today.AddDays(4).AddHours(16).AddMinutes(40), doctor2, subespecialityTEST, patient5, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment16 = CreateAppointment(DateTime.Today.AddDays(4).AddHours(16).AddMinutes(50), doctor2, subespecialityTEST, patient2, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment17 = CreateAppointment(DateTime.Today.AddDays(4).AddHours(17).AddMinutes(0), doctor2, subespecialityTEST, patient3, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment18 = CreateAppointment(DateTime.Today.AddDays(4).AddHours(17).AddMinutes(10), doctor2, subespecialityTEST, patient4, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment19 = CreateAppointment(DateTime.Today.AddDays(4).AddHours(17).AddMinutes(20), doctor2, subespecialityTEST, patient5, AppointmentStateEnum.Reserved, null, clinic1);
+            var appointment20 = CreateAppointment(DateTime.Today.AddDays(4).AddHours(17).AddMinutes(40), doctor2, subespecialityTEST, patient1, AppointmentStateEnum.Reserved, null, clinic1);
 
-            var appointment21 = CreateAppointment(DateTime.Today.AddDays(-10).AddHours(8).AddMinutes(0), doctor4, subspecialty9, patient6, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment22 = CreateAppointment(DateTime.Today.AddDays(-9).AddHours(9).AddMinutes(30), doctor4, subspecialty9, patient7, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment23 = CreateAppointment(DateTime.Today.AddDays(-8).AddHours(10).AddMinutes(0), doctor4, subspecialty9, patient8, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment24 = CreateAppointment(DateTime.Today.AddDays(-7).AddHours(11).AddMinutes(30), doctor4, subspecialty9, patient9, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment25 = CreateAppointment(DateTime.Today.AddDays(-6).AddHours(12).AddMinutes(0), doctor4, subspecialty9, patient10, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment26 = CreateAppointment(DateTime.Today.AddDays(-5).AddHours(13).AddMinutes(30), doctor4, subspecialty9, patient6, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment27 = CreateAppointment(DateTime.Today.AddDays(-4).AddHours(14).AddMinutes(0), doctor4, subspecialty9, patient6, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment28 = CreateAppointment(DateTime.Today.AddDays(-3).AddHours(15).AddMinutes(30), doctor4, subspecialty9, patient7, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment29 = CreateAppointment(DateTime.Today.AddDays(-2).AddHours(16).AddMinutes(0), doctor4, subspecialty9, patient8, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment30 = CreateAppointment(DateTime.Today.AddDays(-1).AddHours(17).AddMinutes(30), doctor4, subspecialty9, patient9, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment31 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(18).AddMinutes(0), doctor4, subspecialty9, patient9, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment32 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(19).AddMinutes(30), doctor4, subspecialty9, patient10, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment33 = CreateAppointment(DateTime.Today.AddDays(2).AddHours(20).AddMinutes(0), doctor4, subspecialty9, patient6, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment34 = CreateAppointment(DateTime.Today.AddDays(3).AddHours(9).AddMinutes(30), doctor5, subspecialty11, patient7, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment35 = CreateAppointment(DateTime.Today.AddDays(4).AddHours(10).AddMinutes(40), doctor5, subspecialty11, patient8, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment36 = CreateAppointment(DateTime.Today.AddDays(5).AddHours(11).AddMinutes(50), doctor5, subspecialty11, patient8, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment37 = CreateAppointment(DateTime.Today.AddDays(6).AddHours(12).AddMinutes(0), doctor5, subspecialty11, patient8, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment38 = CreateAppointment(DateTime.Today.AddDays(7).AddHours(13).AddMinutes(10), doctor5, subspecialty11, patient9, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment39 = CreateAppointment(DateTime.Today.AddDays(8).AddHours(14).AddMinutes(20), doctor5, subspecialty11, patient9, AppointmentStateEnum.Reserved, null, clinic2);
-            var appointment40 = CreateAppointment(DateTime.Today.AddDays(9).AddHours(15).AddMinutes(30), doctor5, subspecialty11, patient9, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment21 = CreateAppointment(DateTime.Today.AddDays(-10).AddHours(8).AddMinutes(0), doctor4, subespecialityTEST, patient6, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment22 = CreateAppointment(DateTime.Today.AddDays(-9).AddHours(9).AddMinutes(30), doctor4, subespecialityTEST, patient7, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment23 = CreateAppointment(DateTime.Today.AddDays(-8).AddHours(10).AddMinutes(0), doctor4, subespecialityTEST, patient8, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment24 = CreateAppointment(DateTime.Today.AddDays(-7).AddHours(11).AddMinutes(30), doctor4, subespecialityTEST, patient9, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment25 = CreateAppointment(DateTime.Today.AddDays(-6).AddHours(12).AddMinutes(0), doctor4, subespecialityTEST, patient10, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment26 = CreateAppointment(DateTime.Today.AddDays(-5).AddHours(13).AddMinutes(30), doctor4, subespecialityTEST, patient6, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment27 = CreateAppointment(DateTime.Today.AddDays(-4).AddHours(14).AddMinutes(0), doctor4, subespecialityTEST, patient6, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment28 = CreateAppointment(DateTime.Today.AddDays(-3).AddHours(15).AddMinutes(30), doctor4, subespecialityTEST, patient7, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment29 = CreateAppointment(DateTime.Today.AddDays(-2).AddHours(16).AddMinutes(0), doctor4, subespecialityTEST, patient8, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment30 = CreateAppointment(DateTime.Today.AddDays(-1).AddHours(17).AddMinutes(30), doctor4, subespecialityTEST, patient9, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment31 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(18).AddMinutes(0), doctor4, subespecialityTEST, patient9, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment32 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(19).AddMinutes(30), doctor4, subespecialityTEST, patient10, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment33 = CreateAppointment(DateTime.Today.AddDays(2).AddHours(20).AddMinutes(0), doctor4, subespecialityTEST, patient6, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment34 = CreateAppointment(DateTime.Today.AddDays(3).AddHours(9).AddMinutes(30), doctor5, subespecialityTEST, patient7, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment35 = CreateAppointment(DateTime.Today.AddDays(4).AddHours(10).AddMinutes(40), doctor5, subespecialityTEST, patient8, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment36 = CreateAppointment(DateTime.Today.AddDays(5).AddHours(11).AddMinutes(50), doctor5, subespecialityTEST, patient8, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment37 = CreateAppointment(DateTime.Today.AddDays(6).AddHours(12).AddMinutes(0), doctor5, subespecialityTEST, patient8, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment38 = CreateAppointment(DateTime.Today.AddDays(7).AddHours(13).AddMinutes(10), doctor5, subespecialityTEST, patient9, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment39 = CreateAppointment(DateTime.Today.AddDays(8).AddHours(14).AddMinutes(20), doctor5, subespecialityTEST, patient9, AppointmentStateEnum.Reserved, null, clinic2);
+            var appointment40 = CreateAppointment(DateTime.Today.AddDays(9).AddHours(15).AddMinutes(30), doctor5, subespecialityTEST, patient9, AppointmentStateEnum.Reserved, null, clinic2);
 
-            var appointment41 = CreateAppointment(DateTime.Today.AddDays(-2).AddHours(10).AddMinutes(30), doctor6, subspecialty15, patient15, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment42 = CreateAppointment(DateTime.Today.AddDays(-2).AddHours(7).AddMinutes(30), doctor7, subspecialty12, patient14, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment43 = CreateAppointment(DateTime.Today.AddDays(-2).AddHours(16).AddMinutes(30), doctor6, subspecialty15, patient14, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment44 = CreateAppointment(DateTime.Today.AddDays(-2).AddHours(12).AddMinutes(0), doctor7, subspecialty13, patient12, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment45 = CreateAppointment(DateTime.Today.AddDays(-2).AddHours(22).AddMinutes(30), doctor6, subspecialty15, patient11, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment46 = CreateAppointment(DateTime.Today.AddDays(-1).AddHours(8).AddMinutes(0), doctor7, subspecialty14, patient11, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment47 = CreateAppointment(DateTime.Today.AddDays(-1).AddHours(14).AddMinutes(30), doctor6, subspecialty15, patient13, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment48 = CreateAppointment(DateTime.Today.AddDays(-1).AddHours(9).AddMinutes(0), doctor7, subspecialty15, patient3, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment49 = CreateAppointment(DateTime.Today.AddDays(-1).AddHours(16).AddMinutes(30), doctor6, subspecialty15, patient13, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment50 = CreateAppointment(DateTime.Today.AddDays(-1).AddHours(11).AddMinutes(0), doctor7, subspecialty16, patient14, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment51 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(18).AddMinutes(30), doctor6, subspecialty15, patient15, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment52 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(12).AddMinutes(30), doctor7, subspecialty12, patient11, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment53 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(20).AddMinutes(30), doctor6, subspecialty15, patient11, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment54 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(9).AddMinutes(30), doctor7, subspecialty13, patient12, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment55 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(10).AddMinutes(30), doctor6, subspecialty15, patient12, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment56 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(10).AddMinutes(30), doctor7, subspecialty14, patient12, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment57 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(10).AddMinutes(30), doctor6, subspecialty15, patient14, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment58 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(11).AddMinutes(0), doctor7, subspecialty16, patient13, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment59 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(11).AddMinutes(30), doctor6, subspecialty15, patient15, AppointmentStateEnum.Reserved, null, clinic3);
-            var appointment60 = CreateAppointment(DateTime.Today.AddDays(2).AddHours(11).AddMinutes(30), doctor7, subspecialty16, patient11, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment41 = CreateAppointment(DateTime.Today.AddDays(-2).AddHours(10).AddMinutes(30), doctor6, subespecialityTEST, patient15, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment42 = CreateAppointment(DateTime.Today.AddDays(-2).AddHours(7).AddMinutes(30), doctor7, subespecialityTEST, patient14, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment43 = CreateAppointment(DateTime.Today.AddDays(-2).AddHours(16).AddMinutes(30), doctor6, subespecialityTEST, patient14, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment44 = CreateAppointment(DateTime.Today.AddDays(-2).AddHours(12).AddMinutes(0), doctor7, subespecialityTEST, patient12, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment45 = CreateAppointment(DateTime.Today.AddDays(-2).AddHours(22).AddMinutes(30), doctor6, subespecialityTEST, patient11, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment46 = CreateAppointment(DateTime.Today.AddDays(-1).AddHours(8).AddMinutes(0), doctor7, subespecialityTEST, patient11, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment47 = CreateAppointment(DateTime.Today.AddDays(-1).AddHours(14).AddMinutes(30), doctor6, subespecialityTEST, patient13, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment48 = CreateAppointment(DateTime.Today.AddDays(-1).AddHours(9).AddMinutes(0), doctor7, subespecialityTEST, patient3, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment49 = CreateAppointment(DateTime.Today.AddDays(-1).AddHours(16).AddMinutes(30), doctor6, subespecialityTEST, patient13, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment50 = CreateAppointment(DateTime.Today.AddDays(-1).AddHours(11).AddMinutes(0), doctor7, subespecialityTEST, patient14, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment51 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(18).AddMinutes(30), doctor6, subespecialityTEST, patient15, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment52 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(12).AddMinutes(30), doctor7, subespecialityTEST, patient11, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment53 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(20).AddMinutes(30), doctor6, subespecialityTEST, patient11, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment54 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(9).AddMinutes(30), doctor7, subespecialityTEST, patient12, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment55 = CreateAppointment(DateTime.Today.AddDays(0).AddHours(10).AddMinutes(30), doctor6, subespecialityTEST, patient12, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment56 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(10).AddMinutes(30), doctor7, subespecialityTEST, patient12, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment57 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(10).AddMinutes(30), doctor6, subespecialityTEST, patient14, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment58 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(11).AddMinutes(0), doctor7, subespecialityTEST, patient13, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment59 = CreateAppointment(DateTime.Today.AddDays(1).AddHours(11).AddMinutes(30), doctor6, subespecialityTEST, patient15, AppointmentStateEnum.Reserved, null, clinic3);
+            var appointment60 = CreateAppointment(DateTime.Today.AddDays(2).AddHours(11).AddMinutes(30), doctor7, subespecialityTEST, patient11, AppointmentStateEnum.Reserved, null, clinic3);
             Console.Write("OK\n");
 
             Console.WriteLine("Se finalizo el populado de la base de datos.");
