@@ -258,3 +258,23 @@
 2019-01-13 18:14:44.0396 Info Adding target File Target[sistema-turnos-log]
 2019-01-13 18:14:44.0499 Info Configured from an XML element in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/nlog.config...
 2019-01-13 18:14:44.0694 Info Found 21 configuration items
+2019-01-13 18:16:28.0680 Info Message Template Auto Format enabled
+2019-01-13 18:16:28.0897 Info Loading assembly: NLog.Web.AspNetCore
+2019-01-13 18:16:28.2022 Info Adding target File Target[sistema-turnos-log]
+2019-01-13 18:16:28.2121 Info Configured from an XML element in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/nlog.config...
+2019-01-13 18:16:28.2310 Info Found 21 configuration items
+2019-01-13 18:17:17.6299 Info Message Template Auto Format enabled
+2019-01-13 18:17:17.6605 Info Loading assembly: NLog.Web.AspNetCore
+2019-01-13 18:17:17.7882 Info Adding target File Target[sistema-turnos-log]
+2019-01-13 18:17:17.7984 Info Configured from an XML element in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/nlog.config...
+2019-01-13 18:17:17.8187 Info Found 21 configuration items
+2019-01-13 18:21:22.3746 Info Message Template Auto Format enabled
+2019-01-13 18:21:22.3969 Info Loading assembly: NLog.Web.AspNetCore
+2019-01-13 18:21:22.5240 Info Adding target File Target[sistema-turnos-log]
+2019-01-13 18:21:22.5334 Info Configured from an XML element in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/nlog.config...
+2019-01-13 18:21:22.5527 Info Found 21 configuration items
+2019-01-14 15:24:06.1271 Info Message Template Auto Format enabled
+2019-01-14 15:24:06.1516 Info Loading assembly: NLog.Web.AspNetCore
+2019-01-14 15:24:06.2744 Info Adding target File Target[sistema-turnos-log]
+2019-01-14 15:24:06.2838 Info Configured from an XML element in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/nlog.config...
+2019-01-14 15:24:06.3057 Info Found 21 configuration items

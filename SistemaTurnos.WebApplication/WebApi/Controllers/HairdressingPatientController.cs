@@ -206,7 +206,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 return dbContext.Hairdressing_Patients
                     .Where(p => p.UserId == userId)
-                    .Where(p => string.IsNullOrWhiteSpace(filter.Text) || p.FullName.Contains(filter.Text) || p.Client.User.Email.Contains(filter.Text))
+                    .Where(p => string.IsNullOrWhiteSpace(filter.Text) || p.Client.FullName.Contains(filter.Text) || p.Client.User.Email.Contains(filter.Text))
                     .Select(s => new HairdressingPatientDto()
                     {
                         Id = s.Id,
