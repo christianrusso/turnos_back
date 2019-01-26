@@ -17,6 +17,8 @@ namespace SistemaTurnos.Database.ClinicModel
 
         public virtual List<Clinic_Appointment> Appointments { get; set; }
 
+        public virtual List<Clinic_Record> MedicalRecords { get; set; }
+
         [Required]
         public int UserId { get; set; }
 

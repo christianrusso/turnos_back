@@ -47,6 +47,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     SpecialtyId = subSpecialtyDto.SpecialtyId,
                     ConsultationLength = subSpecialtyDto.ConsultationLength,
                     Price = subSpecialtyDto.Price,
+                    Indications = subSpecialtyDto.Indications,
                     UserId = userId
                 });
 
@@ -69,6 +70,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         Description = ssp.Data.Description,
                         ConsultationLength = ssp.ConsultationLength,
                         Price = ssp.Price,
+                        Indications = ssp.Indications,
                         SpecialtyId = ssp.SpecialtyId,
                         SpecialtyDescription = ssp.Specialty.Data.Description
                 }).ToList();
@@ -92,6 +94,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         Description = ssp.Data.Description,
                         ConsultationLength = ssp.ConsultationLength,
                         Price = ssp.Price,
+                        Indications = ssp.Indications,
                         SpecialtyId = ssp.SpecialtyId,
                         SpecialtyDescription = ssp.Specialty.Data.Description
                     }).ToList();
@@ -153,6 +156,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 subSpecialtyToUpdate.ConsultationLength = subSpecialtyDto.ConsultationLength;
                 subSpecialtyToUpdate.Price = subSpecialtyDto.Price;
+                subSpecialtyToUpdate.Indications = subSpecialtyDto.Indications;
                 dbContext.SaveChanges();
             }
         }

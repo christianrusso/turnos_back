@@ -39,6 +39,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     DataId = subSpecialtyDto.Id,
                     SpecialtyId = subSpecialtyDto.SpecialtyId,
                     ConsultationLength = subSpecialtyDto.ConsultationLength,
+                    Indications = subSpecialtyDto.Indications,
                     UserId = userId
                 });
 
@@ -62,6 +63,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         Id = ssp.Id,
                         Description = ssp.Data.Description,
                         ConsultationLength = ssp.ConsultationLength,
+                        Indications = ssp.Indications,
                         SpecialtyId = ssp.SpecialtyId,
                         SpecialtyDescription = ssp.Specialty.Data.Description
                 }).ToList();
@@ -85,6 +87,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         Id = ssp.Id,
                         Description = ssp.Data.Description,
                         ConsultationLength = ssp.ConsultationLength,
+                        Indications = ssp.Indications,
                         SpecialtyId = ssp.SpecialtyId,
                         SpecialtyDescription = ssp.Specialty.Data.Description
                     }).ToList();
@@ -106,6 +109,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         Id = ssp.Id,
                         Description = ssp.Data.Description,
                         ConsultationLength = ssp.ConsultationLength,
+                        Indications = ssp.Indications,
                         SpecialtyId = ssp.SpecialtyId,
                         SpecialtyDescription = ssp.Specialty.Data.Description
                     }).ToList();
@@ -175,6 +179,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 }
 
                 subSpecialtyToUpdate.ConsultationLength = subSpecialtyDto.ConsultationLength;
+                subSpecialtyToUpdate.Indications = subSpecialtyDto.Indications;
                 dbContext.SaveChanges();
             }
         }

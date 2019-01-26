@@ -13,7 +13,9 @@ using SistemaTurnos.Database.ClinicModel;
 using SistemaTurnos.Database.Enums;
 using SistemaTurnos.Database.HairdressingModel;
 using SistemaTurnos.Database.Model;
+using SistemaTurnos.WebApplication.WebApi.Dto;
 using SistemaTurnos.WebApplication.WebApi.Dto.HairdressingPatient;
+using SistemaTurnos.WebApplication.WebApi.Dto.Record;
 using SistemaTurnos.WebApplication.WebApi.Services;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
@@ -221,6 +223,95 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         ReservedAppointments = s.Appointments.Count(),
                         ConcretedAppointments = s.Appointments.Count(a => a.State == AppointmentStateEnum.Completed)
                     }).ToList();
+            }
+        }
+
+        [HttpPost]
+        public void AddRecord([FromBody] RecordDto dto)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = _service.GetUserId(HttpContext);
+
+                var patient = dbContext.Hairdressing_Patients.FirstOrDefault(p => p.UserId == userId && p.Id == dto.Id);
+
+                if (patient == null)
+                {
+                    throw new BadRequestException();
+                }
+
+                patient.Records.Add(new Hairdressing_Record
+                {
+                    DateTime = dto.DateTime,
+                    Description = dto.Description,
+                    PatientId = dto.Id
+                });
+
+                dbContext.SaveChanges();
+            }
+        }
+
+        [HttpPost]
+        public void EditMedicalRecord([FromBody] RecordDto dto)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = _service.GetUserId(HttpContext);
+
+                var record = dbContext.Hairdressing_Records.FirstOrDefault(r => r.Id == dto.Id && r.Patient.UserId == userId);
+
+                if (record == null)
+                {
+                    throw new BadRequestException();
+                }
+
+                record.DateTime = dto.DateTime;
+                record.Description = dto.Description;
+                dbContext.SaveChanges();
+            }
+        }
+
+        [HttpPost]
+        public void RemoveMedicalRecord([FromBody] IdDto dto)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = _service.GetUserId(HttpContext);
+
+                var record = dbContext.Hairdressing_Records.FirstOrDefault(r => r.Id == dto.Id && r.Patient.UserId == userId);
+
+                if (record == null)
+                {
+                    throw new BadRequestException();
+                }
+
+                dbContext.Entry(record).State = EntityState.Deleted;
+                dbContext.SaveChanges();
+            }
+        }
+
+        [HttpPost]
+        public List<RecordDto> GetMedicalRecords([FromBody] IdDto dto)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = _service.GetUserId(HttpContext);
+
+                var patient = dbContext.Hairdressing_Patients.FirstOrDefault(p => p.Id == dto.Id);
+
+                if (patient == null)
+                {
+                    throw new BadRequestException();
+                }
+
+                return patient.Records.Select(r => new RecordDto
+                {
+                    Id = r.Id,
+                    Description = r.Description,
+                    DateTime = r.DateTime
+                })
+                .OrderByDescending(r => r.DateTime)
+                .ToList();
             }
         }
 

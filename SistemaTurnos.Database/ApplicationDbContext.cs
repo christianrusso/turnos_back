@@ -17,8 +17,8 @@ namespace SistemaTurnos.Database
         private const string databaseServer = "localhost";
         private const string databaseName = "sistematurnos";
         private const string databaseUser = "root";
-        private const string databasePass = "1682951!Abmtoba";
-        //private const string databasePass = "fernando";
+        //private const string databasePass = "1682951!Abmtoba";
+        private const string databasePass = "fernando";
         //private const string databasePass = "tito1234H6*";
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) 
@@ -60,6 +60,7 @@ namespace SistemaTurnos.Database
             modelBuilder.ApplyConfiguration(new Clinic_OpenCloseHoursTypeConfiguration());
             modelBuilder.ApplyConfiguration(new Clinic_ClientFavoriteTypeConfiguration());
             modelBuilder.ApplyConfiguration(new Clinic_DoctorSubspecialtyTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new Clinic_RecordTypeConfiguration());
 
             // Hairdressing
             modelBuilder.ApplyConfiguration(new Hairdressing_AppointmentTypeConfiguration());
@@ -74,6 +75,7 @@ namespace SistemaTurnos.Database
             modelBuilder.ApplyConfiguration(new HairdressingTypeConfiguration());
             modelBuilder.ApplyConfiguration(new Hairdressing_ClientFavoriteTypeConfiguration());
             modelBuilder.ApplyConfiguration(new Hairdressing_ProfessionalSubspecialtyTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new Hairdressing_RecordTypeConfiguration());
         }
         
         // Clinic Model
@@ -104,6 +106,8 @@ namespace SistemaTurnos.Database
         public DbSet<Clinic_OpenCloseHours> Clinic_OpenCloseHours { get; set; }
 
         public DbSet<Clinic_ClientFavorite> Clinic_ClientFavorites { get; set; }
+
+        public DbSet<Clinic_Record> Clinic_Records { get; set; }
 
         // Model Data
         public DbSet<SpecialtyData> Specialties { get; set; }
@@ -140,5 +144,7 @@ namespace SistemaTurnos.Database
         public DbSet<Hairdressing_OpenCloseHours> Hairdressing_OpenCloseHours { get; set; }
 
         public DbSet<Hairdressing_ClientFavorite> Hairdressing_ClientFavorites { get; set; }
+
+        public DbSet<Hairdressing_Record> Hairdressing_Records { get; set; }
     }
 }

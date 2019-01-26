@@ -11,5 +11,7 @@
         public int SpecialtyId { get; set; }
 
         public string SpecialtyDescription { get; set; }
+
+        public string Indications { get; set; }
     }
 }

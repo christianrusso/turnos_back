@@ -22,6 +22,9 @@ namespace SistemaTurnos.Database.HairdressingModel
         public uint? Price { get; set; }
 
         [Required]
+        public string Indications { get; set; }
+
+        [Required]
         public int SpecialtyId { get; set; }
 
         [Required]

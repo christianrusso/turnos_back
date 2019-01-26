@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,9 @@ using SistemaTurnos.Database.ClinicModel;
 using SistemaTurnos.Database.Enums;
 using SistemaTurnos.Database.Model;
 using SistemaTurnos.WebApplication.Database.Model;
+using SistemaTurnos.WebApplication.WebApi.Dto;
 using SistemaTurnos.WebApplication.WebApi.Dto.Patient;
+using SistemaTurnos.WebApplication.WebApi.Dto.Record;
 using SistemaTurnos.WebApplication.WebApi.Services;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
@@ -20,7 +23,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
     [Route("Api/[controller]/[action]")]
     [Produces("application/json")]
     [EnableCors("AnyOrigin")]
-    
+    [Authorize(Roles = Roles.AdministratorAndEmployee)]
     public class PatientController : Controller
     {
         private BusinessPlaceService _service;
@@ -148,7 +151,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 return dbContext.Clinic_Patients
                     .Where(p => p.UserId == userId)
@@ -262,6 +265,96 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     }).ToList();
             }
         }
+
+        [HttpPost]
+        public void AddMedicalRecord([FromBody] RecordDto dto)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = _service.GetUserId(HttpContext);
+
+                var patient = dbContext.Clinic_Patients.FirstOrDefault(p => p.UserId == userId && p.Id == dto.Id);
+
+                if (patient == null)
+                {
+                    throw new BadRequestException();
+                }
+
+                patient.MedicalRecords.Add(new Clinic_Record {
+                    DateTime = dto.DateTime,
+                    Description = dto.Description,
+                    PatientId = dto.Id
+                });
+
+                dbContext.SaveChanges();
+            }
+        }
+
+        [HttpPost]
+        public void EditMedicalRecord([FromBody] RecordDto dto)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = _service.GetUserId(HttpContext);
+
+                var record = dbContext.Clinic_Records.FirstOrDefault(r => r.Id == dto.Id && r.Patient.UserId == userId);
+
+                if (record == null)
+                {
+                    throw new BadRequestException();
+                }
+
+                record.DateTime = dto.DateTime;
+                record.Description = dto.Description;
+                dbContext.SaveChanges();
+            }
+        }
+
+        [HttpPost]
+        public void RemoveMedicalRecord([FromBody] IdDto dto)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = _service.GetUserId(HttpContext);
+
+                var record = dbContext.Clinic_Records.FirstOrDefault(r => r.Id == dto.Id && r.Patient.UserId == userId);
+
+                if (record == null)
+                {
+                    throw new BadRequestException();
+                }
+
+                dbContext.Entry(record).State = EntityState.Deleted;
+                dbContext.SaveChanges();
+            }
+        }
+
+        [HttpPost]
+        public List<RecordDto> GetMedicalRecords([FromBody] IdDto dto)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = _service.GetUserId(HttpContext);
+
+                var patient = dbContext.Clinic_Patients.FirstOrDefault(p => p.Id == dto.Id);
+
+                if (patient == null)
+                {
+                    throw new BadRequestException();
+                }
+
+                return patient.MedicalRecords.Select(r => new RecordDto
+                {
+                    Id = r.Id,
+                    Description = r.Description,
+                    DateTime = r.DateTime
+                })
+                .OrderByDescending(r => r.DateTime)
+                .ToList();
+            }
+        }
+
+        [HttpPost]
 
         private SystemClient CreateClient(string email, string password, AddPatientDto patientDto)
         {

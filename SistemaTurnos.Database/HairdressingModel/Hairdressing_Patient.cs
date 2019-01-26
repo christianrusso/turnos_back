@@ -1,5 +1,4 @@
-﻿using SistemaTurnos.Database.ClinicModel;
-using SistemaTurnos.Database.Model;
+﻿using SistemaTurnos.Database.Model;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -13,6 +12,8 @@ namespace SistemaTurnos.Database.HairdressingModel
         public int Id { get; set; }
 
         public virtual List<Hairdressing_Appointment> Appointments { get; set; }
+
+        public virtual List<Hairdressing_Record> Records { get; set; }
 
         [Required]
         public int UserId { get; set; }
