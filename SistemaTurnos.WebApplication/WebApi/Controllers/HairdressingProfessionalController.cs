@@ -8,6 +8,7 @@ using SistemaTurnos.Database;
 using SistemaTurnos.Database.Enums;
 using SistemaTurnos.Database.HairdressingModel;
 using SistemaTurnos.WebApplication.WebApi.Dto;
+using SistemaTurnos.WebApplication.WebApi.Dto.Appointment;
 using SistemaTurnos.WebApplication.WebApi.Dto.Common;
 using SistemaTurnos.WebApplication.WebApi.Dto.HairdressingProfessional;
 using SistemaTurnos.WebApplication.WebApi.Services;
@@ -285,6 +286,64 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 }
 
                 hairdressingProfessional.State = HairdressingProfessionalStateEnum.Vacation;
+                dbContext.SaveChanges();
+            }
+        }
+
+        [HttpPost]
+        public void BlockDay([FromBody] BlockDayDto dto)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = _service.GetUserId(HttpContext);
+
+                var professional = dbContext.Hairdressing_Professionals.FirstOrDefault(d => d.Id == dto.Id && d.UserId == userId);
+
+                if (professional == null)
+                {
+                    throw new BadRequestException();
+                }
+
+                if (!professional.Subspecialties.Any(ssp => ssp.SubspecialtyId == dto.SubspecialtyId))
+                {
+                    throw new BadRequestException();
+                }
+
+                professional.BlockedDays.Add(new Hairdressing_BlockedDay
+                {
+                    DateTime = dto.Day,
+                    ProfessionalId = dto.Id,
+                    SubspecialtyId = dto.SubspecialtyId
+                });
+
+                dbContext.SaveChanges();
+            }
+        }
+
+        [HttpPost]
+        public void UnblockDay([FromBody] BlockDayDto dto)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = _service.GetUserId(HttpContext);
+
+                var professional = dbContext.Hairdressing_Professionals.FirstOrDefault(d => d.Id == dto.Id && d.UserId == userId);
+
+                if (professional == null)
+                {
+                    throw new BadRequestException();
+                }
+
+                if (!professional.Subspecialties.Any(ssp => ssp.SubspecialtyId == dto.SubspecialtyId))
+                {
+                    throw new BadRequestException();
+                }
+
+                professional.BlockedDays
+                    .Where(bd => bd.SubspecialtyId == dto.SubspecialtyId && bd.SameDay(dto.Day))
+                    .ToList()
+                    .ForEach(bd => dbContext.Entry(bd).State = EntityState.Deleted);
+
                 dbContext.SaveChanges();
             }
         }

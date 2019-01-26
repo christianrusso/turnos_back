@@ -8,6 +8,7 @@ using SistemaTurnos.Database;
 using SistemaTurnos.Database.ClinicModel;
 using SistemaTurnos.Database.Enums;
 using SistemaTurnos.WebApplication.WebApi.Dto;
+using SistemaTurnos.WebApplication.WebApi.Dto.Appointment;
 using SistemaTurnos.WebApplication.WebApi.Dto.Common;
 using SistemaTurnos.WebApplication.WebApi.Dto.Doctor;
 using SistemaTurnos.WebApplication.WebApi.Services;
@@ -293,7 +294,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = _service.GetUserId(HttpContext);
 
-                Clinic_Doctor doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == doctorDto.Id && d.UserId == userId);
+                var doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == doctorDto.Id && d.UserId == userId);
 
                 if (doctor == null)
                 {
@@ -301,6 +302,64 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 }
 
                 doctor.State = DoctorStateEnum.Vacation;
+                dbContext.SaveChanges();
+            }
+        }
+
+        [HttpPost]
+        public void BlockDay([FromBody] BlockDayDto dto)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = _service.GetUserId(HttpContext);
+
+                var doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == dto.Id && d.UserId == userId);
+
+                if (doctor == null)
+                {
+                    throw new BadRequestException();
+                }
+
+                if (!doctor.Subspecialties.Any(ssp => ssp.SubspecialtyId == dto.SubspecialtyId))
+                {
+                    throw new BadRequestException();
+                }
+
+                doctor.BlockedDays.Add(new Clinic_BlockedDay
+                {
+                    DateTime = dto.Day,
+                    DoctorId = dto.Id,
+                    SubspecialtyId = dto.SubspecialtyId
+                });
+
+                dbContext.SaveChanges();
+            }
+        }
+
+        [HttpPost]
+        public void UnblockDay([FromBody] BlockDayDto dto)
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var userId = _service.GetUserId(HttpContext);
+
+                var doctor = dbContext.Clinic_Doctors.FirstOrDefault(d => d.Id == dto.Id && d.UserId == userId);
+
+                if (doctor == null)
+                {
+                    throw new BadRequestException();
+                }
+
+                if (!doctor.Subspecialties.Any(ssp => ssp.SubspecialtyId == dto.SubspecialtyId))
+                {
+                    throw new BadRequestException();
+                }
+
+                doctor.BlockedDays
+                    .Where(bd => bd.SubspecialtyId == dto.SubspecialtyId && bd.SameDay(dto.Day))
+                    .ToList()
+                    .ForEach(bd => dbContext.Entry(bd).State = EntityState.Deleted);
+
                 dbContext.SaveChanges();
             }
         }

@@ -37,6 +37,8 @@ namespace SistemaTurnos.Database.ClinicModel
 
         public virtual List<Clinic_Appointment> Appointments { get; set; }
 
+        public virtual List<Clinic_BlockedDay> BlockedDays { get; set; }
+
         [Required]
         public int UserId { get; set; }
 
@@ -44,21 +46,26 @@ namespace SistemaTurnos.Database.ClinicModel
 
         public List<DateTime> GetAvailableAppointmentsForDay(DateTime day, int subspecialtyId)
         {
-            var doctorSubspecialty = Subspecialties.First(ssp => ssp.SubspecialtyId == subspecialtyId);
-            day = day.Date;
-            var dayNumber = day.DayOfWeek;
-            var consultationMinutes = TimeSpan.FromMinutes(doctorSubspecialty.ConsultationLength);
-            var dayWorkingHours = WorkingHours.Where(wh => wh.DayNumber == dayNumber).OrderBy(wh => wh.Start).ToList();
             var allAppointments = new List<DateTime>();
 
-            foreach (var wh in dayWorkingHours)
+            if (!BlockedDays.Any(bd => bd.SubspecialtyId == subspecialtyId && bd.SameDay(day)))
             {
-                var appointmentTime = wh.Start;
+                var doctorSubspecialty = Subspecialties.First(ssp => ssp.SubspecialtyId == subspecialtyId);
+                day = day.Date;
+                var dayNumber = day.DayOfWeek;
+                var consultationMinutes = TimeSpan.FromMinutes(doctorSubspecialty.ConsultationLength);
+                var dayWorkingHours = WorkingHours.Where(wh => wh.DayNumber == dayNumber).OrderBy(wh => wh.Start).ToList();
 
-                while (appointmentTime <= wh.End)
+                foreach (var wh in dayWorkingHours)
                 {
-                    allAppointments.Add(new DateTime(day.Year, day.Month, day.Day, appointmentTime.Hours, appointmentTime.Minutes, appointmentTime.Seconds));
-                    appointmentTime = appointmentTime.Add(consultationMinutes);
+                    var appointmentTime = wh.Start;
+
+                    while (appointmentTime <= wh.End)
+                    {
+                        var appointment = new DateTime(day.Year, day.Month, day.Day, appointmentTime.Hours, appointmentTime.Minutes, appointmentTime.Seconds);
+                        allAppointments.Add(appointment);
+                        appointmentTime = appointmentTime.Add(consultationMinutes);
+                    }
                 }
             }
 
@@ -67,13 +74,18 @@ namespace SistemaTurnos.Database.ClinicModel
 
         public List<DateTime> GetAllAvailablesForDay(DateTime day, int subspecialtyId)
         {
-            var availableAppointments = GetAvailableAppointmentsForDay(day, subspecialtyId);
+            var availableAppointments = new List<DateTime>();
 
-            foreach (var appointment in Appointments)
+            if (!BlockedDays.Any(bd => bd.SubspecialtyId == subspecialtyId && bd.SameDay(day)))
             {
-                if (appointment.State != AppointmentStateEnum.Cancelled)
+                availableAppointments = GetAvailableAppointmentsForDay(day, subspecialtyId);
+
+                foreach (var appointment in Appointments)
                 {
-                    availableAppointments.Remove(appointment.DateTime);
+                    if (appointment.State != AppointmentStateEnum.Cancelled)
+                    {
+                        availableAppointments.Remove(appointment.DateTime);
+                    }
                 }
             }
 

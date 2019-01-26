@@ -61,6 +61,7 @@ namespace SistemaTurnos.Database
             modelBuilder.ApplyConfiguration(new Clinic_ClientFavoriteTypeConfiguration());
             modelBuilder.ApplyConfiguration(new Clinic_DoctorSubspecialtyTypeConfiguration());
             modelBuilder.ApplyConfiguration(new Clinic_RecordTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new Clinic_BlockedDayTypeConfiguration());
 
             // Hairdressing
             modelBuilder.ApplyConfiguration(new Hairdressing_AppointmentTypeConfiguration());
@@ -76,8 +77,22 @@ namespace SistemaTurnos.Database
             modelBuilder.ApplyConfiguration(new Hairdressing_ClientFavoriteTypeConfiguration());
             modelBuilder.ApplyConfiguration(new Hairdressing_ProfessionalSubspecialtyTypeConfiguration());
             modelBuilder.ApplyConfiguration(new Hairdressing_RecordTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new Hairdressing_BlockedDayTypeConfiguration());
         }
-        
+
+        // Model Data
+        public DbSet<SpecialtyData> Specialties { get; set; }
+
+        public DbSet<SubspecialtyData> Subspecialties { get; set; }
+
+        public DbSet<MedicalInsuranceData> MedicalInsurances { get; set; }
+
+        public DbSet<MedicalPlanData> MedicalPlans { get; set; }
+
+        public DbSet<City> Cities { get; set; }
+
+        public DbSet<Image> Images { get; set; }
+
         // Clinic Model
         public DbSet<Clinic_Specialty> Clinic_Specialties { get; set; }
 
@@ -109,18 +124,7 @@ namespace SistemaTurnos.Database
 
         public DbSet<Clinic_Record> Clinic_Records { get; set; }
 
-        // Model Data
-        public DbSet<SpecialtyData> Specialties { get; set; }
-
-        public DbSet<SubspecialtyData> Subspecialties { get; set; }
-
-        public DbSet<MedicalInsuranceData> MedicalInsurances { get; set; }
-
-        public DbSet<MedicalPlanData> MedicalPlans { get; set; }
-
-        public DbSet<City> Cities { get; set; }
-
-        public DbSet<Image> Images { get; set; }
+        public DbSet<Clinic_BlockedDay> Clinic_BlockedDays { get; set; }
 
         // Hairdressing Model
         public DbSet<Hairdressing_Specialty> Hairdressing_Specialties { get; set; }
@@ -146,5 +150,7 @@ namespace SistemaTurnos.Database
         public DbSet<Hairdressing_ClientFavorite> Hairdressing_ClientFavorites { get; set; }
 
         public DbSet<Hairdressing_Record> Hairdressing_Records { get; set; }
+
+        public DbSet<Hairdressing_BlockedDay> Hairdressing_BlockedDays { get; set; }
     }
 }
