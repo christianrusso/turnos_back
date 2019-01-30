@@ -10,7 +10,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Subspecialty
         [Required]
         public uint ConsultationLength { get; set; }
 
-        [Required]
         public string Indications { get; set; }
 
         [Required]

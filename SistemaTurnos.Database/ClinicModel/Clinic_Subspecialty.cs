@@ -19,7 +19,6 @@ namespace SistemaTurnos.Database.ClinicModel
         [Required]
         public uint ConsultationLength { get; set; }
 
-        [Required]
         public string Indications { get; set; }
 
         [Required]

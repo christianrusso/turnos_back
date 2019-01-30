@@ -794,7 +794,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                                 Id = a.Id,
                                 Hour = a.DateTime,
                                 Patient = patients.FirstOrDefault(p => p.Id == a.PatientId)?.Client?.FullName ?? string.Empty,
-                                State = (int) a.State
+                                State = (int) a.State,
+                                Specialty = a.Subspecialty.Specialty.Data.Description,
+                                Subspecialty = a.Subspecialty.Data.Description
                             })
                             .OrderBy(a => a.Hour.Minute)
                             .ToList()
