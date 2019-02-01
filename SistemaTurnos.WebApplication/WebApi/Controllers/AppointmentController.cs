@@ -80,7 +80,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var res = new List<DateTime>();
                 for (int i = 0; i < 15; i++)
                 {
-                    foreach (var datetime in doctor.GetAllAvailablesForDay(getAppointmentDto.Day.AddDays(i), getAppointmentDto.SubspecialtyId))
+                    foreach (var datetime in doctor.GetAllAvailableAppointmentsForDay(getAppointmentDto.Day.AddDays(i), getAppointmentDto.SubspecialtyId))
                     {
                         res.Add(datetime);
                     }
@@ -131,7 +131,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
-                return doctor.GetAllAvailablesForDay(getAppointmentDto.Day, getAppointmentDto.SubspecialtyId);
+                return doctor.GetAllAvailableAppointmentsForDay(getAppointmentDto.Day, getAppointmentDto.SubspecialtyId);
             }
         }
 
@@ -222,7 +222,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.Clinic_Patients.Add(patient);
                 dbContext.SaveChanges();
 
-                var availableAppointments = doctor.GetAllAvailablesForDay(requestAppointmentDto.Day.Date, requestAppointmentDto.SubspecialtyId);
+                var availableAppointments = doctor.GetAllAvailableAppointmentsForDay(requestAppointmentDto.Day.Date, requestAppointmentDto.SubspecialtyId);
 
                 var appointment = new DateTime(
                         requestAppointmentDto.Day.Year,
@@ -315,7 +315,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.Clinic_Patients.Add(patient);
 
-                var availableAppointments = doctor.GetAllAvailablesForDay(requestAppointmentDto.Day.Date, requestAppointmentDto.SubspecialtyId);
+                var availableAppointments = doctor.GetAllAvailableAppointmentsForDay(requestAppointmentDto.Day.Date, requestAppointmentDto.SubspecialtyId);
 
                 var appointment = new DateTime(
                         requestAppointmentDto.Day.Year,
@@ -384,7 +384,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
-                var availableAppointments = doctor.GetAllAvailablesForDay(requestAppointmentDto.Day.Date, requestAppointmentDto.SubspecialtyId);
+                var availableAppointments = doctor.GetAllAvailableAppointmentsForDay(requestAppointmentDto.Day.Date, requestAppointmentDto.SubspecialtyId);
 
                 var appointment = new DateTime(
                         requestAppointmentDto.Day.Year,
@@ -483,7 +483,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.Clinic_Patients.Add(patient);
 
-                var availableAppointments = doctor.GetAllAvailablesForDay(requestAppointmentDto.Day.Date, requestAppointmentDto.SubspecialtyId);
+                var availableAppointments = doctor.GetAllAvailableAppointmentsForDay(requestAppointmentDto.Day.Date, requestAppointmentDto.SubspecialtyId);
 
                 var appointment = new DateTime(
                         requestAppointmentDto.Day.Year,
@@ -560,7 +560,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
-                var availableAppointments = doctor.GetAllAvailablesForDay(requestAppointmentDto.Day.Date, requestAppointmentDto.SubspecialtyId);
+                var availableAppointments = doctor.GetAllAvailableAppointmentsForDay(requestAppointmentDto.Day.Date, requestAppointmentDto.SubspecialtyId);
 
                 var appointment = new DateTime(
                         requestAppointmentDto.Day.Year,
@@ -943,7 +943,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                     foreach (var doctor in doctors)
                     {
-                        var availableAppointments = doctor.GetAllAvailablesForDay(date, filter.SubSpecialtyId);
+                        var availableAppointments = doctor.GetAllAvailableAppointmentsForDay(date, filter.SubSpecialtyId);
                         day.AvailableAppointments += availableAppointments.Count;
                     }
 

@@ -44,7 +44,38 @@ namespace SistemaTurnos.Database.HairdressingModel
 
         public virtual ApplicationUser User { get; set; }
 
-        public List<DateTime> GetAvailableAppointmentsForDay(DateTime day, int subspecialtyId)
+        public List<DateTime> GetAllAvailablesForDay(DateTime day, int subspecialtyId)
+        {
+            var professionalSubspecialty = Subspecialties.First(ssp => ssp.SubspecialtyId == subspecialtyId);
+            var consultationTime = TimeSpan.FromMinutes(professionalSubspecialty.ConsultationLength);
+
+            var availableAppointments = new List<DateTime>();
+
+            if (!BlockedDays.Any(bd => bd.SubspecialtyId == subspecialtyId && bd.SameDay(day)))
+            {
+                availableAppointments = GetAllAppointmentsForDay(day, subspecialtyId);
+
+                foreach (var availableAppointment in availableAppointments)
+                {
+                    var availableAppointmentEnd = availableAppointment.Add(consultationTime);
+
+                    foreach (var appointment in Appointments)
+                    {
+                        var appointmentTime = TimeSpan.FromMinutes(Subspecialties.First(s => s.SubspecialtyId == appointment.SubspecialtyId).ConsultationLength);
+                        var appointmentEnd = appointment.DateTime.Add(appointmentTime);
+
+                        if (appointment.State != AppointmentStateEnum.Cancelled && Overlap(availableAppointment, availableAppointmentEnd, appointment.DateTime, appointmentEnd))
+                        {
+                            availableAppointments.Remove(appointment.DateTime);
+                        }
+                    }
+                }
+            }
+
+            return availableAppointments;
+        }
+
+        private List<DateTime> GetAllAppointmentsForDay(DateTime day, int subspecialtyId)
         {
             var allAppointments = new List<DateTime>();
 
@@ -53,7 +84,7 @@ namespace SistemaTurnos.Database.HairdressingModel
                 var professionalSubspecialty = Subspecialties.First(ssp => ssp.SubspecialtyId == subspecialtyId);
                 day = day.Date;
                 var dayNumber = day.DayOfWeek;
-                var consultationMinutes = TimeSpan.FromMinutes(professionalSubspecialty.ConsultationLength);
+                var consultationTime = TimeSpan.FromMinutes(professionalSubspecialty.ConsultationLength);
                 var dayWorkingHours = WorkingHours.Where(wh => wh.DayNumber == dayNumber).OrderBy(wh => wh.Start).ToList();
 
                 foreach (var wh in dayWorkingHours)
@@ -63,7 +94,7 @@ namespace SistemaTurnos.Database.HairdressingModel
                     while (appointmentTime <= wh.End)
                     {
                         allAppointments.Add(new DateTime(day.Year, day.Month, day.Day, appointmentTime.Hours, appointmentTime.Minutes, appointmentTime.Seconds));
-                        appointmentTime = appointmentTime.Add(consultationMinutes);
+                        appointmentTime = appointmentTime.Add(consultationTime);
                     }
                 }
             }
@@ -71,24 +102,9 @@ namespace SistemaTurnos.Database.HairdressingModel
             return allAppointments;
         }
 
-        public List<DateTime> GetAllAvailablesForDay(DateTime day, int subspecialtyId)
+        private bool Overlap(DateTime startA, DateTime endA, DateTime startB, DateTime endB)
         {
-            var availableAppointments = new List<DateTime>();
-
-            if (!BlockedDays.Any(bd => bd.SubspecialtyId == subspecialtyId && bd.SameDay(day)))
-            {
-                availableAppointments = GetAvailableAppointmentsForDay(day, subspecialtyId);
-
-                foreach (var appointment in Appointments)
-                {
-                    if (appointment.State != AppointmentStateEnum.Cancelled)
-                    {
-                        availableAppointments.Remove(appointment.DateTime);
-                    }
-                }
-            }
-
-            return availableAppointments;
+            return startA < endB && startB < endA;
         }
     }
 }

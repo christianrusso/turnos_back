@@ -367,7 +367,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                             for (var day = filterDto.AvailableAppointmentStartDate.Value.Date; day <= filterDto.AvailableAppointmentEndDate.Value.Date; day = day.AddDays(1))
                             {
-                                if (doctorSubspecialties.Any(ds => doctor.GetAllAvailablesForDay(day, ds.SubspecialtyId).Any()))
+                                if (doctorSubspecialties.Any(ds => doctor.GetAllAvailableAppointmentsForDay(day, ds.SubspecialtyId).Any()))
                                 {
                                     hasAppointmentAvailable = true;
                                     break;
