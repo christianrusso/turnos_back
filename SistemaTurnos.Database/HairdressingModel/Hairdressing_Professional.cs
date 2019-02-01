@@ -110,7 +110,7 @@ namespace SistemaTurnos.Database.HairdressingModel
 
         private bool Overlap(DateTime startA, DateTime endA, DateTime startB, DateTime endB)
         {
-            return startA < endB && startB < endA;
+            return startA.TimeOfDay <= endB.TimeOfDay && startB.TimeOfDay <= endA.TimeOfDay;
         }
     }
 }
