@@ -54,6 +54,7 @@ namespace SistemaTurnos.Database.HairdressingModel
             if (!BlockedDays.Any(bd => bd.SubspecialtyId == subspecialtyId && bd.SameDay(day)))
             {
                 availableAppointments = GetAllAppointmentsForDay(day, subspecialtyId);
+                var removedAppointments = new List<DateTime>();
 
                 foreach (var availableAppointment in availableAppointments)
                 {
@@ -66,9 +67,14 @@ namespace SistemaTurnos.Database.HairdressingModel
 
                         if (appointment.State != AppointmentStateEnum.Cancelled && Overlap(availableAppointment, availableAppointmentEnd, appointment.DateTime, appointmentEnd))
                         {
-                            availableAppointments.Remove(appointment.DateTime);
+                            removedAppointments.Add(appointment.DateTime);
                         }
                     }
+                }
+
+                foreach (var a in removedAppointments)
+                {
+                    availableAppointments.Remove(a);
                 }
             }
 
