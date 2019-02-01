@@ -44,7 +44,7 @@ namespace SistemaTurnos.Database.HairdressingModel
 
         public virtual ApplicationUser User { get; set; }
 
-        public List<DateTime> GetAllAvailablesForDay(DateTime day, int subspecialtyId)
+        public List<DateTime> GetAllAvailableAppointmentsForDay(DateTime day, int subspecialtyId)
         {
             var professionalSubspecialty = Subspecialties.First(ssp => ssp.SubspecialtyId == subspecialtyId);
             var consultationTime = TimeSpan.FromMinutes(professionalSubspecialty.ConsultationLength);

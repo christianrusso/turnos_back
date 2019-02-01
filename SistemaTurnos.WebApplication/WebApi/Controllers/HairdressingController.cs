@@ -223,7 +223,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                             for (var day = filterDto.AvailableAppointmentStartDate.Value.Date; day <= filterDto.AvailableAppointmentEndDate.Value.Date; day = day.AddDays(1))
                             {
-                                if (professionalSubspecialties.Any(ps => professional.GetAllAvailablesForDay(day, ps.SubspecialtyId).Any()))
+                                if (professionalSubspecialties.Any(ps => professional.GetAllAvailableAppointmentsForDay(day, ps.SubspecialtyId).Any()))
                                 {
                                     hasAppointmentAvailable = true;
                                     break;
