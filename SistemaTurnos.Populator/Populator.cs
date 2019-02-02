@@ -625,7 +625,7 @@ namespace SistemaTurnos.Populator
 
             // Creo turnos
             Console.Write("Turnos\t\t\t\t");
-            var appointment1 = CreateAppointment(DateTime.Today.AddDays(-5).AddHours(8).AddMinutes(30), doctor1, subespecialityTEST, patient1, AppointmentStateEnum.Reserved, null, clinic1);
+            /*var appointment1 = CreateAppointment(DateTime.Today.AddDays(-5).AddHours(8).AddMinutes(30), doctor1, subespecialityTEST, patient1, AppointmentStateEnum.Reserved, null, clinic1);
             var appointment2 = CreateAppointment(DateTime.Today.AddDays(-3).AddHours(10).AddMinutes(30), doctor1, subespecialityTEST, patient2, AppointmentStateEnum.Reserved, null, clinic1);
             var appointment3 = CreateAppointment(DateTime.Today.AddDays(-3).AddHours(12).AddMinutes(0), doctor1, subespecialityTEST, patient3, AppointmentStateEnum.Reserved, null, clinic1);
             var appointment4 = CreateAppointment(DateTime.Today.AddDays(-2).AddHours(15).AddMinutes(30), doctor1, subespecialityTEST, patient5, AppointmentStateEnum.Reserved, null, clinic1);
@@ -691,6 +691,7 @@ namespace SistemaTurnos.Populator
 
             Console.WriteLine("Se finalizo el populado de la base de datos.");
             Console.WriteLine();
+             */
         }
 
         private void DropDatabaseSchema()
