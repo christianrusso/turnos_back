@@ -58,14 +58,16 @@ namespace SistemaTurnos.Database.ClinicModel
 
                 foreach (var availableAppointment in availableAppointments)
                 {
-                    var availableAppointmentEnd = availableAppointment.Add(consultationTime);
+                    var availableAppointmentStart = availableAppointment.AddSeconds(1);
+                    var availableAppointmentEnd = availableAppointment.Add(consultationTime).AddSeconds(-1);
 
                     foreach (var appointment in Appointments)
                     {
                         var appointmentTime = TimeSpan.FromMinutes(Subspecialties.First(s => s.SubspecialtyId == appointment.SubspecialtyId).ConsultationLength);
+                        var appointmentStart = appointment.DateTime;
                         var appointmentEnd = appointment.DateTime.Add(appointmentTime);
 
-                        if (appointment.State != AppointmentStateEnum.Cancelled && Overlap(availableAppointment, availableAppointmentEnd, appointment.DateTime, appointmentEnd)) {
+                        if (appointment.State != AppointmentStateEnum.Cancelled && Overlap(availableAppointmentStart, availableAppointmentEnd, appointmentStart, appointmentEnd)) {
                             removedAppointments.Add(appointment.DateTime);
                         }
                     }
@@ -110,7 +112,7 @@ namespace SistemaTurnos.Database.ClinicModel
 
         private bool Overlap(DateTime startA, DateTime endA, DateTime startB, DateTime endB)
         {
-            return startA.TimeOfDay <= endB.TimeOfDay && startB.TimeOfDay <= endA.TimeOfDay;
+            return startA.TimeOfDay < endB.TimeOfDay && startB.TimeOfDay < endA.TimeOfDay;
         }
     }
 }
