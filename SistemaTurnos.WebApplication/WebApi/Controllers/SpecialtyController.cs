@@ -50,13 +50,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = GetUserId();
 
+                var doctors = dbContext.Clinic_Doctors.Where(p => p.UserId == userId);
+
                 return dbContext.Clinic_Specialties
                     .Where(s => s.UserId == userId)
                     .Select(s => new SpecialtyDto
                     {
                         Id = s.Id,
                         Description = s.Data.Description,
-                        Doctors = s.Doctors.Count,
+                        Doctors = doctors.Count(p => p.Subspecialties.Any(ssp => ssp.Subspecialty.SpecialtyId == s.Id)),
                         Subspecialties = s.Subspecialties
                             .Select(ssp => new SubspecialtyDto
                             {
@@ -85,13 +87,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
+                var doctors = dbContext.Clinic_Doctors.Where(p => p.UserId == clinic.UserId);
+
                 return dbContext.Clinic_Specialties
                     .Where(s => s.UserId == clinic.UserId)
                     .Select(s => new SpecialtyDto
                     {
                         Id = s.Id,
                         Description = s.Data.Description,
-                        Doctors = s.Doctors.Count,
+                        Doctors = doctors.Count(p => p.Subspecialties.Any(ssp => ssp.Subspecialty.SpecialtyId == s.Id)),
                         Subspecialties = s.Subspecialties
                             .Select(ssp => new SubspecialtyDto
                             {
@@ -142,6 +146,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var userId = GetUserId();
 
                 var subspecialties = dbContext.Clinic_Subspecialties.Where(ssp => ssp.UserId == userId);
+                var doctors = dbContext.Clinic_Doctors.Where(p => p.UserId == userId);
 
                 return dbContext.Clinic_Specialties
                     .Where(s => s.UserId == userId)
@@ -151,7 +156,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     {
                         Id = s.Id,
                         Description = s.Data.Description,
-                        Doctors = s.Doctors.Count,
+                        Doctors = doctors.Count(p => p.Subspecialties.Any(ssp => ssp.Subspecialty.SpecialtyId == s.Id)),
                         Subspecialties = subspecialties.Where(ssp => ssp.SpecialtyId == s.Id).Select(ssp => new SubspecialtyDto
                             {
                                 Id = ssp.Id,
@@ -173,6 +178,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var userId = GetUserId();
 
                 var subspecialties = dbContext.Clinic_Subspecialties.Where(ssp => ssp.UserId == userId);
+                var doctors = dbContext.Clinic_Doctors.Where(p => p.UserId == userId);
 
                 return dbContext.Clinic_Specialties
                     .Where(s => s.UserId == userId)
@@ -181,7 +187,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     {
                         Id = s.Id,
                         Description = s.Data.Description,
-                        Doctors = s.Doctors.Count,
+                        Doctors = doctors.Count(p => p.Subspecialties.Any(ssp => ssp.Subspecialty.SpecialtyId == s.Id)),
                         Subspecialties = subspecialties.Where(ssp => ssp.SpecialtyId == s.Id).Select(ssp => new SubspecialtyDto
                         {
                             Id = ssp.Id,

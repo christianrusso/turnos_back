@@ -17,8 +17,6 @@ namespace SistemaTurnos.Database.ClinicModel
 
         public virtual SpecialtyData Data { get; set; }
 
-        public virtual List<Clinic_Doctor> Doctors { get; set; }
-
         public virtual List<Clinic_Subspecialty> Subspecialties { get; set; }
 
         [Required]
