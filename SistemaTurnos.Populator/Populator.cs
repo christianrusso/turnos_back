@@ -584,7 +584,7 @@ namespace SistemaTurnos.Populator
             Console.Write("OK\n");
 
             // Creo clientes
-            Console.Write("Clientes\t\t\t");
+            /*Console.Write("Clientes\t\t\t");
             var client1 = CreateClientUser("cliente1@asd.com", "cliente1@asd.com", "Pedro", "Gomez", "qwerty 1", "1000001");
             var client2 = CreateClientUser("cliente2@asd.com", "cliente2@asd.com", "Juan", "Martinez", "qwerty 2", "1000002");
             var client3 = CreateClientUser("cliente3@asd.com", "cliente3@asd.com", "Martin", "Violante", "qwerty 3", "1000003");
@@ -601,9 +601,9 @@ namespace SistemaTurnos.Populator
             var client14 = CreateClientUser("cliente14@asd.com", "cliente14@asd.com", "Ezequiel", "Morzt", "qwerty 14", "1000014");
             var client15 = CreateClientUser("cliente15@asd.com", "cliente15@asd.com", "Manuela", "Gomez", "qwerty 15", "1000015");
             Console.Write("OK\n");
-
+ */
             // Creo pacientes
-            Console.Write("Pacientes\t\t\t");
+            /*Console.Write("Pacientes\t\t\t");
             var patient1 = CreatePatient(medicalPlan1, client1, clinic1);
             var patient2 = CreatePatient(medicalPlan3, client2, clinic1);
             var patient3 = CreatePatient(medicalPlan6, client3, clinic1);
@@ -621,7 +621,7 @@ namespace SistemaTurnos.Populator
             var patient13 = CreatePatient(medicalPlan15, client13, clinic3);
             var patient14 = CreatePatient(medicalPlan16, client14, clinic3);
             var patient15 = CreatePatient(medicalPlan18, client15, clinic3);
-            Console.Write("OK\n");
+            Console.Write("OK\n"); */
 
             // Creo turnos
             Console.Write("Turnos\t\t\t\t");
