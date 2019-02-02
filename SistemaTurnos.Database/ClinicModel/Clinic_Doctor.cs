@@ -91,7 +91,8 @@ namespace SistemaTurnos.Database.ClinicModel
                 var doctorSubspecialty = Subspecialties.First(ssp => ssp.SubspecialtyId == subspecialtyId);
                 day = day.Date;
                 var dayNumber = day.DayOfWeek;
-                var consultationTime = TimeSpan.FromMinutes(doctorSubspecialty.ConsultationLength);
+                //var consultationTime = TimeSpan.FromMinutes(doctorSubspecialty.ConsultationLength);
+                var consultationTime = TimeSpan.FromMinutes(15);
                 var dayWorkingHours = WorkingHours.Where(wh => wh.DayNumber == dayNumber).OrderBy(wh => wh.Start).ToList();
 
                 foreach (var wh in dayWorkingHours)
