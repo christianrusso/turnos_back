@@ -58,16 +58,18 @@ namespace SistemaTurnos.Database.HairdressingModel
 
                 foreach (var availableAppointment in availableAppointments)
                 {
-                    var availableAppointmentEnd = availableAppointment.Add(consultationTime);
-
-                    foreach (var appointment in Appointments)
+                    
+                    var availableAppointmentStart = availableAppointment.AddSeconds(1);
+                    var availableAppointmentEnd = availableAppointment.Add(consultationTime).AddSeconds(-1);
+                    
+                    foreach (var appointment in Appointments.Where(a => a.DateTime.Date == day.Date).ToList())
                     {
                         var appointmentTime = TimeSpan.FromMinutes(Subspecialties.First(s => s.SubspecialtyId == appointment.SubspecialtyId).ConsultationLength);
                         var appointmentEnd = appointment.DateTime.Add(appointmentTime);
 
-                        if (appointment.State != AppointmentStateEnum.Cancelled && Overlap(availableAppointment, availableAppointmentEnd, appointment.DateTime, appointmentEnd))
+                        if (appointment.State != AppointmentStateEnum.Cancelled && Overlap(availableAppointmentStart, availableAppointmentEnd, appointment.DateTime, appointmentEnd))
                         {
-                            removedAppointments.Add(appointment.DateTime);
+                            removedAppointments.Add(availableAppointment);
                         }
                     }
                 }
@@ -110,7 +112,7 @@ namespace SistemaTurnos.Database.HairdressingModel
 
         private bool Overlap(DateTime startA, DateTime endA, DateTime startB, DateTime endB)
         {
-            return startA.TimeOfDay < endB.TimeOfDay && startB.TimeOfDay < endA.TimeOfDay;
+             return startA.TimeOfDay < endB.TimeOfDay && startB.TimeOfDay < endA.TimeOfDay;
         }
     }
 }
