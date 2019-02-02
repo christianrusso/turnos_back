@@ -17,8 +17,6 @@ namespace SistemaTurnos.Database.HairdressingModel
 
         public virtual SpecialtyData Data { get; set; }
 
-        public virtual List<Hairdressing_Professional> Professionals { get; set; }
-
         public virtual List<Hairdressing_Subspecialty> Subspecialties { get; set; }
 
         [Required]

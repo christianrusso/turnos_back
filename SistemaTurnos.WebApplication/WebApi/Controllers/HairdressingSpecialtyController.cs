@@ -50,13 +50,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = _service.GetUserId(HttpContext);
 
+                var professionals = dbContext.Hairdressing_Professionals.Where(p => p.UserId == userId);
+
                 return dbContext.Hairdressing_Specialties
                     .Where(s => s.UserId == userId)
                     .Select(s => new HairdressingSpecialtyDto
                     {
                         Id = s.Id,
                         Description = s.Data.Description,
-                        Doctors = s.Professionals.Count,
+                        Doctors = professionals.Count(p => p.Subspecialties.Any(ssp => ssp.Subspecialty.SpecialtyId == s.Id)),
                         Subspecialties = s.Subspecialties
                             .Select(ssp => new HairdressingSubspecialtyDto
                             {
@@ -83,13 +85,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
+                var professionals = dbContext.Hairdressing_Professionals.Where(p => p.UserId == hairdressings.UserId);
+
                 return dbContext.Hairdressing_Specialties
                     .Where(s => s.UserId == hairdressings.UserId)
                     .Select(s => new HairdressingSpecialtyDto
                     {
                         Id = s.Id,
                         Description = s.Data.Description,
-                        Doctors = s.Professionals.Count,
+                        Doctors = professionals.Count(p => p.Subspecialties.Any(ssp => ssp.Subspecialty.SpecialtyId == s.Id)),
                         Subspecialties = s.Subspecialties
                             .Select(ssp => new HairdressingSubspecialtyDto
                             {
@@ -135,6 +139,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var userId = _service.GetUserId(HttpContext);
 
                 var subspecialties = dbContext.Hairdressing_Subspecialties.Where(ssp => ssp.UserId == userId);
+                var professionals = dbContext.Hairdressing_Professionals.Where(p => p.UserId == userId);
 
                 return dbContext.Hairdressing_Specialties
                     .Where(s => s.UserId == userId)
@@ -144,7 +149,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     {
                         Id = s.Id,
                         Description = s.Data.Description,
-                        Doctors = s.Professionals.Count,
+                        Doctors = professionals.Count(p => p.Subspecialties.Any(ssp => ssp.Subspecialty.SpecialtyId == s.Id)),
                         Subspecialties = subspecialties.Where(ssp => ssp.SpecialtyId == s.Id).Select(ssp => new HairdressingSubspecialtyDto
                         {
                                 Id = ssp.Id,
@@ -164,6 +169,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var userId = _service.GetUserId(HttpContext);
 
                 var subspecialties = dbContext.Hairdressing_Subspecialties.Where(ssp => ssp.UserId == userId);
+                var professionals = dbContext.Hairdressing_Professionals.Where(p => p.UserId == userId);
 
                 return dbContext.Hairdressing_Specialties
                     .Where(s => s.UserId == userId)
@@ -172,7 +178,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     {
                         Id = s.Id,
                         Description = s.Data.Description,
-                        Doctors = s.Professionals.Count,
+                        Doctors = professionals.Count(p => p.Subspecialties.Any(ssp => ssp.Subspecialty.SpecialtyId == s.Id)),
                         Subspecialties = subspecialties.Where(ssp => ssp.SpecialtyId == s.Id).Select(ssp => new HairdressingSubspecialtyDto
                         {
                             Id = ssp.Id,
