@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using SistemaTurnos.Commons.Authorization;
 using SistemaTurnos.Commons.Exceptions;
 using SistemaTurnos.Database;
-using SistemaTurnos.Database.ClinicModel;
 using SistemaTurnos.Database.Model;
 using SistemaTurnos.WebApplication.WebApi.Dto.Client;
 using System;
@@ -59,7 +58,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
                 return dbContext.Clients
                     .Where(c => !c.Patients.Any(p => p.UserId == userId))
                     .Where(c => filter.Dni == null || c.Dni.Contains(filter.Dni))
-                    .Where(c => filter.Email == null || c.User.Email.Contains(filter.Email))
+                    .Where(c => filter.Email == null || c.User.Email.ToLower().Contains(filter.Email.ToLower()))
                     .Select(c => new ClientDto
                     {
                         Id = c.Id,
@@ -105,7 +104,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
                 return dbContext.Clients
                     .Where(c => !c.HairdressingPatients.Any(p => p.UserId == userId))
                     .Where(c => filter.Dni == null || c.Dni.Contains(filter.Dni))
-                    .Where(c => filter.Email == null || c.User.Email.Contains(filter.Email))
+                    .Where(c => filter.Email == null || c.User.Email.ToLower().Contains(filter.Email.ToLower()))
                     .Select(c => new ClientDto
                     {
                         Id = c.Id,

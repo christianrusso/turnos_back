@@ -140,7 +140,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 var medicalInsurances = dbContext.Clinic_MedicalInsurances
                     .Where(s => s.UserId == userId)
-                    .Where(ssp => ssp.Data.Description.Contains(filter.Description))
+                    .Where(ssp => ssp.Data.Description.ToLower().Contains(filter.Description.ToLower()))
                     .ToList();
 
                 var res = new List<MedicalInsuranceDto>();

@@ -182,7 +182,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 return dbContext.Clinic_Specialties
                     .Where(s => s.UserId == userId)
-                    .Where(ssp => ssp.Data.Description.Contains(filter.Description))
+                    .Where(ssp => ssp.Data.Description.ToLower().Contains(filter.Description.ToLower()))
                     .Select(s => new SpecialtyDto
                     {
                         Id = s.Id,

@@ -215,7 +215,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 return dbContext.Clinic_Doctors
                     .Where(d => d.UserId == userId)
                     .Where(d => filter.Id == null || d.Id == filter.Id)
-                    .Where(d => filter.FullName == null || $"{d.FirstName} {d.LastName}".Contains(filter.FullName) || $"{d.LastName} {d.FirstName}".Contains(filter.FullName))
+                    .Where(d => filter.FullName == null || $"{d.FirstName} {d.LastName}".ToLower().Contains(filter.FullName.ToLower()) || $"{d.LastName} {d.FirstName}".ToLower().Contains(filter.FullName.ToLower()))
                     .Where(d => filter.SpecialtyId == null || d.Subspecialties.Any(ssp => ssp.Subspecialty.SpecialtyId == filter.SpecialtyId))
                     .Where(d => filter.SubspecialtyId == null || d.Subspecialties.Any(ssp => ssp.SubspecialtyId == filter.SubspecialtyId))
                     .Select(d => new DoctorDto

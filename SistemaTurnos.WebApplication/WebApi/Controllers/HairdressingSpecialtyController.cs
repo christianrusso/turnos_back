@@ -173,7 +173,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 return dbContext.Hairdressing_Specialties
                     .Where(s => s.UserId == userId)
-                    .Where(ssp => ssp.Data.Description.Contains(filter.Description))
+                    .Where(ssp => ssp.Data.Description.ToLower().Contains(filter.Description.ToLower()))
                     .Select(s => new HairdressingSpecialtyDto
                     {
                         Id = s.Id,
