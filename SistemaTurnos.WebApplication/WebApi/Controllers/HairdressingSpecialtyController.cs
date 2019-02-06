@@ -155,7 +155,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                                 Id = ssp.Id,
                                 Description = ssp.Data.Description,
                                 ConsultationLength = ssp.ConsultationLength,
-                                Price = ssp.Price
+                                Price = ssp.Price,
+                                Indications = ssp.Indications
                             }).ToList()
                     }).ToList();
             }
