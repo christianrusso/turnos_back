@@ -385,5 +385,28 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 min = wh.End;
             }
         }
+
+        /// <summary>
+        /// Devuevle todas las subespecialidades bloqueadas para los médicos por día
+        /// </summary>
+        [HttpPost]
+        public List<HairdressingProfessionalSubspecialtyBlockedInfoDto> GetProfessionalBlockedSubspecialties([FromBody] BlockDayDto filter)
+        {
+            var now = DateTime.Now;
+
+            using (var dbContext = new ApplicationDbContext())
+            {
+                int? userId = _service.GetUserId(HttpContext);
+
+                return dbContext.Hairdressing_BlockedDays
+                    .Where(d => d.DateTime.Date == filter.Day.Date)
+                    .Select(d => new HairdressingProfessionalSubspecialtyBlockedInfoDto
+                    {
+                        SubspecialtyId = d.SubspecialtyId,
+                        SubspecialtyDescription = d.Subspecialty.Data.Description,
+                        HairdressingProfessional = d.ProfessionalId
+                    }).ToList();
+            }
+        }
     }
 }
