@@ -114,11 +114,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
-                if (getAppointmentDto.HairdressingId != null)
+                /*if (getAppointmentDto.HairdressingId != null)
                 {
                     userId = getAppointmentDto.HairdressingId;
 
-                }
+                }*/
 
                 var prof = dbContext.Hairdressing_Professionals.FirstOrDefault(p => p.Id == getAppointmentDto.ProfessionalId && p.UserId == userId);
 
