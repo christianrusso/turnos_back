@@ -19,5 +19,7 @@
         public string City { get; internal set; }
 
         public string Logo { get; internal set; }
+
+        public double Score { get; set; }
     }
 }

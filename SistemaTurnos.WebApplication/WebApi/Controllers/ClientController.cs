@@ -235,7 +235,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
 
-                if (client.FavoriteClinics.Any(fc => fc.ClinicId == hairdressing.Id))
+                if (client.FavoriteHairdressing.Any(fc => fc.HairdressingId == hairdressing.Id))
                 {
                     throw new BadRequestException();
                 }
