@@ -37,11 +37,9 @@ namespace SistemaTurnos.Database.Model
         [StringLength(50, MinimumLength = 2)]
         public string LastName { get; set; }
 
-        [Required]
         [StringLength(500, MinimumLength = 4)]
         public string Address { get; set; }
 
-        [Required]
         [StringLength(50, MinimumLength = 4)]
         public string PhoneNumber { get; set; }
 
