@@ -28,7 +28,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly IConfiguration _configuration;
         private readonly BusinessPlaceService _businessPlaceServive;
-        private BusinessPlaceService _service;
 
         public EmployeeController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration)
         {
