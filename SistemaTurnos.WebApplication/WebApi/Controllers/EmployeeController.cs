@@ -13,6 +13,7 @@ using SistemaTurnos.WebApplication.WebApi.Services;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
 {
@@ -27,6 +28,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly IConfiguration _configuration;
         private readonly BusinessPlaceService _businessPlaceServive;
+        private BusinessPlaceService _service;
 
         public EmployeeController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration)
         {
@@ -121,6 +123,21 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
             Console.WriteLine("EmployeeController/Remove milisegundos: " + elapsedMs);
+        }
+
+        /// <summary>
+        /// Obtiene todos los pacientes
+        /// </summary>
+        [HttpGet]
+        public List<EmployeeDto> GetAll()
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                return dbContext.Clinic_Employees
+                    .Select(s => new EmployeeDto {
+                        Email = s.User.Email
+                    }).ToList();
+            }
         }
     }
 }

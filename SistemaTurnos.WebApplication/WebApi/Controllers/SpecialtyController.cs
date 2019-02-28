@@ -194,7 +194,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                             {
                                 Id = ssp.Id,
                                 Description = ssp.Data.Description,
-                                ConsultationLength = ssp.ConsultationLength
+                                ConsultationLength = ssp.ConsultationLength,
+                                Indications = ssp.Indications
                             }).ToList()
                     }).ToList();
 

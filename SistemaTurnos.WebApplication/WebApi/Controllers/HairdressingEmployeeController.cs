@@ -12,6 +12,7 @@ using SistemaTurnos.WebApplication.WebApi.Dto.Employee;
 using SistemaTurnos.WebApplication.WebApi.Services;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
 {
@@ -107,6 +108,21 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             if (!resultDelete.Succeeded)
             {
                 throw new ApplicationException(ExceptionMessages.InternalServerError);
+            }
+        }
+
+        /// <summary>
+        /// Obtiene todos los pacientes
+        /// </summary>
+        [HttpGet]
+        public List<EmployeeDto> GetAll()
+        {
+            using (var dbContext = new ApplicationDbContext())
+            {
+                return dbContext.Hairdressing_Employees
+                    .Select(s => new EmployeeDto {
+                        Email = s.User.Email
+                    }).ToList();
             }
         }
     }
