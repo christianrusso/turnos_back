@@ -17,6 +17,7 @@ using SistemaTurnos.WebApplication.WebApi.Dto.Hairdressing;
 using SistemaTurnos.WebApplication.WebApi.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
@@ -51,7 +52,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public void Register([FromBody] RegisterClientDto clientDto)
         {
+            var watch = Stopwatch.StartNew();
+
             _ClientService.Register(clientDto);
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("ClientController/Register milisegundos: " + elapsedMs);
         }
 
         /// <summary>
@@ -60,7 +67,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public void Edit([FromBody] EditClientDto clientDto)
         {
-            _ClientService.Edit(clientDto, this.HttpContext);
+            var watch = Stopwatch.StartNew();
+
+            _ClientService.Edit(clientDto, HttpContext);
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("ClientController/Edit milisegundos: " + elapsedMs);
         }
 
         /// <summary>
@@ -70,7 +83,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.Administrator)]
         public void Remove([FromBody] RemoveClientDto clientDto)
         {
+            var watch = Stopwatch.StartNew();
+
             _ClientService.Remove(clientDto);
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("ClientController/Remove milisegundos: " + elapsedMs);
         }
 
         /// <summary>
@@ -80,7 +99,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.AdministratorAndEmployee)]
         public List<ClientDto> GetAllNonPatients()
         {
-            return _ClientService.GetAllNonPatientsByFilter(HttpContext, new ClientFilterDto());
+            var watch = Stopwatch.StartNew();
+
+            var res = _ClientService.GetAllNonPatientsByFilter(HttpContext, new ClientFilterDto());
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("ClientController/GetAllNonPatients milisegundos: " + elapsedMs);
+
+            return res;
         }
 
         /// <summary>
@@ -90,7 +117,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.AdministratorAndEmployee)]
         public List<ClientDto> GetAllNonPatientsByFilter([FromBody] ClientFilterDto filter)
         {
-            return _ClientService.GetAllNonPatientsByFilter(HttpContext, filter);
+            var watch = Stopwatch.StartNew();
+
+            var res = _ClientService.GetAllNonPatientsByFilter(HttpContext, filter);
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("ClientController/GetAllNonPatientsByFilter milisegundos: " + elapsedMs);
+
+            return res;
         }
 
         /// <summary>
@@ -100,14 +135,30 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.AdministratorAndEmployee)]
         public List<ClientDto> GetAllNonHairdressingPatients()
         {
-            return _ClientService.GetAllNonHairdressingPatients(HttpContext, new ClientFilterDto());
+            var watch = Stopwatch.StartNew();
+
+            var res = _ClientService.GetAllNonHairdressingPatients(HttpContext, new ClientFilterDto());
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("ClientController/GetAllNonHairdressingPatients milisegundos: " + elapsedMs);
+
+            return res;
         }
 
         [HttpPost]
         [Authorize(Roles = Roles.AdministratorAndEmployee)]
         public List<ClientDto> GetAllNonHairdressingPatientsByFilter([FromBody] ClientFilterDto filter)
         {
-            return _ClientService.GetAllNonHairdressingPatients(HttpContext, filter);
+            var watch = Stopwatch.StartNew();
+
+            var res = _ClientService.GetAllNonHairdressingPatients(HttpContext, filter);
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("ClientController/GetAllNonHairdressingPatientsByFilter milisegundos: " + elapsedMs);
+
+            return res;
         }
 
         /// <summary>
@@ -117,9 +168,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.Client)]
         public void AddFavoriteClinic([FromBody] IdDto clinic)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 if (!dbContext.Clinics.Any(c => c.Id == clinic.Id))
                 {
@@ -140,6 +193,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 });
 
                 dbContext.SaveChanges();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("ClientController/AddFavoriteClinic milisegundos: " + elapsedMs);
             }
         }
 
@@ -150,9 +207,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.Client)]
         public void RemoveFavoriteClinic([FromBody] IdDto clinic)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 if (!dbContext.Clinics.Any(c => c.Id == clinic.Id))
                 {
@@ -174,6 +233,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 }
 
                 dbContext.SaveChanges();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("ClientController/RemoveFavoriteClinic milisegundos: " + elapsedMs);
             }
         }
 
@@ -184,9 +247,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.Client)]
         public List<ClinicDto> GetFavoriteClinics()
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
 
@@ -213,6 +278,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     });
                 }
 
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("ClientController/GetFavoriteClinics milisegundos: " + elapsedMs);
+
                 return res;
             }
         }
@@ -224,9 +293,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.Client)]
         public void AddFavoriteHairdressing([FromBody] IdDto hairdressing)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 if (!dbContext.Hairdressings.Any(c => c.Id == hairdressing.Id))
                 {
@@ -247,6 +318,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 });
 
                 dbContext.SaveChanges();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("ClientController/AddFavoriteHairdressing milisegundos: " + elapsedMs);
             }
         }
 
@@ -257,9 +332,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.Client)]
         public void RemoveFavoriteHairdressing([FromBody] IdDto hairdressing)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 if (!dbContext.Clinics.Any(c => c.Id == hairdressing.Id))
                 {
@@ -281,6 +358,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 }
                 
                 dbContext.SaveChanges();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("ClientController/RemoveFavoriteHairdressing milisegundos: " + elapsedMs);
             }
         }
 
@@ -291,13 +372,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.Client)]
         public List<HairdressingDto> GetFavoriteHairdressing()
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
 
-                return client.FavoriteHairdressing.Select(fv => new HairdressingDto
+                var res = client.FavoriteHairdressing.Select(fv => new HairdressingDto
                 {
                     HairdressingId = fv.HairdressingId,
                     Name = fv.Hairdressing.Name,
@@ -310,6 +393,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     DistanceToUser = -1
                 })
                 .ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("ClientController/GetFavoriteHairdressing milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
@@ -321,6 +410,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.Client)]
         public FavoritesDto GetFavorites()
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -362,6 +453,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 favoriteDto.HairdressingFavorites = hairdressingFavorites.ToList();
                 favoriteDto.ClinicFavorites = clinicFavorites.ToList();
 
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("ClientController/GetFavorites milisegundos: " + elapsedMs);
+
                 return favoriteDto;
             }
         }
@@ -373,7 +468,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.Client)]
         public WeekForClientDto GetWeekForClient([FromBody] FilterClientWeekDto filter)
         {
-            return new AppointmentService().GetWeekForClient(filter, HttpContext);
+            var watch = Stopwatch.StartNew();
+
+            var res = new AppointmentService().GetWeekForClient(filter, HttpContext);
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("ClientController/GetWeekForClient milisegundos: " + elapsedMs);
+
+            return res;
         }
 
         /// <summary>
@@ -383,6 +486,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.Client)]
         public ClientProfileDto GetProfile()
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -394,7 +499,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new ApplicationException(ExceptionMessages.InternalServerError);
                 }
 
-                return new ClientProfileDto
+                var res = new ClientProfileDto
                 {
                     Username = client.User.UserName,
                     FirstName = client.FirstName,
@@ -405,6 +510,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     PhoneNumber = client.PhoneNumber,
                     Logo = client.Logo
                 };
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("ClientController/GetProfile milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
     }

@@ -8,6 +8,7 @@ using SistemaTurnos.WebApplication.WebApi.Dto;
 using SistemaTurnos.WebApplication.WebApi.Dto.Subspecialty;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
@@ -23,6 +24,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public void Add([FromBody] AddSubspecialtyDto subSpecialtyDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = GetUserId();
@@ -45,6 +48,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("SubspecialtyController/Add milisegundos: " + elapsedMs);
         }
 
         /// <summary>
@@ -53,11 +60,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpGet]
         public List<SubspecialtyDto> GetAll()
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = GetUserId();
 
-                return dbContext.Clinic_Subspecialties
+                var res = dbContext.Clinic_Subspecialties
                     .Where(ssp => ssp.UserId == userId)
                     .Select(ssp => new SubspecialtyDto {
                         Id = ssp.Id,
@@ -67,6 +76,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         SpecialtyId = ssp.SpecialtyId,
                         SpecialtyDescription = ssp.Specialty.Data.Description
                 }).ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("SubspecialtyController/GetAll milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
@@ -76,11 +91,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public List<SubspecialtyDto> GetAllOfSpecialty([FromBody] IdDto specialtyIdDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = GetUserId();
 
-                return dbContext.Clinic_Subspecialties
+                var res = dbContext.Clinic_Subspecialties
                     .Where(ssp => ssp.SpecialtyId == specialtyIdDto.Id && ssp.UserId == userId)
                     .Select(ssp => new SubspecialtyDto
                     {
@@ -91,6 +108,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         SpecialtyId = ssp.SpecialtyId,
                         SpecialtyDescription = ssp.Specialty.Data.Description
                     }).ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("SubspecialtyController/GetAllOfSpecialty milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
@@ -100,9 +123,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public List<SubspecialtyDto> GetAllOfSpecialtyNoUserID([FromBody] IdDto specialtyIdDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
-                return dbContext.Clinic_Subspecialties
+                var res = dbContext.Clinic_Subspecialties
                     .Where(ssp => ssp.SpecialtyId == specialtyIdDto.Id)
                     .Select(ssp => new SubspecialtyDto
                     {
@@ -113,6 +138,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         SpecialtyId = ssp.SpecialtyId,
                         SpecialtyDescription = ssp.Specialty.Data.Description
                     }).ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("SubspecialtyController/GetAllOfSpecialtyNoUserID milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
@@ -122,11 +153,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public List<SelectOptionDto> GetAllOfSpecialtyForSelect([FromBody] IdDto specialtyIdDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = GetUserId();
 
-                return dbContext.Clinic_Subspecialties
+                var res = dbContext.Clinic_Subspecialties
                     .Where(ssp => (specialtyIdDto.Id == -1 || ssp.SpecialtyId == specialtyIdDto.Id) && ssp.UserId == userId)
                     .Select(ssp => new SelectOptionDto
                     {
@@ -136,6 +169,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     .ToList()
                     .Prepend(new SelectOptionDto { Id = "-1", Text = "Todas" })
                     .ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("SubspecialtyController/GetAllOfSpecialtyForSelect milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
@@ -145,6 +184,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public void Remove([FromBody] IdDto subSpecialtyDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = GetUserId();
@@ -159,6 +200,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.Entry(subSpecialtyToDelete).State = EntityState.Deleted;
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("SubspecialtyController/Remove milisegundos: " + elapsedMs);
         }
 
         /// <summary>
@@ -167,6 +212,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public void Edit([FromBody] EditSubspecialtyDto subSpecialtyDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = GetUserId();
@@ -182,6 +229,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 subSpecialtyToUpdate.Indications = subSpecialtyDto.Indications;
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("SubspecialtyController/Edit milisegundos: " + elapsedMs);
         }
 
         private int GetUserId()

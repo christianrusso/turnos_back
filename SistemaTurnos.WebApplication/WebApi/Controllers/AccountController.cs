@@ -25,6 +25,7 @@ using SistemaTurnos.Commons.Authorization;
 using SistemaTurnos.Commons.Exceptions;
 using SistemaTurnos.WebApplication.WebApi.Services;
 using SistemaTurnos.WebApplication.WebApi.Dto.Common;
+using System.Diagnostics;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
 {
@@ -56,6 +57,24 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public LogOnDto Login([FromBody] LoginAccountDto model)
         {
+            var watch = Stopwatch.StartNew();
+
+            // Si no tiene el arroba entonces tiene que ser un DNI
+            if (!model.Email.Contains("@"))
+            {
+                using (var dbContext = new ApplicationDbContext())
+                {
+                    var client = dbContext.Clients.FirstOrDefault(c => c.Dni == model.Email);
+
+                    if (client == null)
+                    {
+                        throw new BadRequestException(ExceptionMessages.LoginFailed);
+                    }
+
+                    model.Email = client.User.Email;
+                }
+            }
+
             var result = _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false).Result;
 
             if (!result.Succeeded)
@@ -173,6 +192,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             string token = GenerateJwtToken(model.Email, appUser);
             ValidTokens.Add($"{JwtBearerDefaults.AuthenticationScheme} {token}", userId);
 
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("AccountController/Login milisegundos: " + elapsedMs);
+
             return new LogOnDto
             {
                 Token = token,
@@ -188,6 +211,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public LogOnDto LoginFacebook([FromBody] LoginFacebookDto model)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var client = dbContext.Clients.FirstOrDefault(c => c.User.Email == model.Email);
@@ -252,6 +277,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 ValidTokens.Add($"{JwtBearerDefaults.AuthenticationScheme} {token}", userId);
 
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("AccountController/LoginFacebook milisegundos: " + elapsedMs);
+
                 return new LogOnDto
                 {
                     Token = token,
@@ -268,6 +297,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public ActionResult Register([FromBody] RegisterAccountDto model)
         {
+            var watch = Stopwatch.StartNew();
+
             if (!_roleManager.RoleExistsAsync(Roles.Administrator).Result)
             {
                 throw new ApplicationException(ExceptionMessages.InternalServerError);
@@ -350,6 +381,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.SaveChanges();
             }
 
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("AccountController/Register milisegundos: " + elapsedMs);
+
             return Ok(model.BusinessType);
         }
 
@@ -424,6 +459,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public void Logout()
         {
+            var watch = Stopwatch.StartNew();
+
             _signInManager.SignOutAsync().Wait();
 
             // Clear the existing external cookie to ensure a clean login process
@@ -437,6 +474,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
 
             ValidTokens.Remove(token);
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("AccountController/Logout milisegundos: " + elapsedMs);
         }
 
         [HttpGet]

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -25,6 +26,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public void Add([FromBody] IdDto specialtyDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = GetUserId();
@@ -38,6 +41,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("SpecialtyController/Add milisegundos: " + elapsedMs);
         }
 
         /// <summary>
@@ -46,13 +53,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpGet]
         public List<SpecialtyDto> GetAll()
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = GetUserId();
 
                 var doctors = dbContext.Clinic_Doctors.Where(p => p.UserId == userId);
 
-                return dbContext.Clinic_Specialties
+                var res = dbContext.Clinic_Specialties
                     .Where(s => s.UserId == userId)
                     .Select(s => new SpecialtyDto
                     {
@@ -69,6 +78,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                             .ToList()
                     })
                     .ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("SpecialtyController/GetAll milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
@@ -78,6 +93,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public List<SpecialtyDto> GetAllByClinic([FromBody] IdDto idDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var clinic = dbContext.Clinics.FirstOrDefault(c => c.Id == idDto.Id);
@@ -89,7 +106,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 var doctors = dbContext.Clinic_Doctors.Where(p => p.UserId == clinic.UserId);
 
-                return dbContext.Clinic_Specialties
+                var res = dbContext.Clinic_Specialties
                     .Where(s => s.UserId == clinic.UserId)
                     .Select(s => new SpecialtyDto
                     {
@@ -106,6 +123,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                             .ToList()
                     })
                     .ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("SpecialtyController/GetAllByClinic milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
@@ -115,11 +138,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpGet]
         public List<SelectOptionDto> GetAllForSelect()
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = GetUserId();
 
-                return dbContext.Clinic_Specialties
+                var res = dbContext.Clinic_Specialties
                     .Where(s => s.UserId == userId)
                     .Select(s => new SelectOptionDto
                     {
@@ -129,6 +154,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     .ToList()
                     .Prepend(new SelectOptionDto { Id = "-1", Text = "Todas" })
                     .ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("SpecialtyController/GetAllByClinic milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
@@ -138,6 +169,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public List<SpecialtyDto> GetByLetter([FromBody] GetSubspecialtyByLetterDto filter)
         {
+            var watch = Stopwatch.StartNew();
+
             var firstLetterMinus = char.ToLower(filter.Letter);
             var firstLetterMayus = char.ToUpper(filter.Letter);
 
@@ -148,7 +181,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var subspecialties = dbContext.Clinic_Subspecialties.Where(ssp => ssp.UserId == userId);
                 var doctors = dbContext.Clinic_Doctors.Where(p => p.UserId == userId);
 
-                return dbContext.Clinic_Specialties
+                var res = dbContext.Clinic_Specialties
                     .Where(s => s.UserId == userId)
                     .Where(ssp => filter.Letter == '*' || ssp.Data.Description.FirstOrDefault() == firstLetterMinus || ssp.Data.Description.FirstOrDefault() == firstLetterMayus)
                     .OrderBy(s => s.Data.Description)
@@ -164,6 +197,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                                 ConsultationLength = ssp.ConsultationLength
                             }).ToList()
                     }).ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("SpecialtyController/GetByLetter milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
@@ -173,6 +212,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public List<SpecialtyDto> GetByFilter([FromBody] FilterSpecialtyDto filter)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = GetUserId();
@@ -180,7 +221,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var subspecialties = dbContext.Clinic_Subspecialties.Where(ssp => ssp.UserId == userId);
                 var doctors = dbContext.Clinic_Doctors.Where(p => p.UserId == userId);
 
-                return dbContext.Clinic_Specialties
+                var res = dbContext.Clinic_Specialties
                     .Where(s => s.UserId == userId)
                     .Where(ssp => ssp.Data.Description.ToLower().Contains(filter.Description.ToLower()))
                     .Select(s => new SpecialtyDto
@@ -195,6 +236,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                             ConsultationLength = ssp.ConsultationLength
                         }).ToList()
                     }).ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("SpecialtyController/GetByFilter milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
@@ -204,6 +251,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public void Remove([FromBody] IdDto specialtyDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = GetUserId();
@@ -218,6 +267,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.Entry(specialtyToDelete).State = EntityState.Deleted;
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("SpecialtyController/Remove milisegundos: " + elapsedMs);
         }
 
         private int GetUserId()

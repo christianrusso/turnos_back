@@ -10,6 +10,7 @@ using SistemaTurnos.WebApplication.WebApi.Dto.Statistics;
 using SistemaTurnos.WebApplication.WebApi.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
@@ -23,6 +24,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize]
         public StatisticsFullDto GetForClinic()
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = new BusinessPlaceService().GetUserId(HttpContext);
@@ -37,7 +40,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var todayEnd = DateTime.Today.AddHours(23).AddMinutes(59).AddSeconds(59);
                 var appointments = dbContext.Clinic_Appointments.Where(a => a.UserId == userId).ToList();
 
-                return new StatisticsFullDto
+                var res = new StatisticsFullDto
                 {
                     Professionals = dbContext.Clinic_Doctors.Count(d => d.UserId == userId),
                     ActiveProfessionals = dbContext.Clinic_Doctors.Count(d => d.UserId == userId && IsActive(d.WorkingHours, now)),
@@ -52,6 +55,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     WebAppointments = appointments.Count(a => a.Source == AppointmentSourceEnum.Web),
                     MobileAppointments = appointments.Count(a => a.Source == AppointmentSourceEnum.Mobile),
                 };
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("StatisticsController/GetForClinic milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
@@ -59,6 +68,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize]
         public StatisticsFullDto GetForHairdressing()
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = new BusinessPlaceService().GetUserId(HttpContext);
@@ -73,7 +84,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var todayEnd = DateTime.Today.AddHours(23).AddMinutes(59).AddSeconds(59);
                 var appointments = dbContext.Hairdressing_Appointments.Where(a => a.UserId == userId).ToList();
 
-                return new StatisticsFullDto
+                var res = new StatisticsFullDto
                 {
                     Professionals = dbContext.Hairdressing_Professionals.Count(d => d.UserId == userId),
                     ActiveProfessionals = dbContext.Hairdressing_Professionals.Count(d => d.UserId == userId && IsActive(d.WorkingHours, now)),
@@ -88,6 +99,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     WebAppointments = appointments.Count(a => a.Source == AppointmentSourceEnum.Web),
                     MobileAppointments = appointments.Count(a => a.Source == AppointmentSourceEnum.Mobile),
                 };
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("StatisticsController/GetForHairdressing milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 

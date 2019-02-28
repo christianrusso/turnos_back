@@ -30,20 +30,18 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
-        private readonly ApplicationDbContext _dbContext;
 
-        public HairdressingPatientController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, ApplicationDbContext dbcontext)
+        public HairdressingPatientController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
-            _dbContext = dbcontext;
             _service = new BusinessPlaceService();
         }
 
         [HttpPost]
         public ActionResult Add([FromBody] AddHairdressingPatientDto patientDto)
         {
-            using (var dbContext = _dbContext)
+            using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
 
@@ -317,27 +315,31 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
         private SystemClient CreateClient(string email, string password, AddHairdressingPatientDto patientDto)
         {
-            if (!_roleManager.RoleExistsAsync(Roles.Client).Result)
+            using (var dbContext = new ApplicationDbContext())
             {
-                throw new ApplicationException(ExceptionMessages.InternalServerError);
-            }
+                if (dbContext.Clients.Any(c => c.Dni == patientDto.Dni))
+                {
+                    throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
+                }
 
-            var user = new ApplicationUser
-            {
-                UserName = email,
-                Email = email
-            };
+                if (!_roleManager.RoleExistsAsync(Roles.Client).Result)
+                {
+                    throw new ApplicationException(ExceptionMessages.InternalServerError);
+                }
 
-            var result = _userManager.CreateAsync(user, password).Result;
+                var user = new ApplicationUser
+                {
+                    UserName = email,
+                    Email = email
+                };
 
-            if (!result.Succeeded)
-            {
-                throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
-            }
+                var result = _userManager.CreateAsync(user, password).Result;
 
-            //using (var dbContext = _dbContext)
-            {
-                var dbContext = _dbContext;
+                if (!result.Succeeded)
+                {
+                    throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
+                }
+            
                 var appUser = _userManager.Users.SingleOrDefault(au => au.Email == email);
 
                 result = _userManager.AddToRoleAsync(appUser, Roles.Client).Result;

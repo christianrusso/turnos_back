@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace SistemaTurnos.WebApplication.WebApi.Services
 {
-    public class ClientServiceBase:ServiceBase
+    public class ClientServiceBase : ServiceBase
     {
         protected readonly SignInManager<ApplicationUser> _signInManager;
         protected readonly UserManager<ApplicationUser> _userManager;

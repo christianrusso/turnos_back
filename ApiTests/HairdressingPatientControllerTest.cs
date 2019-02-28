@@ -14,7 +14,7 @@ namespace ApiTests
             var dbContext = DbContextFixture.GetDbContext();
             var userMng = IdentityFixture.GetMockUserManager();
             var roleMng = IdentityFixture.GetMockRoleManager();
-            var controller = new HairdressingPatientController(userMng.Object, roleMng.Object, dbContext);
+            var controller = new HairdressingPatientController(userMng.Object, roleMng.Object);
 
             controller.ControllerContext = new ControllerContext
             {

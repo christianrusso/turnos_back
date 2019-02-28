@@ -19,10 +19,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
 
         public void Register(RegisterClientDto clientDto)
         {
-            var result = RegisterBase(clientDto);
-
             using (var dbContext = new ApplicationDbContext())
             {
+                if (dbContext.Clients.Any(c => c.Dni == clientDto.Dni))
+                {
+                    throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
+                }
+
+                var result = RegisterBase(clientDto);
+
                 var appUser = _userManager.Users.SingleOrDefault(au => au.Email == clientDto.Email);
 
                 result = _userManager.AddToRoleAsync(appUser, Roles.Client).Result;
@@ -36,7 +41,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
                 {
                     UserId = appUser.Id,
                     Logo = "",
-
                     FirstName = clientDto.FirstName,
                     LastName = clientDto.LastName,
                     Dni = clientDto.Dni,

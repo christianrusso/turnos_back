@@ -11,6 +11,7 @@ using SistemaTurnos.Database.Model;
 using SistemaTurnos.WebApplication.WebApi.Dto.Employee;
 using SistemaTurnos.WebApplication.WebApi.Services;
 using System;
+using System.Diagnostics;
 using System.Linq;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
@@ -42,6 +43,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public void Register([FromBody] RegisterEmployeeDto employeeDto)
         {
+            var watch = Stopwatch.StartNew();
+
             if (!_roleManager.RoleExistsAsync(Roles.Employee).Result)
             {
                 throw new ApplicationException(ExceptionMessages.InternalServerError);
@@ -87,6 +90,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.Clinic_Employees.Add(employee);
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("EmployeeController/Register milisegundos: " + elapsedMs);
         }
 
         /// <summary>
@@ -95,6 +102,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public void Remove([FromBody] RemoveEmployeeDto employeeDto)
         {
+            var watch = Stopwatch.StartNew();
+
             var appUser = _userManager.Users.SingleOrDefault(user => user.Email == employeeDto.Email);
 
             if (appUser == null)
@@ -108,6 +117,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 throw new ApplicationException(ExceptionMessages.InternalServerError);
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("EmployeeController/Remove milisegundos: " + elapsedMs);
         }
     }
 }

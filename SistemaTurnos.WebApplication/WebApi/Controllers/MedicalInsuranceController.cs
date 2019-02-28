@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -24,6 +25,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public void Add([FromBody] IdDto medicalInsuranceDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = GetUserId();
@@ -36,11 +39,17 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("MedicalInsuranceController/Add milisegundos: " + elapsedMs);
         }
 
         [HttpPost]
         public List<MedicalInsuranceDto> GetAllByClinic([FromBody] IdDto idDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var clinic = dbContext.Clinics.FirstOrDefault(c => c.Id == idDto.Id);
@@ -50,40 +59,56 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
-                return dbContext.Clinic_MedicalInsurances
+                var res = dbContext.Clinic_MedicalInsurances
                     .Where(s => s.UserId == clinic.UserId)
                     .Select(s => new MedicalInsuranceDto {
                         Id = s.Id,
                         Description = s.Data.Description
                     }).ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("MedicalInsuranceController/GetAllByClinic milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
         [HttpGet]
         public List<MedicalInsuranceDto> GetAll()
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = GetUserId();
 
-                return dbContext.Clinic_MedicalInsurances
+                var res = dbContext.Clinic_MedicalInsurances
                     .Where(s => s.UserId == userId)
                     .Select(s => new MedicalInsuranceDto
                     {
                         Id = s.Id,
                         Description = s.Data.Description
                     }).ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("MedicalInsuranceController/GetAll milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
         [HttpGet]
         public List<SelectOptionDto> GetAllForSelect()
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = GetUserId();
 
-                return dbContext.Clinic_MedicalInsurances
+                var res = dbContext.Clinic_MedicalInsurances
                     .Where(s => s.UserId == userId)
                     .Select(s => new SelectOptionDto
                     {
@@ -93,12 +118,20 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     .ToList()
                     .Prepend(new SelectOptionDto { Id = "-1", Text = "Todas" })
                     .ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("MedicalInsuranceController/GetAllForSelect milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
         [HttpPost]
         public List<MedicalInsuranceDto> GetByLetter([FromBody] GetMedicalInsuranceByLetterDto filter)
         {
+            var watch = Stopwatch.StartNew();
+
             var firstLetterMinus = char.ToLower(filter.Letter);
             var firstLetterMayus = char.ToUpper(filter.Letter);
 
@@ -127,6 +160,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     });
                 }
 
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("MedicalInsuranceController/GetByLetter milisegundos: " + elapsedMs);
+
                 return res;
             }
         }
@@ -134,6 +171,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public List<MedicalInsuranceDto> GetByFilter([FromBody] FilterMedicalInsuranceDto filter)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = GetUserId();
@@ -158,6 +197,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     });
                 }
 
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("MedicalInsuranceController/GetByFilter milisegundos: " + elapsedMs);
+
                 return res;
             }
         }
@@ -165,6 +208,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public void Remove([FromBody] IdDto medicalInsuranceDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = GetUserId();
@@ -180,6 +225,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.Entry(medicalInsuranceToDelete).State = EntityState.Deleted;
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("MedicalInsuranceController/Remove milisegundos: " + elapsedMs);
         }
 
         private int GetUserId()

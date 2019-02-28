@@ -14,6 +14,7 @@ using SistemaTurnos.WebApplication.WebApi.Dto.Doctor;
 using SistemaTurnos.WebApplication.WebApi.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
@@ -37,6 +38,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public void Add([FromBody] AddDoctorDto doctorDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -62,6 +65,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 doctor.WorkingHours = doctorDto.WorkingHours.Select(wh => new Clinic_WorkingHours { DayNumber = wh.DayNumber, Start = wh.Start, End = wh.End }).ToList();
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("DoctorController/Add milisegundos: " + elapsedMs);
         }
 
         /// <summary>
@@ -70,6 +77,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public void Remove([FromBody] RemoveDoctorDto doctorDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -85,6 +94,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.Entry(doctorToDelete).State = EntityState.Deleted;
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("DoctorController/Remove milisegundos: " + elapsedMs);
         }
 
         /// <summary>
@@ -93,6 +106,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public void Edit([FromBody] EditDoctorDto doctorDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -132,6 +147,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("DoctorController/Edit milisegundos: " + elapsedMs);
         }
 
         /// <summary>
@@ -140,13 +159,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpGet]
         public List<DoctorDto> GetAll()
         {
+            var watch = Stopwatch.StartNew();
+
             var now = DateTime.Now;
 
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
 
-                return dbContext.Clinic_Doctors
+                var res = dbContext.Clinic_Doctors
                     .Where(d => d.UserId == userId)
                     .Select(d => new DoctorDto {
                         Id = d.Id,
@@ -166,6 +187,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         WorkingHours = d.WorkingHours.Select(wh => new WorkingHoursDto { DayNumber = wh.DayNumber, Start = wh.Start, End = wh.End }).OrderBy(wh => wh.DayNumber).ToList(),
                         Appointments = d.Appointments.OrderBy(a => a.DateTime).Take(10).Select(a => a.DateTime).ToList()
                     }).ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("DoctorController/GetAll milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
@@ -175,11 +202,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpGet]
         public List<SelectOptionDto> GetAllForSelect()
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
-                return dbContext.Clinic_Doctors
+                var res = dbContext.Clinic_Doctors
                     .Where(d => d.UserId == userId)
                     .Select(d => new SelectOptionDto
                     {
@@ -187,6 +216,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         Text = $"{d.FirstName} {d.LastName}",
                     })
                     .ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("DoctorController/GetAllForSelect milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
@@ -196,6 +231,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public List<DoctorDto> GetByFilter([FromBody] FilterDoctorDto filter)
         {
+            var watch = Stopwatch.StartNew();
+
             var now = DateTime.Now;
 
             using (var dbContext = new ApplicationDbContext())
@@ -212,7 +249,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     userId = clinic.UserId;
                 }
 
-                return dbContext.Clinic_Doctors
+                var res = dbContext.Clinic_Doctors
                     .Where(d => d.UserId == userId)
                     .Where(d => filter.Id == null || d.Id == filter.Id)
                     .Where(d => filter.FullName == null || $"{d.FirstName} {d.LastName}".ToLower().Contains(filter.FullName.ToLower()) || $"{d.LastName} {d.FirstName}".ToLower().Contains(filter.FullName.ToLower()))
@@ -237,6 +274,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         WorkingHours = d.WorkingHours.Select(wh => new WorkingHoursDto { DayNumber = wh.DayNumber, Start = wh.Start, End = wh.End }).OrderBy(wh => wh.DayNumber).ToList(),
                         Appointments = d.Appointments.OrderBy(a => a.DateTime).Take(10).Select(a => a.DateTime).ToList()
                     }).ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("DoctorController/GetByFilter milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
@@ -246,6 +289,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public void Disable([FromBody] EnableDisableDoctorDto doctorDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -260,6 +305,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 doctor.State = DoctorStateEnum.Inactive;
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("DoctorController/Disable milisegundos: " + elapsedMs);
         }
 
         /// <summary>
@@ -268,6 +317,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public void Enable([FromBody] EnableDisableDoctorDto doctorDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -282,6 +333,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 doctor.State = DoctorStateEnum.Active;
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("DoctorController/Enable milisegundos: " + elapsedMs);
         }
 
         /// <summary>
@@ -290,6 +345,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public void Vacation([FromBody] EnableDisableDoctorDto doctorDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -304,11 +361,17 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 doctor.State = DoctorStateEnum.Vacation;
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("DoctorController/Vacation milisegundos: " + elapsedMs);
         }
 
         [HttpPost]
         public void BlockDay([FromBody] BlockDayDto dto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -334,11 +397,17 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("DoctorController/BlockDay milisegundos: " + elapsedMs);
         }
 
         [HttpPost]
         public void UnblockDay([FromBody] BlockDayDto dto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -362,6 +431,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("DoctorController/UnblockDay milisegundos: " + elapsedMs);
         }
 
         private void ValidateDoctorData(ApplicationDbContext dbContext, int userId, List<DoctorSubspecialtyDto> subSpecialties, List<WorkingHoursDto> workingHoursDtos)

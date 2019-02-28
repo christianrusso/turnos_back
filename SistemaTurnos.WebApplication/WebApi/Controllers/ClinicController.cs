@@ -18,6 +18,7 @@ using System;
 using Microsoft.AspNetCore.Identity;
 using SistemaTurnos.Database.Model;
 using SistemaTurnos.Database.ModelData;
+using System.Diagnostics;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
 {
@@ -42,6 +43,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.AdministratorAndEmployee)]
         public void UpdateOpenCloseHours([FromBody] ClinicOpenCloseHoursDto hoursDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -80,6 +83,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 clinicToUpdate.OpenCloseHours = newOpenCloseHours;
 
                 dbContext.SaveChanges();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("ClinicController/UpdateOpenCloseHours milisegundos: " + elapsedMs);
             }
         }
 
@@ -90,6 +97,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.Administrator)]
         public void UpdateInformation([FromBody] UpdateClinicDto clinicDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -193,6 +202,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 }
 
                 dbContext.SaveChanges();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("ClinicController/UpdateInformation milisegundos: " + elapsedMs);
             }
         }
 
@@ -202,6 +215,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public List<ClinicDto> GetAllInRadius([FromBody] GeoLocationDto geoLocation)
         {
+            var watch = Stopwatch.StartNew();
+
             var res = new List<ClinicDto>();
             var userLocation = new GeoCoordinate(geoLocation.Latitude, geoLocation.Longitude);
 
@@ -236,6 +251,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 }
             }
 
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("ClinicController/GetAllInRadius milisegundos: " + elapsedMs);
+
             return res;
         }
 
@@ -245,6 +264,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public List<FullClinicDto> GetByFilter([FromBody] FilterClinicDto filterDto)
         {
+            var watch = Stopwatch.StartNew();
+
             filterDto.Specialties = filterDto.Specialties ?? new List<int>();
             filterDto.Subspecialties = filterDto.Subspecialties ?? new List<int>();
             filterDto.MedicalInsurances = filterDto.MedicalInsurances ?? new List<int>();
@@ -450,6 +471,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 clinic.ResultSize = resultSize;
             }
 
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("ClinicController/GetByFilter milisegundos: " + elapsedMs);
+
             return res;
         }
 
@@ -460,9 +485,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.Client)]
         public bool IsPatientOfClinic([FromBody] IdDto idDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 var clinic = dbContext.Clinics.FirstOrDefault(c => c.Id == idDto.Id);
 
@@ -474,6 +501,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
 
                 var patient = client.Patients.FirstOrDefault(p => p.UserId == clinic.UserId);
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("ClinicController/IsPatientOfClinic milisegundos: " + elapsedMs);
 
                 return patient != null;
             }
