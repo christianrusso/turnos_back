@@ -14,6 +14,7 @@ using SistemaTurnos.WebApplication.WebApi.Dto.HairdressingProfessional;
 using SistemaTurnos.WebApplication.WebApi.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
@@ -34,6 +35,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public void Add([FromBody] AddHairdressingProfessionalDto hairdressingProfessionalDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -70,11 +73,17 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 }).ToList();
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("HairdressingProfessional/Add milisegundos: " + elapsedMs);
         }
 
         [HttpPost]
         public void Remove([FromBody] RemoveHairdressingProfessionalDto hairdressingProfessionalDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -90,11 +99,17 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.Entry(hairdressingProfessionalToDelete).State = EntityState.Deleted;
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("HairdressingProfessional/Remove milisegundos: " + elapsedMs);
         }
 
         [HttpPost]
         public void Edit([FromBody] EditHairdressingProfessionalDto hairdressingProfessionalDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -133,18 +148,24 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("HairdressingProfessional/Edit milisegundos: " + elapsedMs);
         }
 
         [HttpGet]
         public List<HairdressingProfessionalDto> GetAll()
         {
+            var watch = Stopwatch.StartNew();
+
             var now = DateTime.Now;
 
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
 
-                return dbContext.Hairdressing_Professionals
+                var res = dbContext.Hairdressing_Professionals
                     .Where(d => d.UserId == userId)
                     .Select(d => new HairdressingProfessionalDto {
                         Id = d.Id,
@@ -164,17 +185,25 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         WorkingHours = d.WorkingHours.Select(wh => new WorkingHoursDto { DayNumber = wh.DayNumber, Start = wh.Start, End = wh.End }).OrderBy(wh => wh.DayNumber).ToList(),
                         Appointments = d.Appointments.OrderBy(a => a.DateTime).Take(10).Select(a => a.DateTime).ToList()
                     }).ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("HairdressingProfessional/GetAll milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
         [HttpGet]
         public List<SelectOptionDto> GetAllForSelect()
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
-                return dbContext.Hairdressing_Professionals
+                var res =  dbContext.Hairdressing_Professionals
                     .Where(d => d.UserId == userId)
                     .Select(d => new SelectOptionDto
                     {
@@ -182,12 +211,20 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         Text = $"{d.FirstName} {d.LastName}",
                     })
                     .ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("HairdressingProfessional/GetAllForSelect milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
         [HttpPost]
         public List<HairdressingProfessionalDto> GetByFilter([FromBody] FilterHairdressingProfessionalDto filter)
         {
+            var watch = Stopwatch.StartNew();
+
             var now = DateTime.Now;
 
             using (var dbContext = new ApplicationDbContext())
@@ -205,7 +242,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 }
                 
 
-                return dbContext.Hairdressing_Professionals
+                var res = dbContext.Hairdressing_Professionals
                     .Where(d => d.UserId == userId)
                     .Where(d => filter.Id == null || d.Id == filter.Id)
                     .Where(d => filter.FullName == null || $"{d.FirstName} {d.LastName}".ToLower().Contains(filter.FullName.ToLower()) || $"{d.LastName} {d.FirstName}".ToLower().Contains(filter.FullName.ToLower()))
@@ -230,12 +267,20 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         WorkingHours = d.WorkingHours.Select(wh => new WorkingHoursDto { DayNumber = wh.DayNumber, Start = wh.Start, End = wh.End }).OrderBy(wh => wh.DayNumber).ToList(),
                         Appointments = d.Appointments.OrderBy(a => a.DateTime).Take(10).Select(a => a.DateTime).ToList()
                     }).ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("HairdressingProfessional/GetByFilter milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
         [HttpPost]
         public void Disable([FromBody] EnableDisableHairdressingProfessionalDto hairdressingProfessionalDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -250,14 +295,20 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 hairdressingProfessional.State = HairdressingProfessionalStateEnum.Inactive;
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("HairdressingProfessional/Disable milisegundos: " + elapsedMs);
         }
 
         [HttpPost]
         public void Enable([FromBody] EnableDisableHairdressingProfessionalDto hairdressingProfessionalDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 Hairdressing_Professional hairdressingProfessional = dbContext.Hairdressing_Professionals.FirstOrDefault(d => d.Id == hairdressingProfessionalDto.Id && d.UserId == userId);
 
@@ -269,11 +320,17 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 hairdressingProfessional.State = HairdressingProfessionalStateEnum.Active;
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("HairdressingProfessional/Enable milisegundos: " + elapsedMs);
         }
 
         [HttpPost]
         public void Vacation([FromBody] EnableDisableHairdressingProfessionalDto hairdressingProfessionalDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -288,11 +345,17 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 hairdressingProfessional.State = HairdressingProfessionalStateEnum.Vacation;
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("HairdressingProfessional/Vacation milisegundos: " + elapsedMs);
         }
 
         [HttpPost]
         public void BlockDay([FromBody] BlockDayDto dto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -318,11 +381,17 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("HairdressingProfessional/BlockDay milisegundos: " + elapsedMs);
         }
 
         [HttpPost]
         public void UnblockDay([FromBody] BlockDayDto dto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -346,6 +415,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("HairdressingProfessional/UnblockDay milisegundos: " + elapsedMs);
         }
 
         private void ValidateHairdressingProfessionalData(ApplicationDbContext dbContext, int userId, List<HairdressingProfessionalSubspecialtyDto> subspecialties, List<WorkingHoursDto> workingHoursDtos)
@@ -392,13 +465,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public List<HairdressingProfessionalSubspecialtyBlockedInfoDto> GetProfessionalBlockedSubspecialties([FromBody] BlockDayDto filter)
         {
+            var watch = Stopwatch.StartNew();
+
             var now = DateTime.Now;
 
             using (var dbContext = new ApplicationDbContext())
             {
                 int? userId = _service.GetUserId(HttpContext);
 
-                return dbContext.Hairdressing_BlockedDays
+                var res = dbContext.Hairdressing_BlockedDays
                     .Where(d => d.DateTime.Date == filter.Day.Date)
                     .Select(d => new HairdressingProfessionalSubspecialtyBlockedInfoDto
                     {
@@ -406,6 +481,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         SubspecialtyDescription = d.Subspecialty.Data.Description,
                         HairdressingProfessional = d.ProfessionalId
                     }).ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("HairdressingProfessional/GetProfessionalBlockedSubspecialties milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
     }

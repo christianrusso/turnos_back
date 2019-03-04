@@ -60,6 +60,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         throw new BadRequestException();
                     }
 
+                    if (dbContext.Clients.Any(c => c.Dni == patientDto.Dni))
+                    {
+                        throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
+                    }
+
                     client = CreateClient(patientDto.Email, patientDto.Dni, patientDto);
                 }
 
@@ -90,6 +95,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
+                if (dbContext.Clients.Any(c => c.Dni == patientDto.Dni))
+                {
+                    throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
+                }
+
                 var userId = _service.GetUserId(HttpContext);
 
                 var medicalPlan = dbContext.Clinic_MedicalPlans.FirstOrDefault(mp => mp.Id == patientDto.MedicalPlanId);
@@ -418,6 +428,55 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 return res;
             }
+        }
+
+        [HttpPost]
+        public UserDataDto Search([FromBody] SearchPatientDto dto)
+        {
+            var watch = Stopwatch.StartNew();
+
+            var res = new UserDataDto();
+
+            if (dto.User.Contains("@"))
+            {
+                res.Email = dto.User;
+            } else
+            {
+                res.Dni = dto.User;
+            }
+
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var client = dbContext.Clients.FirstOrDefault(c => c.Dni == dto.User || c.User.Email == dto.User);
+                var patient = dbContext.Clinic_Patients.FirstOrDefault(p => p.Client.Dni == dto.User || p.Client.User.Email == dto.User);
+
+               if (client != null) {
+                    res.IsClient = true;
+                    res.ClientId = client.Id;
+                    res.FirstName = client.FirstName;
+                    res.LastName = client.LastName;
+                    res.Address = client.Address;
+                    res.PhoneNumber = client.PhoneNumber;
+                    res.Email = client.User.Email;
+                    res.Dni = client.Dni;
+               }
+
+               if (patient != null) {
+                    res.IsPatient = true;
+                    res.PatientId = patient.Id;
+                    res.MedicalInsurance = patient.MedicalPlan.MedicalInsurance.Data.Description;
+                    res.MedicalInsuranceId = patient.MedicalPlan.MedicalInsuranceId;
+                    res.MedicalPlan = patient.MedicalPlan.Data.Description;
+                    res.MedicalPlanId = patient.MedicalPlanId;
+               }
+
+            }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("PatientController/Search milisegundos: " + elapsedMs);
+
+            return res;
         }
 
         private SystemClient CreateClient(string email, string password, AddPatientDto patientDto)

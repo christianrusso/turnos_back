@@ -9,7 +9,9 @@ using SistemaTurnos.Database.HairdressingModel;
 using SistemaTurnos.WebApplication.WebApi.Dto;
 using SistemaTurnos.WebApplication.WebApi.Dto.Subspecialty;
 using SistemaTurnos.WebApplication.WebApi.Services;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
@@ -30,6 +32,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public void Add([FromBody] HairdressingAddSubspecialtyDto subSpecialtyDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -53,11 +57,17 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("HairdressingSubSpecialty/Add milisegundos: " + elapsedMs);
         }
 
         [HttpGet]
         public List<HairdressingSubspecialtyDto> GetAll()
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -75,6 +85,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         SpecialtyDescription = ssp.Specialty.Data.Description
                 }).ToList();
 
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("HairdressingSubSpecialty/GetAll milisegundos: " + elapsedMs);
+
                 return res;
             }
         }
@@ -82,11 +96,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public List<HairdressingSubspecialtyDto> GetAllOfSpecialty([FromBody] IdDto specialtyIdDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
 
-                return dbContext.Hairdressing_Subspecialties
+                var res = dbContext.Hairdressing_Subspecialties
                     .Where(ssp => ssp.SpecialtyId == specialtyIdDto.Id && ssp.UserId == userId)
                     .Select(ssp => new HairdressingSubspecialtyDto
                     {
@@ -98,17 +114,25 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         SpecialtyId = ssp.SpecialtyId,
                         SpecialtyDescription = ssp.Specialty.Data.Description
                     }).ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("HairdressingSubSpecialty/GetAllOfSpecialty milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
         [HttpPost]
         public List<SelectOptionDto> GetAllOfSpecialtyForSelect([FromBody] IdDto specialtyIdDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
 
-                return dbContext.Hairdressing_Subspecialties
+                var res = dbContext.Hairdressing_Subspecialties
                     .Where(ssp => (specialtyIdDto.Id == -1 || ssp.SpecialtyId == specialtyIdDto.Id) && ssp.UserId == userId)
                     .Select(ssp => new SelectOptionDto
                     {
@@ -118,12 +142,20 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     .ToList()
                     .Prepend(new SelectOptionDto { Id = "-1", Text = "Todas" })
                     .ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("HairdressingSubSpecialty/GetAllOfSpecialtyForSelect milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
         [HttpPost]
         public void Remove([FromBody] IdDto subSpecialtyDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -138,11 +170,17 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.Entry(subSpecialtyToDelete).State = EntityState.Deleted;
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("HairdressingSubSpecialty/Remove milisegundos: " + elapsedMs);
         }
 
         [HttpPost]
         public void Edit([FromBody] HairdressingEditSubspecialtyDto subSpecialtyDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -159,6 +197,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 subSpecialtyToUpdate.Indications = subSpecialtyDto.Indications;
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("HairdressingSubSpecialty/Edit milisegundos: " + elapsedMs);
         }
     }
 }

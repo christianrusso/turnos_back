@@ -12,12 +12,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using SistemaTurnos.WebApplication.WebApi.Services;
-using SistemaTurnos.Database.ClinicModel;
 using SistemaTurnos.Commons.Authorization;
 using SistemaTurnos.Commons.Exceptions;
 using SistemaTurnos.WebApplication.WebApi.Dto.Email;
 using SistemaTurnos.WebApplication.WebApi.Dto.Payment;
 using SistemaTurnos.WebApplication.WebApi.Dto.MercadoPago;
+using System.Diagnostics;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
 {
@@ -44,6 +44,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public List<DateTime> GetAllAvailablesFromDay([FromBody] GetHairdressingAppointmentDto getAppointmentDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _businessPlaceService.GetUserIdOrDefault(HttpContext);
@@ -86,6 +88,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     }
                 }
 
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("HairdressingAppointment/GetAllAvailablesFromDay milisegundos: " + elapsedMs);
+
                 return res;
             }
         }
@@ -93,6 +99,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public List<DateTime> GetAllAvailablesForDay([FromBody] GetHairdressingAppointmentDto getAppointmentDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _businessPlaceService.GetUserIdOrDefault(HttpContext);
@@ -132,7 +140,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
-                return prof.GetAllAvailableAppointmentsForDay(getAppointmentDto.Day, getAppointmentDto.SubspecialtyId);
+                var res = prof.GetAllAvailableAppointmentsForDay(getAppointmentDto.Day, getAppointmentDto.SubspecialtyId);
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("HairdressingAppointment/GetAllAvailablesForDay milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
@@ -140,6 +154,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize]
         public void RequestAppointmentForNonClient([FromBody] RequestHairdressingAppointmentForNonClientDto requestAppointmentDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _businessPlaceService.GetUserId(HttpContext);
@@ -164,6 +180,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 if (!_roleManager.RoleExistsAsync(Roles.Client).Result)
                 {
                     throw new ApplicationException(ExceptionMessages.InternalServerError);
+                }
+
+                if (dbContext.Clients.Any(c => c.Dni == requestAppointmentDto.Dni))
+                {
+                    throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
                 }
 
                 var user = new ApplicationUser
@@ -241,12 +262,18 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("HairdressingAppointment/RequestAppointmentForNonClient milisegundos: " + elapsedMs);
         }
 
         [HttpPost]
         [Authorize(Roles = Roles.AdministratorAndEmployee)]
         public void RequestAppointmentForClient([FromBody] RequestHairdressingAppointmentForClientDto requestAppointmentDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _businessPlaceService.GetUserId(HttpContext);
@@ -320,12 +347,18 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("HairdressingAppointment/RequestAppointmentForClient milisegundos: " + elapsedMs);
         }
 
         [HttpPost]
         [Authorize(Roles = Roles.AdministratorAndEmployee)]
         public void RequestAppointmentForPatient([FromBody] RequestHairdressingAppointmentForPatientDto requestAppointmentDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _businessPlaceService.GetUserId(HttpContext);
@@ -384,12 +417,18 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("HairdressingAppointment/RequestAppointmentForPatient milisegundos: " + elapsedMs);
         }
 
         [HttpPost]
         [Authorize(Roles = Roles.Client)]
         public PaymentDto RequestAppointmentByClient([FromBody] RequestHairdressingAppointmentByClientDto requestAppointmentDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _businessPlaceService.GetUserId(HttpContext);
@@ -482,6 +521,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 hairdressingAppointment.PreferenceId = paymentInformation.PreferenceId;
                 dbContext.SaveChanges();
 
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("HairdressingAppointment/RequestAppointmentByClient milisegundos: " + elapsedMs);
+
                 return new PaymentDto
                 {
                     PaymentLink = paymentInformation.PaymentLink
@@ -493,6 +536,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.Client)]
         public PaymentDto RequestAppointmentByPatient([FromBody] RequestHairdressingAppointmentByPatientDto requestAppointmentDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _businessPlaceService.GetUserId(HttpContext);
@@ -571,6 +616,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 hairdressingAppointment.PreferenceId = paymentInformation.PreferenceId;
                 dbContext.SaveChanges();
 
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("HairdressingAppointment/RequestAppointmentByPatient milisegundos: " + elapsedMs);
+
                 return new PaymentDto
                 {
                     PaymentLink = paymentInformation.PaymentLink
@@ -582,6 +631,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.AdministratorAndEmployee)]
         public void CancelAppointmentByHairdressing([FromBody] CancelHairdressingAppointmentDto cancelAppointmentDto)
         {
+            var watch = Stopwatch.StartNew();
+
             var emailMessage = new EmailDto();
 
             using (var dbContext = new ApplicationDbContext())
@@ -623,6 +674,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.SaveChanges();
             }
 
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("HairdressingAppointment/CancelAppointmentByHairdressing milisegundos: " + elapsedMs);
+
             _emailService.Send(emailMessage);
         }
 
@@ -630,6 +685,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize]
         public void CompleteAppointmentByHairdressing([FromBody] IdDto completeAppointmentDto)
         {
+            var watch = Stopwatch.StartNew();
+
             var emailMessage = new EmailDto();
 
             using (var dbContext = new ApplicationDbContext())
@@ -669,6 +726,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.SaveChanges();
             }
 
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("HairdressingAppointment/CompleteAppointmentByHairdressing milisegundos: " + elapsedMs);
+
             _emailService.Send(emailMessage);
         }
 
@@ -676,6 +737,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize]
         public void CancelAppointment([FromBody] CancelHairdressingAppointmentDto cancelAppointmentDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _businessPlaceService.GetUserId(HttpContext);
@@ -698,12 +761,18 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("HairdressingAppointment/CancelAppointment milisegundos: " + elapsedMs);
         }
 
         [HttpPost]
         [Authorize]
         public void CompleteAppointment([FromBody] CompleteHairdressingAppointmentDto completeAppointmentDto)
         {
+            var watch = Stopwatch.StartNew();
+
             var emailMessage = new EmailDto();
 
             using (var dbContext = new ApplicationDbContext())
@@ -759,6 +828,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.SaveChanges();
             }
 
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("HairdressingAppointment/CompleteAppointment milisegundos: " + elapsedMs);
+
             _emailService.Send(emailMessage);
         }
 
@@ -766,6 +839,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize]
         public List<RequestedHairdressingAppointmentsByProfessionalDto> GetRequestedAppointmentsByFilter([FromBody] FilterRequestedHairdressingAppointmentDto filter)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _businessPlaceService.GetUserId(HttpContext);
@@ -778,7 +853,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     .Where(d => !filter.SubspecialtyId.HasValue || d.Subspecialties.Any(ssp => ssp.SubspecialtyId == filter.SubspecialtyId))
                     .ToList();
 
-                return profs.Select(d => new RequestedHairdressingAppointmentsByProfessionalDto
+                var res = profs.Select(d => new RequestedHairdressingAppointmentsByProfessionalDto
                 {
                     ProfessionalId = d.Id,
                     ProfessionalFirstName = d.FirstName,
@@ -807,6 +882,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     .Reverse()
                     .ToList()
                 }).ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("HairdressingAppointment/GetRequestedAppointmentsByFilter milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
@@ -814,6 +895,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize]
         public List<DayDto> GetWeek([FromBody] FilterWeekHairdressingAppointmentDto filter)
         {
+            var watch = Stopwatch.StartNew();
+
             // Tengo que devolver una lista con todos los dias entre la fecha desde y la fecha hasta
             // Para cada dia, tengo que partirlo en 24 horas
             // Para cada hora tengo que tener una lista con todas las especialidades del usuario
@@ -868,6 +951,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 }
             }
 
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("HairdressingAppointment/GetWeek milisegundos: " + elapsedMs);
+
             return res;
         }
 
@@ -875,8 +962,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.Client)]
         public List<HairdressingClientDayDto> GetWeekForClient([FromBody] FilterClientWeekHairdressingAppointmentDto filter)
         {
+            var watch = Stopwatch.StartNew();
+
             var service = new AppointmentService();
             var week = service.Hairdressing_GetWeekForClient(filter, HttpContext);
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("HairdressingAppointment/GetWeekForClient milisegundos: " + elapsedMs);
 
             return week;
         }
@@ -884,6 +977,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public List<HairdressingAppointmentsPerDayDto> GetAvailableAppointmentsPerDay([FromBody] FilterAvailableHairdressingAppointmentDto filter)
         {
+            var watch = Stopwatch.StartNew();
             var res = new List<HairdressingAppointmentsPerDayDto>();
 
             using (var dbContext = new ApplicationDbContext())
@@ -909,6 +1003,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     res.Add(day);
                 }
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("HairdressingAppointment/GetWeekForClient milisegundos: " + elapsedMs);
 
             return res;
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -41,6 +42,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public ActionResult Add([FromBody] AddHairdressingPatientDto patientDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -52,6 +55,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     if (string.IsNullOrWhiteSpace(patientDto.Email))
                     {
                         throw new BadRequestException();
+                    }
+
+                    if (dbContext.Clients.Any(c => c.Dni == patientDto.Dni))
+                    {
+                        throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
                     }
 
                     client = CreateClient(patientDto.Email, patientDto.Dni, patientDto);
@@ -66,6 +74,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 var id = dbContext.SaveChanges();
 
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("HairdressingPatient/Add milisegundos: " + elapsedMs);
+
                 return Ok(id);
             }
         }
@@ -73,9 +85,16 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public void AddForNonClient([FromBody] AddHairdressingPatientForNonClientDto patientDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                if (dbContext.Clients.Any(c => c.Dni == patientDto.Dni))
+                {
+                    throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
+                }
+
+                var userId = _service.GetUserId(HttpContext);
 
                 if (!_roleManager.RoleExistsAsync(Roles.Client).Result)
                 {
@@ -127,16 +146,22 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.Hairdressing_Patients.Add(patient);
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("HairdressingPatient/AddForNonClient milisegundos: " + elapsedMs);
         }
 
         [HttpGet]
         public List<HairdressingPatientDto> GetAll()
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
-                return dbContext.Hairdressing_Patients
+                var res = dbContext.Hairdressing_Patients
                     .Where(p => p.UserId == userId)
                     .Select(s => new HairdressingPatientDto
                     {
@@ -152,12 +177,20 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         ReservedAppointments = s.Appointments.Count(),
                         ConcretedAppointments = s.Appointments.Count(a => a.State == AppointmentStateEnum.Completed)
                     }).ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("HairdressingPatient/GetAll milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
         [HttpPost]
         public void Remove([FromBody] RemoveHairdressingPatientDto patientDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -172,11 +205,17 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.Entry(patientToDelete).State = EntityState.Deleted;
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("HairdressingPatient/Remove milisegundos: " + elapsedMs);
         }
 
         [HttpPost]
         public void Edit([FromBody] EditHairdressingPatientDto patientDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -195,16 +234,22 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 patientToUpdate.Client.Dni = patientDto.Dni;
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("HairdressingPatient/Edit milisegundos: " + elapsedMs);
         }
 
         [HttpPost]
         public List<HairdressingPatientDto> GetByFilter([FromBody] FilterHairdressingPatientDto filter)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
 
-                return dbContext.Hairdressing_Patients
+                var res = dbContext.Hairdressing_Patients
                     .Where(p => p.UserId == userId)
                     .Where(p => string.IsNullOrWhiteSpace(filter.Text) || p.Client.FullName.ToLower().Contains(filter.Text.ToLower()) || p.Client.User.Email.ToLower().Contains(filter.Text.ToLower()))
                     .Select(s => new HairdressingPatientDto()
@@ -221,12 +266,20 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         ReservedAppointments = s.Appointments.Count(),
                         ConcretedAppointments = s.Appointments.Count(a => a.State == AppointmentStateEnum.Completed)
                     }).ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("HairdressingPatient/GetByFilter milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
         [HttpPost]
         public void AddRecord([FromBody] RecordDto dto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -247,11 +300,17 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("HairdressingPatient/AddRecord milisegundos: " + elapsedMs);
         }
 
         [HttpPost]
-        public void EditMedicalRecord([FromBody] RecordDto dto)
+        public void EditRecord([FromBody] RecordDto dto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -267,11 +326,17 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 record.Description = dto.Description;
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("HairdressingPatient/EditRecord milisegundos: " + elapsedMs);
         }
 
         [HttpPost]
-        public void RemoveMedicalRecord([FromBody] IdDto dto)
+        public void RemoveRecord([FromBody] IdDto dto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -286,11 +351,17 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.Entry(record).State = EntityState.Deleted;
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("HairdressingPatient/RemoveRecord milisegundos: " + elapsedMs);
         }
 
         [HttpPost]
-        public List<RecordDto> GetMedicalRecords([FromBody] IdDto dto)
+        public List<RecordDto> GetRecords([FromBody] IdDto dto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -302,7 +373,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
-                return patient.Records.Select(r => new RecordDto
+                var res = patient.Records.Select(r => new RecordDto
                 {
                     Id = r.Id,
                     Description = r.Description,
@@ -310,6 +381,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 })
                 .OrderByDescending(r => r.DateTime)
                 .ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("HairdressingPatient/GetRecords milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
