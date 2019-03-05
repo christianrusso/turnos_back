@@ -16,6 +16,7 @@ using SistemaTurnos.Database.HairdressingModel;
 using SistemaTurnos.Database.Model;
 using SistemaTurnos.WebApplication.WebApi.Dto;
 using SistemaTurnos.WebApplication.WebApi.Dto.HairdressingPatient;
+using SistemaTurnos.WebApplication.WebApi.Dto.Patient;
 using SistemaTurnos.WebApplication.WebApi.Dto.Record;
 using SistemaTurnos.WebApplication.WebApi.Services;
 
@@ -388,6 +389,57 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 return res;
             }
+        }
+
+        [HttpPost]
+        public UserDataDto Search([FromBody] SearchPatientDto dto)
+        {
+            var watch = Stopwatch.StartNew();
+
+            var res = new UserDataDto();
+
+            if (dto.User.Contains("@"))
+            {
+                res.Email = dto.User;
+            }
+            else
+            {
+                res.Dni = dto.User;
+            }
+
+            res.IsClient = false;
+            res.IsPatient = false;
+
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var client = dbContext.Clients.FirstOrDefault(c => c.Dni == dto.User || c.User.Email == dto.User);
+                var patient = dbContext.Hairdressing_Patients.FirstOrDefault(p => p.Client.Dni == dto.User || p.Client.User.Email == dto.User);
+
+                if (client != null)
+                {
+                    res.IsClient = true;
+                    res.ClientId = client.Id;
+                    res.FirstName = client.FirstName;
+                    res.LastName = client.LastName;
+                    res.Address = client.Address;
+                    res.PhoneNumber = client.PhoneNumber;
+                    res.Email = client.User.Email;
+                    res.Dni = client.Dni;
+                }
+
+                if (patient != null)
+                {
+                    res.IsPatient = true;
+                    res.PatientId = patient.Id;
+                }
+
+            }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("PatientController/Search milisegundos: " + elapsedMs);
+
+            return res;
         }
 
         private SystemClient CreateClient(string email, string password, AddHairdressingPatientDto patientDto)

@@ -18,11 +18,11 @@
 
         public string MedicalInsurance { get; set; }
 
-        public int MedicalInsuranceId { get; set; }
+        public int? MedicalInsuranceId { get; set; }
 
         public string MedicalPlan { get; set; }
 
-        public int MedicalPlanId { get; set; }
+        public int? MedicalPlanId { get; set; }
 
         public int? UserId { get; set; }
 

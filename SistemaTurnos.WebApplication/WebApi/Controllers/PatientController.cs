@@ -445,6 +445,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 res.Dni = dto.User;
             }
 
+            res.IsClient = false;
+            res.IsPatient = false;
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var client = dbContext.Clients.FirstOrDefault(c => c.Dni == dto.User || c.User.Email == dto.User);
