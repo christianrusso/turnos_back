@@ -433,7 +433,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     Latitude = fv.Hairdressing.Latitude,
                     Longitude = fv.Hairdressing.Longitude,
                     Logo = fv.Hairdressing.Logo,
-                    DistanceToUser = -1
+                    DistanceToUser = -1,
+                    BusinessType = fv.Hairdressing.BusinessType
                 });
 
                 var clinicFavorites = client.FavoriteClinics.Select(fv => new ClinicDto
