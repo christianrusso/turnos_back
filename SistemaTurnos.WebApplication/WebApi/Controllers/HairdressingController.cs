@@ -181,7 +181,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     var userId = hairdressing.UserId;
 
                     // Filtro por cantidad de puntuaciones
-                    var ratings = dbContext.Hairdressing_Ratings.Where(r => r.UserId == userId).ToList();
+                    var ratings = dbContext.Hairdressing_Ratings.Where(r => r.Appointment.Patient.Client.UserId == userId).ToList();
 
                     if (filterDto.ScoreQuantity.HasValue && ratings.Count < filterDto.ScoreQuantity)
                     {

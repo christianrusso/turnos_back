@@ -412,8 +412,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
+                var userId = _service.GetUserId(HttpContext);
                 var client = dbContext.Clients.FirstOrDefault(c => c.Dni == dto.User || c.User.Email == dto.User);
-                var patient = dbContext.Hairdressing_Patients.FirstOrDefault(p => p.Client.Dni == dto.User || p.Client.User.Email == dto.User);
+                var patient = dbContext.Hairdressing_Patients.FirstOrDefault(p => (p.Client.Dni == dto.User || p.Client.User.Email == dto.User) && p.Client.UserId == userId);
 
                 if (client != null)
                 {
