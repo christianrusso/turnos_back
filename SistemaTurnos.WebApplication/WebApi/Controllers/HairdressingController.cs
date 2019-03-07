@@ -19,6 +19,7 @@ using System;
 using Microsoft.AspNetCore.Identity;
 using SistemaTurnos.Database.Model;
 using SistemaTurnos.Database.ModelData;
+using System.Diagnostics;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
 {
@@ -40,6 +41,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.AdministratorAndEmployee)]
         public void UpdateOpenCloseHours([FromBody] HairdressingOpenCloseHoursDto hoursDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -79,11 +82,18 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("Hairdressing/UpdateOpenCloseHours milisegundos: " + elapsedMs);
+
         }
 
         [HttpPost]
         public List<HairdressingDto> GetAllInRadius([FromBody] HairdressingGeoLocationDto geoLocation)
         {
+            var watch = Stopwatch.StartNew();
+
             var res = new List<HairdressingDto>();
             var userLocation = new GeoCoordinate(geoLocation.Latitude, geoLocation.Longitude);
 
@@ -110,6 +120,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 }
             }
 
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("Hairdressing/GetAllInRadius milisegundos: " + elapsedMs);
+
             return res;
         }
 
@@ -119,6 +133,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public List<FullHairdressingDto> GetByFilter([FromBody] FilterHairdressingDto filterDto)
         {
+            var watch = Stopwatch.StartNew();
+
             filterDto.Specialties = filterDto.Specialties ?? new List<int>();
             filterDto.Subspecialties = filterDto.Subspecialties ?? new List<int>();
             filterDto.Cities = filterDto.Cities ?? new List<int>();
@@ -165,7 +181,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     var userId = hairdressing.UserId;
 
                     // Filtro por cantidad de puntuaciones
-                    var ratings = dbContext.Hairdressing_Ratings.Where(r => r.UserId == userId).ToList();
+                    var ratings = dbContext.Hairdressing_Ratings.Where(r => r.Appointment.Patient.UserId == userId).ToList();
 
                     if (filterDto.ScoreQuantity.HasValue && ratings.Count < filterDto.ScoreQuantity)
                     {
@@ -306,6 +322,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 hairdressing.ResultSize = resultSize;
             }
 
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("Hairdressing/GetByFilter milisegundos: " + elapsedMs);
+
             return res;
         }
 
@@ -313,9 +333,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.Client)]
         public bool IsPatientOfHairdressing([FromBody] IdDto idDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 var hairdressing = dbContext.Hairdressings.FirstOrDefault(c => c.Id == idDto.Id);
 
@@ -328,6 +350,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 var patient = client.HairdressingPatients.FirstOrDefault(p => p.UserId == hairdressing.UserId);
 
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("Hairdressing/IsPatientOfHairdressing milisegundos: " + elapsedMs);
+
                 return patient != null;
             }
         }
@@ -336,6 +362,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.AdministratorAndEmployee)]
         public void ChangePayment([FromBody] RequireDto dto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -353,6 +381,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("Hairdressing/ChangePayment milisegundos: " + elapsedMs);
         }
 
         /// <summary>
@@ -362,6 +394,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [Authorize(Roles = Roles.Administrator)]
         public void UpdateInformation([FromBody] UpdateHairdressingDto hairdressingDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -470,6 +504,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("Hairdressing/UpdateInformation milisegundos: " + elapsedMs);
         }
     }
 }

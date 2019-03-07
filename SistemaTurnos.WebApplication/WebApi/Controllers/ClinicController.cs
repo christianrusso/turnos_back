@@ -313,7 +313,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     var userId = clinic.UserId;
 
                     // Filtro por cantidad de puntuaciones
-                    var ratings = dbContext.Clinic_Ratings.Where(r => r.UserId == userId).ToList();
+                    var ratings = dbContext.Clinic_Ratings.Where(r => r.Appointment.Patient.UserId == userId).ToList();
 
                     if (filterDto.ScoreQuantity.HasValue && ratings.Count < filterDto.ScoreQuantity)
                     {

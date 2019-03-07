@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
@@ -28,9 +30,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         [HttpPost]
         public void Add([FromBody] IdDto specialtyDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
                 dbContext.Hairdressing_Specialties.Add(new Hairdressing_Specialty
                 {
@@ -41,18 +45,24 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("HairdressingSpecialty/Add milisegundos: " + elapsedMs);
         }
 
         [HttpGet]
         public List<HairdressingSpecialtyDto> GetAll()
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
 
                 var professionals = dbContext.Hairdressing_Professionals.Where(p => p.UserId == userId);
 
-                return dbContext.Hairdressing_Specialties
+                var res = dbContext.Hairdressing_Specialties
                     .Where(s => s.UserId == userId)
                     .Select(s => new HairdressingSpecialtyDto
                     {
@@ -70,12 +80,20 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                             .ToList()
                     })
                     .ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("HairdressingSpecialty/GetAll milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
         [HttpPost]
         public List<HairdressingSpecialtyDto> GetAllByHairdressing([FromBody] IdDto idDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var hairdressings = dbContext.Hairdressings.FirstOrDefault(c => c.Id == idDto.Id);
@@ -87,7 +105,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 var professionals = dbContext.Hairdressing_Professionals.Where(p => p.UserId == hairdressings.UserId);
 
-                return dbContext.Hairdressing_Specialties
+                var res = dbContext.Hairdressing_Specialties
                     .Where(s => s.UserId == hairdressings.UserId)
                     .Select(s => new HairdressingSpecialtyDto
                     {
@@ -105,17 +123,25 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                             .ToList()
                     })
                     .ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("HairdressingSpecialty/GetAllByHairdressing milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
         [HttpGet]
         public List<SelectOptionDto> GetAllForSelect()
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
-                var userId = _service.GetUserId(this.HttpContext);
+                var userId = _service.GetUserId(HttpContext);
 
-                return dbContext.Hairdressing_Specialties
+                var res = dbContext.Hairdressing_Specialties
                     .Where(s => s.UserId == userId)
                     .Select(s => new SelectOptionDto
                     {
@@ -125,12 +151,20 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     .ToList()
                     .Prepend(new SelectOptionDto { Id = "-1", Text = "Todas" })
                     .ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("HairdressingSpecialty/GetAllForSelect milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
         [HttpPost]
         public List<HairdressingSpecialtyDto> GetByLetter([FromBody] GetSubspecialtyByLetterDto filter)
         {
+            var watch = Stopwatch.StartNew();
+
             var firstLetterMinus = char.ToLower(filter.Letter);
             var firstLetterMayus = char.ToUpper(filter.Letter);
 
@@ -141,7 +175,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var subspecialties = dbContext.Hairdressing_Subspecialties.Where(ssp => ssp.UserId == userId);
                 var professionals = dbContext.Hairdressing_Professionals.Where(p => p.UserId == userId);
 
-                return dbContext.Hairdressing_Specialties
+                var res = dbContext.Hairdressing_Specialties
                     .Where(s => s.UserId == userId)
                     .Where(ssp => filter.Letter == '*' || ssp.Data.Description.FirstOrDefault() == firstLetterMinus || ssp.Data.Description.FirstOrDefault() == firstLetterMayus)
                     .OrderBy(s => s.Data.Description)
@@ -159,12 +193,20 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                                 Indications = ssp.Indications
                             }).ToList()
                     }).ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("HairdressingSpecialty/GetByLetter milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
         [HttpPost]
         public List<HairdressingSpecialtyDto> GetByFilter([FromBody] FilterSpecialtyDto filter)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -172,7 +214,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var subspecialties = dbContext.Hairdressing_Subspecialties.Where(ssp => ssp.UserId == userId);
                 var professionals = dbContext.Hairdressing_Professionals.Where(p => p.UserId == userId);
 
-                return dbContext.Hairdressing_Specialties
+                var res = dbContext.Hairdressing_Specialties
                     .Where(s => s.UserId == userId)
                     .Where(ssp => ssp.Data.Description.ToLower().Contains(filter.Description.ToLower()))
                     .Select(s => new HairdressingSpecialtyDto
@@ -188,12 +230,20 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                             Price = ssp.Price
                         }).ToList()
                     }).ToList();
+
+                watch.Stop();
+                var elapsedMs = watch.ElapsedMilliseconds;
+                Console.WriteLine("HairdressingSpecialty/GetByLetter milisegundos: " + elapsedMs);
+
+                return res;
             }
         }
 
         [HttpPost]
         public void Remove([FromBody] IdDto specialtyDto)
         {
+            var watch = Stopwatch.StartNew();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
@@ -208,6 +258,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 dbContext.Entry(specialtyToDelete).State = EntityState.Deleted;
                 dbContext.SaveChanges();
             }
+
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Console.WriteLine("HairdressingSpecialty/Remove milisegundos: " + elapsedMs);
         }
     }
 }

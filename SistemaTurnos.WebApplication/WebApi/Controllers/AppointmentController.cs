@@ -192,6 +192,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new ApplicationException(ExceptionMessages.InternalServerError);
                 }
 
+                if (dbContext.Clients.Any(c => c.Dni == requestAppointmentDto.Dni))
+                {
+                    throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
+                }
+
                 var user = new ApplicationUser
                 {
                     UserName = requestAppointmentDto.Email,
