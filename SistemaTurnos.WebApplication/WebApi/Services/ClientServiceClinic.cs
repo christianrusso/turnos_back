@@ -6,6 +6,7 @@ using SistemaTurnos.Commons.Exceptions;
 using SistemaTurnos.Database;
 using SistemaTurnos.Database.Model;
 using SistemaTurnos.WebApplication.WebApi.Dto.Client;
+using SistemaTurnos.WebApplication.WebApi.Dto.Email;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +15,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
 {
     public class ClientServiceClinic : ClientServiceBase
     {
+        private readonly EmailService _emailService = new EmailService();
+
         public ClientServiceClinic(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration)
             : base(userManager, roleManager, signInManager, configuration) { }
 
         public void Register(RegisterClientDto clientDto)
         {
+            var emailMessage = new EmailDto();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 if (dbContext.Clients.Any(c => c.Dni == clientDto.Dni))
@@ -50,7 +55,17 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
 
                 dbContext.Clients.Add(client);
                 dbContext.SaveChanges();
+
+                emailMessage = new EmailDto
+                {
+                    From = "no-reply@tuturno.com.ar",
+                    Subject = "Cliente registrado",
+                    To = new List<string> { appUser.Email },
+                    Message = "Cliente registrado"
+                };
             }
+
+            _emailService.Send(emailMessage);
         }
 
         public List<ClientDto> GetAllNonPatientsByFilter(HttpContext httpContex, ClientFilterDto filter)

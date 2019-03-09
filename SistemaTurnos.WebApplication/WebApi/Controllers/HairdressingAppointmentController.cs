@@ -156,9 +156,18 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             var watch = Stopwatch.StartNew();
 
+            var emailMessage = new EmailDto();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _businessPlaceService.GetUserId(HttpContext);
+
+                var hairdressing = dbContext.Hairdressings.FirstOrDefault(h => h.UserId == userId);
+
+                if (hairdressing == null)
+                {
+                    throw new BadRequestException();
+                }
 
                 if (requestAppointmentDto.Day.Date < DateTime.Today.Date)
                 {
@@ -261,11 +270,21 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 });
 
                 dbContext.SaveChanges();
+
+                emailMessage = new EmailDto
+                {
+                    From = "no-reply@tuturno.com.ar",
+                    Subject = "Turno reservado",
+                    To = new List<string> { hairdressing.User.Email, patient.Client.User.Email },
+                    Message = "turno reservado"
+                };
             }
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
             Console.WriteLine("HairdressingAppointment/RequestAppointmentForNonClient milisegundos: " + elapsedMs);
+
+            _emailService.Send(emailMessage);
         }
 
         [HttpPost]
@@ -274,9 +293,18 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             var watch = Stopwatch.StartNew();
 
+            var emailMessage = new EmailDto();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _businessPlaceService.GetUserId(HttpContext);
+
+                var hairdressing = dbContext.Hairdressings.FirstOrDefault(h => h.UserId == userId);
+
+                if (hairdressing == null)
+                {
+                    throw new BadRequestException();
+                }
 
                 if (requestAppointmentDto.Day.Date < DateTime.Today.Date)
                 {
@@ -346,11 +374,21 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 });
 
                 dbContext.SaveChanges();
+
+                emailMessage = new EmailDto
+                {
+                    From = "no-reply@tuturno.com.ar",
+                    Subject = "Turno reservado",
+                    To = new List<string> { hairdressing.User.Email, patient.Client.User.Email },
+                    Message = "turno reservado"
+                };
             }
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
             Console.WriteLine("HairdressingAppointment/RequestAppointmentForClient milisegundos: " + elapsedMs);
+
+            _emailService.Send(emailMessage);
         }
 
         [HttpPost]
@@ -359,9 +397,18 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             var watch = Stopwatch.StartNew();
 
+            var emailMessage = new EmailDto();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _businessPlaceService.GetUserId(HttpContext);
+
+                var hairdressing = dbContext.Hairdressings.FirstOrDefault(h => h.UserId == userId);
+
+                if (hairdressing == null)
+                {
+                    throw new BadRequestException();
+                }
 
                 if (requestAppointmentDto.Day.Date < DateTime.Today.Date)
                 {
@@ -416,11 +463,21 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 });
 
                 dbContext.SaveChanges();
+
+                emailMessage = new EmailDto
+                {
+                    From = "no-reply@tuturno.com.ar",
+                    Subject = "Turno reservado",
+                    To = new List<string> { hairdressing.User.Email, patient.Client.User.Email },
+                    Message = "turno reservado"
+                };
             }
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
             Console.WriteLine("HairdressingAppointment/RequestAppointmentForPatient milisegundos: " + elapsedMs);
+
+            _emailService.Send(emailMessage);
         }
 
         [HttpPost]
@@ -428,6 +485,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         public PaymentDto RequestAppointmentByClient([FromBody] RequestHairdressingAppointmentByClientDto requestAppointmentDto)
         {
             var watch = Stopwatch.StartNew();
+
+            var emailMessage = new EmailDto();
 
             using (var dbContext = new ApplicationDbContext())
             {
@@ -521,6 +580,16 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 hairdressingAppointment.PreferenceId = paymentInformation.PreferenceId;
                 dbContext.SaveChanges();
 
+                emailMessage = new EmailDto
+                {
+                    From = "no-reply@tuturno.com.ar",
+                    Subject = "Turno reservado",
+                    To = new List<string> { hairdressing.User.Email, patient.Client.User.Email },
+                    Message = "turno reservado"
+                };
+
+                _emailService.Send(emailMessage);
+
                 watch.Stop();
                 var elapsedMs = watch.ElapsedMilliseconds;
                 Console.WriteLine("HairdressingAppointment/RequestAppointmentByClient milisegundos: " + elapsedMs);
@@ -537,6 +606,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         public PaymentDto RequestAppointmentByPatient([FromBody] RequestHairdressingAppointmentByPatientDto requestAppointmentDto)
         {
             var watch = Stopwatch.StartNew();
+
+            var emailMessage = new EmailDto();
 
             using (var dbContext = new ApplicationDbContext())
             {
@@ -615,6 +686,16 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 hairdressingAppointment.PreferenceId = paymentInformation.PreferenceId;
                 dbContext.SaveChanges();
+
+                emailMessage = new EmailDto
+                {
+                    From = "no-reply@tuturno.com.ar",
+                    Subject = "Turno reservado",
+                    To = new List<string> { hairdressing.User.Email, patient.Client.User.Email },
+                    Message = "turno reservado"
+                };
+
+                _emailService.Send(emailMessage);
 
                 watch.Stop();
                 var elapsedMs = watch.ElapsedMilliseconds;
@@ -739,6 +820,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             var watch = Stopwatch.StartNew();
 
+            var emailMessage = new EmailDto();
+
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _businessPlaceService.GetUserId(HttpContext);
@@ -746,6 +829,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var appointment = dbContext.Hairdressing_Appointments.FirstOrDefault(a => a.Id == cancelAppointmentDto.Id && a.State != AppointmentStateEnum.Completed);
 
                 if (appointment == null)
+                {
+                    throw new BadRequestException();
+                }
+
+                var hairdressing = dbContext.Hairdressings.FirstOrDefault(h => h.UserId == appointment.UserId);
+
+                if (hairdressing == null)
                 {
                     throw new BadRequestException();
                 }
@@ -760,7 +850,17 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 appointment.State = AppointmentStateEnum.Cancelled;
 
                 dbContext.SaveChanges();
+
+                emailMessage = new EmailDto
+                {
+                    From = "no-reply@tuturno.com.ar",
+                    Subject = "Turno cancelado",
+                    To = new List<string> { hairdressing.User.Email, appointment.Patient.Client.User.Email },
+                    Message = "Turno cancelado"
+                };
             }
+
+            _emailService.Send(emailMessage);
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;

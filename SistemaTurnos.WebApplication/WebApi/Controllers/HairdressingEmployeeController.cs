@@ -14,6 +14,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
+using SistemaTurnos.WebApplication.WebApi.Dto.Email;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
 {
@@ -28,6 +29,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly IConfiguration _configuration;
         private readonly BusinessPlaceService _businessPlaceServive;
+        private readonly EmailService _emailService;
 
         public HairdressingEmployeeController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration)
         {
@@ -36,6 +38,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             _signInManager = signInManager;
             _configuration = configuration;
             _businessPlaceServive = new BusinessPlaceService();
+            _emailService = new EmailService();
         }
 
         /// <summary>
@@ -45,6 +48,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         public void Register([FromBody] RegisterEmployeeDto employeeDto)
         {
             var watch = Stopwatch.StartNew();
+
+            var emailMessage = new EmailDto();
 
             if (!_roleManager.RoleExistsAsync(Roles.Employee).Result)
             {
@@ -90,7 +95,17 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.Hairdressing_Employees.Add(employee);
                 dbContext.SaveChanges();
+
+                emailMessage = new EmailDto
+                {
+                    From = "no-reply@tuturno.com.ar",
+                    Subject = "Empleado registrado",
+                    To = new List<string> { appUser.Email },
+                    Message = "Empleado registrado"
+                };
             }
+
+            _emailService.Send(emailMessage);
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;

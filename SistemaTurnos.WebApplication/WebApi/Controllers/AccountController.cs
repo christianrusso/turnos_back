@@ -26,6 +26,7 @@ using SistemaTurnos.Commons.Exceptions;
 using SistemaTurnos.WebApplication.WebApi.Services;
 using SistemaTurnos.WebApplication.WebApi.Dto.Common;
 using System.Diagnostics;
+using SistemaTurnos.WebApplication.WebApi.Dto.Email;
 
 namespace SistemaTurnos.WebApplication.WebApi.Controllers
 {
@@ -39,6 +40,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         private readonly RoleManager<ApplicationRole> _roleManager;
         private readonly IConfiguration _configuration;
         private readonly ApplicationDbContext _dbContext;
+        private readonly EmailService _emailService;
 
         public AccountController(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration, ApplicationDbContext dbContext)
         {
@@ -47,6 +49,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             _signInManager = signInManager;
             _configuration = configuration;
             _dbContext = dbContext;
+            _emailService = new EmailService();
         }
 
         /// <summary>
@@ -299,6 +302,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             var watch = Stopwatch.StartNew();
 
+            var emailMessage = new EmailDto();
+
             if (!_roleManager.RoleExistsAsync(Roles.Administrator).Result)
             {
                 throw new ApplicationException(ExceptionMessages.InternalServerError);
@@ -380,6 +385,16 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.SaveChanges();
             }
+
+            emailMessage = new EmailDto
+            {
+                From = "no-reply@tuturno.com.ar",
+                Subject = "Usuario registrado",
+                To = new List<string> { user.Email },
+                Message = "Usuario registrado"
+            };
+
+            _emailService.Send(emailMessage);
 
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
