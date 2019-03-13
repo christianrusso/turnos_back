@@ -273,7 +273,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         ScoreQuantity = ratings.Count,
                         Ratings = ratings.Select(r => new RatingDto { User = r.Appointment.Patient.Client.User.Email, Score = r.Score, Comment = r.Comment, DateTime = r.DateTime }).ToList(),
                         Specialties = specialties.Select(s => s.Data.Description).ToList(),
-                        Subspecialties = subspecialties.Select(sp => new HairdressingSubspecialtyDto { Description = sp.Data.Description, Price = sp.Price }).ToList(),
+                        Subspecialties = subspecialties.Select(sp => new HairdressingSubspecialtyDto { Description = sp.Data.Description, Price = sp.Price, SpecialtyDescription = sp.Specialty.Data.Description }).ToList(),
                         Logo = hairdressing.Logo,
                         OpenCloseHours = hairdressing.OpenCloseHours.Select(och => new OpenCloseHoursDto { DayNumber = och.DayNumber, Start = och.Start, End = och.End }).ToList(),
                         IsFavorite = favoriteHairdressings.Any(f => f.HairdressingId == hairdressing.Id),

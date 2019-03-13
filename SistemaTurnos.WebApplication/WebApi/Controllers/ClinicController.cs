@@ -9,6 +9,7 @@ using SistemaTurnos.WebApplication.WebApi.Dto;
 using SistemaTurnos.WebApplication.WebApi.Dto.Common;
 using SistemaTurnos.WebApplication.WebApi.Dto.Clinic;
 using SistemaTurnos.WebApplication.WebApi.Dto.Rating;
+using SistemaTurnos.WebApplication.WebApi.Dto.Subspecialty;
 using System.Collections.Generic;
 using System.Linq;
 using SistemaTurnos.WebApplication.WebApi.Services;
@@ -421,7 +422,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         ScoreQuantity = ratings.Count,
                         Ratings = ratings.Select(r => new RatingDto { User = r.Appointment.Patient.Client.User.Email, Score = r.Score, Comment = r.Comment, DateTime = r.DateTime }).ToList(),
                         Specialties = specialties.Select(s => s.Data.Description).ToList(),
-                        Subspecialties = subspecialties.Select(sp => sp.Data.Description).ToList(),
+                        Subspecialties = subspecialties.Select(spe => new ClinicSubspecialtyDto { Description = spe.Data.Description, SpecialtyDescription = spe.Specialty.Data.Description }).ToList(),
                         MedicalInsurances = medicalInsurances.Select(mi => mi.Data.Description).ToList(),
                         MedicalPlans = medicalPlans.Select(mp => mp.Data.Description).ToList(),
                         Logo = clinic.Logo,

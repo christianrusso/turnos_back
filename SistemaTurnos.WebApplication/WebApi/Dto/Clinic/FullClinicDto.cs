@@ -1,4 +1,5 @@
 ﻿using SistemaTurnos.WebApplication.WebApi.Dto.Rating;
+using SistemaTurnos.WebApplication.WebApi.Dto.Subspecialty;
 using System.Collections.Generic;
 using SistemaTurnos.WebApplication.WebApi.Dto.Common;
 
@@ -24,7 +25,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Clinic
 
         public List<string> Specialties { get; set; }
 
-        public List<string> Subspecialties { get; set; }
+        public List<ClinicSubspecialtyDto> Subspecialties { get; set; }
 
         public List<string> MedicalInsurances { get; set; }
 
