@@ -285,7 +285,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 {
                     From = "no-reply@tuturno.com.ar",
                     Subject = "Turno reservado",
-                    To = new List<string> { clinic.User.Email, patient.Client.User.Email },
+                    To = new List<string> { clinic.User.Email, requestAppointmentDto.Email },
                     Message = "turno reservado"
                 };
 
