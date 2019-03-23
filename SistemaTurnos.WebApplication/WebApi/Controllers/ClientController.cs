@@ -435,7 +435,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     Logo = fv.Hairdressing.Logo,
                     DistanceToUser = -1,
                     BusinessType = fv.Hairdressing.BusinessType,
-                    Score = 6
+                    Score = dbContext.Hairdressing_Ratings.Where(r => r.Appointment.Patient.UserId == fv.Hairdressing.UserId).Select(r => r.Score).ToList().DefaultIfEmpty<uint>(0).Average(r => r)
                 });
 
                 var clinicFavorites = client.FavoriteClinics.Select(fv => new ClinicDto
@@ -449,7 +449,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     Longitude = fv.Clinic.Longitude,
                     Logo = fv.Clinic.Logo,
                     DistanceToUser = -1,
-                    Score = 6
+                    Score = dbContext.Clinic_Ratings.Where(r => r.Appointment.Patient.UserId == fv.Clinic.UserId).Select(r => r.Score).ToList().DefaultIfEmpty<uint>(0).Average(r => r)
                 });
 
                 var favoriteDto = new FavoritesDto();
