@@ -90,7 +90,7 @@ namespace SistemaTurnos.Database.HairdressingModel
             if (!BlockedDays.Any(bd => bd.SubspecialtyId == subspecialtyId && bd.SameDay(day)))
             {
                 var professionalSubspecialty = Subspecialties.First(ssp => ssp.SubspecialtyId == subspecialtyId);
-                day = day.Date;
+                day = day.Date == DateTime.Today ? DateTime.Now : day.Date;
                 var dayNumber = day.DayOfWeek;
                 //var consultationTime = TimeSpan.FromMinutes(professionalSubspecialty.ConsultationLength);
                 var consultationTime = TimeSpan.FromMinutes(15);
