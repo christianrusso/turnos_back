@@ -86,29 +86,35 @@ namespace SistemaTurnos.Database.ClinicModel
         {
             var allAppointments = new List<DateTime>();
 
-            if (!BlockedDays.Any(bd => bd.SubspecialtyId == subspecialtyId && bd.SameDay(day)))
-            {
-                var doctorSubspecialty = Subspecialties.First(ssp => ssp.SubspecialtyId == subspecialtyId);
-                day = day.Date;
-                var dayNumber = day.DayOfWeek;
-                //var consultationTime = TimeSpan.FromMinutes(doctorSubspecialty.ConsultationLength);
-                var consultationTime = TimeSpan.FromMinutes(15);
-                var dayWorkingHours = WorkingHours.Where(wh => wh.DayNumber == dayNumber).OrderBy(wh => wh.Start).ToList();
+           if (!BlockedDays.Any(bd => bd.SubspecialtyId == subspecialtyId && bd.SameDay(day)))
+           {
+               //var doctorSubspecialty = Subspecialties.First(ssp => ssp.SubspecialtyId == subspecialtyId);
 
-                foreach (var wh in dayWorkingHours)
-                {
-                    var appointmentTime = wh.Start;
+               var dayNumber = day.DayOfWeek;
+               var consultationTime = TimeSpan.FromMinutes(15);
+               var dayWorkingHours = WorkingHours.Where(wh => wh.DayNumber == dayNumber).OrderBy(wh => wh.Start).ToList();
 
-                    while (appointmentTime <= wh.End)
-                    {
-                        var appointment = new DateTime(day.Year, day.Month, day.Day, appointmentTime.Hours, appointmentTime.Minutes, appointmentTime.Seconds);
-                        allAppointments.Add(appointment);
-                        appointmentTime = appointmentTime.Add(consultationTime);
-                    }
-                }
-            }
+               foreach (var wh in dayWorkingHours)
+               {
+                   var appointmentTime = wh.Start;
 
-            return allAppointments;
+                   while (appointmentTime <= wh.End)
+                   {
+                       if (day.Date == DateTime.Today && appointmentTime < DateTime.Now.TimeOfDay)
+                       {
+                           appointmentTime = appointmentTime.Add(consultationTime);
+                       }
+                       else
+                       {
+                           var appointment = new DateTime(day.Year, day.Month, day.Day, appointmentTime.Hours, appointmentTime.Minutes, appointmentTime.Seconds);
+                           allAppointments.Add(appointment);
+                           appointmentTime = appointmentTime.Add(consultationTime);
+                       }
+                   }
+               }
+           }
+
+           return allAppointments;
         }
 
         private bool Overlap(DateTime startA, DateTime endA, DateTime startB, DateTime endB)

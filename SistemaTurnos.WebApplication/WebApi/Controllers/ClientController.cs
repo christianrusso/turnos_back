@@ -434,7 +434,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     Longitude = fv.Hairdressing.Longitude,
                     Logo = fv.Hairdressing.Logo,
                     DistanceToUser = -1,
-                    BusinessType = fv.Hairdressing.BusinessType
+                    BusinessType = fv.Hairdressing.BusinessType,
+                    Score = 6
                 });
 
                 var clinicFavorites = client.FavoriteClinics.Select(fv => new ClinicDto
@@ -447,7 +448,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     Latitude = fv.Clinic.Latitude,
                     Longitude = fv.Clinic.Longitude,
                     Logo = fv.Clinic.Logo,
-                    DistanceToUser = -1
+                    DistanceToUser = -1,
+                    Score = 6
                 });
 
                 var favoriteDto = new FavoritesDto();
