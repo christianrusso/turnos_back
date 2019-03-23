@@ -202,7 +202,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             return new LogOnDto
             {
                 Token = token,
-                Logo = logo
+                Logo = logo,
+                UserId = appUser.Id
             };
         }
 
@@ -287,7 +288,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 return new LogOnDto
                 {
                     Token = token,
-                    Logo = client.Logo
+                    Logo = client.Logo,
+                    UserId = appUser.Id
                 };
             }
         }
