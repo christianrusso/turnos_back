@@ -58,7 +58,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
 
                 emailMessage = new EmailDto
                 {
-                    From = "no-reply@tuturno.com.ar",
+                    From = "no-reply@todoreservas.com.ar",
                     Subject = "Cliente registrado",
                     To = new List<string> { appUser.Email },
                     Message = "Cliente registrado"

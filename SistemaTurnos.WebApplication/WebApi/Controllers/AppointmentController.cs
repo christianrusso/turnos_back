@@ -285,7 +285,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 emailMessage = new EmailDto
                 {
-                    From = "no-reply@tuturno.com.ar",
+                    From = "no-reply@todoreservas.com.ar",
                     Subject = "Turno reservado",
                     To = new List<string> { clinic.User.Email, requestAppointmentDto.Email },
                     Message = "turno reservado"
@@ -405,7 +405,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 emailMessage = new EmailDto
                 {
-                    From = "no-reply@tuturno.com.ar",
+                    From = "no-reply@todoreservas.com.ar",
                     Subject = "Turno reservado",
                     To = new List<string> { clinic.User.Email, patient.Client.User.Email },
                     Message = "turno reservado"
@@ -501,7 +501,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 emailMessage = new EmailDto
                 {
-                    From = "no-reply@tuturno.com.ar",
+                    From = "no-reply@todoreservas.com.ar",
                     Subject = "Turno reservado",
                     To = new List<string> { clinic.User.Email, patient.Client.User.Email },
                     Message = "turno reservado"
@@ -620,7 +620,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 emailMessage = new EmailDto
                 {
-                    From = "no-reply@tuturno.com.ar",
+                    From = "no-reply@todoreservas.com.ar",
                     Subject = "Turno reservado",
                     To = new List<string> { clinic.User.Email, patient.Client.User.Email },
                     Message = "turno reservado"
@@ -718,7 +718,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 emailMessage = new EmailDto
                 {
-                    From = "no-reply@tuturno.com.ar",
+                    From = "no-reply@todoreservas.com.ar",
                     Subject = "Turno reservado",
                     To = new List<string> { clinic.User.Email, patient.Client.User.Email },
                     Message = "turno reservado"
@@ -774,7 +774,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 emailMessage = new EmailDto
                 {
-                    From = "no-reply@tuturno.com.ar",
+                    From = "no-reply@todoreservas.com.ar",
                     Subject = $"{clinic.Name} - Cancelacion de turno",
                     To = new List<string> { appointment.Patient.Client.User.Email },
                     Message = template
@@ -832,7 +832,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 emailMessage = new EmailDto
                 {
-                    From = "no-reply@tuturno.com.ar",
+                    From = "no-reply@todoreservas.com.ar",
                     Subject = "Turno completado",
                     To = new List<string> { appointment.Patient.Client.User.Email },
                     Message = template
@@ -892,7 +892,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 emailMessage = new EmailDto
                 {
-                    From = "no-reply@tuturno.com.ar",
+                    From = "no-reply@todoreservas.com.ar",
                     Subject = "Turno cancelado",
                     To = new List<string> { clinic.User.Email, appointment.Patient.Client.User.Email },
                     Message = "turno cancelado"
@@ -947,7 +947,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 emailMessage = new EmailDto
                 {
-                    From = "no-reply@tuturno.com.ar",
+                    From = "no-reply@todoreservas.com.ar",
                     Subject = "Turno completado",
                     To = new List<string> { clinic.User.Email },
                     Message = template

@@ -390,7 +390,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             emailMessage = new EmailDto
             {
-                From = "no-reply@tuturno.com.ar",
+                From = "no-reply@todoreservas.com.ar",
                 Subject = "Usuario registrado",
                 To = new List<string> { user.Email },
                 Message = "Usuario registrado"
