@@ -56,6 +56,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
 
             var client = new RestClient("https://onesignal.com");
             var request = new RestRequest("api/v1/notifications", Method.POST, DataFormat.Json);
+            request.AddHeader("Authorization", "Basic YTI5NDEyNmQtNDhhYi00YTc5LWFiMGItY2RkNTM4OTM0Y2M5");
             request.AddJsonBody(content);
             var response = client.Execute<OsNotificationResponseDto>(request);
             return response.Data.recipients == 1;
