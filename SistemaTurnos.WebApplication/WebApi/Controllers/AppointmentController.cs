@@ -281,6 +281,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.SaveChanges();
 
+                OneSignalService.ScheduleNotifications(appUser.Id, appointment);
+
                 emailMessage = new EmailDto
                 {
                     From = "no-reply@tuturno.com.ar",
@@ -399,6 +401,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.SaveChanges();
 
+                OneSignalService.ScheduleNotifications(patient.Client.User.Id, appointment);
+
                 emailMessage = new EmailDto
                 {
                     From = "no-reply@tuturno.com.ar",
@@ -492,6 +496,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 });
 
                 dbContext.SaveChanges();
+
+                OneSignalService.ScheduleNotifications(patient.Client.User.Id, appointment);
 
                 emailMessage = new EmailDto
                 {
@@ -610,6 +616,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.SaveChanges();
 
+                OneSignalService.ScheduleNotifications(patient.Client.User.Id, appointment);
+
                 emailMessage = new EmailDto
                 {
                     From = "no-reply@tuturno.com.ar",
@@ -625,6 +633,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             _emailService.Send(emailMessage);
         }
+
 
         /// <summary>
         /// Siendo Paciente, Agenda un turno
@@ -704,6 +713,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 });
 
                 dbContext.SaveChanges();
+
+                OneSignalService.ScheduleNotifications(patient.Client.User.Id, appointment);
 
                 emailMessage = new EmailDto
                 {

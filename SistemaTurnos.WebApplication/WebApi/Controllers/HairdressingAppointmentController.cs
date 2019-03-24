@@ -464,6 +464,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.SaveChanges();
 
+                OneSignalService.ScheduleNotifications(hairdressing.UserId, appointment);
+
                 emailMessage = new EmailDto
                 {
                     From = "no-reply@tuturno.com.ar",
@@ -579,6 +581,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 hairdressingAppointment.PreferenceId = paymentInformation.PreferenceId;
                 dbContext.SaveChanges();
+
+                OneSignalService.ScheduleNotifications(hairdressing.UserId, appointment);
 
                 emailMessage = new EmailDto
                 {
