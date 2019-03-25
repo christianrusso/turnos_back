@@ -20,15 +20,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
         /// </summary>
         public static bool ScheduleNotification(int userId, DateTime? timestamp, string msg)
         {
-            string ts = "";
+            var ts = "";
             if (timestamp.HasValue)
             {
-                var dt = timestamp.Value;
-                if (timestamp.Value.Kind != DateTimeKind.Utc)
-                {
-                    dt = timestamp.Value.ToUniversalTime();
-                }
-                ts = dt.ToString("yyyy-MM-ddThh:mm:ssZ");
+                ts = timestamp.Value.ToString("yyyy-MM-ddTHH:mm:ssZ");
             }
             var content = new OsNotificationRequestDto()
             {
@@ -65,9 +60,15 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
         // TODO: This is business logic and must be outside this class.
         public static void ScheduleNotifications(int userId, DateTime appointment)
         {
+            DateTime dt = appointment;
+            if (appointment.Kind != DateTimeKind.Utc)
+            {
+                dt = appointment.ToUniversalTime();
+            }
+
             // TODO: Put all messages in the same place. ARG or ES language?
             var msg = "Recordá! Tenés un turno en una hora!";
-            var timestamp = appointment.AddHours(-1);
+            var timestamp = dt.AddHours(-1);
             if (!OneSignalService.ScheduleNotification(userId, timestamp, msg))
             {
                 // TODO: Maybe send the tag, and retry.
@@ -75,7 +76,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
             }
 
             msg = "Recordá! Tenés un turno en 24hs!";
-            timestamp = appointment.AddDays(-1);
+            timestamp = dt.AddDays(-1);
             if (!OneSignalService.ScheduleNotification(userId, timestamp, msg))
             {
                 // TODO: Maybe send the tag, and retry.
