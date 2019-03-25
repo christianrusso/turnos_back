@@ -427,7 +427,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
-                var patient = dbContext.Hairdressing_Patients.FirstOrDefault(p => p.Id == requestAppointmentDto.PatientId && p.UserId == userId);
+                var patient = dbContext.Hairdressing_Patients.FirstOrDefault(p => p.Id == requestAppointmentDto.PatientId);
 
                 if (patient == null)
                 {
