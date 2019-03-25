@@ -67,24 +67,29 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
             }
 
             // TODO: Put all messages in the same place. ARG or ES language?
-            var msg = "Recordá! Tenés un turno en una hora!";
             var timestamp = dt.AddHours(-1);
-            if (!OneSignalService.ScheduleNotification(userId, timestamp, msg))
+            if (timestamp < appointment)
             {
-                // TODO: Maybe send the tag, and retry.
-                Console.WriteLine("Schedule OneSignal notification (1h) failed for user: " + userId);
+                var msg = "Recordá! Tenés un turno en una hora!";
+                if (!OneSignalService.ScheduleNotification(userId, timestamp, msg))
+                {
+                    // TODO: Maybe send the tag, and retry.
+                    Console.WriteLine("Schedule OneSignal notification (1h) failed for user: " + userId);
+                }
             }
 
-            msg = "Recordá! Tenés un turno en 24hs!";
             timestamp = dt.AddDays(-1);
-            if (!OneSignalService.ScheduleNotification(userId, timestamp, msg))
+            if (timestamp < appointment)
             {
-                // TODO: Maybe send the tag, and retry.
-                Console.WriteLine("Schedule OneSignal notification (24h) failed for user: " + userId);
+                var msg = "Recordá! Tenés un turno en 24hs!";
+                if (!OneSignalService.ScheduleNotification(userId, timestamp, msg))
+                {
+                    // TODO: Maybe send the tag, and retry.
+                    Console.WriteLine("Schedule OneSignal notification (24h) failed for user: " + userId);
+                }
             }
 
-            msg = "Turno reservado con éxito!";
-            if (!OneSignalService.SendNotification(userId, msg))
+            if (!OneSignalService.SendNotification(userId, "Turno reservado con éxito!"))
             {
                 // TODO: Maybe send the tag, and retry.
                 Console.WriteLine("Send OneSignal notification failed for user: " + userId);
