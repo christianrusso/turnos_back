@@ -17,7 +17,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             new EmailService().Send(new EmailDto
             {
-                From = "no-reply@tuturno.com.ar",
+                From = "no-reply@todoreservas.com.ar",
                 To = new List<string>() { "fernando.gmz12@gmail.com", "christian.russo8@gmail.com" },
                 Subject = "Sistema de turnos",
                 Message = "<strong>MENSAJE DE PRUEBA CON ESTILOS EN HTML</strong>"

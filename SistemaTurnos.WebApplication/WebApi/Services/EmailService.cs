@@ -7,7 +7,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
 {
     public class EmailService
     {
-        private const string apiKey = "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";
+        private const string apiKey = "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";
         private readonly SendGridClient client = new SendGridClient(apiKey);
 
         public async void Send(EmailDto email)

@@ -463,3 +463,53 @@
 2019-03-23 16:35:59.6061 Info Adding target File Target[sistema-turnos-log]
 2019-03-23 16:35:59.6159 Info Configured from an XML element in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/nlog.config...
 2019-03-23 16:35:59.6354 Info Found 21 configuration items
+2019-03-24 16:31:53.7460 Info Message Template Auto Format enabled
+2019-03-24 16:31:53.7742 Info Loading assembly: NLog.Web.AspNetCore
+2019-03-24 16:31:53.9054 Info Adding target File Target[sistema-turnos-log]
+2019-03-24 16:31:53.9148 Info Configured from an XML element in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/nlog.config...
+2019-03-24 16:31:53.9349 Info Found 21 configuration items
+2019-03-24 16:37:34.6894 Info Message Template Auto Format enabled
+2019-03-24 16:37:34.7160 Info Loading assembly: NLog.Web.AspNetCore
+2019-03-24 16:37:34.8456 Info Adding target File Target[sistema-turnos-log]
+2019-03-24 16:37:34.8553 Info Configured from an XML element in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/nlog.config...
+2019-03-24 16:37:34.8791 Info Found 21 configuration items
+2019-03-24 16:40:14.9708 Info Message Template Auto Format enabled
+2019-03-24 16:40:14.9926 Info Loading assembly: NLog.Web.AspNetCore
+2019-03-24 16:40:15.1087 Info Adding target File Target[sistema-turnos-log]
+2019-03-24 16:40:15.1184 Info Configured from an XML element in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/nlog.config...
+2019-03-24 16:40:15.1370 Info Found 21 configuration items
+2019-03-24 16:41:03.4681 Info Message Template Auto Format enabled
+2019-03-24 16:41:03.4910 Info Loading assembly: NLog.Web.AspNetCore
+2019-03-24 16:41:03.6113 Info Adding target File Target[sistema-turnos-log]
+2019-03-24 16:41:03.6204 Info Configured from an XML element in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/nlog.config...
+2019-03-24 16:41:03.6396 Info Found 21 configuration items
+2019-03-24 16:54:30.4191 Info Message Template Auto Format enabled
+2019-03-24 16:54:30.4427 Info Loading assembly: NLog.Web.AspNetCore
+2019-03-24 16:54:30.5606 Info Adding target File Target[sistema-turnos-log]
+2019-03-24 16:54:30.5696 Info Configured from an XML element in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/nlog.config...
+2019-03-24 16:54:30.5875 Info Found 21 configuration items
+2019-03-25 17:41:53.1011 Info Message Template Auto Format enabled
+2019-03-25 17:41:53.1280 Info Loading assembly: NLog.Web.AspNetCore
+2019-03-25 17:41:53.2578 Info Adding target File Target[sistema-turnos-log]
+2019-03-25 17:41:53.2671 Info Configured from an XML element in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/nlog.config...
+2019-03-25 17:41:53.2870 Info Found 21 configuration items
+2019-03-25 18:00:07.4648 Info Message Template Auto Format enabled
+2019-03-25 18:00:07.4858 Info Loading assembly: NLog.Web.AspNetCore
+2019-03-25 18:00:07.5935 Info Adding target File Target[sistema-turnos-log]
+2019-03-25 18:00:07.6022 Info Configured from an XML element in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/nlog.config...
+2019-03-25 18:00:07.6196 Info Found 21 configuration items
+2019-03-25 18:03:31.8702 Info Message Template Auto Format enabled
+2019-03-25 18:03:31.8955 Info Loading assembly: NLog.Web.AspNetCore
+2019-03-25 18:03:32.0128 Info Adding target File Target[sistema-turnos-log]
+2019-03-25 18:03:32.0218 Info Configured from an XML element in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/nlog.config...
+2019-03-25 18:03:32.0399 Info Found 21 configuration items
+2019-03-25 18:05:23.8064 Info Message Template Auto Format enabled
+2019-03-25 18:05:23.8425 Info Loading assembly: NLog.Web.AspNetCore
+2019-03-25 18:05:24.0012 Info Adding target File Target[sistema-turnos-log]
+2019-03-25 18:05:24.0143 Info Configured from an XML element in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/nlog.config...
+2019-03-25 18:05:24.0484 Info Found 21 configuration items
+2019-03-25 18:12:08.8109 Info Message Template Auto Format enabled
+2019-03-25 18:12:08.8338 Info Loading assembly: NLog.Web.AspNetCore
+2019-03-25 18:12:08.9417 Info Adding target File Target[sistema-turnos-log]
+2019-03-25 18:12:08.9503 Info Configured from an XML element in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/bin/Debug/netcoreapp2.0/nlog.config...
+2019-03-25 18:12:08.9678 Info Found 21 configuration items
