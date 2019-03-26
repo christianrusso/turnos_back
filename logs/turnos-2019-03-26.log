@@ -1,0 +1,403 @@
+2019-03-26 17:07:55.0656|INFO||| Iniciando el Sistema de Turnos...
+
+2019-03-26 17:20:00.5444|ERROR||http://localhost/api/Hairdressing/HairdressingPatient/Search| User ID: 80 | Request Body {}
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at SistemaTurnos.WebApplication.WebApi.Controllers.HairdressingPatientController.Search(SearchPatientDto dto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Controllers/HairdressingPatientController.cs:line 397
+   at lambda_method(Closure , Object , Object[] )
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.Invoke(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 27
+2019-03-26 17:26:05.7817|ERROR||http://localhost/api/Hairdressing/HairdressingPatient/AddForNonClient| User ID: 80 | Request Body {"firstName":"Josd","lastName":"Perez","address":"Jose Maria bosch 51","phoneNumber":"48444479","dni":"","email":"jose@gmail.com","password":"jose@gmail.com"}
+System.ApplicationException: El usuario ingresado ya se encuentra registrado.
+   at SistemaTurnos.WebApplication.WebApi.Controllers.HairdressingPatientController.AddForNonClient(AddHairdressingPatientForNonClientDto patientDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Controllers/HairdressingPatientController.cs:line 98
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.<>c__DisplayClass33_0.<WrapVoidMethod>b__0(Object target, Object[] parameters)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.Invoke(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 27
+2019-03-26 17:36:31.0180|ERROR||http://localhost/api/Hairdressing/HairdressingPatient/AddForNonClient| User ID: 80 | Request Body {"firstName":"Facundo","lastName":"Russo","address":"José María Bosch 951 Villa Bosch Buenos Aires Argentina","phoneNumber":"48444479","dni":"","email":"facu@gmail.com","password":"facu@gmail.com"}
+System.ApplicationException: El usuario ingresado ya se encuentra registrado.
+   at SistemaTurnos.WebApplication.WebApi.Controllers.HairdressingPatientController.AddForNonClient(AddHairdressingPatientForNonClientDto patientDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Controllers/HairdressingPatientController.cs:line 98
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.<>c__DisplayClass33_0.<WrapVoidMethod>b__0(Object target, Object[] parameters)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.Invoke(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 27
+2019-03-26 17:44:06.7979|INFO||| Iniciando el Sistema de Turnos...
+
+2019-03-26 17:47:32.1962|ERROR||http://localhost/api/Hairdressing/HairdressingAppointment/RequestAppointmentForNonClient| User ID: 80 | Request Body {"professionalId":33,"day":"2019-03-27T03:00:00.000Z","time":"09:00","firstName":"Pedro","lastName":"Morena","address":"jose maria bosch 951","phoneNumber":"48444479","dni":null,"email":"pedromoreno@gmail.com","password":"pedromoreno@gmail.com","subspecialtyId":"80"}
+System.ApplicationException: El usuario ingresado ya se encuentra registrado.
+   at SistemaTurnos.WebApplication.WebApi.Controllers.HairdressingAppointmentController.RequestAppointmentForNonClient(RequestHairdressingAppointmentForNonClientDto requestAppointmentDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Controllers/HairdressingAppointmentController.cs:line 199
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.<>c__DisplayClass33_0.<WrapVoidMethod>b__0(Object target, Object[] parameters)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.Invoke(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 27
+2019-03-26 18:03:49.3123|ERROR||http://localhost/api/client/register| User ID: Anonimo | Request Body {"email":"yus@gmail.com","password":"yus@gmail.com","firstName":"Yuz","lastName":"Lopez","phone":"154997789"}
+System.ApplicationException: El usuario ingresado ya se encuentra registrado.
+   at SistemaTurnos.WebApplication.WebApi.Services.ClientServiceClinic.Register(RegisterClientDto clientDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Services/ClientServiceClinic.cs:line 34
+   at SistemaTurnos.WebApplication.WebApi.Controllers.ClientController.Register(RegisterClientDto clientDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Controllers/ClientController.cs:line 57
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.<>c__DisplayClass33_0.<WrapVoidMethod>b__0(Object target, Object[] parameters)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.Invoke(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 27
+2019-03-26 18:42:23.7435|ERROR||http://localhost/Api/client/register| User ID: Anonimo | Request Body {
+  "email": "leandro2@asd.com",
+  "password": "leandro2@asd.com",
+  "passwordSecond": "leandro@asd.com",
+  "Address": "mi direccion",
+  "PhoneNumber": "12545",
+  "FirstName": "cHRISTIAN",
+  "LastName": "Rssi"
+}
+System.ApplicationException: El usuario ingresado ya se encuentra registrado.
+   at SistemaTurnos.WebApplication.WebApi.Services.ClientServiceClinic.Register(RegisterClientDto clientDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Services/ClientServiceClinic.cs:line 34
+   at SistemaTurnos.WebApplication.WebApi.Controllers.ClientController.Register(RegisterClientDto clientDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Controllers/ClientController.cs:line 57
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.<>c__DisplayClass33_0.<WrapVoidMethod>b__0(Object target, Object[] parameters)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.Invoke(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 27
+2019-03-26 18:42:36.2466|WARN|13|http://localhost/Api/client/register| User (null) validation failed: DuplicateUserName;DuplicateEmail.
+
+2019-03-26 18:42:40.6092|ERROR||http://localhost/Api/client/register| User ID: Anonimo | Request Body {
+  "email": "leandro2@asd.com",
+  "password": "leandro2@asd.com",
+  "passwordSecond": "leandro@asd.com",
+  "Address": "mi direccion",
+  "PhoneNumber": "125458276",
+  "FirstName": "cHRISTIAN",
+  "LastName": "Rssi"
+}
+System.ApplicationException: El usuario ingresado ya se encuentra registrado.
+   at SistemaTurnos.WebApplication.WebApi.Services.ClientServiceBase.RegisterBase(RegisterClientDto clientDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Services/ClientServiceBase.cs:line 48
+   at SistemaTurnos.WebApplication.WebApi.Services.ClientServiceClinic.Register(RegisterClientDto clientDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Services/ClientServiceClinic.cs:line 34
+   at SistemaTurnos.WebApplication.WebApi.Controllers.ClientController.Register(RegisterClientDto clientDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Controllers/ClientController.cs:line 57
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.<>c__DisplayClass33_0.<WrapVoidMethod>b__0(Object target, Object[] parameters)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.Invoke(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 27
+2019-03-26 18:47:56.1175|ERROR||http://localhost/Api/client/register| User ID: Anonimo | Request Body {
+  "email": "1549970286",
+  "password": "leandro2@asd.com",
+  "passwordSecond": "leandro@asd.com",
+  "Address": "mi direccion",
+  "PhoneNumber": "125458276",
+  "FirstName": "cHRISTIAN",
+  "LastName": "Rssi"
+}
+System.ApplicationException: El usuario ingresado ya se encuentra registrado.
+   at SistemaTurnos.WebApplication.WebApi.Services.ClientServiceClinic.Register(RegisterClientDto clientDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Services/ClientServiceClinic.cs:line 34
+   at SistemaTurnos.WebApplication.WebApi.Controllers.ClientController.Register(RegisterClientDto clientDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Controllers/ClientController.cs:line 57
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.<>c__DisplayClass33_0.<WrapVoidMethod>b__0(Object target, Object[] parameters)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.Invoke(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 27
+2019-03-26 18:48:43.7480|WARN|13|http://localhost/Api/client/register| User (null) validation failed: InvalidEmail.
+
+2019-03-26 18:48:50.2195|ERROR||http://localhost/Api/client/register| User ID: Anonimo | Request Body {
+  "email": "1549970286",
+  "password": "leandro2@asd.com",
+  "passwordSecond": "leandro@asd.com",
+  "Address": "mi direccion",
+  "PhoneNumber": "1254582176",
+  "FirstName": "cHRISTIAN",
+  "LastName": "Rssi"
+}
+System.ApplicationException: El usuario ingresado ya se encuentra registrado.
+   at SistemaTurnos.WebApplication.WebApi.Services.ClientServiceBase.RegisterBase(RegisterClientDto clientDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Services/ClientServiceBase.cs:line 48
+   at SistemaTurnos.WebApplication.WebApi.Services.ClientServiceClinic.Register(RegisterClientDto clientDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Services/ClientServiceClinic.cs:line 34
+   at SistemaTurnos.WebApplication.WebApi.Controllers.ClientController.Register(RegisterClientDto clientDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Controllers/ClientController.cs:line 57
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.<>c__DisplayClass33_0.<WrapVoidMethod>b__0(Object target, Object[] parameters)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.Invoke(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 27
+2019-03-26 18:49:21.7755|WARN|13|http://localhost/Api/client/register| User (null) validation failed: InvalidEmail.
+
+2019-03-26 19:10:08.0652|INFO||| Iniciando el Sistema de Turnos...
+
+2019-03-26 19:13:54.0421|INFO||| Iniciando el Sistema de Turnos...
+
+2019-03-26 19:14:51.5076|ERROR||http://localhost/Api/Account/Login| User ID: Anonimo | Request Body {
+"email": "48455678",
+"password": "leandro2@asd.com",
+}
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at SistemaTurnos.WebApplication.WebApi.Controllers.AccountController.Login(LoginAccountDto model) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Controllers/AccountController.cs:line 91
+   at lambda_method(Closure , Object , Object[] )
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.Invoke(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 27
+2019-03-26 19:30:19.8248|INFO||| Iniciando el Sistema de Turnos...
+
+2019-03-26 19:31:34.1760|ERROR||http://localhost/Api/client/register| User ID: Anonimo | Request Body {
+  "username": "christian.russo8+00000@gmail.com",
+  "password": "leandro2@asd.com",
+  "passwordSecond": "leandro2@asd.com",
+  "Address": "mi direccion",
+  "FirstName": "cHRISTIAN",
+  "LastName": "Rssi",
+}
+System.ApplicationException: El usuario ingresado ya se encuentra registrado.
+   at SistemaTurnos.WebApplication.WebApi.Services.ClientServiceClinic.Register(RegisterClientDto clientDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Services/ClientServiceClinic.cs:line 36
+   at SistemaTurnos.WebApplication.WebApi.Controllers.ClientController.Register(RegisterClientDto clientDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Controllers/ClientController.cs:line 57
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.<>c__DisplayClass33_0.<WrapVoidMethod>b__0(Object target, Object[] parameters)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.Invoke(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 27
+2019-03-26 19:33:34.5535|INFO||| Iniciando el Sistema de Turnos...
+
+2019-03-26 19:35:57.5663|INFO||| Iniciando el Sistema de Turnos...
+
+2019-03-26 19:36:58.1091|WARN|13|http://localhost/Api/client/register| User (null) validation failed: InvalidEmail.
+
+2019-03-26 20:02:58.1049|INFO||| Iniciando el Sistema de Turnos...
+
+2019-03-26 20:03:44.3360|WARN|22|| Heartbeat took longer than "00:00:01" at "03/26/2019 23:03:41 +00:00".
+
+2019-03-26 20:04:06.4071|ERROR||http://localhost/Api/client/register| User ID: Anonimo | Request Body {
+  "username": "christian.russo8+juliancapo@gmail.com",
+  "password": "leandro2@asd.com",
+  "passwordSecond": "leandro2@asd.com",
+  "Address": "mi direccion",
+  "FirstName": "cHRISTIAN",
+  "LastName": "Rssi",
+}
+System.AggregateException: One or more errors occurred. (Value cannot be null.
+Parameter name: user) ---> System.ArgumentNullException: Value cannot be null.
+Parameter name: user
+   at Microsoft.AspNetCore.Identity.UserManager`1.AddToRoleAsync(TUser user, String role)
+   --- End of inner exception stack trace ---
+   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)
+   at SistemaTurnos.WebApplication.WebApi.Services.ClientServiceClinic.Register(RegisterClientDto clientDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Services/ClientServiceClinic.cs:line 38
+   at SistemaTurnos.WebApplication.WebApi.Controllers.ClientController.Register(RegisterClientDto clientDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Controllers/ClientController.cs:line 57
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.<>c__DisplayClass33_0.<WrapVoidMethod>b__0(Object target, Object[] parameters)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.Invoke(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 27
+---> (Inner Exception #0) System.ArgumentNullException: Value cannot be null.
+Parameter name: user
+   at Microsoft.AspNetCore.Identity.UserManager`1.AddToRoleAsync(TUser user, String role)<---
+
+2019-03-26 20:05:54.2772|ERROR||http://localhost/Api/client/register| User ID: Anonimo | Request Body {
+  "username": "christian.russo8+juliancapo@gmail.com",
+  "password": "leandro2@asd.com",
+  "passwordSecond": "leandro2@asd.com",
+  "Address": "mi direccion",
+  "FirstName": "cHRISTIAN",
+  "LastName": "Rssi",
+}
+System.ApplicationException: El usuario ingresado ya se encuentra registrado.
+   at SistemaTurnos.WebApplication.WebApi.Services.ClientServiceClinic.Register(RegisterClientDto clientDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Services/ClientServiceClinic.cs:line 36
+   at SistemaTurnos.WebApplication.WebApi.Controllers.ClientController.Register(RegisterClientDto clientDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Controllers/ClientController.cs:line 57
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.<>c__DisplayClass33_0.<WrapVoidMethod>b__0(Object target, Object[] parameters)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.Invoke(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 27
+2019-03-26 20:09:40.9599|INFO||| Iniciando el Sistema de Turnos...
+
+2019-03-26 20:17:41.6766|INFO||| Iniciando el Sistema de Turnos...
+
+2019-03-26 20:18:36.2365|ERROR||http://localhost/Api/client/register| User ID: Anonimo | Request Body {
+  "username": "christian.russo8+juli2ancapo2@gmail.com",
+  "password": "leandro2@asd.com",
+  "passwordSecond": "leandro2@asd.com",
+  "Address": "mi direccion",
+  "FirstName": "cHRISTIAN",
+  "LastName": "Rssi",
+}
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at SistemaTurnos.WebApplication.WebApi.Services.ClientServiceClinic.Register(RegisterClientDto clientDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Services/ClientServiceClinic.cs:line 77
+   at SistemaTurnos.WebApplication.WebApi.Controllers.ClientController.Register(RegisterClientDto clientDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Controllers/ClientController.cs:line 57
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.<>c__DisplayClass33_0.<WrapVoidMethod>b__0(Object target, Object[] parameters)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.Invoke(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 27
+2019-03-26 20:19:11.0087|INFO||| Iniciando el Sistema de Turnos...
+
+2019-03-26 20:19:29.9500|ERROR||http://localhost/Api/client/register| User ID: Anonimo | Request Body {
+  "username": "christian.russo8+juli2ancapo2@gmail.com",
+  "password": "leandro2@asd.com",
+  "passwordSecond": "leandro2@asd.com",
+  "Address": "mi direccion",
+  "FirstName": "cHRISTIAN",
+  "LastName": "Rssi",
+}
+System.ApplicationException: El usuario ingresado ya se encuentra registrado.
+   at SistemaTurnos.WebApplication.WebApi.Services.ClientServiceClinic.Register(RegisterClientDto clientDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Services/ClientServiceClinic.cs:line 37
+   at SistemaTurnos.WebApplication.WebApi.Controllers.ClientController.Register(RegisterClientDto clientDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Controllers/ClientController.cs:line 57
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.<>c__DisplayClass33_0.<WrapVoidMethod>b__0(Object target, Object[] parameters)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.Invoke(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 27
+2019-03-26 20:20:38.9095|ERROR||http://localhost/Api/client/register| User ID: Anonimo | Request Body {
+  "username": "1549970286",
+  "password": "leandro2@asd.com",
+  "passwordSecond": "leandro2@asd.com",
+  "Address": "mi direccion",
+  "FirstName": "cHRISTIAN",
+  "LastName": "Rssi",
+}
+System.ApplicationException: El usuario ingresado ya se encuentra registrado.
+   at SistemaTurnos.WebApplication.WebApi.Services.ClientServiceClinic.Register(RegisterClientDto clientDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Services/ClientServiceClinic.cs:line 37
+   at SistemaTurnos.WebApplication.WebApi.Controllers.ClientController.Register(RegisterClientDto clientDto) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Controllers/ClientController.cs:line 57
+   at Microsoft.Extensions.Internal.ObjectMethodExecutor.<>c__DisplayClass33_0.<WrapVoidMethod>b__0(Object target, Object[] parameters)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.Invoke(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 27

@@ -7,6 +7,7 @@ using SistemaTurnos.WebApplication.WebApi.Dto.Client;
 using System;
 using System.Linq;
 
+
 namespace SistemaTurnos.WebApplication.WebApi.Services
 {
     public class ClientServiceBase : ServiceBase
@@ -16,35 +17,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
         protected readonly RoleManager<ApplicationRole> _roleManager;
         protected readonly IConfiguration _configuration;
         
-
+        
         public ClientServiceBase(UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
             _configuration = configuration;
-        }
-
-        protected IdentityResult RegisterBase(RegisterClientDto clientDto)
-        {
-            if (!_roleManager.RoleExistsAsync(Roles.Client).Result)
-            {
-                throw new ApplicationException(ExceptionMessages.InternalServerError);
-            }
-
-            var user = new ApplicationUser
-            {
-                UserName = clientDto.Username
-            };
-
-            var result = _userManager.CreateAsync(user, clientDto.Password).Result;
-
-            if (!result.Succeeded)
-            {
-                throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
-            }
-
-            return result;
         }
 
         public void Remove( RemoveClientDto clientDto)
