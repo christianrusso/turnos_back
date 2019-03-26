@@ -20,15 +20,10 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
         /// </summary>
         public static bool ScheduleNotification(int userId, DateTime? timestamp, string msg)
         {
-            string ts = "";
+            var ts = "";
             if (timestamp.HasValue)
             {
-                var dt = timestamp.Value;
-                if (timestamp.Value.Kind != DateTimeKind.Utc)
-                {
-                    dt = timestamp.Value.ToUniversalTime();
-                }
-                ts = dt.ToString("yyyy-MM-ddThh:mm:ssZ");
+                ts = timestamp.Value.ToString("yyyy-MM-ddTHH:mm:ssZ");
             }
             var content = new OsNotificationRequestDto()
             {
@@ -65,25 +60,36 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
         // TODO: This is business logic and must be outside this class.
         public static void ScheduleNotifications(int userId, DateTime appointment)
         {
+            DateTime dt = appointment;
+            if (appointment.Kind != DateTimeKind.Utc)
+            {
+                dt = appointment.ToUniversalTime();
+            }
+
             // TODO: Put all messages in the same place. ARG or ES language?
-            var msg = "Recordá! Tenés un turno en una hora!";
-            var timestamp = appointment.AddHours(-1);
-            if (!OneSignalService.ScheduleNotification(userId, timestamp, msg))
+            var timestamp = dt.AddHours(-1);
+            if (timestamp < appointment)
             {
-                // TODO: Maybe send the tag, and retry.
-                Console.WriteLine("Schedule OneSignal notification (1h) failed for user: " + userId);
+                var msg = "Recordá! Tenés un turno en una hora!";
+                if (!OneSignalService.ScheduleNotification(userId, timestamp, msg))
+                {
+                    // TODO: Maybe send the tag, and retry.
+                    Console.WriteLine("Schedule OneSignal notification (1h) failed for user: " + userId);
+                }
             }
 
-            msg = "Recordá! Tenés un turno en 24hs!";
-            timestamp = appointment.AddDays(-1);
-            if (!OneSignalService.ScheduleNotification(userId, timestamp, msg))
+            timestamp = dt.AddDays(-1);
+            if (timestamp < appointment)
             {
-                // TODO: Maybe send the tag, and retry.
-                Console.WriteLine("Schedule OneSignal notification (24h) failed for user: " + userId);
+                var msg = "Recordá! Tenés un turno en 24hs!";
+                if (!OneSignalService.ScheduleNotification(userId, timestamp, msg))
+                {
+                    // TODO: Maybe send the tag, and retry.
+                    Console.WriteLine("Schedule OneSignal notification (24h) failed for user: " + userId);
+                }
             }
 
-            msg = "Turno reservado con éxito!";
-            if (!OneSignalService.SendNotification(userId, msg))
+            if (!OneSignalService.SendNotification(userId, "Turno reservado con éxito!"))
             {
                 // TODO: Maybe send the tag, and retry.
                 Console.WriteLine("Send OneSignal notification failed for user: " + userId);

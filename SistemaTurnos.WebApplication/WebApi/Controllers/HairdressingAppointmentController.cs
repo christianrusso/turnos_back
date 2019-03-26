@@ -463,7 +463,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 dbContext.SaveChanges();
 
-                OneSignalService.ScheduleNotifications(hairdressing.UserId, appointment);
+                OneSignalService.ScheduleNotifications(patient.Client.User.Id, appointment);
 
                 emailMessage = new EmailDto
                 {
@@ -581,7 +581,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 hairdressingAppointment.PreferenceId = paymentInformation.PreferenceId;
                 dbContext.SaveChanges();
 
-                OneSignalService.ScheduleNotifications(hairdressing.UserId, appointment);
+                OneSignalService.ScheduleNotifications(patient.Client.User.Id, appointment);
 
                 emailMessage = new EmailDto
                 {
