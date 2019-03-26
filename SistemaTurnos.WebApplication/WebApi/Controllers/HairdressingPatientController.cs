@@ -58,12 +58,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         throw new BadRequestException();
                     }
 
-                    if (dbContext.Clients.Any(c => c.Dni == patientDto.Dni))
+                    if (dbContext.Clients.Any(c => c.PhoneNumber == patientDto.PhoneNumber))
                     {
                         throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
                     }
 
-                    client = CreateClient(patientDto.Email, patientDto.Dni, patientDto);
+                    client = CreateClient(patientDto.Email, patientDto.PhoneNumber, patientDto);
                 }
 
                 dbContext.Hairdressing_Patients.Add(new Hairdressing_Patient
@@ -90,7 +90,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                if (dbContext.Clients.Any(c => c.Dni == patientDto.Dni))
+                if (dbContext.Clients.Any(c => c.PhoneNumber == patientDto.PhoneNumber))
                 {
                     throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
                 }
@@ -131,7 +131,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     LastName = patientDto.LastName,
                     Address = patientDto.Address,
                     PhoneNumber = patientDto.PhoneNumber,
-                    Dni = patientDto.Dni,
                 };
 
                 dbContext.Clients.Add(client);
@@ -172,7 +171,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         Address = s.Client.Address,
                         PhoneNumber = s.Client.PhoneNumber,
                         Email = s.Client.User.Email,
-                        Dni = s.Client.Dni,
                         UserId = s.UserId,
                         ClientId = s.ClientId,
                         ReservedAppointments = s.Appointments.Count(),
@@ -232,7 +230,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 patientToUpdate.Client.LastName = patientDto.LastName;
                 patientToUpdate.Client.Address = patientDto.Address;
                 patientToUpdate.Client.PhoneNumber = patientDto.PhoneNumber;
-                patientToUpdate.Client.Dni = patientDto.Dni;
                 dbContext.SaveChanges();
             }
 
@@ -261,7 +258,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         Address = s.Client.Address,
                         PhoneNumber = s.Client.PhoneNumber,
                         Email = s.Client.User.Email,
-                        Dni = s.Client.Dni,
                         UserId = s.UserId,
                         ClientId = s.ClientId,
                         ReservedAppointments = s.Appointments.Count(),
@@ -404,7 +400,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
             else
             {
-                res.Dni = dto.User;
+                res.PhoneNumber = dto.User;
             }
 
             res.IsClient = false;
@@ -413,8 +409,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
-                var client = dbContext.Clients.FirstOrDefault(c => c.Dni == dto.User || c.User.Email == dto.User);
-                var patient = dbContext.Hairdressing_Patients.FirstOrDefault(p => (p.Client.Dni == dto.User || p.Client.User.Email == dto.User) && p.UserId == userId);
+                var client = dbContext.Clients.FirstOrDefault(c => c.PhoneNumber == dto.User || c.User.Email == dto.User);
+                var patient = dbContext.Hairdressing_Patients.FirstOrDefault(p => (p.Client.PhoneNumber == dto.User || p.Client.User.Email == dto.User) && p.UserId == userId);
 
                 if (client != null)
                 {
@@ -425,7 +421,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     res.Address = client.Address;
                     res.PhoneNumber = client.PhoneNumber;
                     res.Email = client.User.Email;
-                    res.Dni = client.Dni;
                 }
 
                 if (patient != null)
@@ -447,7 +442,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                if (dbContext.Clients.Any(c => c.Dni == patientDto.Dni))
+                if (dbContext.Clients.Any(c => c.PhoneNumber == patientDto.PhoneNumber))
                 {
                     throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
                 }
@@ -486,7 +481,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     LastName = patientDto.LastName,
                     Address = patientDto.Address,
                     PhoneNumber = patientDto.PhoneNumber,
-                    Dni = patientDto.Dni,
                 };
 
                 dbContext.Clients.Add(client);

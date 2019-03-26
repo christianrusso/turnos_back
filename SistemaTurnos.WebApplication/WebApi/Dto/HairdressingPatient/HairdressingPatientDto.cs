@@ -14,8 +14,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.HairdressingPatient
 
         public string Email { get; set; }
 
-        public string Dni { get; set; }
-
         public int UserId { get; set; }
 
         public int ClientId { get; set; }

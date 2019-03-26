@@ -5,7 +5,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Client
     public class RegisterClientDto : BaseDto
     {
         [Required]
-        public string Email { get; set; }
+        public string Username { get; set; }
 
         [Required]
         [StringLength(100, MinimumLength = 6)]
@@ -16,9 +16,5 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Client
         public string LastName { get; set; }
         
         public string Address { get; set; }
-        
-        public string PhoneNumber { get; set; }
-       
-        public string Dni { get; set; }
     }
 }

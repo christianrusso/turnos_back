@@ -507,7 +507,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     Username = client.User.UserName,
                     FirstName = client.FirstName,
                     LastName = client.LastName,
-                    Dni = client.Dni,
                     Email = client.User.Email,
                     Address = client.Address,
                     PhoneNumber = client.PhoneNumber,

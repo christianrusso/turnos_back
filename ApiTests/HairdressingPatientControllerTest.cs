@@ -27,7 +27,6 @@ namespace ApiTests
             {
                 Address = "address",
                 ClientId = 1,
-                Dni = "999999998",
                 Email="email@test.com",
                 FirstName = "firstName",
                 LastName = "lastname",

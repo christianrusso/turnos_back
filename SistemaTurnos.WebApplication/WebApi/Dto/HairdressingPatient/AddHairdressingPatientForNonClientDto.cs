@@ -27,10 +27,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.HairdressingPatient
         [Required]
         [StringLength(50, MinimumLength = 4)]
         public string Password { get; set; }
-
-        [Required]
-        [StringLength(50, MinimumLength = 4)]
-        public string Dni { get; set; }
         
     }
 }

@@ -43,9 +43,6 @@ namespace SistemaTurnos.Database.Model
         [StringLength(50, MinimumLength = 4)]
         public string PhoneNumber { get; set; }
 
-        [StringLength(50, MinimumLength = 4)]
-        public string Dni { get; set; }
-
         public string FullName => $"{LastName} {FirstName}";
     }
 }

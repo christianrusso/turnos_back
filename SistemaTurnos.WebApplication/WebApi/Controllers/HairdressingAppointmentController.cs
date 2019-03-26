@@ -191,7 +191,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new ApplicationException(ExceptionMessages.InternalServerError);
                 }
 
-                if (dbContext.Clients.Any(c => c.Dni == requestAppointmentDto.Dni))
+                if (dbContext.Clients.Any(c => c.PhoneNumber == requestAppointmentDto.PhoneNumber))
                 {
                     throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
                 }
@@ -225,7 +225,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     LastName = requestAppointmentDto.LastName,
                     Address = requestAppointmentDto.Address,
                     PhoneNumber = requestAppointmentDto.PhoneNumber,
-                    Dni = requestAppointmentDto.Dni,
                 };
 
                 dbContext.Clients.Add(client);
@@ -427,7 +426,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
-                var patient = dbContext.Hairdressing_Patients.FirstOrDefault(p => p.Id == requestAppointmentDto.PatientId);
+                var patient = dbContext.Hairdressing_Patients.FirstOrDefault(p => p.ClientId == requestAppointmentDto.PatientId);
 
                 if (patient == null)
                 {

@@ -1330,7 +1330,7 @@ namespace SistemaTurnos.Populator
             return medicalPlan;
         }
 
-        private SystemClient CreateClientUser(string email, string password, string firstName, string lastName, string address, string dni)
+        private SystemClient CreateClientUser(string email, string password, string firstName, string lastName, string address)
         {
             SystemClient client;
 
@@ -1368,7 +1368,6 @@ namespace SistemaTurnos.Populator
                     FirstName = firstName,
                     LastName = lastName,
                     Address = address,
-                    Dni = dni,
                     PhoneNumber = "11-1111-1111",
                     UserId = appUser.Id
                 };

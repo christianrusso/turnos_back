@@ -26,14 +26,14 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
 
             using (var dbContext = new ApplicationDbContext())
             {
-                if (dbContext.Clients.Any(c => c.Dni == clientDto.Dni))
+
+                var appUser = _userManager.Users.SingleOrDefault(u => u.UserName == clientDto.Username);
+                if (appUser != null)
                 {
                     throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
                 }
 
                 var result = RegisterBase(clientDto);
-
-                var appUser = _userManager.Users.SingleOrDefault(au => au.Email == clientDto.Email);
 
                 result = _userManager.AddToRoleAsync(appUser, Roles.Client).Result;
 
@@ -48,9 +48,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
                     Logo = "",
                     FirstName = clientDto.FirstName,
                     LastName = clientDto.LastName,
-                    Dni = clientDto.Dni,
-                    Address = clientDto.Address,
-                    PhoneNumber = clientDto.PhoneNumber
+                    Address = clientDto.Address
                 };
 
                 dbContext.Clients.Add(client);
@@ -78,7 +76,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
 
                 return dbContext.Clients
                     .Where(c => !c.Patients.Any(p => p.UserId == userId))
-                    .Where(c => filter.Dni == null || c.Dni.Contains(filter.Dni))
+                    .Where(c => filter.PhoneNumber == null || c.PhoneNumber.Contains(filter.PhoneNumber))
                     .Where(c => filter.Email == null || c.User.Email.ToLower().Contains(filter.Email.ToLower()))
                     .Select(c => new ClientDto
                     {
@@ -86,7 +84,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
                         Email = c.User.Email,
                         FirstName = c.FirstName,
                         LastName = c.LastName,
-                        Dni = c.Dni,
                         Address = c.Address,
                         PhoneNumber = c.PhoneNumber
                     }).ToList();
@@ -110,7 +107,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
                 clientToUpdate.LastName = clientDto.LastName;
                 clientToUpdate.Address = clientDto.Address;
                 clientToUpdate.PhoneNumber = clientDto.PhoneNumber;
-                clientToUpdate.Dni = clientDto.Dni;
 
                 dbContext.SaveChanges();
             }
@@ -124,7 +120,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
 
                 return dbContext.Clients
                     .Where(c => !c.HairdressingPatients.Any(p => p.UserId == userId))
-                    .Where(c => filter.Dni == null || c.Dni.Contains(filter.Dni))
+                    .Where(c => filter.PhoneNumber == null || c.PhoneNumber.Contains(filter.PhoneNumber))
                     .Where(c => filter.Email == null || c.User.Email.ToLower().Contains(filter.Email.ToLower()))
                     .Select(c => new ClientDto
                     {
@@ -132,7 +128,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
                         Email = c.User.Email,
                         FirstName = c.FirstName,
                         LastName = c.LastName,
-                        Dni = c.Dni,
                         Address = c.Address,
                         PhoneNumber = c.PhoneNumber
                     }).ToList();

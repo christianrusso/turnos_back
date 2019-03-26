@@ -57,7 +57,7 @@ namespace ApiTests
             var res = accountCtrl.Login(new SistemaTurnos.WebApplication.WebApi.Dto.Account.LoginAccountDto()
             {
                 BusinessType = BusinessType.Hairdressing,
-                Email = "email@test.com",
+                Username = "email@test.com",
                 Password = "1234"
             });
 

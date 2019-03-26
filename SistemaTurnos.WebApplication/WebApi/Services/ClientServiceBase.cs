@@ -34,8 +34,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
 
             var user = new ApplicationUser
             {
-                UserName = clientDto.Email,
-                Email = clientDto.Email
+                UserName = clientDto.Username
             };
 
             var result = _userManager.CreateAsync(user, clientDto.Password).Result;

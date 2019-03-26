@@ -62,12 +62,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             var watch = Stopwatch.StartNew();
 
-            // Si no tiene el arroba entonces tiene que ser un DNI
-            if (!model.Email.Contains("@"))
+            // Si no tiene el arroba entonces tiene que ser un Telefono
+            /*if (!model.Email.Contains("@"))
             {
                 using (var dbContext = new ApplicationDbContext())
                 {
-                    var client = dbContext.Clients.FirstOrDefault(c => c.Dni == model.Email);
+                    var client = dbContext.Clients.FirstOrDefault(c => c.PhoneNumber == model.Email);
 
                     if (client == null)
                     {
@@ -76,16 +76,17 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                     model.Email = client.User.Email;
                 }
-            }
+            } */
 
-            var result = _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false).Result;
+
+            var result = _signInManager.PasswordSignInAsync(model.Username, model.Password, false, false).Result;
 
             if (!result.Succeeded)
             {
                 throw new BadRequestException(ExceptionMessages.LoginFailed);
             }
 
-            var appUser = _userManager.Users.SingleOrDefault(user => user.Email == model.Email);
+            var appUser = _userManager.Users.SingleOrDefault(user => user.UserName == model.Username);
 
             int userId = appUser.Id;
             string logo = string.Empty;
@@ -192,7 +193,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 }
             }
 
-            string token = GenerateJwtToken(model.Email, appUser);
+            string token = GenerateJwtToken(model.Username, appUser);
             ValidTokens.Add($"{JwtBearerDefaults.AuthenticationScheme} {token}", userId);
 
             watch.Stop();

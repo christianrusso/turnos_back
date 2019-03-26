@@ -25,10 +25,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.HairdressingAppointment
         public string PhoneNumber { get; set; }
 
         [Required]
-        [StringLength(50, MinimumLength = 4)]
-        public string Dni { get; set; }
-
-        [Required]
         public DateTime Day { get; set; }
 
         [Required]

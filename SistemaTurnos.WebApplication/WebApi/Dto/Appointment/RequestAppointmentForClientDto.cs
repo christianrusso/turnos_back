@@ -24,10 +24,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Appointment
         [StringLength(50, MinimumLength = 4)]
         public string PhoneNumber { get; set; }
 
-        [Required]
-        [StringLength(50, MinimumLength = 4)]
-        public string Dni { get; set; }
-
         public int MedicalPlanId { get; set; }
 
         [Required]

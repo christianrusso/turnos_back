@@ -201,7 +201,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new ApplicationException(ExceptionMessages.InternalServerError);
                 }
 
-                if (dbContext.Clients.Any(c => c.Dni == requestAppointmentDto.Dni))
+                if (dbContext.Clients.Any(c => c.PhoneNumber == requestAppointmentDto.PhoneNumber))
                 {
                     throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
                 }
@@ -235,7 +235,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     LastName = requestAppointmentDto.LastName,
                     Address = requestAppointmentDto.Address,
                     PhoneNumber = requestAppointmentDto.PhoneNumber,
-                    Dni = requestAppointmentDto.Dni,
                 };
 
                 dbContext.Clients.Add(client);
