@@ -1,0 +1,29 @@
+2019-03-27 00:01:50.5062|INFO||| Iniciando el Sistema de Turnos...
+
+2019-03-27 00:19:26.9519|INFO||| Iniciando el Sistema de Turnos...
+
+2019-03-27 00:19:55.9191|ERROR||http://localhost/api/Account/Login| User ID: Anonimo | Request Body {"Username":"danielmartinez@gmail.com","password":"danielmartinez@gmail.com","businessType":"Clinic"}
+System.ApplicationException: Nombre de usuario, contraseña o rubro invalidos.
+   at SistemaTurnos.WebApplication.WebApi.Controllers.AccountController.Login(LoginAccountDto model) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Controllers/AccountController.cs:line 103
+   at lambda_method(Closure , Object , Object[] )
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeNextActionFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Rethrow(ActionExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ControllerActionInvoker.InvokeInnerFilterAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeNextResourceFilter()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Rethrow(ResourceExecutedContext context)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeFilterPipelineAsync()
+   at Microsoft.AspNetCore.Mvc.Internal.ResourceInvoker.InvokeAsync()
+   at Microsoft.AspNetCore.Builder.RouterMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at SistemaTurnos.WebApplication.WebApi.Exceptions.ExceptionHandlerMiddleware.Invoke(HttpContext context) in /Users/usuario/Desktop/Turnos/turnos_back/SistemaTurnos.WebApplication/WebApi/Exceptions/ExceptionHandlerMiddleware.cs:line 27
+2019-03-27 00:21:49.8278|INFO||| Iniciando el Sistema de Turnos...
+
+2019-03-27 00:27:25.0214|INFO||| Iniciando el Sistema de Turnos...
+
+2019-03-27 00:29:27.8573|INFO||| Iniciando el Sistema de Turnos...
+
+2019-03-27 00:33:14.8719|INFO||| Iniciando el Sistema de Turnos...
+

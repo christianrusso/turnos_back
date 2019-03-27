@@ -21,9 +21,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.HairdressingPatient
 
         [Required]
         [StringLength(50, MinimumLength = 4)]
-        public string PhoneNumber { get; set; }
+        public string Username { get; set; }
 
-        [StringLength(50)]
-        public string Email { get; set; }
     }
 }

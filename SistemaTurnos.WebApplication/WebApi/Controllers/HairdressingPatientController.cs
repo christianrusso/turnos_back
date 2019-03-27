@@ -51,21 +51,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 var userId = _service.GetUserId(HttpContext);
 
                 var client = dbContext.Clients.FirstOrDefault(c => c.Id == patientDto.ClientId);
-                
-                if (client == null)
-                {
-                    if (string.IsNullOrWhiteSpace(patientDto.Email))
-                    {
-                        throw new BadRequestException();
-                    }
-
-                    if (dbContext.Clients.Any(c => c.PhoneNumber == patientDto.PhoneNumber))
-                    {
-                        throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
-                    }
-
-                    client = CreateClient(patientDto.Email, patientDto.PhoneNumber, patientDto);
-                }
 
                 dbContext.Hairdressing_Patients.Add(new Hairdressing_Patient
                 {
@@ -183,8 +168,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         FirstName = s.Client.FirstName,
                         LastName = s.Client.LastName,
                         Address = s.Client.Address,
-                        PhoneNumber = s.Client.PhoneNumber,
-                        Email = s.Client.User.Email,
+                        Username = s.Client.PhoneNumber,
                         UserId = s.UserId,
                         ClientId = s.ClientId,
                         ReservedAppointments = s.Appointments.Count(),
@@ -270,8 +254,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                         FirstName = s.Client.FirstName,
                         LastName = s.Client.LastName,
                         Address = s.Client.Address,
-                        PhoneNumber = s.Client.PhoneNumber,
-                        Email = s.Client.User.Email,
+                        Username = s.Client.User.UserName,
                         UserId = s.UserId,
                         ClientId = s.ClientId,
                         ReservedAppointments = s.Appointments.Count(),
@@ -414,8 +397,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = _service.GetUserId(HttpContext);
-                var client = dbContext.Clients.FirstOrDefault(c => c.PhoneNumber == dto.User || c.User.Email == dto.User);
-                var patient = dbContext.Hairdressing_Patients.FirstOrDefault(p => (p.Client.PhoneNumber == dto.User || p.Client.User.Email == dto.User) && p.UserId == userId);
+                var client = dbContext.Clients.FirstOrDefault(c => c.User.UserName == dto.User);
+                var patient = dbContext.Hairdressing_Patients.FirstOrDefault(p => (p.Client.User.UserName == dto.User) && p.UserId == userId);
 
                 if (client != null)
                 {
@@ -446,7 +429,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             using (var dbContext = new ApplicationDbContext())
             {
-                if (dbContext.Clients.Any(c => c.PhoneNumber == patientDto.PhoneNumber))
+                if (dbContext.Clients.Any(c => c.User.UserName == patientDto.Username))
                 {
                     throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
                 }
@@ -484,7 +467,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     FirstName = patientDto.FirstName,
                     LastName = patientDto.LastName,
                     Address = patientDto.Address,
-                    PhoneNumber = patientDto.PhoneNumber,
                 };
 
                 dbContext.Clients.Add(client);
