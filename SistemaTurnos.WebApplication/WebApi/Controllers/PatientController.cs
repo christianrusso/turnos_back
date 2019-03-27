@@ -434,13 +434,13 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             var res = new UserDataDto();
 
-            if (dto.User.Contains("@"))
+           /*if (dto.User.Contains("@"))
             {
                 res.Email = dto.User;
             } else
             {
                 res.PhoneNumber = dto.User;
-            }
+            } */ 
 
             res.IsClient = false;
             res.IsPatient = false;
@@ -457,8 +457,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     res.FirstName = client.FirstName;
                     res.LastName = client.LastName;
                     res.Address = client.Address;
-                    res.PhoneNumber = client.PhoneNumber;
-                    res.Email = client.User.Email;
+                    res.Username = client.User.UserName;
                }
 
                if (patient != null) {
