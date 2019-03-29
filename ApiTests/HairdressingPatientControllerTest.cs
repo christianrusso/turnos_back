@@ -27,10 +27,10 @@ namespace ApiTests
             {
                 Address = "address",
                 ClientId = 1,
-                Email="email@test.com",
+                //Email="email@test.com",
                 FirstName = "firstName",
                 LastName = "lastname",
-                PhoneNumber = ""
+                //PhoneNumber = ""
             });
 
             Assert.True(((ObjectResult)res).StatusCode == 200);

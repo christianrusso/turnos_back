@@ -62,23 +62,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             var watch = Stopwatch.StartNew();
 
-            // Si no tiene el arroba entonces tiene que ser un Telefono
-            /*if (!model.Email.Contains("@"))
-            {
-                using (var dbContext = new ApplicationDbContext())
-                {
-                    var client = dbContext.Clients.FirstOrDefault(c => c.PhoneNumber == model.Email);
-
-                    if (client == null)
-                    {
-                        throw new BadRequestException(ExceptionMessages.LoginFailed);
-                    }
-
-                    model.Email = client.User.Email;
-                }
-            } */
-
-
             var result = _signInManager.PasswordSignInAsync(model.Username, model.Password, false, false).Result;
 
             if (!result.Succeeded)
@@ -87,6 +70,11 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             }
 
             var appUser = _userManager.Users.SingleOrDefault(user => user.UserName == model.Username);
+
+            if (appUser.FacebookLogin)
+            {
+                throw new BadRequestException(ExceptionMessages.LoginFailed);
+            }
 
             int userId = appUser.Id;
             string logo = string.Empty;
@@ -218,69 +206,60 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         {
             var watch = Stopwatch.StartNew();
 
+            if (FacebookService.GetUserId(model.Token) != model.UserId)
+            {
+                throw new ApplicationException(ExceptionMessages.LoginFailed);
+            }
+
             using (var dbContext = new ApplicationDbContext())
             {
-                var client = dbContext.Clients.FirstOrDefault(c => c.User.Email == model.Email);
-
-                // Si client es null, el usuario no esta registrado. Si es distinto de null, ya esta registrado.
-                if (client == null)
+                var appUser = _userManager.Users.SingleOrDefault(u => u.UserName == model.UserId);
+                if (appUser == null)
                 {
-                    // Registrar cliente
                     if (!_roleManager.RoleExistsAsync(Roles.Client).Result)
                     {
                         throw new ApplicationException(ExceptionMessages.InternalServerError);
                     }
 
-                    var user = new ApplicationUser
+                    appUser = new ApplicationUser
                     {
-                        UserName = model.Email,
-                        Email = model.Email
+                        UserName = model.UserId,
+                        Email = model.Email,
+                        PhoneNumber = "11111111",
+                        FacebookLogin = true,
                     };
 
-                    var result = _userManager.CreateAsync(user, Guid.NewGuid().ToString()).Result;
+                    var result = _userManager.CreateAsync(appUser, model.UserId).Result;
 
                     if (!result.Succeeded)
                     {
                         throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
                     }
 
-                    var applicationUser = _userManager.Users.SingleOrDefault(au => au.Email == model.Email);
-
-                    result = _userManager.AddToRoleAsync(applicationUser, Roles.Client).Result;
+                    result = _userManager.AddToRoleAsync(appUser, Roles.Client).Result;
 
                     if (!result.Succeeded)
                     {
                         throw new ApplicationException(ExceptionMessages.InternalServerError);
                     }
 
-                    client = new SystemClient
+                    // TODO: REQUEST FACEBOOK IMAGE.
+
+                    var client = new SystemClient
                     {
-                        UserId = applicationUser.Id,
+                        UserId = appUser.Id,
                         Logo = "",
-                        FacebookUserId = model.UserId
+                        FirstName = model.FirstName,
+                        LastName = model.LastName,
+                        Address = ""
                     };
 
                     dbContext.Clients.Add(client);
                     dbContext.SaveChanges();
                 }
 
-                // Chequeo que el FacebookUserId sea correcto
-                if (client.FacebookUserId != model.UserId)
-                {
-                    throw new BadRequestException();
-                }
-
-                // Logueo al usuario
-                var appUser = _userManager.Users.SingleOrDefault(user => user.Email == model.Email);
-                string token = GenerateJwtToken(model.Email, appUser);
-                int userId = appUser.Id;
-
-                if (!_userManager.IsInRoleAsync(appUser, Roles.Client).Result)
-                {
-                    throw new BadRequestException();
-                }
-
-                ValidTokens.Add($"{JwtBearerDefaults.AuthenticationScheme} {token}", userId);
+                string token = GenerateJwtToken(model.UserId, appUser);
+                ValidTokens.Add($"{JwtBearerDefaults.AuthenticationScheme} {token}", appUser.Id);
 
                 watch.Stop();
                 var elapsedMs = watch.ElapsedMilliseconds;
@@ -289,7 +268,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 return new LogOnDto
                 {
                     Token = token,
-                    Logo = client.Logo,
+                    Logo = "",
                     UserId = appUser.Id
                 };
             }
