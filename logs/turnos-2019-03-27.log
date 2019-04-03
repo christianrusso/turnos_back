@@ -37,3 +37,11 @@ System.ApplicationException: Nombre de usuario, contraseña o rubro invalidos.
 
 2019-03-27 17:09:27.8000|WARN|2|http://localhost/api/Account/Login| User 19 failed to provide the correct password.
 
+2019-03-27 17:16:46.3563|INFO||| Iniciando el Sistema de Turnos...
+
+2019-03-27 17:18:43.6069|WARN||http://localhost/api/account/login| Invalid password for user 21.
+
+2019-03-27 17:18:43.6250|WARN|2|http://localhost/api/account/login| User 21 failed to provide the correct password.
+
+2019-03-27 17:25:34.5724|INFO||| Iniciando el Sistema de Turnos...
+
