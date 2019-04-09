@@ -35,7 +35,10 @@ namespace SistemaTurnos.Database.HairdressingModel
 
         public string ClientSecret { get; set; }
 
-        public BusinessType BusinessType { get; set; }
+        [Required]
+        public int BusinessTypeId { get; set; }
+
+        public virtual BusinessType BusinessType { get; set; }
 
         [Required]
         public int CityId { get; set; }

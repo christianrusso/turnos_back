@@ -25,7 +25,7 @@ namespace ApiTests
 
             var res = accountCtrl.Register(new SistemaTurnos.WebApplication.WebApi.Dto.Account.RegisterAccountDto()
             {
-                BusinessType = BusinessType.Hairdressing,
+                BusinessTypeId = BusinessType.Hairdressing,
                 Email = "email@test.com",
                 Address = "Address",
                 Password = "aaa",
@@ -56,7 +56,6 @@ namespace ApiTests
 
             var res = accountCtrl.Login(new SistemaTurnos.WebApplication.WebApi.Dto.Account.LoginAccountDto()
             {
-                BusinessType = BusinessType.Hairdressing,
                 Username = "email@test.com",
                 Password = "1234"
             });

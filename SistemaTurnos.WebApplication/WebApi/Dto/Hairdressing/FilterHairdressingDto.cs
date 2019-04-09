@@ -35,6 +35,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Hairdressing
 
         public List<int> Stars { get; set; }
 
-        public BusinessType? BusinessType { get; set; }
+        public int? BusinessTypeId { get; set; }
     }
 }

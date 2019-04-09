@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using SistemaTurnos.Database.ClinicModel;
 using SistemaTurnos.Database.HairdressingModel;
 using SistemaTurnos.Database.Model;
 using SistemaTurnos.Database.ModelData;
@@ -40,28 +39,9 @@ namespace SistemaTurnos.Database
             // Application
             modelBuilder.ApplyConfiguration(new ApplicationUserTypeConfiguration());
             modelBuilder.ApplyConfiguration(new ApplicationRoleTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new ClinicTypeConfiguration());
 
             // Data
             modelBuilder.ApplyConfiguration(new ImageTypeConfiguration());
-
-            // Clinic
-            modelBuilder.ApplyConfiguration(new Clinic_AppointmentTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new Clinic_ClientTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new Clinic_DoctorTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new Clinic_EmployeeTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new Clinic_MedicalInsuranceTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new Clinic_MedicalPlanTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new Clinic_PatientTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new Clinic_RatingTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new Clinic_SpecialtyTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new Clinic_SubspecialtyTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new Clinic_WorkingHoursTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new Clinic_OpenCloseHoursTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new Clinic_ClientFavoriteTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new Clinic_DoctorSubspecialtyTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new Clinic_RecordTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new Clinic_BlockedDayTypeConfiguration());
 
             // Hairdressing
             modelBuilder.ApplyConfiguration(new Hairdressing_AppointmentTypeConfiguration());
@@ -91,40 +71,11 @@ namespace SistemaTurnos.Database
 
         public DbSet<City> Cities { get; set; }
 
+        public DbSet<BusinessType> BusinessTypes { get; set; }
+
         public DbSet<Image> Images { get; set; }
 
-        // Clinic Model
-        public DbSet<Clinic_Specialty> Clinic_Specialties { get; set; }
-
-        public DbSet<Clinic_Patient> Clinic_Patients { get; set; }
-
-        public DbSet<Clinic_Doctor> Clinic_Doctors { get; set; }
-
-        public DbSet<Clinic_WorkingHours> Clinic_WorkingHours { get; set; }
-
-        public DbSet<Clinic_Appointment> Clinic_Appointments { get; set; }
-
-        public DbSet<Clinic_Subspecialty> Clinic_Subspecialties { get; set; }
-
-        public DbSet<Clinic_Rating> Clinic_Ratings { get; set; }
-
-        public DbSet<Clinic> Clinics { get; set; }
-
-        public DbSet<Clinic_Employee> Clinic_Employees { get; set; }
-
         public DbSet<SystemClient> Clients { get; set; }
-
-        public DbSet<Clinic_MedicalInsurance> Clinic_MedicalInsurances { get; set; }
-
-        public DbSet<Clinic_MedicalPlan> Clinic_MedicalPlans { get; set; }
-
-        public DbSet<Clinic_OpenCloseHours> Clinic_OpenCloseHours { get; set; }
-
-        public DbSet<Clinic_ClientFavorite> Clinic_ClientFavorites { get; set; }
-
-        public DbSet<Clinic_Record> Clinic_Records { get; set; }
-
-        public DbSet<Clinic_BlockedDay> Clinic_BlockedDays { get; set; }
 
         // Hairdressing Model
         public DbSet<Hairdressing_Specialty> Hairdressing_Specialties { get; set; }

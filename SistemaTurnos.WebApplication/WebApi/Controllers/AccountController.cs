@@ -18,7 +18,6 @@ using SistemaTurnos.WebApplication.WebApi.Authorization;
 using SistemaTurnos.WebApplication.WebApi.Dto.Account;
 using SistemaTurnos.Database.Model;
 using SistemaTurnos.Database;
-using SistemaTurnos.Database.ClinicModel;
 using SistemaTurnos.Database.HairdressingModel;
 using SistemaTurnos.Database.Enums;
 using SistemaTurnos.Commons.Authorization;
@@ -83,12 +82,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 if (_userManager.IsInRoleAsync(appUser, Roles.Administrator).Result)
                 {
-                    if (model.BusinessType.IsClinic() && !dbContext.Clinics.Any(c => c.UserId == appUser.Id))
-                    {
-                        throw new ApplicationException(ExceptionMessages.LoginFailed);
-                    }
-
-                    if (model.BusinessType.IsHBE() && !dbContext.Hairdressings.Any(h => h.BusinessType == model.BusinessType && h.UserId == appUser.Id))
+                    if (!dbContext.Hairdressings.Any(h => h.UserId == appUser.Id))
                     {
                         throw new ApplicationException(ExceptionMessages.LoginFailed);
                     }
@@ -97,76 +91,35 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 // El usuario es cliente administrador (clinica o peluqueria)
                 if (_userManager.IsInRoleAsync(appUser, Roles.Administrator).Result)
                 {
-                    if (model.BusinessType == 0)
+                    var Hemployee = dbContext.Hairdressing_Employees.FirstOrDefault(e => e.UserId == appUser.Id);
+                    if (Hemployee != null)
                     {
-                        throw new BadRequestException();
+                        userId = Hemployee.OwnerUserId;
                     }
-                    if (model.BusinessType.IsClinic())
+                    var hairdressing = dbContext.Hairdressings.FirstOrDefault(h => h.UserId == userId);
+
+                    if (hairdressing == null)
                     {
-                        var clinic = dbContext.Clinics.FirstOrDefault(c => c.UserId == userId);
-
-                        if (clinic == null)
-                        {
-                            throw new ApplicationException(ExceptionMessages.LoginFailed);
-                        }
-
-                        logo = clinic.Logo;
+                        throw new ApplicationException(ExceptionMessages.LoginFailed);
                     }
-                    else if (model.BusinessType.IsHBE())
-                    {
-                        var Hemployee = dbContext.Hairdressing_Employees.FirstOrDefault(e => e.UserId == appUser.Id);
-                        if (Hemployee != null)
-                        {
-                            userId = Hemployee.OwnerUserId;
-                        }
-                        var hairdressing = dbContext.Hairdressings.FirstOrDefault(h => h.BusinessType == model.BusinessType && h.UserId == userId);
 
-                        if (hairdressing == null)
-                        {
-                            throw new ApplicationException(ExceptionMessages.LoginFailed);
-                        }
-
-                        logo = hairdressing.Logo;
-                    }
+                    logo = hairdressing.Logo;
                 } // El usuario es un empleado
                 else if (_userManager.IsInRoleAsync(appUser, Roles.Employee).Result)
                 {
-                    if (model.BusinessType == 0)
+                    var Hemployee = dbContext.Hairdressing_Employees.FirstOrDefault(e => e.UserId == appUser.Id);
+                    if (Hemployee != null)
                     {
-                        throw new BadRequestException();
+                        userId = Hemployee.OwnerUserId;
                     }
-                    if (model.BusinessType.IsClinic())
+                    var hairdressing = dbContext.Hairdressings.FirstOrDefault(h => h.UserId == userId);
+
+                    if (hairdressing == null)
                     {
-                        var employee = dbContext.Clinic_Employees.FirstOrDefault(e => e.UserId == appUser.Id);
-                        if (employee != null)
-                        {
-                            userId = employee.OwnerUserId;
-                        }
-                        var clinic = dbContext.Clinics.FirstOrDefault(c => c.UserId == userId);
-
-                        if (clinic == null)
-                        {
-                            throw new ApplicationException(ExceptionMessages.LoginFailed);
-                        }
-
-                        logo = clinic.Logo;
+                        throw new ApplicationException(ExceptionMessages.LoginFailed);
                     }
-                    else if (model.BusinessType.IsHBE())
-                    {
-                        var Hemployee = dbContext.Hairdressing_Employees.FirstOrDefault(e => e.UserId == appUser.Id);
-                        if (Hemployee != null)
-                        {
-                            userId = Hemployee.OwnerUserId;
-                        }
-                        var hairdressing = dbContext.Hairdressings.FirstOrDefault(h => h.BusinessType == model.BusinessType && h.UserId == userId);
 
-                        if (hairdressing == null)
-                        {
-                            throw new ApplicationException(ExceptionMessages.LoginFailed);
-                        }
-
-                        logo = hairdressing.Logo;
-                    }
+                    logo = hairdressing.Logo;
                 } // Es un cliente
                 else if (_userManager.IsInRoleAsync(appUser, Roles.Client).Result)
                 {
@@ -325,45 +278,28 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     throw new BadRequestException();
                 }
 
-                if (model.BusinessType == 0)
+                var businessType = dbContext.BusinessTypes.SingleOrDefault(b => b.Id == model.BusinessTypeId);
+                if (businessType == null)
                 {
                     throw new BadRequestException();
                 }
 
-                if (model.BusinessType.IsClinic())
+                var hairdressing = new Hairdressing
                 {
-                    var clinic = new Clinic
-                    {
-                        Name = model.Name,
-                        Description = model.Description,
-                        CityId = model.City,
-                        Address = model.Address,
-                        Latitude = model.Latitude,
-                        Longitude = model.Longitude,
-                        UserId = appUser.Id,
-                        Logo = model.Logo
-                    };
+                    Name = model.Name,
+                    Description = model.Description,
+                    CityId = model.City,
+                    Address = model.Address,
+                    Latitude = model.Latitude,
+                    Longitude = model.Longitude,
+                    UserId = appUser.Id,
+                    Logo = model.Logo,
+                    RequiresPayment = false,
+                    BusinessTypeId = model.BusinessTypeId,
+                    BusinessType = businessType
+                };
 
-                    dbContext.Clinics.Add(clinic);
-                }
-                if (model.BusinessType.IsHBE())
-                {
-                    var hairdressing = new Hairdressing
-                    {
-                        Name = model.Name,
-                        Description = model.Description,
-                        CityId = model.City,
-                        Address = model.Address,
-                        Latitude = model.Latitude,
-                        Longitude = model.Longitude,
-                        UserId = appUser.Id,
-                        Logo = model.Logo,
-                        RequiresPayment = false,
-                        BusinessType = model.BusinessType
-                    };
-
-                    dbContext.Hairdressings.Add(hairdressing);
-                }
+                dbContext.Hairdressings.Add(hairdressing);
 
                 dbContext.SaveChanges();
             }
@@ -384,7 +320,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             var elapsedMs = watch.ElapsedMilliseconds;
             Console.WriteLine("AccountController/Register milisegundos: " + elapsedMs);
 
-            return Ok(model.BusinessType);
+            return Ok(model.BusinessTypeId);
         }
 
         /// <summary>
@@ -486,27 +422,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             using (var dbContext = new ApplicationDbContext())
             {
                 var userId = new BusinessPlaceService().GetUserId(HttpContext);
-
-                var clinic = dbContext.Clinics.FirstOrDefault(c => c.UserId == userId);
-
-                if (clinic != null)
-                {
-                    return new ProfileDto
-                    {
-                        Name = clinic.Name,
-                        Address = clinic.Address,
-                        Description = clinic.Description,
-                        City = clinic.City.Name,
-                        Latitude = clinic.Latitude,
-                        Longitude = clinic.Longitude,
-                        Logo = clinic.Logo,
-                        OpenCloseHours = clinic.OpenCloseHours.Select(och => new OpenCloseHoursDto { DayNumber = och.DayNumber, Start = och.Start, End = och.End }).ToList(),
-                        Images = clinic.Images.Select(i => i.Data).ToList(),
-                        Require = false,
-                        ClientId = string.Empty,
-                        ClientSecret = string.Empty
-                    };
-                }
 
                 var hairdressing = dbContext.Hairdressings.FirstOrDefault(h => h.UserId == userId);
 

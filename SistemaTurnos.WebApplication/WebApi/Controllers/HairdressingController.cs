@@ -99,7 +99,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                var hairdressings = dbContext.Hairdressings.Where(h => h.BusinessType == geoLocation.BusinessType).ToList();
+                var hairdressings = dbContext.Hairdressings.Where(h => h.BusinessTypeId == geoLocation.BusinessTypeId).ToList();
 
                 foreach (var hairdressing in hairdressings)
                 {
@@ -151,7 +151,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 // Filtro por ciudad y por id
                 var hairdressings = dbContext.Hairdressings
                     .Where(h => !filterDto.HairdressingId.HasValue || h.Id == filterDto.HairdressingId)
-                    .Where(h => !filterDto.BusinessType.HasValue || h.BusinessType == filterDto.BusinessType.Value)
+                    .Where(h => !filterDto.BusinessTypeId.HasValue || h.BusinessTypeId == filterDto.BusinessTypeId.Value)
                     .Where(h => !filterDto.Cities.Any() || filterDto.Cities.Any(city => h.CityId == city))
                     .ToList();
 

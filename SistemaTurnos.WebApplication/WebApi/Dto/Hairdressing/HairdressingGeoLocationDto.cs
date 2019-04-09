@@ -15,6 +15,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Hairdressing
         public double RadiusInMeters { get; set; }
 
         [Required]
-        public BusinessType BusinessType { get; set; }
+        public int BusinessTypeId { get; set; }
     }
 }

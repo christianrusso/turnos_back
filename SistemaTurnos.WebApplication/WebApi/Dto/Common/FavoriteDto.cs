@@ -7,6 +7,5 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Common
     public class FavoritesDto : BaseDto
     {
         public List<HairdressingDto> HairdressingFavorites { get; internal set; }
-        public List<ClinicDto> ClinicFavorites { get; internal set; }
     }
 }

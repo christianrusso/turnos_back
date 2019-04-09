@@ -2,7 +2,6 @@
 using SistemaTurnos.Commons.Authorization;
 using SistemaTurnos.Commons.Exceptions;
 using SistemaTurnos.Database;
-using SistemaTurnos.Database.ClinicModel;
 using SistemaTurnos.Database.Enums;
 using SistemaTurnos.Database.HairdressingModel;
 using SistemaTurnos.Database.Model;
@@ -178,33 +177,36 @@ namespace SistemaTurnos.Populator
             CreateCity("Villa Urquiza");
             CreateCity("Vélez Sársfield");
 
-
+            var clinicBusiness = CreateBusinessType("Clinic");
+            var hairdressingBusiness = CreateBusinessType("Hairdressing");
+            var barbershopBusiness = CreateBusinessType("Barbershop");
+            var estheticBusiness = CreateBusinessType("Esthetic");
 
             // Creo clinicas
             Console.Write("Clinicas\t\t\t");
             // email,  password,  name,  description,  city,  address,  latitude,  longitude
-            var clinic1 = CreateClinicUser("clinica1@asd.com", "clinica1@asd.com", "Clinica 1", "Clinica de Villa Bosch 1", "Villa Bosch", "Jose Maria Bosch 951", -34.5883457, -58.5732785);
-            var clinic2 = CreateClinicUser("clinica2@asd.com", "clinica2@asd.com", "Clinica 2", "Clinica de Moron 1", "Moron", "Yatay 600", -34.6548052, -58.6173822);
-            var clinic3 = CreateClinicUser("clinica3@asd.com", "clinica3@asd.com", "Clinica 3", "Clinica de Villa Bosch 2", "Villa Bosch", "Julio Besada 6300", -34.5873598, -58.5852697);
-            var clinic4 = CreateClinicUser("clinica4@asd.com", "clinica4@asd.com", "Clinica 4", "Clinica de prueba", "prueba", "prueba", -34.5873598, -58.5852697);
+            var clinic1 = CreateHairdressingUser(clinicBusiness, "clinica1@asd.com", "clinica1@asd.com", "Clinica 1", "Clinica de Villa Bosch 1", "Villa Bosch", "Jose Maria Bosch 951", -34.5883457, -58.5732785, true, "2128552166781000", "xt23Yx9BO3wqXO26aHWlzxvTuw7vFo6G");
+            var clinic2 = CreateHairdressingUser(clinicBusiness, "clinica2@asd.com", "clinica2@asd.com", "Clinica 2", "Clinica de Moron 1", "Moron", "Yatay 600", -34.6548052, -58.6173822, true, "2128552166781000", "xt23Yx9BO3wqXO26aHWlzxvTuw7vFo6G");
+            var clinic3 = CreateHairdressingUser(clinicBusiness, "clinica3@asd.com", "clinica3@asd.com", "Clinica 3", "Clinica de Villa Bosch 2", "Villa Bosch", "Julio Besada 6300", -34.5873598, -58.5852697, true, "2128552166781000", "xt23Yx9BO3wqXO26aHWlzxvTuw7vFo6G");
+            var clinic4 = CreateHairdressingUser(clinicBusiness, "clinica4@asd.com", "clinica4@asd.com", "Clinica 4", "Clinica de prueba", "prueba", "prueba", -34.5873598, -58.5852697, true, "2128552166781000", "xt23Yx9BO3wqXO26aHWlzxvTuw7vFo6G");
             Console.Write("OK\n");
 
             // Creo peluquerias
             Console.Write("Peluquerias\t\t\t");
             // email,  password,  name,  description,  city,  address,  latitude,  longitude
-            var hairdressing1 = CreateHairdressingUser("peluqueria1@asd.com", "peluqueria1@asd.com", "Peluqueria 1", "Peluqueria de Villa Bosch 1", "Villa Bosch", "Jose Maria Bosch 951", -34.5883457, -58.5732785, true, "2128552166781000", "xt23Yx9BO3wqXO26aHWlzxvTuw7vFo6G");
+            var hairdressing1 = CreateHairdressingUser(hairdressingBusiness, "peluqueria1@asd.com", "peluqueria1@asd.com", "Peluqueria 1", "Peluqueria de Villa Bosch 1", "Villa Bosch", "Jose Maria Bosch 951", -34.5883457, -58.5732785, true, "2128552166781000", "xt23Yx9BO3wqXO26aHWlzxvTuw7vFo6G");
             Console.Write("OK\n");
 
             // Creo barberias
             Console.Write("Barberias\t\t\t");
             // email,  password,  name,  description,  city,  address,  latitude,  longitude
-            var babershop1 = CreateBabershopUser("barberia1@asd.com", "barberia1@asd.com", "Barberia 1", "Barberia de Villa Bosch 1", "Villa Bosch", "Jose Maria Bosch 951", -34.5883457, -58.5732785, true, "2128552166781000", "xt23Yx9BO3wqXO26aHWlzxvTuw7vFo6G");
+            var babershop1 = CreateHairdressingUser(barbershopBusiness, "barberia1@asd.com", "barberia1@asd.com", "Barberia 1", "Barberia de Villa Bosch 1", "Villa Bosch", "Jose Maria Bosch 951", -34.5883457, -58.5732785, true, "2128552166781000", "xt23Yx9BO3wqXO26aHWlzxvTuw7vFo6G");
             Console.Write("OK\n");
 
             // Creo esteticas
             Console.Write("Esteticas\t\t\t");
             // email,  password,  name,  description,  city,  address,  latitude,  longitude
-            var esthetic1 = CreateEstheticUser("estetica1@asd.com", "estetica1@asd.com", "Estetica 1", "Estetica de Villa Bosch 1", "Villa Bosch", "Jose Maria Bosch 951", -34.5883457, -58.5732785, true, "2128552166781000", "xt23Yx9BO3wqXO26aHWlzxvTuw7vFo6G");
+            var esthetic1 = CreateHairdressingUser(estheticBusiness, "estetica1@asd.com", "estetica1@asd.com", "Estetica 1", "Estetica de Villa Bosch 1", "Villa Bosch", "Jose Maria Bosch 951", -34.5883457, -58.5732785, true, "2128552166781000", "xt23Yx9BO3wqXO26aHWlzxvTuw7vFo6G");
             Console.Write("OK\n");
 
             // Creo empleados
@@ -215,37 +217,37 @@ namespace SistemaTurnos.Populator
 
             // Creo especialidades
             Console.Write("Especialidades\t\t\t");
-            var specialtyData0 = CreateSpecialtyData("TEST", RubroEnum.Clinic);
-            var specialtyData1 = CreateSpecialtyData("Servicios de Maquillaje", RubroEnum.Hairdressing);
-            var specialtyData2 = CreateSpecialtyData("Servicios de Peluqueria", RubroEnum.Hairdressing);
-            var specialtyData3 = CreateSpecialtyData("Peinados", RubroEnum.Hairdressing);
-            var specialtyData4 = CreateSpecialtyData("TRATAMIENTS de Cabellos", RubroEnum.Hairdressing);
-            var specialtyData5 = CreateSpecialtyData("Rituales/Lavados", RubroEnum.Hairdressing);
-            var specialtyData6 = CreateSpecialtyData("coloracion", RubroEnum.Hairdressing);
-            var specialtyData7 = CreateSpecialtyData("Manicuria/Pedicuria", RubroEnum.Hairdressing);
-            var specialtyData8 = CreateSpecialtyData("Corte", RubroEnum.Hairdressing);
-            var specialtyData9 = CreateSpecialtyData("Servivicios de Barberia", RubroEnum.Babershop);
-            var specialtyData10 = CreateSpecialtyData("Servivicios de Peluqueria", RubroEnum.Babershop);
-            var specialtyData11 = CreateSpecialtyData("Cosmiatría", RubroEnum.Esthetic);
-            var specialtyData12 = CreateSpecialtyData("Tratamientos Corporales", RubroEnum.Esthetic);
-            var specialtyData13 = CreateSpecialtyData("Tratamientos Faciales", RubroEnum.Esthetic);
-            var specialtyData14 = CreateSpecialtyData("Camas Solares", RubroEnum.Esthetic);
-            var specialtyData15 = CreateSpecialtyData("Masajes", RubroEnum.Esthetic);
-            var specialtyData16 = CreateSpecialtyData("Depilacion", RubroEnum.Esthetic);
-            var specialtyData17 = CreateSpecialtyData("Pestañas", RubroEnum.Esthetic);
-            var specialtyData18 = CreateSpecialtyData("Spa", RubroEnum.Esthetic);
-            var specialtyData19 = CreateSpecialtyData("Manos y Pies", RubroEnum.Esthetic);
-            var specialtyData20 = CreateSpecialtyData("Medicina Estetica", RubroEnum.Esthetic);
+            var specialtyData0 = CreateSpecialtyData("TEST", clinicBusiness);
+            var specialtyData1 = CreateSpecialtyData("Servicios de Maquillaje", hairdressingBusiness);
+            var specialtyData2 = CreateSpecialtyData("Servicios de Peluqueria", hairdressingBusiness);
+            var specialtyData3 = CreateSpecialtyData("Peinados", hairdressingBusiness);
+            var specialtyData4 = CreateSpecialtyData("TRATAMIENTS de Cabellos", hairdressingBusiness);
+            var specialtyData5 = CreateSpecialtyData("Rituales/Lavados", hairdressingBusiness);
+            var specialtyData6 = CreateSpecialtyData("coloracion", hairdressingBusiness);
+            var specialtyData7 = CreateSpecialtyData("Manicuria/Pedicuria", hairdressingBusiness);
+            var specialtyData8 = CreateSpecialtyData("Corte", hairdressingBusiness);
+            var specialtyData9 = CreateSpecialtyData("Servivicios de Barberia", barbershopBusiness);
+            var specialtyData10 = CreateSpecialtyData("Servivicios de Peluqueria", barbershopBusiness);
+            var specialtyData11 = CreateSpecialtyData("Cosmiatría", estheticBusiness);
+            var specialtyData12 = CreateSpecialtyData("Tratamientos Corporales", estheticBusiness);
+            var specialtyData13 = CreateSpecialtyData("Tratamientos Faciales", estheticBusiness);
+            var specialtyData14 = CreateSpecialtyData("Camas Solares", estheticBusiness);
+            var specialtyData15 = CreateSpecialtyData("Masajes", estheticBusiness);
+            var specialtyData16 = CreateSpecialtyData("Depilacion", estheticBusiness);
+            var specialtyData17 = CreateSpecialtyData("Pestañas", estheticBusiness);
+            var specialtyData18 = CreateSpecialtyData("Spa", estheticBusiness);
+            var specialtyData19 = CreateSpecialtyData("Manos y Pies", estheticBusiness);
+            var specialtyData20 = CreateSpecialtyData("Medicina Estetica", estheticBusiness);
 
             Console.Write("OK\n");
 
             // Creo subespecialidades
             Console.Write("Subespecialidades\t\t");
-            
+
             //********************************************* SERVICIOS DE MAQUILLAJE
 
-            var especialityTEST = CreateSpecialty("TEST", clinic1);
-            var subespecialityTEST = CreateSubspecialty("TEST", especialityTEST, 10,clinic1);
+            var especialityTEST = CreateSpecialty(clinicBusiness, "TEST", clinic1);
+            var subespecialityTEST = CreateSubspecialty("TEST", especialityTEST, 10, clinic1);
             var subspecialtyData1 = CreateSubspecialtyData("Make up social", specialtyData1);
             var subspecialtyData2 = CreateSubspecialtyData("Novia ceremonia: make up", specialtyData1);
             var subspecialtyData3 = CreateSubspecialtyData("Novia ceremonia: make up y peinado", specialtyData1);
@@ -323,7 +325,7 @@ namespace SistemaTurnos.Populator
             var subspecialtyData60 = CreateSubspecialtyData("Corte caballero", specialtyData8);
             var subspecialtyData61 = CreateSubspecialtyData("Corte niño", specialtyData8);
 
-            
+
             //****************************************************** SERVICIOS DE BARBERÍA
             var subspecialtyData62 = CreateSubspecialtyData("Barba", specialtyData9);
             var subspecialtyData63 = CreateSubspecialtyData("Corte y barba", specialtyData9);
@@ -448,7 +450,7 @@ namespace SistemaTurnos.Populator
             var subspecialtyData169 = CreateSubspecialtyData("punta de diamante", specialtyData13);
             var subspecialtyData170 = CreateSubspecialtyData("Tratamiento intensivo para acné con mácara led", specialtyData13);
             var subspecialtyData171 = CreateSubspecialtyData("Fototerapia con máscara led", specialtyData13);
-        
+
             var subspecialtyData173 = CreateSubspecialtyData("Peeling con máscara led", specialtyData13);
             var subspecialtyData174 = CreateSubspecialtyData("higiene facial", specialtyData13);
             var subspecialtyData175 = CreateSubspecialtyData("Tratamiento para acné", specialtyData13);
@@ -593,94 +595,89 @@ namespace SistemaTurnos.Populator
             var subspecialtyData290 = CreateSubspecialtyData("Toxina Botulínina Dysport", specialtyData20);
             var subspecialtyData291 = CreateSubspecialtyData("Hidratación profunda con Restylane SkinBoosters", specialtyData20);
 
-
-
-
-
-
-           
             Console.Write("OK\n");
 
             // Creo doctores 
             Console.Write("Doctores\t\t\t");
-            var doctor1 = CreateDoctor("Fernando", "Gomez", new List<uint> { 30 }, new List<Clinic_Subspecialty> { subespecialityTEST }, DoctorStateEnum.Active,
-                new List<Clinic_WorkingHours> {
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Wednesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Thursday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Friday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Saturday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) }
+            var doctor1 = CreateProfessional("Fernando", "Gomez", new List<uint> { 30 }, new List<Hairdressing_Subspecialty> { subespecialityTEST }, HairdressingProfessionalStateEnum.Active,
+                new List<Hairdressing_WorkingHours> {
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Wednesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Thursday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Friday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Saturday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) }
                 }, clinic1);
 
-            var doctor2 = CreateDoctor("Christian", "Russo", new List<uint> { 10, 15 }, new List<Clinic_Subspecialty> { subespecialityTEST, subespecialityTEST }, DoctorStateEnum.Active,
-                new List<Clinic_WorkingHours> {
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(7, 0, 0), End = new TimeSpan(21, 0, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Wednesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Thursday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Friday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Saturday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) }
+            var doctor2 = CreateProfessional("Christian", "Russo", new List<uint> { 10, 15 }, new List<Hairdressing_Subspecialty> { subespecialityTEST, subespecialityTEST }, HairdressingProfessionalStateEnum.Active,
+                new List<Hairdressing_WorkingHours> {
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(7, 0, 0), End = new TimeSpan(21, 0, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Wednesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Thursday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Friday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Saturday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) }
                 }, clinic1);
 
-            var doctor3 = CreateDoctor("Sabrina", "Fillol", new List<uint> { 10 }, new List<Clinic_Subspecialty> { subespecialityTEST }, DoctorStateEnum.Active,
-                new List<Clinic_WorkingHours> {
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(7, 0, 0), End = new TimeSpan(21, 0, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Wednesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Thursday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Friday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Saturday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) }
+            var doctor3 = CreateProfessional("Sabrina", "Fillol", new List<uint> { 10 }, new List<Hairdressing_Subspecialty> { subespecialityTEST }, HairdressingProfessionalStateEnum.Active,
+                new List<Hairdressing_WorkingHours> {
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(7, 0, 0), End = new TimeSpan(21, 0, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Wednesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Thursday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Friday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Saturday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(16, 0, 0) }
                 }, clinic1);
 
-            var doctor4 = CreateDoctor("Pedro", "Perez", new List<uint> { 30 }, new List<Clinic_Subspecialty> { subespecialityTEST }, DoctorStateEnum.Active,
-                new List<Clinic_WorkingHours> {
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(20, 0, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(20, 0, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Wednesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(20, 0, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Thursday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(20, 0, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Friday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(20, 0, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Saturday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(20, 0, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(20, 0, 0) }
+            var doctor4 = CreateProfessional("Pedro", "Perez", new List<uint> { 30 }, new List<Hairdressing_Subspecialty> { subespecialityTEST }, HairdressingProfessionalStateEnum.Active,
+                new List<Hairdressing_WorkingHours> {
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(20, 0, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(20, 0, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Wednesday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(20, 0, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Thursday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(20, 0, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Friday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(20, 0, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Saturday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(20, 0, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(8, 0, 0), End = new TimeSpan(20, 0, 0) }
                 }, clinic2);
 
-            var doctor5 = CreateDoctor("Eduardo", "Martinez", new List<uint> { 10 }, new List<Clinic_Subspecialty> { subespecialityTEST }, DoctorStateEnum.Active,
-                new List<Clinic_WorkingHours> {
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(17, 50, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(17, 50, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Wednesday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(17, 50, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Thursday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(17, 50, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Friday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(17, 50, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Saturday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(17, 50, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(17, 50, 0) }
+            var doctor5 = CreateProfessional("Eduardo", "Martinez", new List<uint> { 10 }, new List<Hairdressing_Subspecialty> { subespecialityTEST }, HairdressingProfessionalStateEnum.Active,
+                new List<Hairdressing_WorkingHours> {
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(17, 50, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(17, 50, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Wednesday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(17, 50, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Thursday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(17, 50, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Friday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(17, 50, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Saturday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(17, 50, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(17, 50, 0) }
                 }, clinic2);
 
-            var doctor6 = CreateDoctor("Eliana", "Lint", new List<uint> { 60 }, new List<Clinic_Subspecialty> { subespecialityTEST }, DoctorStateEnum.Active,
-                new List<Clinic_WorkingHours> {
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(22, 30, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(22, 30, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Wednesday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(22, 30, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Thursday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(22, 30, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Friday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(22, 30, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Saturday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(22, 30, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(22, 30, 0) }
+            var doctor6 = CreateProfessional("Eliana", "Lint", new List<uint> { 60 }, new List<Hairdressing_Subspecialty> { subespecialityTEST }, HairdressingProfessionalStateEnum.Active,
+                new List<Hairdressing_WorkingHours> {
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(22, 30, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(22, 30, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Wednesday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(22, 30, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Thursday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(22, 30, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Friday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(22, 30, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Saturday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(22, 30, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(9, 30, 0), End = new TimeSpan(22, 30, 0) }
                 }, clinic3);
 
-            var doctor7 = CreateDoctor("Daniela", "Disig", new List<uint> { 10, 20, 30, 50, 60 }, new List<Clinic_Subspecialty> { subespecialityTEST, subespecialityTEST, subespecialityTEST, subespecialityTEST, subespecialityTEST }, DoctorStateEnum.Active,
-                new List<Clinic_WorkingHours> {
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(7, 30, 0), End = new TimeSpan(12, 30, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(7, 30, 0), End = new TimeSpan(12, 30, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Wednesday, Start = new TimeSpan(7, 30, 0), End = new TimeSpan(12, 30, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Thursday, Start = new TimeSpan(7, 30, 0), End = new TimeSpan(12, 30, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Friday, Start = new TimeSpan(7, 30, 0), End = new TimeSpan(12, 30, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Saturday, Start = new TimeSpan(7, 30, 0), End = new TimeSpan(12, 30, 0) },
-                    new Clinic_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(7, 30, 0), End = new TimeSpan(12, 30, 0) },
+            var doctor7 = CreateProfessional("Daniela", "Disig", new List<uint> { 10, 20, 30, 50, 60 }, new List<Hairdressing_Subspecialty> { subespecialityTEST, subespecialityTEST, subespecialityTEST, subespecialityTEST, subespecialityTEST }, HairdressingProfessionalStateEnum.Active,
+                new List<Hairdressing_WorkingHours> {
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Monday, Start = new TimeSpan(7, 30, 0), End = new TimeSpan(12, 30, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Tuesday, Start = new TimeSpan(7, 30, 0), End = new TimeSpan(12, 30, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Wednesday, Start = new TimeSpan(7, 30, 0), End = new TimeSpan(12, 30, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Thursday, Start = new TimeSpan(7, 30, 0), End = new TimeSpan(12, 30, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Friday, Start = new TimeSpan(7, 30, 0), End = new TimeSpan(12, 30, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Saturday, Start = new TimeSpan(7, 30, 0), End = new TimeSpan(12, 30, 0) },
+                    new Hairdressing_WorkingHours { DayNumber = DayOfWeek.Sunday, Start = new TimeSpan(7, 30, 0), End = new TimeSpan(12, 30, 0) },
                 }, clinic3);
             Console.Write("OK\n");
 
+            /*
             // Creo obras sociales
             Console.Write("Obras sociales\t\t\t");
             var medicalInsurance1 = CreateMedicalInsurance("OSDE", clinic1);
@@ -719,6 +716,7 @@ namespace SistemaTurnos.Populator
             var medicalPlan17 = CreateMedicalPlan("MEDI B", medicalInsurance7, clinic3);
             var medicalPlan18 = CreateMedicalPlan("MEDI C", medicalInsurance7, clinic3);
             Console.Write("OK\n");
+            */
 
             // Creo clientes
             /*Console.Write("Clientes\t\t\t");
@@ -761,7 +759,7 @@ namespace SistemaTurnos.Populator
             Console.Write("OK\n"); */
 
             // Creo turnos
-            Console.Write("Turnos\t\t\t\t");
+            //Console.Write("Turnos\t\t\t\t");
             /*var appointment1 = CreateAppointment(DateTime.Today.AddDays(-5).AddHours(8).AddMinutes(30), doctor1, subespecialityTEST, patient1, AppointmentStateEnum.Reserved, null, clinic1);
             var appointment2 = CreateAppointment(DateTime.Today.AddDays(-3).AddHours(10).AddMinutes(30), doctor1, subespecialityTEST, patient2, AppointmentStateEnum.Reserved, null, clinic1);
             var appointment3 = CreateAppointment(DateTime.Today.AddDays(-3).AddHours(12).AddMinutes(0), doctor1, subespecialityTEST, patient3, AppointmentStateEnum.Reserved, null, clinic1);
@@ -831,6 +829,136 @@ namespace SistemaTurnos.Populator
              */
         }
 
+
+        private Hairdressing_Professional CreateProfessional(string firstName, string lastName, List<uint> consultationLengths, List<Hairdressing_Subspecialty> subspecialties, HairdressingProfessionalStateEnum state, List<Hairdressing_WorkingHours> workingHours, Hairdressing hairdressing)
+        {
+            Hairdressing_Professional professional;
+
+            using (var dbContext = new ApplicationDbContext())
+            {
+                professional = new Hairdressing_Professional
+                {
+                    FirstName = firstName,
+                    LastName = lastName,
+                    PhoneNumber = string.Empty,
+                    Email = string.Empty,
+                    Subspecialties = new List<Hairdressing_ProfessionalSubspecialty>(),
+                    State = state,
+                    WorkingHours = workingHours,
+                    UserId = hairdressing.UserId
+                };
+
+                dbContext.Hairdressing_Professionals.Add(professional);
+                dbContext.SaveChanges();
+
+                for (var i = 0; i < subspecialties.Count; i++)
+                {
+                    var doctorSubspecialty = new Hairdressing_ProfessionalSubspecialty
+                    {
+                        ProfessionalId = professional.Id,
+                        SubspecialtyId = subspecialties[i].Id,
+                        ConsultationLength = consultationLengths[i]
+                    };
+
+                    professional.Subspecialties.Add(doctorSubspecialty);
+                }
+
+                dbContext.SaveChanges();
+            }
+
+            return professional;
+        }
+
+
+        private Hairdressing_Specialty CreateSpecialty(BusinessType type, string description, Hairdressing hairdressing)
+        {
+            Hairdressing_Specialty specialty;
+
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var specialtyData = dbContext.Specialties.FirstOrDefault(s => s.Description == description);
+
+                if (specialtyData == null)
+                {
+                    specialtyData = new SpecialtyData
+                    {
+                        Description = description,
+                        BusinessTypeId = type.Id
+                    };
+
+                    dbContext.Specialties.Add(specialtyData);
+                }
+
+                dbContext.SaveChanges();
+
+                specialty = new Hairdressing_Specialty
+                {
+                    DataId = specialtyData.Id,
+                    UserId = hairdressing.UserId
+                };
+
+                dbContext.Hairdressing_Specialties.Add(specialty);
+                dbContext.SaveChanges();
+            }
+
+            return specialty;
+        }
+
+        private Hairdressing_Subspecialty CreateSubspecialty(string description, Hairdressing_Specialty specialty, uint consultationLength, Hairdressing hairdressing)
+        {
+            Hairdressing_Subspecialty subspecialty;
+
+            using (var dbContext = new ApplicationDbContext())
+            {
+                var subspecialtyData = dbContext.Subspecialties.FirstOrDefault(sp => sp.Description == description);
+
+                if (subspecialtyData == null)
+                {
+                    subspecialtyData = new SubspecialtyData
+                    {
+                        Description = description,
+                        SpecialtyDataId = specialty.DataId,
+                        BusinessTypeId = specialty.Data.BusinessTypeId
+                    };
+
+                    dbContext.Subspecialties.Add(subspecialtyData);
+                }
+
+                dbContext.SaveChanges();
+
+                subspecialty = new Hairdressing_Subspecialty
+                {
+                    DataId = subspecialtyData.Id,
+                    SpecialtyId = specialty.Id,
+                    ConsultationLength = consultationLength,
+                    UserId = hairdressing.UserId
+                };
+
+                dbContext.Hairdressing_Subspecialties.Add(subspecialty);
+                dbContext.SaveChanges();
+            }
+
+            return subspecialty;
+        }
+
+        private BusinessType CreateBusinessType(string typeName)
+        {
+            BusinessType type;
+
+            using (var dbContext = new ApplicationDbContext())
+            {
+                type = new BusinessType
+                {
+                    Name = typeName
+                };
+
+                var a = dbContext.BusinessTypes.Add(type);
+                dbContext.SaveChanges();
+            }
+
+            return type;
+        }
+
         private void DropDatabaseSchema()
         {
             using (var dbContext = new ApplicationDbContext())
@@ -874,61 +1002,7 @@ namespace SistemaTurnos.Populator
             }
         }
 
-        private Clinic CreateClinicUser(string email, string password, string name, string description, string city, string address, double latitude, double longitude)
-        {
-            Clinic clinic;
-
-            var user = new ApplicationUser
-            {
-                UserName = email,
-                Email = email
-            };
-
-            var result = _userManager.CreateAsync(user, password).Result;
-
-            if (!result.Succeeded)
-            {
-                throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
-            }
-
-            using (var dbContext = new ApplicationDbContext())
-            {
-                var appUser = _userManager.Users.SingleOrDefault(au => au.Email == email);
-
-                result = _userManager.AddToRoleAsync(appUser, Roles.Administrator).Result;
-
-                if (!result.Succeeded)
-                {
-                    throw new ApplicationException(ExceptionMessages.InternalServerError);
-                }
-
-                var cityData = dbContext.Cities.FirstOrDefault(c => c.Name == city);
-
-                if (cityData == null)
-                {
-                    cityData = CreateCity(city);
-                }
-
-                clinic = new Clinic
-                {
-                    Name = name,
-                    Description = description,
-                    CityId = cityData.Id,
-                    Address = address,
-                    Latitude = latitude,
-                    Longitude = longitude,
-                    Logo = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAAAoBAMAAACMbPD7AAAAG1BMVEXMzMyWlpbFxcWjo6OqqqqxsbGcnJy+vr63t7eN+fR5AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAApElEQVQ4je2QsQrCQBBEJ5fLpt2AHxCJWCc2WkZFsTwx9kcQ0ypK6lR+t3eInWw6q3vVLrwdlgECgcAvVFXqy3dm7GvR1ubczMxnjjnZ7ESbclqmJZK6B54c3x6iHYGsslBdByyYMBft2BwZDLxcvuHIXUuoatu6bEwHFGDK5ewUhf8bJ4t7lhUjf9Nw8J2oduWW0U7Sq9ETX2Tvbaxr0Q4E/s8bo1sUV4qjWrAAAAAASUVORK5CYII=",
-                    UserId = appUser.Id
-                };
-
-                dbContext.Clinics.Add(clinic);
-                dbContext.SaveChanges();
-            }
-
-            return clinic;
-        }
-
-        private Hairdressing CreateHairdressingUser(string email, string password, string name, string description, string city, string address, double latitude, double longitude, bool requiresPayment, string clientId, string clientSecret)
+        private Hairdressing CreateHairdressingUser(BusinessType type, string email, string password, string name, string description, string city, string address, double latitude, double longitude, bool requiresPayment, string clientId, string clientSecret)
         {
             Hairdressing hairdressing;
 
@@ -976,123 +1050,7 @@ namespace SistemaTurnos.Populator
                     ClientId = clientId,
                     ClientSecret = clientSecret,
                     UserId = appUser.Id,
-                    BusinessType = BusinessType.Hairdressing
-                };
-
-                dbContext.Hairdressings.Add(hairdressing);
-                dbContext.SaveChanges();
-            }
-
-            return hairdressing;
-        }
-
-        private Hairdressing CreateBabershopUser(string email, string password, string name, string description, string city, string address, double latitude, double longitude, bool requiresPayment, string clientId, string clientSecret)
-        {
-            Hairdressing hairdressing;
-
-            var user = new ApplicationUser
-            {
-                UserName = email,
-                Email = email
-            };
-
-            var result = _userManager.CreateAsync(user, password).Result;
-
-            if (!result.Succeeded)
-            {
-                throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
-            }
-
-            using (var dbContext = new ApplicationDbContext())
-            {
-                var appUser = _userManager.Users.SingleOrDefault(au => au.Email == email);
-
-                result = _userManager.AddToRoleAsync(appUser, Roles.Administrator).Result;
-
-                if (!result.Succeeded)
-                {
-                    throw new ApplicationException(ExceptionMessages.InternalServerError);
-                }
-
-                var cityData = dbContext.Cities.FirstOrDefault(c => c.Name == city);
-
-                if (cityData == null)
-                {
-                    cityData = CreateCity(city);
-                }
-
-                hairdressing = new Hairdressing
-                {
-                    Name = name,
-                    Description = description,
-                    CityId = cityData.Id,
-                    Address = address,
-                    Latitude = latitude,
-                    Longitude = longitude,
-                    Logo = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAAAoBAMAAACMbPD7AAAAG1BMVEXMzMyWlpbFxcWjo6OqqqqxsbGcnJy+vr63t7eN+fR5AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAApElEQVQ4je2QsQrCQBBEJ5fLpt2AHxCJWCc2WkZFsTwx9kcQ0ypK6lR+t3eInWw6q3vVLrwdlgECgcAvVFXqy3dm7GvR1ubczMxnjjnZ7ESbclqmJZK6B54c3x6iHYGsslBdByyYMBft2BwZDLxcvuHIXUuoatu6bEwHFGDK5ewUhf8bJ4t7lhUjf9Nw8J2oduWW0U7Sq9ETX2Tvbaxr0Q4E/s8bo1sUV4qjWrAAAAAASUVORK5CYII=",
-                    RequiresPayment = requiresPayment,
-                    ClientId = clientId,
-                    ClientSecret = clientSecret,
-                    UserId = appUser.Id,
-                    BusinessType = BusinessType.Babershop
-                };
-
-                dbContext.Hairdressings.Add(hairdressing);
-                dbContext.SaveChanges();
-            }
-
-            return hairdressing;
-        }
-
-        private Hairdressing CreateEstheticUser(string email, string password, string name, string description, string city, string address, double latitude, double longitude, bool requiresPayment, string clientId, string clientSecret)
-        {
-            Hairdressing hairdressing;
-
-            var user = new ApplicationUser
-            {
-                UserName = email,
-                Email = email
-            };
-
-            var result = _userManager.CreateAsync(user, password).Result;
-
-            if (!result.Succeeded)
-            {
-                throw new ApplicationException(ExceptionMessages.UsernameAlreadyExists);
-            }
-
-            using (var dbContext = new ApplicationDbContext())
-            {
-                var appUser = _userManager.Users.SingleOrDefault(au => au.Email == email);
-
-                result = _userManager.AddToRoleAsync(appUser, Roles.Administrator).Result;
-
-                if (!result.Succeeded)
-                {
-                    throw new ApplicationException(ExceptionMessages.InternalServerError);
-                }
-
-                var cityData = dbContext.Cities.FirstOrDefault(c => c.Name == city);
-
-                if (cityData == null)
-                {
-                    cityData = CreateCity(city);
-                }
-
-                hairdressing = new Hairdressing
-                {
-                    Name = name,
-                    Description = description,
-                    CityId = cityData.Id,
-                    Address = address,
-                    Latitude = latitude,
-                    Longitude = longitude,
-                    Logo = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAAAoBAMAAACMbPD7AAAAG1BMVEXMzMyWlpbFxcWjo6OqqqqxsbGcnJy+vr63t7eN+fR5AAAACXBIWXMAAA7EAAAOxAGVKw4bAAAApElEQVQ4je2QsQrCQBBEJ5fLpt2AHxCJWCc2WkZFsTwx9kcQ0ypK6lR+t3eInWw6q3vVLrwdlgECgcAvVFXqy3dm7GvR1ubczMxnjjnZ7ESbclqmJZK6B54c3x6iHYGsslBdByyYMBft2BwZDLxcvuHIXUuoatu6bEwHFGDK5ewUhf8bJ4t7lhUjf9Nw8J2oduWW0U7Sq9ETX2Tvbaxr0Q4E/s8bo1sUV4qjWrAAAAAASUVORK5CYII=",
-                    RequiresPayment = requiresPayment,
-                    ClientId = clientId,
-                    ClientSecret = clientSecret,
-                    UserId = appUser.Id,
-                    BusinessType = BusinessType.Esthetic
+                    BusinessTypeId = type.Id
                 };
 
                 dbContext.Hairdressings.Add(hairdressing);
@@ -1120,12 +1078,12 @@ namespace SistemaTurnos.Populator
             return city;
         }
 
-        private SpecialtyData CreateSpecialtyData(string description, RubroEnum rubro)
+        private SpecialtyData CreateSpecialtyData(string description, BusinessType type)
         {
             SpecialtyData specialtyData = new SpecialtyData
             {
                 Description = description,
-                Rubro = rubro
+                BusinessTypeId = type.Id
             };
 
             using (var dbContext = new ApplicationDbContext())
@@ -1143,7 +1101,7 @@ namespace SistemaTurnos.Populator
             {
                 Description = description,
                 SpecialtyDataId = specialtyData.Id,
-                Rubro = specialtyData.Rubro
+                BusinessTypeId = specialtyData.BusinessTypeId
             };
 
             using (var dbContext = new ApplicationDbContext())
@@ -1153,181 +1111,6 @@ namespace SistemaTurnos.Populator
             }
 
             return subspecialtyData;
-        }
-
-        private Clinic_Specialty CreateSpecialty(string description, Clinic clinic)
-        {
-            Clinic_Specialty specialty;
-
-            using (var dbContext = new ApplicationDbContext())
-            {
-                var specialtyData = dbContext.Specialties.FirstOrDefault(s => s.Description == description);
-
-                if (specialtyData == null)
-                {
-                    specialtyData = new SpecialtyData
-                    {
-                        Description = description,
-                        Rubro = RubroEnum.Clinic
-                    };
-
-                    dbContext.Specialties.Add(specialtyData);
-                }
-
-                dbContext.SaveChanges();
-
-                specialty = new Clinic_Specialty
-                {
-                    DataId = specialtyData.Id,
-                    UserId = clinic.UserId
-                };
-
-                dbContext.Clinic_Specialties.Add(specialty);
-                dbContext.SaveChanges();
-            }
-
-            return specialty;
-        }
-
-        private Clinic_Subspecialty CreateSubspecialty(string description, Clinic_Specialty specialty, uint consultationLength, Clinic clinic)
-        {
-            Clinic_Subspecialty subspecialty;
-
-            using (var dbContext = new ApplicationDbContext())
-            {
-                var subspecialtyData = dbContext.Subspecialties.FirstOrDefault(sp => sp.Description == description);
-
-                if (subspecialtyData == null)
-                {
-                    subspecialtyData = new SubspecialtyData
-                    {
-                        Description = description,
-                        SpecialtyDataId = specialty.DataId,
-                        Rubro = RubroEnum.Clinic
-                    };
-
-                    dbContext.Subspecialties.Add(subspecialtyData);
-                }
-
-                dbContext.SaveChanges();
-
-                subspecialty = new Clinic_Subspecialty
-                {
-                    DataId = subspecialtyData.Id,
-                    SpecialtyId = specialty.Id,
-                    ConsultationLength = consultationLength,
-                    UserId = clinic.UserId
-                };
-
-                dbContext.Clinic_Subspecialties.Add(subspecialty);
-                dbContext.SaveChanges();
-            }
-
-            return subspecialty;
-        }
-
-        private Clinic_Doctor CreateDoctor(string firstName, string lastName, List<uint> consultationLengths, List<Clinic_Subspecialty> subspecialties, DoctorStateEnum state, List<Clinic_WorkingHours> workingHours, Clinic clinic)
-        {
-            Clinic_Doctor doctor;
-
-            using (var dbContext = new ApplicationDbContext())
-            {
-                doctor = new Clinic_Doctor
-                {
-                    FirstName = firstName,
-                    LastName = lastName,
-                    PhoneNumber = string.Empty,
-                    Email = string.Empty,
-                    Subspecialties = new List<Clinic_DoctorSubspecialty>(),
-                    State = state,
-                    WorkingHours = workingHours,
-                    UserId = clinic.UserId
-                };
-
-                dbContext.Clinic_Doctors.Add(doctor);
-                dbContext.SaveChanges();
-
-                for (var i = 0; i < subspecialties.Count; i++)
-                {
-                    var doctorSubspecialty = new Clinic_DoctorSubspecialty
-                    {
-                        DoctorId = doctor.Id,
-                        SubspecialtyId = subspecialties[i].Id,
-                        ConsultationLength = consultationLengths[i]
-                    };
-
-                    doctor.Subspecialties.Add(doctorSubspecialty);
-                }
-
-                dbContext.SaveChanges();
-            }
-
-            return doctor;
-        }
-
-        private Clinic_MedicalInsurance CreateMedicalInsurance(string description, Clinic clinic)
-        {
-            Clinic_MedicalInsurance medicalInsurance;
-
-            using (var dbContext = new ApplicationDbContext())
-            {
-                var medicalInsuranceData = dbContext.MedicalInsurances.FirstOrDefault(mi => mi.Description == description);
-
-                if (medicalInsuranceData == null)
-                {
-                    medicalInsuranceData = new MedicalInsuranceData
-                    {
-                        Description = description
-                    };
-
-                    dbContext.MedicalInsurances.Add(medicalInsuranceData);
-                }
-
-
-                medicalInsurance = new Clinic_MedicalInsurance
-                {
-                    DataId = medicalInsuranceData.Id,
-                    UserId = clinic.UserId
-                };
-
-                dbContext.Clinic_MedicalInsurances.Add(medicalInsurance);
-                dbContext.SaveChanges();
-            }
-
-            return medicalInsurance;
-        }
-
-        private Clinic_MedicalPlan CreateMedicalPlan(string description, Clinic_MedicalInsurance medicalInsurance, Clinic clinic)
-        {
-            Clinic_MedicalPlan medicalPlan;
-
-            using (var dbContext = new ApplicationDbContext())
-            {
-                var medicalPlanData = dbContext.MedicalPlans.FirstOrDefault(mp => mp.Description == description);
-
-                if (medicalPlanData == null)
-                {
-                    medicalPlanData = new MedicalPlanData
-                    {
-                        Description = description,
-                        MedicalInsuranceDataId = medicalInsurance.DataId
-                    };
-
-                    dbContext.MedicalPlans.Add(medicalPlanData);
-                }
-
-                medicalPlan = new Clinic_MedicalPlan
-                {
-                    DataId = medicalPlanData.Id,
-                    MedicalInsuranceId = medicalInsurance.Id,
-                    UserId = clinic.UserId
-                };
-
-                dbContext.Clinic_MedicalPlans.Add(medicalPlan);
-                dbContext.SaveChanges();
-            }
-
-            return medicalPlan;
         }
 
         private SystemClient CreateClientUser(string email, string password, string firstName, string lastName, string address)
@@ -1379,53 +1162,52 @@ namespace SistemaTurnos.Populator
             return client;
         }
 
-        private Clinic_Patient CreatePatient(Clinic_MedicalPlan medicalPlan, SystemClient client, Clinic clinic)
+        private Hairdressing_Patient CreatePatient(SystemClient client, Hairdressing hairdressing)
         {
-            Clinic_Patient patient;
+            Hairdressing_Patient patient;
 
             using (var dbContext = new ApplicationDbContext())
             {
-                patient = new Clinic_Patient
+                patient = new Hairdressing_Patient
                 {
-                    MedicalPlanId = medicalPlan.Id,
                     ClientId = client.Id,
-                    UserId = clinic.Id
+                    UserId = hairdressing.Id
                 };
 
-                dbContext.Clinic_Patients.Add(patient);
+                dbContext.Hairdressing_Patients.Add(patient);
                 dbContext.SaveChanges();
             }
 
             return patient;
         }
 
-        private Clinic_Appointment CreateAppointment(DateTime dateTime, Clinic_Doctor doctor, Clinic_Subspecialty subspecialty, Clinic_Patient patient, AppointmentStateEnum state, Clinic_Rating rating, Clinic clinic)
+        private Hairdressing_Appointment CreateAppointment(DateTime dateTime, Hairdressing_Professional professional, Hairdressing_Subspecialty subspecialty, Hairdressing_Patient patient, AppointmentStateEnum state, Hairdressing_Rating rating, Hairdressing hairdressing)
         {
-            Clinic_Appointment appointment;
+            Hairdressing_Appointment appointment;
 
             using (var dbContext = new ApplicationDbContext())
             {
-                appointment = new Clinic_Appointment
+                appointment = new Hairdressing_Appointment
                 {
                     DateTime = dateTime,
-                    DoctorId = doctor.Id,
+                    ProfessionalId = professional.Id,
                     PatientId = patient.Id,
                     State = state,
                     RatingId = rating?.Id ?? 0,
-                    UserId = clinic.UserId,
+                    UserId = hairdressing.UserId,
                     SubspecialtyId = subspecialty.Id
                 };
 
-                dbContext.Clinic_Appointments.Add(appointment);
+                dbContext.Hairdressing_Appointments.Add(appointment);
                 dbContext.SaveChanges();
             }
 
             return appointment;
         }
 
-        private Clinic_Employee CreateEmployee(string email, string password, Clinic clinic)
+        private Hairdressing_Employee CreateEmployee(string email, string password, Hairdressing hairdressing)
         {
-            Clinic_Employee employee;
+            Hairdressing_Employee employee;
 
             var user = new ApplicationUser
             {
@@ -1451,13 +1233,13 @@ namespace SistemaTurnos.Populator
                     throw new ApplicationException(ExceptionMessages.InternalServerError);
                 }
 
-                employee = new Clinic_Employee
+                employee = new Hairdressing_Employee
                 {
                     UserId = appUser.Id,
-                    OwnerUserId = clinic.UserId
+                    OwnerUserId = hairdressing.UserId
                 };
 
-                dbContext.Clinic_Employees.Add(employee);
+                dbContext.Hairdressing_Employees.Add(employee);
                 dbContext.SaveChanges();
             }
 

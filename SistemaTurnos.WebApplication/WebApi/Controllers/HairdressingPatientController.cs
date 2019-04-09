@@ -10,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using SistemaTurnos.Commons.Authorization;
 using SistemaTurnos.Commons.Exceptions;
 using SistemaTurnos.Database;
-using SistemaTurnos.Database.ClinicModel;
 using SistemaTurnos.Database.Enums;
 using SistemaTurnos.WebApplication.WebApi.Dto.Email;
 using SistemaTurnos.Database.HairdressingModel;

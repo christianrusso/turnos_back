@@ -9,7 +9,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Common
 {
     public class WeekForClientDto
     {
-        public List<ClientDayDto> Clinic_GetWeekForClient { get; internal set; }
         public List<HairdressingClientDayDto> Hairdressing_GetWeekForClient { get; internal set; }
     }
 }

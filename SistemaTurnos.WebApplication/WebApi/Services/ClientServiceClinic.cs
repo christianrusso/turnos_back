@@ -107,7 +107,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Services
                 var userId = GetUserId(httpContex);
 
                 return dbContext.Clients
-                    .Where(c => !c.Patients.Any(p => p.UserId == userId))
+                    .Where(c => !c.HairdressingPatients.Any(p => p.UserId == userId))
                     .Where(c => filter.PhoneNumber == null || c.PhoneNumber.Contains(filter.PhoneNumber))
                     .Where(c => filter.Email == null || c.User.Email.ToLower().Contains(filter.Email.ToLower()))
                     .Select(c => new ClientDto

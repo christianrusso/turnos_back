@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SistemaTurnos.Database.Enums;
+using SistemaTurnos.Database.HairdressingModel;
 using SistemaTurnos.WebApplication.WebApi.Dto.Common;
 
 namespace SistemaTurnos.WebApplication.WebApi.Dto.Hairdressing
@@ -27,6 +28,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Hairdressing
 
         public double Score { get; set; }
 
-        public BusinessType? BusinessType { get; set; }
+        public int BusinessTypeId { get; set; }
     }
 }

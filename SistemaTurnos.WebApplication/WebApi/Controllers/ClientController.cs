@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using SistemaTurnos.Commons.Authorization;
 using SistemaTurnos.Commons.Exceptions;
 using SistemaTurnos.Database;
-using SistemaTurnos.Database.ClinicModel;
 using SistemaTurnos.Database.HairdressingModel;
 using SistemaTurnos.Database.Model;
 using SistemaTurnos.WebApplication.WebApi.Dto;
@@ -162,131 +161,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
         }
 
         /// <summary>
-        /// Agrega una clinica favorita
-        /// </summary>
-        [HttpPost]
-        [Authorize(Roles = Roles.Client)]
-        public void AddFavoriteClinic([FromBody] IdDto clinic)
-        {
-            var watch = Stopwatch.StartNew();
-
-            using (var dbContext = new ApplicationDbContext())
-            {
-                var userId = _service.GetUserId(HttpContext);
-
-                if (!dbContext.Clinics.Any(c => c.Id == clinic.Id))
-                {
-                    throw new BadRequestException();
-                }
-
-                var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
-
-                if (client.FavoriteClinics.Any(fc => fc.ClinicId == clinic.Id))
-                {
-                    throw new BadRequestException();
-                }
-
-                client.FavoriteClinics.Add(new Clinic_ClientFavorite
-                {
-                    ClientId = client.Id,
-                    ClinicId = clinic.Id
-                });
-
-                dbContext.SaveChanges();
-
-                watch.Stop();
-                var elapsedMs = watch.ElapsedMilliseconds;
-                Console.WriteLine("ClientController/AddFavoriteClinic milisegundos: " + elapsedMs);
-            }
-        }
-
-        /// <summary>
-        /// Elimina una clinica favorita
-        /// </summary>
-        [HttpPost]
-        [Authorize(Roles = Roles.Client)]
-        public void RemoveFavoriteClinic([FromBody] IdDto clinic)
-        {
-            var watch = Stopwatch.StartNew();
-
-            using (var dbContext = new ApplicationDbContext())
-            {
-                var userId = _service.GetUserId(HttpContext);
-
-                if (!dbContext.Clinics.Any(c => c.Id == clinic.Id))
-                {
-                    throw new BadRequestException();
-                }
-
-                var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
-
-                var favoriteClinic = client.FavoriteClinics.Where(fc => fc.ClinicId == clinic.Id);
-
-                if (favoriteClinic == null)
-                {
-                    throw new BadRequestException();
-                }
-
-                foreach (var f in favoriteClinic)
-                {
-                    dbContext.Clinic_ClientFavorites.Remove(f);
-                }
-
-                dbContext.SaveChanges();
-
-                watch.Stop();
-                var elapsedMs = watch.ElapsedMilliseconds;
-                Console.WriteLine("ClientController/RemoveFavoriteClinic milisegundos: " + elapsedMs);
-            }
-        }
-
-        /// <summary>
-        /// Obtiene todas las clinicas favoritas
-        /// </summary>
-        [HttpGet]
-        [Authorize(Roles = Roles.Client)]
-        public List<ClinicDto> GetFavoriteClinics()
-        {
-            var watch = Stopwatch.StartNew();
-
-            using (var dbContext = new ApplicationDbContext())
-            {
-                var userId = _service.GetUserId(HttpContext);
-
-                var client = dbContext.Clients.FirstOrDefault(c => c.UserId == userId);
-
-                var res = new List<ClinicDto>();
-
-                foreach (var fv in client.FavoriteClinics)
-                {
-                    var clinicUserId = fv.Clinic.UserId;
-                    var ratings = dbContext.Clinic_Ratings.Where(r => r.UserId == clinicUserId).ToList();
-                    var score = ratings.Any() ? ratings.Average(r => r.Score) : 0;
-
-                    res.Add(new ClinicDto
-                    {
-                        ClinicId = fv.ClinicId,
-                        Name = fv.Clinic.Name,
-                        Description = fv.Clinic.Description,
-                        Address = fv.Clinic.Address,
-                        City = fv.Clinic.City.Name,
-                        Latitude = fv.Clinic.Latitude,
-                        Longitude = fv.Clinic.Longitude,
-                        Logo = fv.Clinic.Logo,
-                        DistanceToUser = -1,
-                        Score = score
-                    });
-                }
-
-                watch.Stop();
-                var elapsedMs = watch.ElapsedMilliseconds;
-                Console.WriteLine("ClientController/GetFavoriteClinics milisegundos: " + elapsedMs);
-
-                return res;
-            }
-        }
-
-        /// <summary>
         /// Agrega una peluqueria favorita
         /// </summary>
         [HttpPost]
@@ -338,7 +212,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
             {
                 var userId = _service.GetUserId(HttpContext);
 
-                if (!dbContext.Clinics.Any(c => c.Id == hairdressing.Id))
+                if (!dbContext.Hairdressings.Any(c => c.Id == hairdressing.Id))
                 {
                     throw new BadRequestException();
                 }
@@ -434,27 +308,12 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                     Longitude = fv.Hairdressing.Longitude,
                     Logo = fv.Hairdressing.Logo,
                     DistanceToUser = -1,
-                    BusinessType = fv.Hairdressing.BusinessType,
+                    BusinessTypeId = fv.Hairdressing.BusinessTypeId,
                     Score = dbContext.Hairdressing_Ratings.Where(r => r.Appointment.Patient.UserId == fv.Hairdressing.UserId).Select(r => r.Score).ToList().DefaultIfEmpty<uint>(0).Average(r => r)
-                });
-
-                var clinicFavorites = client.FavoriteClinics.Select(fv => new ClinicDto
-                {
-                    ClinicId = fv.ClinicId,
-                    Name = fv.Clinic.Name,
-                    Description = fv.Clinic.Description,
-                    Address = fv.Clinic.Address,
-                    City = fv.Clinic.City.Name,
-                    Latitude = fv.Clinic.Latitude,
-                    Longitude = fv.Clinic.Longitude,
-                    Logo = fv.Clinic.Logo,
-                    DistanceToUser = -1,
-                    Score = dbContext.Clinic_Ratings.Where(r => r.Appointment.Patient.UserId == fv.Clinic.UserId).Select(r => r.Score).ToList().DefaultIfEmpty<uint>(0).Average(r => r)
                 });
 
                 var favoriteDto = new FavoritesDto();
                 favoriteDto.HairdressingFavorites = hairdressingFavorites.ToList();
-                favoriteDto.ClinicFavorites = clinicFavorites.ToList();
 
                 watch.Stop();
                 var elapsedMs = watch.ElapsedMilliseconds;

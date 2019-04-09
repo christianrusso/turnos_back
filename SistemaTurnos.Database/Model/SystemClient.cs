@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using SistemaTurnos.Database.ClinicModel;
 using SistemaTurnos.Database.HairdressingModel;
 
 namespace SistemaTurnos.Database.Model
@@ -19,13 +18,9 @@ namespace SistemaTurnos.Database.Model
 
         public virtual ApplicationUser User { get; set; }
 
-        public virtual List<Clinic_Patient> Patients { get; set; }
-
         public virtual List<Hairdressing_Patient> HairdressingPatients { get; set; }
 
         public string FacebookUserId { get; set; }
-
-        public virtual List<Clinic_ClientFavorite> FavoriteClinics { get; set; }
 
         public virtual List<Hairdressing_ClientFavorite> FavoriteHairdressing { get; set; }
 

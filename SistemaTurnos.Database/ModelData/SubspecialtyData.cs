@@ -1,4 +1,4 @@
-﻿using SistemaTurnos.Database.Enums;
+﻿using SistemaTurnos.Database.HairdressingModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,6 +21,8 @@ namespace SistemaTurnos.Database.ModelData
         public virtual SpecialtyData SpecialtyData { get; set; }
 
         [Required]
-        public RubroEnum Rubro { get; set; }
+        public int BusinessTypeId { get; set; }
+
+        public virtual BusinessType BusinessType { get; set; }
     }
 }

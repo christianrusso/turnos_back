@@ -38,10 +38,8 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                RubroEnum rubro = RubroEnumHelper.GetRubro(idDto.Id);
-                
                 var res = dbContext.Specialties
-                    .Where(s => s.Rubro == rubro)
+                    .Where(s => s.BusinessTypeId == idDto.Id)
                     .Select(s => new SelectOptionDto
                     {
                         Id = s.Id.ToString(),
@@ -67,11 +65,9 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
             using (var dbContext = new ApplicationDbContext())
             {
-                RubroEnum rubro = RubroEnumHelper.GetRubro(filter.Rubro);
-
                 var res = dbContext.Subspecialties
                     .Where(ssp => !filter.Ids.Any() || filter.Ids.Any(id => id == ssp.SpecialtyDataId))
-                    .Where(x => x.Rubro == rubro)
+                    .Where(x => x.BusinessTypeId == filter.Rubro)
                     .Select(s => new SelectOptionDto
                     {
                         Id = s.Id.ToString(),
@@ -82,43 +78,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 watch.Stop();
                 var elapsedMs = watch.ElapsedMilliseconds;
                 Console.WriteLine("DataController/GetSubspecialtiesForSelect milisegundos: " + elapsedMs);
-
-                return res;
-            }
-        }
-
-        /// <summary>
-        /// Devuelve todas las subespecialdiades asociadas a una clinica y de una especiadliadd dada.
-        /// </summary>
-        [HttpPost]
-        [Authorize(Roles = Roles.AdministratorAndEmployee)]
-        public List<SelectOptionDto> GetSubspecialtiesByClinicForSelect([FromBody] IdDto specialtyFilter)
-        {
-            var watch = Stopwatch.StartNew();
-
-            using (var dbContext = new ApplicationDbContext())
-            {
-                var userId = _service.GetUserId(HttpContext);
-
-                var specialty = dbContext.Clinic_Specialties.FirstOrDefault(s => s.Id == specialtyFilter.Id && s.UserId == userId);
-
-                if (specialty == null)
-                {
-                    throw new BadRequestException();
-                }
-
-                var res = dbContext.Subspecialties
-                    .Where(ssp => ssp.SpecialtyDataId == specialty.DataId)
-                    .Select(s => new SelectOptionDto
-                    {
-                        Id = s.Id.ToString(),
-                        Text = s.Description
-                    })
-                    .ToList();
-
-                watch.Stop();
-                var elapsedMs = watch.ElapsedMilliseconds;
-                Console.WriteLine("DataController/GetSubspecialtiesByClinicForSelect milisegundos: " + elapsedMs);
 
                 return res;
             }
@@ -209,43 +168,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
                 watch.Stop();
                 var elapsedMs = watch.ElapsedMilliseconds;
                 Console.WriteLine("DataController/GetMedicalPlansForSelect milisegundos: " + elapsedMs);
-
-                return res;
-            }
-        }
-
-        /// <summary>
-        /// Deveulve los planes de una clinica dada con una obra social dada.
-        /// </summary>
-        [HttpPost]
-        [Authorize(Roles = Roles.AdministratorAndEmployee)]
-        public List<SelectOptionDto> GetMedicalPlansByClinicForSelect([FromBody] IdDto medicalInsuranceFilter)
-        {
-            var watch = Stopwatch.StartNew();
-
-            using (var dbContext = new ApplicationDbContext())
-            {
-                var userId = _service.GetUserId(HttpContext);
-
-                var medicalInsurance = dbContext.Clinic_MedicalInsurances.FirstOrDefault(mi => mi.Id == medicalInsuranceFilter.Id && mi.UserId == userId);
-
-                if (medicalInsurance == null)
-                {
-                    throw new BadRequestException();
-                }
-
-                var res = dbContext.MedicalPlans
-                    .Where(mp => mp.MedicalInsuranceDataId == medicalInsurance.DataId)
-                    .Select(mp => new SelectOptionDto
-                    {
-                        Id = mp.Id.ToString(),
-                        Text = mp.Description
-                    })
-                    .ToList();
-
-                watch.Stop();
-                var elapsedMs = watch.ElapsedMilliseconds;
-                Console.WriteLine("DataController/GetMedicalPlansByClinicForSelect milisegundos: " + elapsedMs);
 
                 return res;
             }

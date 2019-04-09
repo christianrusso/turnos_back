@@ -29,6 +29,7 @@ namespace SistemaTurnos.WebApplication.WebApi.Dto.Account
 
         public string Logo { get; set; }
 
-        public BusinessType BusinessType { get; set; }
+        [Required]
+        public int BusinessTypeId { get; set; }
     }
 }

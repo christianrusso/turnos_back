@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using SistemaTurnos.Commons.Exceptions;
 using SistemaTurnos.Database;
-using SistemaTurnos.Database.ClinicModel;
 using SistemaTurnos.Database.Enums;
 using SistemaTurnos.Database.HairdressingModel;
 using SistemaTurnos.WebApplication.WebApi.Dto.Statistics;
@@ -20,50 +19,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
     [EnableCors("AnyOrigin")]
     public class StatisticsController : Controller
     {
-        [HttpGet]
-        [Authorize]
-        public StatisticsFullDto GetForClinic()
-        {
-            var watch = Stopwatch.StartNew();
-
-            using (var dbContext = new ApplicationDbContext())
-            {
-                var userId = new BusinessPlaceService().GetUserId(HttpContext);
-
-                if (!dbContext.Clinics.Any(c => c.UserId == userId))
-                {
-                    throw new BadRequestException();
-                }
-
-                var now = DateTime.Now;
-                var todayStart = DateTime.Today;
-                var todayEnd = DateTime.Today.AddHours(23).AddMinutes(59).AddSeconds(59);
-                var appointments = dbContext.Clinic_Appointments.Where(a => a.UserId == userId).ToList();
-
-                var res = new StatisticsFullDto
-                {
-                    Professionals = dbContext.Clinic_Doctors.Count(d => d.UserId == userId),
-                    ActiveProfessionals = dbContext.Clinic_Doctors.Count(d => d.UserId == userId && IsActive(d.WorkingHours, now)),
-                    Patients = dbContext.Clinic_Patients.Count(p => p.UserId == userId),
-                    Specialties = dbContext.Clinic_Specialties.Count(s => s.UserId == userId),
-                    MedicalInsurances = dbContext.Clinic_MedicalInsurances.Count(mi => mi.UserId == userId),
-                    Appointments = appointments.Count(),
-                    CompletedAppointments = appointments.Count(a => a.State == AppointmentStateEnum.Completed),
-                    CanceledAppointments = appointments.Count(a => a.State == AppointmentStateEnum.Cancelled),
-                    TodayAppointments = appointments.Count(a => todayStart <= a.DateTime && a.DateTime <= todayEnd),
-                    PanelAppointments = appointments.Count(a => a.Source == AppointmentSourceEnum.Panel),
-                    WebAppointments = appointments.Count(a => a.Source == AppointmentSourceEnum.Web),
-                    MobileAppointments = appointments.Count(a => a.Source == AppointmentSourceEnum.Mobile),
-                };
-
-                watch.Stop();
-                var elapsedMs = watch.ElapsedMilliseconds;
-                Console.WriteLine("StatisticsController/GetForClinic milisegundos: " + elapsedMs);
-
-                return res;
-            }
-        }
-
         [HttpGet]
         [Authorize]
         public StatisticsFullDto GetForHairdressing()
@@ -106,11 +61,6 @@ namespace SistemaTurnos.WebApplication.WebApi.Controllers
 
                 return res;
             }
-        }
-
-        private bool IsActive(List<Clinic_WorkingHours> workingHours, DateTime dateTime)
-        {
-            return workingHours.Any(wh => wh.DayNumber == dateTime.DayOfWeek && wh.Start <= dateTime.TimeOfDay && dateTime.TimeOfDay <= wh.End);
         }
 
         private bool IsActive(List<Hairdressing_WorkingHours> workingHours, DateTime dateTime)
